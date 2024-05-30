@@ -1,0 +1,36 @@
+{
+  "name": "@rasa-widget/react",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "homepage": "https://github.com/vortexwe/rasa-chat-widget#readme",
+  "license": "ISC",
+  "main": "lib/react.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vortexwe/rasa-chat-widget.git"
+  },
+  "scripts": {
+    "build": "npm run tsc",
+    "tsc": "tsc -p . --outDir ./dist"
+  },
+  "dependencies": {
+    "@types/react-dom": "^18.3.0",
+    "web-component": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/vortexwe/rasa-chat-widget/issues"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1"
+  }
+}
