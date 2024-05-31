@@ -1,0 +1,16 @@
+:root {
+  --color-primary: #574ae2;
+  --color-white: #ffffff;
+  --color-secondary: #ffffff;
+  --color-secondary-opposite: #000000;
+
+  --color-secondary-10: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 10%);
+  --color-secondary-20: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 20%);
+  --color-secondary-30: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 30%);
+  --color-secondary-40: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 40%);
+  --color-secondary-50: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 50%);
+  --color-secondary-60: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 60%);
+  --color-secondary-70: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 70%);
+  --color-secondary-80: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 80%);
+  --color-secondary-90: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 90%);
+}
