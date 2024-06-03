@@ -1,0 +1,26 @@
+.rasa-chatbot-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  &__container {
+    position: relative;
+  }
+
+  &__launcher {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    align-items: center;
+    background: var(--launcher-background-color);
+    border-radius: 100px;
+    color: var(--launcher-color);
+  }
+}
+
+.rasa-icon {
+  display: inline-flex;
+}

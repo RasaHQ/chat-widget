@@ -8,6 +8,50 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface RasaChatbotWidget {
     }
+    interface RasaIconChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconCloseChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
 }
 declare global {
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
@@ -16,15 +60,75 @@ declare global {
         prototype: HTMLRasaChatbotWidgetElement;
         new (): HTMLRasaChatbotWidgetElement;
     };
+    interface HTMLRasaIconChatElement extends Components.RasaIconChat, HTMLStencilElement {
+    }
+    var HTMLRasaIconChatElement: {
+        prototype: HTMLRasaIconChatElement;
+        new (): HTMLRasaIconChatElement;
+    };
+    interface HTMLRasaIconCloseChatElement extends Components.RasaIconCloseChat, HTMLStencilElement {
+    }
+    var HTMLRasaIconCloseChatElement: {
+        prototype: HTMLRasaIconCloseChatElement;
+        new (): HTMLRasaIconCloseChatElement;
+    };
     interface HTMLElementTagNameMap {
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
+        "rasa-icon-chat": HTMLRasaIconChatElement;
+        "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
     }
 }
 declare namespace LocalJSX {
     interface RasaChatbotWidget {
     }
+    interface RasaIconChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconCloseChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface IntrinsicElements {
         "rasa-chatbot-widget": RasaChatbotWidget;
+        "rasa-icon-chat": RasaIconChat;
+        "rasa-icon-close-chat": RasaIconCloseChat;
     }
 }
 export { LocalJSX as JSX };
@@ -32,6 +136,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
+            "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
+            "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
         }
     }
 }
