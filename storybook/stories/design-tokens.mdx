@@ -1,0 +1,162 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Design Tokens" />
+
+export const variables = [
+  {
+    name: "--launcher-background-color",
+    description:
+      "Sets the background color of the chat widget launcher button.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--launcher-color",
+    description:
+      "Sets the color of the icon or text within the launcher button.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--header-background-color",
+    description: "Sets the background color of the chat widget header.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--header-color",
+    description: "Sets the color of the text within the header.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--messenger-background-color",
+    description: "Sets the background color of the messenger area.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--input-placeholder-color",
+    description: "Sets the color of the placeholder text in the input field.",
+    defaultValue: "var(--color-secondary-opposite)",
+  },
+  {
+    name: "--input-placeholder-opacity",
+    description: "Sets the opacity of the placeholder text in the input field.",
+    defaultValue: "0.5",
+  },
+  {
+    name: "--input-background-color",
+    description: "Sets the background color of the input field.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--input-color",
+    description: "Sets the color of the text entered in the input field.",
+    defaultValue: "var(--color-secondary-opposite)",
+  },
+  {
+    name: "--input-send-color",
+    description: "Sets the color of the send button within the input field.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-robot-icon-background-color",
+    description: "Sets the background color of the robot icon in messages.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-robot-icon-color",
+    description: "Sets the color of the robot icon in messages.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--message-robot-background-color",
+    description: "Sets the background color of the robot's messages.",
+    defaultValue: "var(--color-secondary-10)",
+  },
+  {
+    name: "--message-robot-color",
+    description: "Sets the color of the text in the robot's messages.",
+    defaultValue: "var(--color-secondary-90)",
+  },
+  {
+    name: "--message-user-background-color",
+    description: "Sets the background color of the user's messages.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-user-color",
+    description: "Sets the color of the text in the user's messages.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--message-button-color",
+    description: "Sets the color of the text in message buttons.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-button-background-color",
+    description: "Sets the background color of message buttons.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--message-button-border-color",
+    description: "Sets the border color of message buttons.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-selected-button-color",
+    description: "Sets the color of the text in selected message buttons.",
+    defaultValue: "var(--color-secondary)",
+  },
+  {
+    name: "--message-selected-button-background-color",
+    description: "Sets the background color of selected message buttons.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--message-selected-button-border-color",
+    description: "Sets the border color of selected message buttons.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
+    name: "--accordion-background-color",
+    description: "Sets the background color of the accordion component.",
+    defaultValue: "var(--color-secondary-10)",
+  },
+];
+
+
+# Design Tokens
+
+This documentation provides an overview of the available theme variables for customizing the appearance of a chat widget. Each variable controls specific elements of the widget's UI, allowing for a consistent and visually appealing user experience.
+
+<table style={{ width: '100%' }}>
+  <thead>
+    <tr>
+      <th>CSS Variable Name</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {variables.map((v) => (
+      <tr>
+        <td>{v.name}</td>
+        <td>{v.description}</td>
+        <td>{v.defaultValue}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+## Usage
+
+To customize the chat widget's appearance, define these variables within the `:root` selector. Adjust the values as needed to fit your design requirements.
+
+```html
+<rasa-chatbot-widget>
+  <style>
+    :root {
+      --color-primary: #ff0080;
+      --color-secondary: #ffff80;
+    }
+  </style>
+</rasa-chatbot-widget>
+```
