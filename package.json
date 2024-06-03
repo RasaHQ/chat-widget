@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "dev": "lerna run dev --parallel",
+    "storybook": "lerna run build:watch,storybook",
     "test": "lerna run test",
     "build": "lerna run build"
   },
