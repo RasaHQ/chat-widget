@@ -1,11 +1,79 @@
 {
-  "timestamp": "2024-06-03T15:57:16",
+  "timestamp": "2024-06-04T13:49:48",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
     "typescriptVersion": "5.4.5"
   },
   "components": [
+    {
+      "filePath": "src/components/rasa-chat-input/rasa-chat-input.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-chat-input",
+      "readme": "# rasa-chat-input\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "initialValue",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "initial-value",
+          "reflectToAttr": false,
+          "docs": "Input value",
+          "docsTags": [],
+          "default": "''",
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": true,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "sendMessageHandler",
+          "detail": "string",
+          "bubbles": true,
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Send message event",
+          "docsTags": []
+        }
+      ],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [
+        "rasa-icon-paper-plane"
+      ],
+      "dependencyGraph": {
+        "rasa-chat-input": [
+          "rasa-icon-paper-plane"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-chat-input"
+        ]
+      }
+    },
     {
       "filePath": "src/rasa-chatbot-widget/rasa-chatbot-widget.tsx",
       "encapsulation": "shadow",
@@ -47,12 +115,17 @@
       "dependents": [],
       "dependencies": [
         "rasa-icon-close-chat",
-        "rasa-icon-chat"
+        "rasa-icon-chat",
+        "rasa-chat-input"
       ],
       "dependencyGraph": {
         "rasa-chatbot-widget": [
           "rasa-icon-close-chat",
-          "rasa-icon-chat"
+          "rasa-icon-chat",
+          "rasa-chat-input"
+        ],
+        "rasa-chat-input": [
+          "rasa-icon-paper-plane"
         ]
       }
     }
