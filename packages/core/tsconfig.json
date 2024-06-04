@@ -1,13 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "lib": ["es6", "dom"],
     "target": "ES6",
     "module": "ESNext",
     "declaration": true,
     "strict": true,
     "outDir": "./dist",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "node"
   },
   "include": ["./src"],
   "exclude": ["node_modules", "dist"]
