@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-03T10:17:23",
+  "timestamp": "2024-06-03T15:57:16",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -14,7 +14,30 @@
       "docs": "",
       "docsTags": [],
       "usage": {},
-      "props": [],
+      "props": [
+        {
+          "name": "toggleFullScreen",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "toggle-full-screen",
+          "reflectToAttr": false,
+          "docs": "Indicates whether the chat messenger can be toggled to full screen mode.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
       "methods": [],
       "events": [],
       "listeners": [],

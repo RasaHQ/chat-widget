@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property           | Attribute            | Description                                                              | Type      | Default |
+| ------------------ | -------------------- | ------------------------------------------------------------------------ | --------- | ------- |
+| `toggleFullScreen` | `toggle-full-screen` | Indicates whether the chat messenger can be toggled to full screen mode. | `boolean` | `false` |
+
+
 ## Dependencies
 
 ### Depends on

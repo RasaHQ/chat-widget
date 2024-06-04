@@ -7,6 +7,54 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface RasaChatbotWidget {
+        /**
+          * Indicates whether the chat messenger can be toggled to full screen mode.
+         */
+        "toggleFullScreen": boolean;
+    }
+    interface RasaIconArrowsContract {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconArrowsExpand {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
     }
     interface RasaIconChat {
         /**
@@ -60,6 +108,18 @@ declare global {
         prototype: HTMLRasaChatbotWidgetElement;
         new (): HTMLRasaChatbotWidgetElement;
     };
+    interface HTMLRasaIconArrowsContractElement extends Components.RasaIconArrowsContract, HTMLStencilElement {
+    }
+    var HTMLRasaIconArrowsContractElement: {
+        prototype: HTMLRasaIconArrowsContractElement;
+        new (): HTMLRasaIconArrowsContractElement;
+    };
+    interface HTMLRasaIconArrowsExpandElement extends Components.RasaIconArrowsExpand, HTMLStencilElement {
+    }
+    var HTMLRasaIconArrowsExpandElement: {
+        prototype: HTMLRasaIconArrowsExpandElement;
+        new (): HTMLRasaIconArrowsExpandElement;
+    };
     interface HTMLRasaIconChatElement extends Components.RasaIconChat, HTMLStencilElement {
     }
     var HTMLRasaIconChatElement: {
@@ -74,12 +134,62 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
+        "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
+        "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
     }
 }
 declare namespace LocalJSX {
     interface RasaChatbotWidget {
+        /**
+          * Indicates whether the chat messenger can be toggled to full screen mode.
+         */
+        "toggleFullScreen"?: boolean;
+    }
+    interface RasaIconArrowsContract {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconArrowsExpand {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
     }
     interface RasaIconChat {
         /**
@@ -127,6 +237,8 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "rasa-chatbot-widget": RasaChatbotWidget;
+        "rasa-icon-arrows-contract": RasaIconArrowsContract;
+        "rasa-icon-arrows-expand": RasaIconArrowsExpand;
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
     }
@@ -136,6 +248,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
+            "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
+            "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
         }
