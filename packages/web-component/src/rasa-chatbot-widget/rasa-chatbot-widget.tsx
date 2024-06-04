@@ -12,7 +12,7 @@ export class RasaChatbotWidget {
    * Indicates whether the chat messenger can be toggled to full screen mode.
    * */
   @Prop() toggleFullScreen: boolean = false;
-  
+
   @State() isOpen: boolean = false;
   @State() isFullScreen: boolean = false;
 
@@ -34,7 +34,9 @@ export class RasaChatbotWidget {
         <slot />
         <div class="rasa-chatbot-widget">
           <div class="rasa-chatbot-widget__container">
-          <Messenger isOpen={this.isOpen} toggleFullScreen={this.toggleFullScreen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>Messages</Messenger>
+            <Messenger isOpen={this.isOpen} toggleFullScreen={this.toggleFullScreen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
+              <rasa-text value='Message'></rasa-text>
+            </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
               {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
             </div>

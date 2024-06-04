@@ -16,6 +16,7 @@
 
 ### Depends on
 
+- [rasa-text](../components/text)
 - rasa-icon-close-chat
 - rasa-icon-chat
 - [rasa-chat-input](../components/rasa-chat-input)
@@ -23,6 +24,7 @@
 ### Graph
 ```mermaid
 graph TD;
+  rasa-chatbot-widget --> rasa-text
   rasa-chatbot-widget --> rasa-icon-close-chat
   rasa-chatbot-widget --> rasa-icon-chat
   rasa-chatbot-widget --> rasa-chat-input
