@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-04T13:49:48",
+  "timestamp": "2024-06-04T14:01:03",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -114,18 +114,67 @@
       "parts": [],
       "dependents": [],
       "dependencies": [
+        "rasa-text",
         "rasa-icon-close-chat",
         "rasa-icon-chat",
         "rasa-chat-input"
       ],
       "dependencyGraph": {
         "rasa-chatbot-widget": [
+          "rasa-text",
           "rasa-icon-close-chat",
           "rasa-icon-chat",
           "rasa-chat-input"
         ],
         "rasa-chat-input": [
           "rasa-icon-paper-plane"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/text/text.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-text",
+      "readme": "# rasa-text\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "value",
+          "reflectToAttr": false,
+          "docs": "Button click event name",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "rasa-chatbot-widget": [
+          "rasa-text"
         ]
       }
     }

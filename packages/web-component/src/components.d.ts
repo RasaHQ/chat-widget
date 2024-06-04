@@ -128,6 +128,12 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaText {
+        /**
+          * Button click event name
+         */
+        "value": string;
+    }
 }
 export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -187,6 +193,12 @@ declare global {
         prototype: HTMLRasaIconPaperPlaneElement;
         new (): HTMLRasaIconPaperPlaneElement;
     };
+    interface HTMLRasaTextElement extends Components.RasaText, HTMLStencilElement {
+    }
+    var HTMLRasaTextElement: {
+        prototype: HTMLRasaTextElement;
+        new (): HTMLRasaTextElement;
+    };
     interface HTMLElementTagNameMap {
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
@@ -195,6 +207,7 @@ declare global {
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
+        "rasa-text": HTMLRasaTextElement;
     }
 }
 declare namespace LocalJSX {
@@ -324,6 +337,12 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaText {
+        /**
+          * Button click event name
+         */
+        "value"?: string;
+    }
     interface IntrinsicElements {
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
@@ -332,6 +351,7 @@ declare namespace LocalJSX {
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
+        "rasa-text": RasaText;
     }
 }
 export { LocalJSX as JSX };
@@ -345,6 +365,7 @@ declare module "@stencil/core" {
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
+            "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
         }
     }
 }
