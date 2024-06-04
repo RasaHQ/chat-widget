@@ -6,6 +6,12 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface RasaChatInput {
+        /**
+          * Input value
+         */
+        "initialValue"?: string;
+    }
     interface RasaChatbotWidget {
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
@@ -100,8 +106,51 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaIconPaperPlane {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+}
+export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaChatInputElement;
 }
 declare global {
+    interface HTMLRasaChatInputElementEventMap {
+        "sendMessageHandler": string;
+    }
+    interface HTMLRasaChatInputElement extends Components.RasaChatInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaChatInputElementEventMap>(type: K, listener: (this: HTMLRasaChatInputElement, ev: RasaChatInputCustomEvent<HTMLRasaChatInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaChatInputElementEventMap>(type: K, listener: (this: HTMLRasaChatInputElement, ev: RasaChatInputCustomEvent<HTMLRasaChatInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRasaChatInputElement: {
+        prototype: HTMLRasaChatInputElement;
+        new (): HTMLRasaChatInputElement;
+    };
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
     }
     var HTMLRasaChatbotWidgetElement: {
@@ -132,15 +181,33 @@ declare global {
         prototype: HTMLRasaIconCloseChatElement;
         new (): HTMLRasaIconCloseChatElement;
     };
+    interface HTMLRasaIconPaperPlaneElement extends Components.RasaIconPaperPlane, HTMLStencilElement {
+    }
+    var HTMLRasaIconPaperPlaneElement: {
+        prototype: HTMLRasaIconPaperPlaneElement;
+        new (): HTMLRasaIconPaperPlaneElement;
+    };
     interface HTMLElementTagNameMap {
+        "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
         "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
+        "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
     }
 }
 declare namespace LocalJSX {
+    interface RasaChatInput {
+        /**
+          * Input value
+         */
+        "initialValue"?: string;
+        /**
+          * Send message event
+         */
+        "onSendMessageHandler"?: (event: RasaChatInputCustomEvent<string>) => void;
+    }
     interface RasaChatbotWidget {
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
@@ -235,23 +302,49 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaIconPaperPlane {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface IntrinsicElements {
+        "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
         "rasa-icon-arrows-expand": RasaIconArrowsExpand;
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
+        "rasa-icon-paper-plane": RasaIconPaperPlane;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
             "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
+            "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
         }
     }
 }
