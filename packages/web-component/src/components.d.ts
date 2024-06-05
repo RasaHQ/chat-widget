@@ -128,6 +128,12 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaSessionDivider {
+        /**
+          * Session start datetime
+         */
+        "sessionStartDate": Date;
+    }
     interface RasaText {
         /**
           * Button click event name
@@ -193,6 +199,12 @@ declare global {
         prototype: HTMLRasaIconPaperPlaneElement;
         new (): HTMLRasaIconPaperPlaneElement;
     };
+    interface HTMLRasaSessionDividerElement extends Components.RasaSessionDivider, HTMLStencilElement {
+    }
+    var HTMLRasaSessionDividerElement: {
+        prototype: HTMLRasaSessionDividerElement;
+        new (): HTMLRasaSessionDividerElement;
+    };
     interface HTMLRasaTextElement extends Components.RasaText, HTMLStencilElement {
     }
     var HTMLRasaTextElement: {
@@ -207,6 +219,7 @@ declare global {
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
+        "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
     }
 }
@@ -337,6 +350,12 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaSessionDivider {
+        /**
+          * Session start datetime
+         */
+        "sessionStartDate"?: Date;
+    }
     interface RasaText {
         /**
           * Button click event name
@@ -351,6 +370,7 @@ declare namespace LocalJSX {
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
+        "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
     }
 }
@@ -365,6 +385,7 @@ declare module "@stencil/core" {
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
+            "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
         }
     }

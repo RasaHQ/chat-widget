@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.session-divider {
+    &__line {
+        height: 1px;
+        width: 100%;
+        background-color: var(--session-divider-color);
+    }
+
+    &__text {
+        display: flex;
+        flex-shrink: 0;
+        color: var(--session-divider-text-color);
+        --rasa-text-font-size: 11px;
+        --rasa-text-line-height: 24px;
+    }
+}
