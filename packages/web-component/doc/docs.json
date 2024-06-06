@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-06T10:52:42",
+  "timestamp": "2024-06-06T14:13:40",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -101,9 +101,95 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-button-group"
+      ],
       "dependencies": [],
-      "dependencyGraph": {}
+      "dependencyGraph": {
+        "rasa-button-group": [
+          "rasa-button"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/button-group/button-group.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-button-group",
+      "readme": "# rasa-button-group\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "buttons",
+          "type": "Button[]",
+          "complexType": {
+            "original": "Button[]",
+            "resolved": "Button[]",
+            "references": {
+              "Button": {
+                "location": "import",
+                "path": "@rasa-widget/core/src/types/types",
+                "id": "../core/src/types/types.ts::Button"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "Buttons list",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "Button[]"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "\"buttons\" | \"quick-reply\"",
+          "complexType": {
+            "original": "\"quick-reply\" | \"buttons\"",
+            "resolved": "\"buttons\" | \"quick-reply\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "type",
+          "reflectToAttr": false,
+          "docs": "Type of button list",
+          "docsTags": [],
+          "values": [
+            {
+              "value": "buttons",
+              "type": "string"
+            },
+            {
+              "value": "quick-reply",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [
+        "rasa-button",
+        "rasa-text"
+      ],
+      "dependencyGraph": {
+        "rasa-button-group": [
+          "rasa-button",
+          "rasa-text"
+        ]
+      }
     },
     {
       "filePath": "src/components/rasa-chat-input/rasa-chat-input.tsx",
@@ -319,11 +405,15 @@
       "slots": [],
       "parts": [],
       "dependents": [
+        "rasa-button-group",
         "rasa-chatbot-widget",
         "rasa-session-divider"
       ],
       "dependencies": [],
       "dependencyGraph": {
+        "rasa-button-group": [
+          "rasa-text"
+        ],
         "rasa-chatbot-widget": [
           "rasa-text"
         ],
@@ -333,5 +423,11 @@
       }
     }
   ],
-  "typeLibrary": {}
+  "typeLibrary": {
+    "../core/src/types/types.ts::Button": {
+      "declaration": "{\n  text: string;\n  purpose: string;\n  value?: string;\n  isSelected: boolean;\n}",
+      "docstring": "",
+      "path": "../core/src/types/types.ts"
+    }
+  }
 }

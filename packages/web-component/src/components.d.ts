@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Button } from "@rasa-widget/core/src/types/types";
+export { Button } from "@rasa-widget/core/src/types/types";
 export namespace Components {
     interface RasaButton {
         /**
@@ -19,6 +21,16 @@ export namespace Components {
           * Additional value that is passed at button click
          */
         "value"?: string;
+    }
+    interface RasaButtonGroup {
+        /**
+          * Buttons list
+         */
+        "buttons": Button[];
+        /**
+          * Type of button list
+         */
+        "type": "quick-reply" | "buttons";
     }
     interface RasaChatInput {
         /**
@@ -181,6 +193,12 @@ declare global {
         prototype: HTMLRasaButtonElement;
         new (): HTMLRasaButtonElement;
     };
+    interface HTMLRasaButtonGroupElement extends Components.RasaButtonGroup, HTMLStencilElement {
+    }
+    var HTMLRasaButtonGroupElement: {
+        prototype: HTMLRasaButtonGroupElement;
+        new (): HTMLRasaButtonGroupElement;
+    };
     interface HTMLRasaChatInputElementEventMap {
         "sendMessageHandler": string;
     }
@@ -248,6 +266,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "rasa-button": HTMLRasaButtonElement;
+        "rasa-button-group": HTMLRasaButtonGroupElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
@@ -277,6 +296,16 @@ declare namespace LocalJSX {
           * Additional value that is passed at button click
          */
         "value"?: string;
+    }
+    interface RasaButtonGroup {
+        /**
+          * Buttons list
+         */
+        "buttons"?: Button[];
+        /**
+          * Type of button list
+         */
+        "type"?: "quick-reply" | "buttons";
     }
     interface RasaChatInput {
         /**
@@ -418,6 +447,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "rasa-button": RasaButton;
+        "rasa-button-group": RasaButtonGroup;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
@@ -434,6 +464,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
+            "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
