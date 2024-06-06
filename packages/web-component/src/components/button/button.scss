@@ -1,0 +1,24 @@
+.rasa-button {
+  height: 32px;
+  border: 1px solid var(--message-button-border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: var(--message-button-background-color);
+  color: var(--message-button-color);
+  font-family: Lato;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16.12px;
+  letter-spacing: 0.6000000238418579px;
+  text-wrap: nowrap;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--selected {
+    background-color: var(--message-selected-button-background-color);
+    color: var(--message-selected-button-color);
+    border: 1px solid var(--message-selected-button-border-color);
+  }
+}

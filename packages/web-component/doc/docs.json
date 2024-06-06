@@ -1,11 +1,110 @@
 {
-  "timestamp": "2024-06-04T14:40:28",
+  "timestamp": "2024-06-06T10:52:42",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
     "typescriptVersion": "5.4.5"
   },
   "components": [
+    {
+      "filePath": "src/components/button/button.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-button",
+      "readme": "# rasa-button\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "is-selected",
+          "reflectToAttr": false,
+          "docs": "Is button selected as option",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "purpose",
+          "reflectToAttr": false,
+          "docs": "Button click event name",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "value",
+          "reflectToAttr": false,
+          "docs": "Additional value that is passed at button click",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": true,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "buttonClickHandler",
+          "detail": "{ purpose: string; value?: string; }",
+          "bubbles": true,
+          "complexType": {
+            "original": "{purpose: string; value?: string}",
+            "resolved": "{ purpose: string; value?: string; }",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "On button click event emitter",
+          "docsTags": []
+        }
+      ],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {}
+    },
     {
       "filePath": "src/components/rasa-chat-input/rasa-chat-input.tsx",
       "encapsulation": "shadow",
