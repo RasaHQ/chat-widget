@@ -6,6 +6,20 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface RasaButton {
+        /**
+          * Is button selected as option
+         */
+        "isSelected": boolean;
+        /**
+          * Button click event name
+         */
+        "purpose": string;
+        /**
+          * Additional value that is passed at button click
+         */
+        "value"?: string;
+    }
     interface RasaChatInput {
         /**
           * Input value
@@ -141,11 +155,32 @@ export namespace Components {
         "value": string;
     }
 }
+export interface RasaButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaButtonElement;
+}
 export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatInputElement;
 }
 declare global {
+    interface HTMLRasaButtonElementEventMap {
+        "buttonClickHandler": {purpose: string; value?: string};
+    }
+    interface HTMLRasaButtonElement extends Components.RasaButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaButtonElementEventMap>(type: K, listener: (this: HTMLRasaButtonElement, ev: RasaButtonCustomEvent<HTMLRasaButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaButtonElementEventMap>(type: K, listener: (this: HTMLRasaButtonElement, ev: RasaButtonCustomEvent<HTMLRasaButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRasaButtonElement: {
+        prototype: HTMLRasaButtonElement;
+        new (): HTMLRasaButtonElement;
+    };
     interface HTMLRasaChatInputElementEventMap {
         "sendMessageHandler": string;
     }
@@ -212,6 +247,7 @@ declare global {
         new (): HTMLRasaTextElement;
     };
     interface HTMLElementTagNameMap {
+        "rasa-button": HTMLRasaButtonElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
@@ -224,6 +260,24 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface RasaButton {
+        /**
+          * Is button selected as option
+         */
+        "isSelected"?: boolean;
+        /**
+          * On button click event emitter
+         */
+        "onButtonClickHandler"?: (event: RasaButtonCustomEvent<{purpose: string; value?: string}>) => void;
+        /**
+          * Button click event name
+         */
+        "purpose"?: string;
+        /**
+          * Additional value that is passed at button click
+         */
+        "value"?: string;
+    }
     interface RasaChatInput {
         /**
           * Input value
@@ -363,6 +417,7 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IntrinsicElements {
+        "rasa-button": RasaButton;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
@@ -378,6 +433,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
