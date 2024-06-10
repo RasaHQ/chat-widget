@@ -16,12 +16,14 @@
 
 ### Used by
 
+ - [rasa-button-group](../button-group)
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
  - [rasa-session-divider](../session-devider)
 
 ### Graph
 ```mermaid
 graph TD;
+  rasa-button-group --> rasa-text
   rasa-chatbot-widget --> rasa-text
   rasa-session-divider --> rasa-text
   style rasa-text fill:#f9f,stroke:#333,stroke-width:4px
