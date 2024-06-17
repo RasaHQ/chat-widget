@@ -1,11 +1,90 @@
 {
-  "timestamp": "2024-06-17T08:24:18",
+  "timestamp": "2024-06-17T08:33:38",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
     "typescriptVersion": "5.4.5"
   },
   "components": [
+    {
+      "filePath": "src/components/message/chat-message.tsx",
+      "encapsulation": "shadow",
+      "tag": "chat-message",
+      "readme": "# chat-message\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "hideSenderIcon",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "hide-sender-icon",
+          "reflectToAttr": false,
+          "docs": "Show sender icon",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "sender",
+          "type": "\"bot\" | \"user\"",
+          "complexType": {
+            "original": "'user' | 'bot'",
+            "resolved": "\"bot\" | \"user\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "sender",
+          "reflectToAttr": false,
+          "docs": "Who sent the message",
+          "docsTags": [],
+          "values": [
+            {
+              "value": "bot",
+              "type": "string"
+            },
+            {
+              "value": "user",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [
+        {
+          "name": "messagecontent",
+          "docs": ""
+        }
+      ],
+      "dependents": [],
+      "dependencies": [
+        "rasa-icon-robot"
+      ],
+      "dependencyGraph": {
+        "chat-message": [
+          "rasa-icon-robot"
+        ]
+      }
+    },
     {
       "filePath": "src/components/button/button.tsx",
       "encapsulation": "shadow",
