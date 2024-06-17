@@ -156,6 +156,28 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaIconDefaultImageFallback {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaIconPaperPlane {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
@@ -199,6 +221,38 @@ export namespace Components {
           * (optional) The width and height in pixels
          */
         "size"?: number;
+    }
+    interface RasaImage {
+        /**
+          * Alt text for the image
+         */
+        "alt": string;
+        /**
+          * Image height
+         */
+        "height": string;
+        /**
+          * Image source
+         */
+        "src": string;
+        /**
+          * Image width
+         */
+        "width": string;
+    }
+    interface RasaImageMessage {
+        /**
+          * Alt text for the image
+         */
+        "imageAlt": string;
+        /**
+          * Image source
+         */
+        "imageSrc": string;
+        /**
+          * Message text
+         */
+        "text": string;
     }
     interface RasaSessionDivider {
         /**
@@ -304,6 +358,12 @@ declare global {
         prototype: HTMLRasaIconCloseChatElement;
         new (): HTMLRasaIconCloseChatElement;
     };
+    interface HTMLRasaIconDefaultImageFallbackElement extends Components.RasaIconDefaultImageFallback, HTMLStencilElement {
+    }
+    var HTMLRasaIconDefaultImageFallbackElement: {
+        prototype: HTMLRasaIconDefaultImageFallbackElement;
+        new (): HTMLRasaIconDefaultImageFallbackElement;
+    };
     interface HTMLRasaIconPaperPlaneElement extends Components.RasaIconPaperPlane, HTMLStencilElement {
     }
     var HTMLRasaIconPaperPlaneElement: {
@@ -315,6 +375,18 @@ declare global {
     var HTMLRasaIconRobotElement: {
         prototype: HTMLRasaIconRobotElement;
         new (): HTMLRasaIconRobotElement;
+    };
+    interface HTMLRasaImageElement extends Components.RasaImage, HTMLStencilElement {
+    }
+    var HTMLRasaImageElement: {
+        prototype: HTMLRasaImageElement;
+        new (): HTMLRasaImageElement;
+    };
+    interface HTMLRasaImageMessageElement extends Components.RasaImageMessage, HTMLStencilElement {
+    }
+    var HTMLRasaImageMessageElement: {
+        prototype: HTMLRasaImageMessageElement;
+        new (): HTMLRasaImageMessageElement;
     };
     interface HTMLRasaSessionDividerElement extends Components.RasaSessionDivider, HTMLStencilElement {
     }
@@ -339,8 +411,11 @@ declare global {
         "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
+        "rasa-icon-default-image-fallback": HTMLRasaIconDefaultImageFallbackElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
         "rasa-icon-robot": HTMLRasaIconRobotElement;
+        "rasa-image": HTMLRasaImageElement;
+        "rasa-image-message": HTMLRasaImageMessageElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
     }
@@ -502,6 +577,28 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaIconDefaultImageFallback {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaIconPaperPlane {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
@@ -546,6 +643,38 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaImage {
+        /**
+          * Alt text for the image
+         */
+        "alt"?: string;
+        /**
+          * Image height
+         */
+        "height"?: string;
+        /**
+          * Image source
+         */
+        "src"?: string;
+        /**
+          * Image width
+         */
+        "width"?: string;
+    }
+    interface RasaImageMessage {
+        /**
+          * Alt text for the image
+         */
+        "imageAlt"?: string;
+        /**
+          * Image source
+         */
+        "imageSrc"?: string;
+        /**
+          * Message text
+         */
+        "text"?: string;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -569,8 +698,11 @@ declare namespace LocalJSX {
         "rasa-icon-arrows-expand": RasaIconArrowsExpand;
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
+        "rasa-icon-default-image-fallback": RasaIconDefaultImageFallback;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
         "rasa-icon-robot": RasaIconRobot;
+        "rasa-image": RasaImage;
+        "rasa-image-message": RasaImageMessage;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
     }
@@ -589,8 +721,11 @@ declare module "@stencil/core" {
             "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
+            "rasa-icon-default-image-fallback": LocalJSX.RasaIconDefaultImageFallback & JSXBase.HTMLAttributes<HTMLRasaIconDefaultImageFallbackElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
             "rasa-icon-robot": LocalJSX.RasaIconRobot & JSXBase.HTMLAttributes<HTMLRasaIconRobotElement>;
+            "rasa-image": LocalJSX.RasaImage & JSXBase.HTMLAttributes<HTMLRasaImageElement>;
+            "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
         }

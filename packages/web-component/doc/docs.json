@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-17T08:33:38",
+  "timestamp": "2024-06-17T09:22:18",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -485,6 +485,217 @@
       }
     },
     {
+      "filePath": "src/components/image/image.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-image",
+      "readme": "# rasa-image\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "alt",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "alt",
+          "reflectToAttr": false,
+          "docs": "Alt text for the image",
+          "docsTags": [],
+          "default": "''",
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "height",
+          "reflectToAttr": false,
+          "docs": "Image height",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "src",
+          "reflectToAttr": false,
+          "docs": "Image source",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "width",
+          "reflectToAttr": false,
+          "docs": "Image width",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-image-message"
+      ],
+      "dependencies": [
+        "rasa-icon-default-image-fallback"
+      ],
+      "dependencyGraph": {
+        "rasa-image": [
+          "rasa-icon-default-image-fallback"
+        ],
+        "rasa-image-message": [
+          "rasa-image"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/image-message/image-message.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-image-message",
+      "readme": "# rasa-image-message\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "imageAlt",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "image-alt",
+          "reflectToAttr": false,
+          "docs": "Alt text for the image",
+          "docsTags": [],
+          "default": "''",
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "imageSrc",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "image-src",
+          "reflectToAttr": false,
+          "docs": "Image source",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "text",
+          "reflectToAttr": false,
+          "docs": "Message text",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [
+        "rasa-image",
+        "rasa-text"
+      ],
+      "dependencyGraph": {
+        "rasa-image-message": [
+          "rasa-image",
+          "rasa-text"
+        ],
+        "rasa-image": [
+          "rasa-icon-default-image-fallback"
+        ]
+      }
+    },
+    {
       "filePath": "src/components/session-devider/session-divider.tsx",
       "encapsulation": "shadow",
       "tag": "rasa-session-divider",
@@ -576,6 +787,7 @@
         "rasa-button-group",
         "rasa-chatbot-widget",
         "rasa-file-download-message",
+        "rasa-image-message",
         "rasa-session-divider"
       ],
       "dependencies": [],
@@ -587,6 +799,9 @@
           "rasa-text"
         ],
         "rasa-file-download-message": [
+          "rasa-text"
+        ],
+        "rasa-image-message": [
           "rasa-text"
         ],
         "rasa-session-divider": [
