@@ -266,6 +266,36 @@ export namespace Components {
          */
         "value": string;
     }
+    interface RasaVideo {
+        /**
+          * Autoplay on load
+         */
+        "autoplay": boolean;
+        /**
+          * Video player controls
+         */
+        "disableControls": boolean;
+        /**
+          * Video height
+         */
+        "height": number;
+        /**
+          * Loop video
+         */
+        "loop": boolean;
+        /**
+          * Mute video
+         */
+        "mute": boolean;
+        /**
+          * Video source url
+         */
+        "src": string;
+        /**
+          * Video width
+         */
+        "width": number;
+    }
 }
 export interface RasaButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -400,6 +430,12 @@ declare global {
         prototype: HTMLRasaTextElement;
         new (): HTMLRasaTextElement;
     };
+    interface HTMLRasaVideoElement extends Components.RasaVideo, HTMLStencilElement {
+    }
+    var HTMLRasaVideoElement: {
+        prototype: HTMLRasaVideoElement;
+        new (): HTMLRasaVideoElement;
+    };
     interface HTMLElementTagNameMap {
         "chat-message": HTMLChatMessageElement;
         "rasa-button": HTMLRasaButtonElement;
@@ -418,6 +454,7 @@ declare global {
         "rasa-image-message": HTMLRasaImageMessageElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
+        "rasa-video": HTMLRasaVideoElement;
     }
 }
 declare namespace LocalJSX {
@@ -687,6 +724,36 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    interface RasaVideo {
+        /**
+          * Autoplay on load
+         */
+        "autoplay"?: boolean;
+        /**
+          * Video player controls
+         */
+        "disableControls"?: boolean;
+        /**
+          * Video height
+         */
+        "height"?: number;
+        /**
+          * Loop video
+         */
+        "loop"?: boolean;
+        /**
+          * Mute video
+         */
+        "mute"?: boolean;
+        /**
+          * Video source url
+         */
+        "src"?: string;
+        /**
+          * Video width
+         */
+        "width"?: number;
+    }
     interface IntrinsicElements {
         "chat-message": ChatMessage;
         "rasa-button": RasaButton;
@@ -705,6 +772,7 @@ declare namespace LocalJSX {
         "rasa-image-message": RasaImageMessage;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
+        "rasa-video": RasaVideo;
     }
 }
 export { LocalJSX as JSX };
@@ -728,6 +796,7 @@ declare module "@stencil/core" {
             "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
+            "rasa-video": LocalJSX.RasaVideo & JSXBase.HTMLAttributes<HTMLRasaVideoElement>;
         }
     }
 }

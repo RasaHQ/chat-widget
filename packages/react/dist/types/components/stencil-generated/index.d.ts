@@ -5,5 +5,7 @@ export declare const RasaButtonGroup: import("react").ForwardRefExoticComponent<
 export declare const RasaChatInput: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatInputElement>>;
 export declare const RasaChatbotWidget: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatbotWidgetElement>>;
 export declare const RasaFileDownloadMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaFileDownloadMessageElement>>;
+export declare const RasaImage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaImageElement>>;
+export declare const RasaImageMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaImageMessageElement>>;
 export declare const RasaSessionDivider: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaSessionDividerElement>>;
 export declare const RasaText: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextElement>>;
