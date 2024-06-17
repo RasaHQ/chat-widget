@@ -8,6 +8,16 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Button } from "@rasa-widget/core/src/types/types";
 export { Button } from "@rasa-widget/core/src/types/types";
 export namespace Components {
+    interface ChatMessage {
+        /**
+          * Show sender icon
+         */
+        "hideSenderIcon": boolean;
+        /**
+          * Who sent the message
+         */
+        "sender": 'user' | 'bot';
+    }
     interface RasaButton {
         /**
           * Is button selected as option
@@ -168,6 +178,28 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaIconRobot {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -190,6 +222,12 @@ export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
     target: HTMLRasaChatInputElement;
 }
 declare global {
+    interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {
+    }
+    var HTMLChatMessageElement: {
+        prototype: HTMLChatMessageElement;
+        new (): HTMLChatMessageElement;
+    };
     interface HTMLRasaButtonElementEventMap {
         "buttonClickHandler": {purpose: string; value?: string};
     }
@@ -272,6 +310,12 @@ declare global {
         prototype: HTMLRasaIconPaperPlaneElement;
         new (): HTMLRasaIconPaperPlaneElement;
     };
+    interface HTMLRasaIconRobotElement extends Components.RasaIconRobot, HTMLStencilElement {
+    }
+    var HTMLRasaIconRobotElement: {
+        prototype: HTMLRasaIconRobotElement;
+        new (): HTMLRasaIconRobotElement;
+    };
     interface HTMLRasaSessionDividerElement extends Components.RasaSessionDivider, HTMLStencilElement {
     }
     var HTMLRasaSessionDividerElement: {
@@ -285,6 +329,7 @@ declare global {
         new (): HTMLRasaTextElement;
     };
     interface HTMLElementTagNameMap {
+        "chat-message": HTMLChatMessageElement;
         "rasa-button": HTMLRasaButtonElement;
         "rasa-button-group": HTMLRasaButtonGroupElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
@@ -295,11 +340,22 @@ declare global {
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
+        "rasa-icon-robot": HTMLRasaIconRobotElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
     }
 }
 declare namespace LocalJSX {
+    interface ChatMessage {
+        /**
+          * Show sender icon
+         */
+        "hideSenderIcon"?: boolean;
+        /**
+          * Who sent the message
+         */
+        "sender"?: 'user' | 'bot';
+    }
     interface RasaButton {
         /**
           * Is button selected as option
@@ -468,6 +524,28 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaIconRobot {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -481,6 +559,7 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IntrinsicElements {
+        "chat-message": ChatMessage;
         "rasa-button": RasaButton;
         "rasa-button-group": RasaButtonGroup;
         "rasa-chat-input": RasaChatInput;
@@ -491,6 +570,7 @@ declare namespace LocalJSX {
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-close-chat": RasaIconCloseChat;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
+        "rasa-icon-robot": RasaIconRobot;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
     }
@@ -499,6 +579,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "chat-message": LocalJSX.ChatMessage & JSXBase.HTMLAttributes<HTMLChatMessageElement>;
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
             "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
@@ -509,6 +590,7 @@ declare module "@stencil/core" {
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
+            "rasa-icon-robot": LocalJSX.RasaIconRobot & JSXBase.HTMLAttributes<HTMLRasaIconRobotElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
         }
