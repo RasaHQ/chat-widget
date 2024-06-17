@@ -13,5 +13,7 @@ export const RasaButtonGroup = /*@__PURE__*/createReactComponent<JSX.RasaButtonG
 export const RasaChatInput = /*@__PURE__*/createReactComponent<JSX.RasaChatInput, HTMLRasaChatInputElement>('rasa-chat-input');
 export const RasaChatbotWidget = /*@__PURE__*/createReactComponent<JSX.RasaChatbotWidget, HTMLRasaChatbotWidgetElement>('rasa-chatbot-widget');
 export const RasaFileDownloadMessage = /*@__PURE__*/createReactComponent<JSX.RasaFileDownloadMessage, HTMLRasaFileDownloadMessageElement>('rasa-file-download-message');
+export const RasaImage = /*@__PURE__*/createReactComponent<JSX.RasaImage, HTMLRasaImageElement>('rasa-image');
+export const RasaImageMessage = /*@__PURE__*/createReactComponent<JSX.RasaImageMessage, HTMLRasaImageMessageElement>('rasa-image-message');
 export const RasaSessionDivider = /*@__PURE__*/createReactComponent<JSX.RasaSessionDivider, HTMLRasaSessionDividerElement>('rasa-session-divider');
 export const RasaText = /*@__PURE__*/createReactComponent<JSX.RasaText, HTMLRasaTextElement>('rasa-text');
