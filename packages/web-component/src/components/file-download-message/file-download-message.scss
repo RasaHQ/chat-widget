@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  max-width: 289px;
+  background-color: var(--message-robot-background-color);
+  color: var(--message-robot-color);
+}
+
+.file-download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--neutral-500, #ced5e7);
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 35px;
+    height: 38px;
+    background: var(--color-primary);
+    color: var(--color-secondary);
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    width: 100%;
+    padding-left: 8px;
+    background: var(--color-secondary);
+    color: var(--color-primary);
+    --rasa-text-font-weight: 700;
+    --rasa-text-line-height:124%;
+  }
+}

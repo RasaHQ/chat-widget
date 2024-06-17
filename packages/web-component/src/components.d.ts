@@ -44,6 +44,20 @@ export namespace Components {
          */
         "toggleFullScreen": boolean;
     }
+    interface RasaFileDownloadMessage {
+        /**
+          * The file name for the downloaded file
+         */
+        "fileName": string;
+        /**
+          * URL of the file to download
+         */
+        "fileUrl": string;
+        /**
+          * Message text
+         */
+        "text": string;
+    }
     interface RasaIconArrowsContract {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
@@ -222,6 +236,12 @@ declare global {
         prototype: HTMLRasaChatbotWidgetElement;
         new (): HTMLRasaChatbotWidgetElement;
     };
+    interface HTMLRasaFileDownloadMessageElement extends Components.RasaFileDownloadMessage, HTMLStencilElement {
+    }
+    var HTMLRasaFileDownloadMessageElement: {
+        prototype: HTMLRasaFileDownloadMessageElement;
+        new (): HTMLRasaFileDownloadMessageElement;
+    };
     interface HTMLRasaIconArrowsContractElement extends Components.RasaIconArrowsContract, HTMLStencilElement {
     }
     var HTMLRasaIconArrowsContractElement: {
@@ -269,6 +289,7 @@ declare global {
         "rasa-button-group": HTMLRasaButtonGroupElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
+        "rasa-file-download-message": HTMLRasaFileDownloadMessageElement;
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
         "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
         "rasa-icon-chat": HTMLRasaIconChatElement;
@@ -322,6 +343,20 @@ declare namespace LocalJSX {
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
         "toggleFullScreen"?: boolean;
+    }
+    interface RasaFileDownloadMessage {
+        /**
+          * The file name for the downloaded file
+         */
+        "fileName"?: string;
+        /**
+          * URL of the file to download
+         */
+        "fileUrl"?: string;
+        /**
+          * Message text
+         */
+        "text"?: string;
     }
     interface RasaIconArrowsContract {
         /**
@@ -450,6 +485,7 @@ declare namespace LocalJSX {
         "rasa-button-group": RasaButtonGroup;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
+        "rasa-file-download-message": RasaFileDownloadMessage;
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
         "rasa-icon-arrows-expand": RasaIconArrowsExpand;
         "rasa-icon-chat": RasaIconChat;
@@ -467,6 +503,7 @@ declare module "@stencil/core" {
             "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
+            "rasa-file-download-message": LocalJSX.RasaFileDownloadMessage & JSXBase.HTMLAttributes<HTMLRasaFileDownloadMessageElement>;
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
             "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;

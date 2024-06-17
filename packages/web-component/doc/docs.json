@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-06T14:13:40",
+  "timestamp": "2024-06-17T08:24:18",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -317,6 +317,95 @@
       }
     },
     {
+      "filePath": "src/components/file-download-message/file-download-message.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-file-download-message",
+      "readme": "# rasa-file-download-message\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "fileName",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "file-name",
+          "reflectToAttr": false,
+          "docs": "The file name for the downloaded file",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "fileUrl",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "file-url",
+          "reflectToAttr": false,
+          "docs": "URL of the file to download",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "text",
+          "reflectToAttr": false,
+          "docs": "Message text",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [
+        "rasa-text"
+      ],
+      "dependencyGraph": {
+        "rasa-file-download-message": [
+          "rasa-text"
+        ]
+      }
+    },
+    {
       "filePath": "src/components/session-devider/session-divider.tsx",
       "encapsulation": "shadow",
       "tag": "rasa-session-divider",
@@ -407,6 +496,7 @@
       "dependents": [
         "rasa-button-group",
         "rasa-chatbot-widget",
+        "rasa-file-download-message",
         "rasa-session-divider"
       ],
       "dependencies": [],
@@ -415,6 +505,9 @@
           "rasa-text"
         ],
         "rasa-chatbot-widget": [
+          "rasa-text"
+        ],
+        "rasa-file-download-message": [
           "rasa-text"
         ],
         "rasa-session-divider": [
