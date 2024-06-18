@@ -9,4 +9,5 @@ export const RasaImage = createReactComponent('rasa-image');
 export const RasaImageMessage = createReactComponent('rasa-image-message');
 export const RasaSessionDivider = createReactComponent('rasa-session-divider');
 export const RasaText = createReactComponent('rasa-text');
+export const RasaVideo = createReactComponent('rasa-video');
 //# sourceMappingURL=index.js.map

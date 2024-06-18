@@ -262,7 +262,21 @@ export namespace Components {
     }
     interface RasaText {
         /**
+          * Disables text parsing (renders text as is, not markdown)
+         */
+        "disableParsing": boolean;
+        /**
           * Button click event name
+         */
+        "value": string;
+    }
+    interface RasaTextMessage {
+        /**
+          * Who sent the message
+         */
+        "sender": 'user' | 'bot';
+        /**
+          * Message value
          */
         "value": string;
     }
@@ -430,6 +444,12 @@ declare global {
         prototype: HTMLRasaTextElement;
         new (): HTMLRasaTextElement;
     };
+    interface HTMLRasaTextMessageElement extends Components.RasaTextMessage, HTMLStencilElement {
+    }
+    var HTMLRasaTextMessageElement: {
+        prototype: HTMLRasaTextMessageElement;
+        new (): HTMLRasaTextMessageElement;
+    };
     interface HTMLRasaVideoElement extends Components.RasaVideo, HTMLStencilElement {
     }
     var HTMLRasaVideoElement: {
@@ -454,6 +474,7 @@ declare global {
         "rasa-image-message": HTMLRasaImageMessageElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
+        "rasa-text-message": HTMLRasaTextMessageElement;
         "rasa-video": HTMLRasaVideoElement;
     }
 }
@@ -720,7 +741,21 @@ declare namespace LocalJSX {
     }
     interface RasaText {
         /**
+          * Disables text parsing (renders text as is, not markdown)
+         */
+        "disableParsing"?: boolean;
+        /**
           * Button click event name
+         */
+        "value"?: string;
+    }
+    interface RasaTextMessage {
+        /**
+          * Who sent the message
+         */
+        "sender"?: 'user' | 'bot';
+        /**
+          * Message value
          */
         "value"?: string;
     }
@@ -772,6 +807,7 @@ declare namespace LocalJSX {
         "rasa-image-message": RasaImageMessage;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
+        "rasa-text-message": RasaTextMessage;
         "rasa-video": RasaVideo;
     }
 }
@@ -796,6 +832,7 @@ declare module "@stencil/core" {
             "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
+            "rasa-text-message": LocalJSX.RasaTextMessage & JSXBase.HTMLAttributes<HTMLRasaTextMessageElement>;
             "rasa-video": LocalJSX.RasaVideo & JSXBase.HTMLAttributes<HTMLRasaVideoElement>;
         }
     }

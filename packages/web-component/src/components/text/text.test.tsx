@@ -66,7 +66,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="Visit [Google](https://google.com)">
         <mock:shadow-root>
-        <span class="text">Visit </span><a href="https://google.com"><span class="text">Google</span></a>
+        <span class="text">Visit </span><a href="https://google.com" target="_blank"><span class="text">Google</span></a>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -94,7 +94,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is **bold**, an _italic_ link [Google](https://google.com)">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--bold">bold</span><span class="text">, an </span><span class="text text--italic">italic</span><span class="text"> link </span><a href="https://google.com"><span class="text">Google</span></a>
+        <span class="text">This is </span><span class="text text--bold">bold</span><span class="text">, an </span><span class="text text--italic">italic</span><span class="text"> link </span><a href="https://google.com" target="_blank"><span class="text">Google</span></a>
         </mock:shadow-root>
       </rasa-text>
     `);

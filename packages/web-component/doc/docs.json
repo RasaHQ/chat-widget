@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-17T09:42:49",
+  "timestamp": "2024-06-18T12:06:46",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -756,6 +756,28 @@
       "usage": {},
       "props": [
         {
+          "name": "disableParsing",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "disable-parsing",
+          "reflectToAttr": false,
+          "docs": "Disables text parsing (renders text as is, not markdown)",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
           "name": "value",
           "type": "string",
           "complexType": {
@@ -788,7 +810,8 @@
         "rasa-chatbot-widget",
         "rasa-file-download-message",
         "rasa-image-message",
-        "rasa-session-divider"
+        "rasa-session-divider",
+        "rasa-text-message"
       ],
       "dependencies": [],
       "dependencyGraph": {
@@ -805,6 +828,82 @@
           "rasa-text"
         ],
         "rasa-session-divider": [
+          "rasa-text"
+        ],
+        "rasa-text-message": [
+          "rasa-text"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/text-message/text-message.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-text-message",
+      "readme": "# rasa-text-message\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "sender",
+          "type": "\"bot\" | \"user\"",
+          "complexType": {
+            "original": "'user' | 'bot'",
+            "resolved": "\"bot\" | \"user\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "sender",
+          "reflectToAttr": false,
+          "docs": "Who sent the message",
+          "docsTags": [],
+          "values": [
+            {
+              "value": "bot",
+              "type": "string"
+            },
+            {
+              "value": "user",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "value",
+          "reflectToAttr": false,
+          "docs": "Message value",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [
+        "rasa-text"
+      ],
+      "dependencyGraph": {
+        "rasa-text-message": [
           "rasa-text"
         ]
       }

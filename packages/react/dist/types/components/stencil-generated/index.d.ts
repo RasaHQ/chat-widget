@@ -9,3 +9,4 @@ export declare const RasaImage: import("react").ForwardRefExoticComponent<Omit<a
 export declare const RasaImageMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaImageMessageElement>>;
 export declare const RasaSessionDivider: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaSessionDividerElement>>;
 export declare const RasaText: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextElement>>;
+export declare const RasaVideo: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaVideoElement>>;
