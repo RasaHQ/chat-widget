@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property | Attribute | Description             | Type     | Default     |
-| -------- | --------- | ----------------------- | -------- | ----------- |
-| `value`  | `value`   | Button click event name | `string` | `undefined` |
+| Property         | Attribute         | Description                                              | Type      | Default     |
+| ---------------- | ----------------- | -------------------------------------------------------- | --------- | ----------- |
+| `disableParsing` | `disable-parsing` | Disables text parsing (renders text as is, not markdown) | `boolean` | `false`     |
+| `value`          | `value`           | Button click event name                                  | `string`  | `undefined` |
 
 
 ## Dependencies
@@ -21,6 +22,7 @@
  - [rasa-file-download-message](../file-download-message)
  - [rasa-image-message](../image-message)
  - [rasa-session-divider](../session-devider)
+ - [rasa-text-message](../text-message)
 
 ### Graph
 ```mermaid
@@ -30,6 +32,7 @@ graph TD;
   rasa-file-download-message --> rasa-text
   rasa-image-message --> rasa-text
   rasa-session-divider --> rasa-text
+  rasa-text-message --> rasa-text
   style rasa-text fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -12,25 +12,42 @@ export class RasaText {
    * Button click event name
    */
   @Prop() value: string;
+  /**
+   * Disables text parsing (renders text as is, not markdown)
+   */
+  @Prop() disableParsing = false;
 
-  private addClassList({bold, italic}): {[key: string]: boolean} {
+  private addClassList({ bold, italic }): { [key: string]: boolean } {
     return {
       'text': true,
       'text--bold': bold,
-      'text--italic': italic
-    }
+      'text--italic': italic,
+    };
   }
 
   render() {
+    if (this.disableParsing)
+      return (
+        <Host>
+          <span class={'text'}>{this.value}</span>
+        </Host>
+      );
     const textSegments = parseFormattedString(this.value);
     return (
       <Host>
-        {textSegments.map(({text, linkSrc, bold, italic }) => {
-          const classList = this.addClassList({bold, italic});
-          if(linkSrc) {
-            return <a href={linkSrc}><span class={classList}>{text}</span></a>
+        {textSegments.map(({ text, linkSrc, bold, italic, newline }) => {
+          const classList = this.addClassList({ bold, italic });
+          if (newline) {
+            return <br></br>;
           }
-          return <span class={classList}>{text}</span>
+          if (linkSrc) {
+            return (
+              <a href={linkSrc} target="_blank">
+                <span class={classList}>{text}</span>
+              </a>
+            );
+          }
+          return <span class={classList}>{text}</span>;
         })}
       </Host>
     );

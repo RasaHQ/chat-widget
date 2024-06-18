@@ -17,4 +17,5 @@ export const RasaImage = /*@__PURE__*/createReactComponent<JSX.RasaImage, HTMLRa
 export const RasaImageMessage = /*@__PURE__*/createReactComponent<JSX.RasaImageMessage, HTMLRasaImageMessageElement>('rasa-image-message');
 export const RasaSessionDivider = /*@__PURE__*/createReactComponent<JSX.RasaSessionDivider, HTMLRasaSessionDividerElement>('rasa-session-divider');
 export const RasaText = /*@__PURE__*/createReactComponent<JSX.RasaText, HTMLRasaTextElement>('rasa-text');
+export const RasaTextMessage = /*@__PURE__*/createReactComponent<JSX.RasaTextMessage, HTMLRasaTextMessageElement>('rasa-text-message');
 export const RasaVideo = /*@__PURE__*/createReactComponent<JSX.RasaVideo, HTMLRasaVideoElement>('rasa-video');

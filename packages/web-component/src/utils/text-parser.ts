@@ -6,17 +6,21 @@ export interface TextSegment {
   linkTitle?: string;
   bold?: boolean;
   italic?: boolean;
+  newline?: boolean;
 }
 
 const BOLD_ITALIC_REGEX = /(\*\*\*([^*]+)\*\*\*)|(___([^_]+)___)|(\*\*\_([^*_]+)_\*\*)|(_\*\*([^_*]+)\*\*\_)|(__\*([^_*]+)\*\__)|(\*\__([^*_]+)__\*)/;
 const BOLD_REGEX = /(\*\*([^*]+)\*\*)|(__([^_]+)__)/;
 const ITALIC_REGEX = /(\*([^*]+)\*)|(_([^_]+)_)/;
 const LINK_REGEX = /\[([^\]]+)\]\(([^ )]+)(?:\s+"([^"]+)")?\)/;
-const NORMAL_TEXT_REGEX = /[^*_<>[\]]+/;
+const NEWLINE_REGEX = /\n/;
+const NORMAL_TEXT_REGEX = /[^*_<>[\]\n]+/;
 
 const splitIntoSegments = (input: string): string[] => {
-  const regex = new RegExp(`(${LINK_REGEX.source})|(${BOLD_ITALIC_REGEX.source})|(${BOLD_REGEX.source})|(${ITALIC_REGEX.source})|(${NORMAL_TEXT_REGEX.source})`, 'g');
-
+  const regex = new RegExp(
+    `(${LINK_REGEX.source})|(${BOLD_ITALIC_REGEX.source})|(${BOLD_REGEX.source})|(${ITALIC_REGEX.source})|(${NEWLINE_REGEX.source}|(${NORMAL_TEXT_REGEX.source}))`,
+    'g',
+  );
   return input.match(regex) || [];
 };
 
@@ -50,6 +54,11 @@ const applyFormatting = (text: string): TextSegment => {
 
 const determineFormatting = (segment: string): TextSegment => {
   let formatting: TextSegment = { text: segment };
+
+  // Newline
+  if (NEWLINE_REGEX.test(segment)) {
+    return { text: '', newline: true };
+  }
 
   // Link formatting
   if (LINK_REGEX.test(segment)) {

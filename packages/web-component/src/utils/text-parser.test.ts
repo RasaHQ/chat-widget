@@ -13,6 +13,18 @@ describe('parseFormattedString', () => {
     expect(parseFormattedString(input)).toEqual(expected);
   });
 
+  it('parses a single newline character', () => {
+    const input = '\n';
+    const expectedOutput: TextSegment[] = [{ text: '', newline: true }];
+    expect(parseFormattedString(input)).toEqual(expectedOutput);
+  });
+
+  it('parses text with a single newline character in between', () => {
+    const input = 'Hello\nWorld';
+    const expectedOutput: TextSegment[] = [{ text: 'Hello' }, { text: '', newline: true }, { text: 'World' }];
+    expect(parseFormattedString(input)).toEqual(expectedOutput);
+  });
+
   it('parse text segment - with bold', () => {
     const input = 'This is **bold**';
     const expected: TextSegment[] = [{ text: 'This is ' }, { text: 'bold', bold: true }];
