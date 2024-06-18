@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-18T12:06:46",
+  "timestamp": "2024-06-18T13:46:09",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -82,6 +82,53 @@
       "dependencyGraph": {
         "chat-message": [
           "rasa-icon-robot"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/accordion/accordion.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-accordion",
+      "readme": "# rasa-accordion\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "label",
+          "reflectToAttr": false,
+          "docs": "Represents the label property of an Accordion component.\nThe label serves as the title or heading for accordion.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [],
+      "dependencies": [
+        "rasa-icon-chevron-down"
+      ],
+      "dependencyGraph": {
+        "rasa-accordion": [
+          "rasa-icon-chevron-down"
         ]
       }
     },
