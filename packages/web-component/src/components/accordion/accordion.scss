@@ -1,0 +1,36 @@
+.accordion {
+  border-radius: 4px 20px 20px 20px;
+  background-color: var(--accordion-background-color);
+  padding: 8px 16px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  &__description-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  &__description {
+    min-height: 0;
+  }
+
+  &--open & {
+    &__description-wrapper {
+      grid-template-rows: 1fr;
+    }
+
+    &__header {
+      margin-bottom: 8px;
+
+      &__icon {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+}

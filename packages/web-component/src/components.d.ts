@@ -18,6 +18,12 @@ export namespace Components {
          */
         "sender": 'user' | 'bot';
     }
+    interface RasaAccordion {
+        /**
+          * Represents the label property of an Accordion component. The label serves as the title or heading for accordion.
+         */
+        "label": string;
+    }
     interface RasaButton {
         /**
           * Is button selected as option
@@ -113,6 +119,28 @@ export namespace Components {
         "size"?: number;
     }
     interface RasaIconChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconChevronDown {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
          */
@@ -326,6 +354,12 @@ declare global {
         prototype: HTMLChatMessageElement;
         new (): HTMLChatMessageElement;
     };
+    interface HTMLRasaAccordionElement extends Components.RasaAccordion, HTMLStencilElement {
+    }
+    var HTMLRasaAccordionElement: {
+        prototype: HTMLRasaAccordionElement;
+        new (): HTMLRasaAccordionElement;
+    };
     interface HTMLRasaButtonElementEventMap {
         "buttonClickHandler": {purpose: string; value?: string};
     }
@@ -396,6 +430,12 @@ declare global {
         prototype: HTMLRasaIconChatElement;
         new (): HTMLRasaIconChatElement;
     };
+    interface HTMLRasaIconChevronDownElement extends Components.RasaIconChevronDown, HTMLStencilElement {
+    }
+    var HTMLRasaIconChevronDownElement: {
+        prototype: HTMLRasaIconChevronDownElement;
+        new (): HTMLRasaIconChevronDownElement;
+    };
     interface HTMLRasaIconCloseChatElement extends Components.RasaIconCloseChat, HTMLStencilElement {
     }
     var HTMLRasaIconCloseChatElement: {
@@ -458,6 +498,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "chat-message": HTMLChatMessageElement;
+        "rasa-accordion": HTMLRasaAccordionElement;
         "rasa-button": HTMLRasaButtonElement;
         "rasa-button-group": HTMLRasaButtonGroupElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
@@ -466,6 +507,7 @@ declare global {
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
         "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
         "rasa-icon-chat": HTMLRasaIconChatElement;
+        "rasa-icon-chevron-down": HTMLRasaIconChevronDownElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
         "rasa-icon-default-image-fallback": HTMLRasaIconDefaultImageFallbackElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
@@ -488,6 +530,12 @@ declare namespace LocalJSX {
           * Who sent the message
          */
         "sender"?: 'user' | 'bot';
+    }
+    interface RasaAccordion {
+        /**
+          * Represents the label property of an Accordion component. The label serves as the title or heading for accordion.
+         */
+        "label"?: string;
     }
     interface RasaButton {
         /**
@@ -592,6 +640,28 @@ declare namespace LocalJSX {
         "size"?: number;
     }
     interface RasaIconChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconChevronDown {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
          */
@@ -791,6 +861,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "chat-message": ChatMessage;
+        "rasa-accordion": RasaAccordion;
         "rasa-button": RasaButton;
         "rasa-button-group": RasaButtonGroup;
         "rasa-chat-input": RasaChatInput;
@@ -799,6 +870,7 @@ declare namespace LocalJSX {
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
         "rasa-icon-arrows-expand": RasaIconArrowsExpand;
         "rasa-icon-chat": RasaIconChat;
+        "rasa-icon-chevron-down": RasaIconChevronDown;
         "rasa-icon-close-chat": RasaIconCloseChat;
         "rasa-icon-default-image-fallback": RasaIconDefaultImageFallback;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
@@ -816,6 +888,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "chat-message": LocalJSX.ChatMessage & JSXBase.HTMLAttributes<HTMLChatMessageElement>;
+            "rasa-accordion": LocalJSX.RasaAccordion & JSXBase.HTMLAttributes<HTMLRasaAccordionElement>;
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
             "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
@@ -824,6 +897,7 @@ declare module "@stencil/core" {
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
             "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
+            "rasa-icon-chevron-down": LocalJSX.RasaIconChevronDown & JSXBase.HTMLAttributes<HTMLRasaIconChevronDownElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
             "rasa-icon-default-image-fallback": LocalJSX.RasaIconDefaultImageFallback & JSXBase.HTMLAttributes<HTMLRasaIconDefaultImageFallbackElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
