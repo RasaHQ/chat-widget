@@ -68,7 +68,7 @@ describe("Rasa Client", () => {
   describe("Messaging", () => {
     it("should send a new message", () => {
       client.sendMessage("Hello");
-      
+
       expect(mockSocketEmit).toHaveBeenCalledWith("user_uttered", {
         message: "Hello",
         session_id: client.sessionId,
@@ -82,7 +82,9 @@ describe("Rasa Client", () => {
       triggerSocketEvent("bot_uttered", { text: "Hello! How can I help you?" });
 
       expect(onBotResponse).toHaveBeenCalledWith({
+        sender: "bot",
         text: "Hello! How can I help you?",
+        type: "text",
       });
     });
   });
