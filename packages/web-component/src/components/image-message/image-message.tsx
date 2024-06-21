@@ -18,6 +18,14 @@ export class RasaImageMessage {
    * Message text
    */
   @Prop() text: string;
+  /**
+   * Image width
+   */
+  @Prop() width: number = 288;
+  /**
+   * Image height
+   */
+  @Prop() height: number = 170;
 
   render() {
     const classListImage = {
@@ -26,8 +34,8 @@ export class RasaImageMessage {
     };
     return (
       <Host>
-          <rasa-image src={this.imageSrc} alt={this.imageAlt} height="170" width='289' class={classListImage}></rasa-image>
-          {!!this.text && <rasa-text value={this.text} class="image-message__text"></rasa-text>}
+        <rasa-image src={this.imageSrc} alt={this.imageAlt} height={this.height} width={this.width} class={classListImage}></rasa-image>
+        {!!this.text && <rasa-text value={this.text} class="image-message__text"></rasa-text>}
       </Host>
     );
   }

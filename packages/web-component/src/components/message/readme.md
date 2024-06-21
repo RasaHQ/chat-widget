@@ -22,6 +22,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [rasa-chatbot-widget](../../rasa-chatbot-widget)
+
 ### Depends on
 
 - rasa-icon-robot
@@ -30,6 +34,7 @@
 ```mermaid
 graph TD;
   chat-message --> rasa-icon-robot
+  rasa-chatbot-widget --> chat-message
   style chat-message fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

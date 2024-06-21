@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Button } from "@rasa-widget/core/src/types/types";
-export { Button } from "@rasa-widget/core/src/types/types";
+import { CarouselElement, QuickReply } from "@rasa-widget/core";
+export { CarouselElement, QuickReply } from "@rasa-widget/core";
 export namespace Components {
     interface ChatMessage {
         /**
@@ -30,23 +30,25 @@ export namespace Components {
          */
         "isSelected": boolean;
         /**
-          * Button click event name
-         */
-        "purpose": string;
-        /**
           * Additional value that is passed at button click
          */
-        "value"?: string;
+        "reply": string;
     }
     interface RasaButtonGroup {
         /**
           * Buttons list
          */
-        "buttons": Button[];
+        "buttons": QuickReply[];
         /**
           * Type of button list
          */
-        "type": "quick-reply" | "buttons";
+        "type": 'quick-reply' | 'buttons';
+    }
+    interface RasaCarousel {
+        /**
+          * List of carousel elements
+         */
+        "elements": CarouselElement[];
     }
     interface RasaChatInput {
         /**
@@ -55,6 +57,14 @@ export namespace Components {
         "initialValue"?: string;
     }
     interface RasaChatbotWidget {
+        /**
+          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+         */
+        "autoOpen": boolean;
+        /**
+          * Url of the Rasa chatbot backend server
+         */
+        "serverUrl": string;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -258,7 +268,7 @@ export namespace Components {
         /**
           * Image height
          */
-        "height": string;
+        "height": number;
         /**
           * Image source
          */
@@ -266,9 +276,13 @@ export namespace Components {
         /**
           * Image width
          */
-        "width": string;
+        "width": number;
     }
     interface RasaImageMessage {
+        /**
+          * Image height
+         */
+        "height": number;
         /**
           * Alt text for the image
          */
@@ -281,6 +295,10 @@ export namespace Components {
           * Message text
          */
         "text": string;
+        /**
+          * Image width
+         */
+        "width": number;
     }
     interface RasaSessionDivider {
         /**
@@ -347,6 +365,10 @@ export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatInputElement;
 }
+export interface RasaChatbotWidgetCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaChatbotWidgetElement;
+}
 declare global {
     interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {
     }
@@ -361,7 +383,7 @@ declare global {
         new (): HTMLRasaAccordionElement;
     };
     interface HTMLRasaButtonElementEventMap {
-        "buttonClickHandler": {purpose: string; value?: string};
+        "buttonClickHandler": { value?: string };
     }
     interface HTMLRasaButtonElement extends Components.RasaButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaButtonElementEventMap>(type: K, listener: (this: HTMLRasaButtonElement, ev: RasaButtonCustomEvent<HTMLRasaButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -383,6 +405,12 @@ declare global {
         prototype: HTMLRasaButtonGroupElement;
         new (): HTMLRasaButtonGroupElement;
     };
+    interface HTMLRasaCarouselElement extends Components.RasaCarousel, HTMLStencilElement {
+    }
+    var HTMLRasaCarouselElement: {
+        prototype: HTMLRasaCarouselElement;
+        new (): HTMLRasaCarouselElement;
+    };
     interface HTMLRasaChatInputElementEventMap {
         "sendMessageHandler": string;
     }
@@ -400,7 +428,19 @@ declare global {
         prototype: HTMLRasaChatInputElement;
         new (): HTMLRasaChatInputElement;
     };
+    interface HTMLRasaChatbotWidgetElementEventMap {
+        "chatWidgetReceivedMessage": unknown;
+        "chatWidgetSentMessage": string;
+    }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLRasaChatbotWidgetElement: {
         prototype: HTMLRasaChatbotWidgetElement;
@@ -501,6 +541,7 @@ declare global {
         "rasa-accordion": HTMLRasaAccordionElement;
         "rasa-button": HTMLRasaButtonElement;
         "rasa-button-group": HTMLRasaButtonGroupElement;
+        "rasa-carousel": HTMLRasaCarouselElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
         "rasa-file-download-message": HTMLRasaFileDownloadMessageElement;
@@ -545,25 +586,27 @@ declare namespace LocalJSX {
         /**
           * On button click event emitter
          */
-        "onButtonClickHandler"?: (event: RasaButtonCustomEvent<{purpose: string; value?: string}>) => void;
-        /**
-          * Button click event name
-         */
-        "purpose"?: string;
+        "onButtonClickHandler"?: (event: RasaButtonCustomEvent<{ value?: string }>) => void;
         /**
           * Additional value that is passed at button click
          */
-        "value"?: string;
+        "reply"?: string;
     }
     interface RasaButtonGroup {
         /**
           * Buttons list
          */
-        "buttons"?: Button[];
+        "buttons"?: QuickReply[];
         /**
           * Type of button list
          */
-        "type"?: "quick-reply" | "buttons";
+        "type"?: 'quick-reply' | 'buttons';
+    }
+    interface RasaCarousel {
+        /**
+          * List of carousel elements
+         */
+        "elements"?: CarouselElement[];
     }
     interface RasaChatInput {
         /**
@@ -576,6 +619,22 @@ declare namespace LocalJSX {
         "onSendMessageHandler"?: (event: RasaChatInputCustomEvent<string>) => void;
     }
     interface RasaChatbotWidget {
+        /**
+          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+         */
+        "autoOpen"?: boolean;
+        /**
+          * Emitted when the user receives a message
+         */
+        "onChatWidgetReceivedMessage"?: (event: RasaChatbotWidgetCustomEvent<unknown>) => void;
+        /**
+          * Emitted when the user sends a message
+         */
+        "onChatWidgetSentMessage"?: (event: RasaChatbotWidgetCustomEvent<string>) => void;
+        /**
+          * Url of the Rasa chatbot backend server
+         */
+        "serverUrl"?: string;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -779,7 +838,7 @@ declare namespace LocalJSX {
         /**
           * Image height
          */
-        "height"?: string;
+        "height"?: number;
         /**
           * Image source
          */
@@ -787,9 +846,13 @@ declare namespace LocalJSX {
         /**
           * Image width
          */
-        "width"?: string;
+        "width"?: number;
     }
     interface RasaImageMessage {
+        /**
+          * Image height
+         */
+        "height"?: number;
         /**
           * Alt text for the image
          */
@@ -802,6 +865,10 @@ declare namespace LocalJSX {
           * Message text
          */
         "text"?: string;
+        /**
+          * Image width
+         */
+        "width"?: number;
     }
     interface RasaSessionDivider {
         /**
@@ -864,6 +931,7 @@ declare namespace LocalJSX {
         "rasa-accordion": RasaAccordion;
         "rasa-button": RasaButton;
         "rasa-button-group": RasaButtonGroup;
+        "rasa-carousel": RasaCarousel;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
         "rasa-file-download-message": RasaFileDownloadMessage;
@@ -891,6 +959,7 @@ declare module "@stencil/core" {
             "rasa-accordion": LocalJSX.RasaAccordion & JSXBase.HTMLAttributes<HTMLRasaAccordionElement>;
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
             "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
+            "rasa-carousel": LocalJSX.RasaCarousel & JSXBase.HTMLAttributes<HTMLRasaCarouselElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
             "rasa-file-download-message": LocalJSX.RasaFileDownloadMessage & JSXBase.HTMLAttributes<HTMLRasaFileDownloadMessageElement>;

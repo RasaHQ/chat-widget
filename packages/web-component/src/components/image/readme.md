@@ -10,9 +10,9 @@
 | Property | Attribute | Description            | Type     | Default     |
 | -------- | --------- | ---------------------- | -------- | ----------- |
 | `alt`    | `alt`     | Alt text for the image | `string` | `''`        |
-| `height` | `height`  | Image height           | `string` | `undefined` |
+| `height` | `height`  | Image height           | `number` | `undefined` |
 | `src`    | `src`     | Image source           | `string` | `undefined` |
-| `width`  | `width`   | Image width            | `string` | `undefined` |
+| `width`  | `width`   | Image width            | `number` | `undefined` |
 
 
 ## Dependencies

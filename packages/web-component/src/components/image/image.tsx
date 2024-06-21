@@ -17,11 +17,11 @@ export class RasaImage {
   /**
    * Image width
    */
-  @Prop() width: string;
+  @Prop() width: number;
   /**
    * Image height
    */
-  @Prop() height: string;
+  @Prop() height: number;
 
   @State() showFallback = false;
 
@@ -32,12 +32,12 @@ export class RasaImage {
   render() {
     const style = {
       width: this.width ? `${this.width}px` : 'auto',
-      height: this.height ? `${this.height}px` : 'auto'
+      height: this.height ? `${this.height}px` : 'auto',
     };
     return (
       <Host>
         {this.showFallback ? (
-          <rasa-icon-default-image-fallback style={style} size={289}></rasa-icon-default-image-fallback>
+          <rasa-icon-default-image-fallback style={style} size={this.width}></rasa-icon-default-image-fallback>
         ) : (
           <img src={this.src} alt={this.alt} onError={this.handleImgError} style={style} />
         )}

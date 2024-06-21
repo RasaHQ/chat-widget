@@ -7,13 +7,9 @@ import { Component, Prop, h, EventEmitter, Event } from '@stencil/core';
 })
 export class RasaButton {
   /**
-   * Button click event name
-   */
-  @Prop() purpose: string;
-  /**
    * Additional value that is passed at button click
    */
-  @Prop() value?: string;
+  @Prop() reply: string;
   /**
    * Is button selected as option
    */
@@ -22,17 +18,17 @@ export class RasaButton {
   /**
    * On button click event emitter
    */
-  @Event() buttonClickHandler: EventEmitter<{purpose: string; value?: string}>;
+  @Event() buttonClickHandler: EventEmitter<{ value?: string }>;
 
   private buttonClick() {
-    this.buttonClickHandler.emit({purpose: this.purpose, value: this.value});
+    this.buttonClickHandler.emit({ value: this.reply });
   }
 
   render() {
     return (
-        <button class={`rasa-button ${this.isSelected && 'rasa-button--selected'}`} onClick={this.buttonClick}>
-          <slot></slot>
-        </button>
+      <button class={`rasa-button ${this.isSelected && 'rasa-button--selected'}`} onClick={this.buttonClick}>
+        <slot></slot>
+      </button>
     );
   }
 }
