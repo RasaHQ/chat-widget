@@ -6,16 +6,10 @@ export type SessionDivider = {
   startDate: Date;
 };
 
-export type Button = {
-  text: string;
-  purpose: string;
-  value?: string;
-  isSelected: boolean;
-};
-
-type QuickReply = {
+export type QuickReply = {
   text: string;
   reply: string;
+  isSelected?: boolean;
 };
 
 export type CarouselElement = {

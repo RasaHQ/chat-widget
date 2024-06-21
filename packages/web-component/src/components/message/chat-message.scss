@@ -37,7 +37,7 @@
 
   &__message {
     align-items: center;
-    width: 289px;
+    max-width: 289px;
     overflow: hidden;
 
     &--bot {

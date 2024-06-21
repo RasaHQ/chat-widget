@@ -1,5 +1,5 @@
 import { Component, Prop, h } from '@stencil/core';
-import type { Button } from '@rasa-widget/core/src/types/types';
+import { QuickReply } from '@rasa-widget/core';
 
 @Component({
   tag: 'rasa-button-group',
@@ -10,20 +10,22 @@ export class RasaButtonGroup {
   /**
    * Buttons list
    */
-  @Prop() buttons: Button[];
+  @Prop() buttons: QuickReply[];
 
   /**
    * Type of button list
    */
-  @Prop() type: "quick-reply" | "buttons";
+  @Prop() type: 'quick-reply' | 'buttons';
 
   render() {
     return (
-        <div class={`button-group button-group--${this.type}`}>
-          {this.buttons.map((button, key) => (
-            <rasa-button {...button} key={key}><rasa-text value={button.text}></rasa-text></rasa-button>
-          ))}
-        </div>
+      <div class={`button-group button-group--${this.type}`}>
+        {this.buttons.map((button, key) => (
+          <rasa-button {...button} key={key}>
+            <rasa-text value={button.text}></rasa-text>
+          </rasa-button>
+        ))}
+      </div>
     );
   }
 }

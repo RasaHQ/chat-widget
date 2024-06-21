@@ -1,20 +1,27 @@
 :root {
   --launcher-background-color: var(--color-primary);
   --launcher-color: var(--color-secondary);
-  --messenger-background-color: var(--color-secondary);
   --header-background-color: var(--color-primary);
   --header-color: var(--color-secondary);
+  --messenger-background-color: var(--color-secondary);
   --input-placeholder-color: var(--color-secondary-opposite);
   --input-placeholder-opacity: 0.5;
   --input-background-color: var(--color-secondary);
   --input-color: var(--color-secondary-opposite);
   --input-send-color: var(--color-primary);
-  --session-divider-color: var(--color-secondary-10);
-  --session-divider-text-color: var(--color-secondary-40);
+  --message-robot-icon-background-color: var(--color-primary);
+  --message-robot-icon-color: var(--color-secondary);
+  --message-robot-background-color: var(--color-secondary-10);
+  --message-robot-color: var(--color-secondary-90);
+  --message-user-background-color: var(--color-primary);
+  --message-user-color: var(--color-secondary);
   --message-button-color: var(--color-primary);
   --message-button-background-color: var(--color-secondary);
   --message-button-border-color: var(--color-primary);
   --message-selected-button-color: var(--color-secondary);
   --message-selected-button-background-color: var(--color-primary);
   --message-selected-button-border-color: var(--color-primary);
+  --accordion-background-color: var(--color-secondary-10);
+  --session-divider-color: var(--color-secondary-10);
+  --session-divider-text-color: var(--color-secondary-40);
 }

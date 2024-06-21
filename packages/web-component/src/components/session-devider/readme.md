@@ -14,6 +14,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [rasa-chatbot-widget](../../rasa-chatbot-widget)
+
 ### Depends on
 
 - [rasa-text](../text)
@@ -22,6 +26,7 @@
 ```mermaid
 graph TD;
   rasa-session-divider --> rasa-text
+  rasa-chatbot-widget --> rasa-session-divider
   style rasa-session-divider fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

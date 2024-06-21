@@ -24,7 +24,7 @@ describe('rasa-image', () => {
     await page.waitForChanges();
 
     expect(page.root.shadowRoot).toEqualHtml(`
-    <rasa-icon-default-image-fallback style="width: auto; height: auto;" size="289"></rasa-icon-default-image-fallback>
+    <rasa-icon-default-image-fallback style="width: auto; height: auto;"></rasa-icon-default-image-fallback>
     `);
   });
 

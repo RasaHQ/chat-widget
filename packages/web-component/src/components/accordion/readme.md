@@ -14,6 +14,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [rasa-chatbot-widget](../../rasa-chatbot-widget)
+
 ### Depends on
 
 - rasa-icon-chevron-down
@@ -22,6 +26,7 @@
 ```mermaid
 graph TD;
   rasa-accordion --> rasa-icon-chevron-down
+  rasa-chatbot-widget --> rasa-accordion
   style rasa-accordion fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

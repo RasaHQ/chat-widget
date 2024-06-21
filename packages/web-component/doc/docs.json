@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-18T13:46:09",
+  "timestamp": "2024-06-21T12:21:32",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -75,13 +75,18 @@
           "docs": ""
         }
       ],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-icon-robot"
       ],
       "dependencyGraph": {
         "chat-message": [
           "rasa-icon-robot"
+        ],
+        "rasa-chatbot-widget": [
+          "chat-message"
         ]
       }
     },
@@ -122,13 +127,18 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-icon-chevron-down"
       ],
       "dependencyGraph": {
         "rasa-accordion": [
           "rasa-icon-chevron-down"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-accordion"
         ]
       }
     },
@@ -164,7 +174,7 @@
           "required": false
         },
         {
-          "name": "purpose",
+          "name": "reply",
           "type": "string",
           "complexType": {
             "original": "string",
@@ -172,28 +182,7 @@
             "references": {}
           },
           "mutable": false,
-          "attr": "purpose",
-          "reflectToAttr": false,
-          "docs": "Button click event name",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "value",
+          "attr": "reply",
           "reflectToAttr": false,
           "docs": "Additional value that is passed at button click",
           "docsTags": [],
@@ -202,7 +191,7 @@
               "type": "string"
             }
           ],
-          "optional": true,
+          "optional": false,
           "required": false
         }
       ],
@@ -210,11 +199,11 @@
       "events": [
         {
           "event": "buttonClickHandler",
-          "detail": "{ purpose: string; value?: string; }",
+          "detail": "{ value?: string; }",
           "bubbles": true,
           "complexType": {
-            "original": "{purpose: string; value?: string}",
-            "resolved": "{ purpose: string; value?: string; }",
+            "original": "{ value?: string }",
+            "resolved": "{ value?: string; }",
             "references": {}
           },
           "cancelable": true,
@@ -248,15 +237,15 @@
       "props": [
         {
           "name": "buttons",
-          "type": "Button[]",
+          "type": "QuickReply[]",
           "complexType": {
-            "original": "Button[]",
-            "resolved": "Button[]",
+            "original": "QuickReply[]",
+            "resolved": "QuickReply[]",
             "references": {
-              "Button": {
+              "QuickReply": {
                 "location": "import",
-                "path": "@rasa-widget/core/src/types/types",
-                "id": "../core/src/types/types.ts::Button"
+                "path": "@rasa-widget/core",
+                "id": "../core/dist/index.d.ts::QuickReply"
               }
             }
           },
@@ -266,7 +255,7 @@
           "docsTags": [],
           "values": [
             {
-              "type": "Button[]"
+              "type": "QuickReply[]"
             }
           ],
           "optional": false,
@@ -276,7 +265,7 @@
           "name": "type",
           "type": "\"buttons\" | \"quick-reply\"",
           "complexType": {
-            "original": "\"quick-reply\" | \"buttons\"",
+            "original": "'quick-reply' | 'buttons'",
             "resolved": "\"buttons\" | \"quick-reply\"",
             "references": {}
           },
@@ -305,7 +294,9 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-button",
         "rasa-text"
@@ -314,6 +305,75 @@
         "rasa-button-group": [
           "rasa-button",
           "rasa-text"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-button-group"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/carousel/carousel.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-carousel",
+      "readme": "# rasa-carousel\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "elements",
+          "type": "CarouselElement[]",
+          "complexType": {
+            "original": "CarouselElement[]",
+            "resolved": "CarouselElement[]",
+            "references": {
+              "CarouselElement": {
+                "location": "import",
+                "path": "@rasa-widget/core",
+                "id": "../core/dist/index.d.ts::CarouselElement"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "List of carousel elements",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "CarouselElement[]"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [
+        "rasa-image-message",
+        "rasa-icon-chevron-down"
+      ],
+      "dependencyGraph": {
+        "rasa-carousel": [
+          "rasa-image-message",
+          "rasa-icon-chevron-down"
+        ],
+        "rasa-image-message": [
+          "rasa-image",
+          "rasa-text"
+        ],
+        "rasa-image": [
+          "rasa-icon-default-image-fallback"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-carousel"
         ]
       }
     },
@@ -395,6 +455,49 @@
       "usage": {},
       "props": [
         {
+          "name": "autoOpen",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "auto-open",
+          "reflectToAttr": false,
+          "docs": "If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "serverUrl",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "server-url",
+          "reflectToAttr": false,
+          "docs": "Url of the Rasa chatbot backend server",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
           "name": "toggleFullScreen",
           "type": "boolean",
           "complexType": {
@@ -418,24 +521,107 @@
         }
       ],
       "methods": [],
-      "events": [],
-      "listeners": [],
+      "events": [
+        {
+          "event": "chatWidgetReceivedMessage",
+          "detail": "unknown",
+          "bubbles": true,
+          "complexType": {
+            "original": "unknown",
+            "resolved": "unknown",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the user receives a message",
+          "docsTags": []
+        },
+        {
+          "event": "chatWidgetSentMessage",
+          "detail": "string",
+          "bubbles": true,
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the user sends a message",
+          "docsTags": []
+        }
+      ],
+      "listeners": [
+        {
+          "event": "sendMessageHandler",
+          "capture": false,
+          "passive": false
+        }
+      ],
       "styles": [],
       "slots": [],
       "parts": [],
       "dependents": [],
       "dependencies": [
+        "rasa-session-divider",
+        "chat-message",
+        "rasa-text-message",
+        "rasa-image-message",
+        "rasa-video",
+        "rasa-file-download-message",
+        "rasa-accordion",
         "rasa-text",
+        "rasa-button-group",
+        "rasa-carousel",
         "rasa-icon-close-chat",
         "rasa-icon-chat",
         "rasa-chat-input"
       ],
       "dependencyGraph": {
         "rasa-chatbot-widget": [
+          "rasa-session-divider",
+          "chat-message",
+          "rasa-text-message",
+          "rasa-image-message",
+          "rasa-video",
+          "rasa-file-download-message",
+          "rasa-accordion",
           "rasa-text",
+          "rasa-button-group",
+          "rasa-carousel",
           "rasa-icon-close-chat",
           "rasa-icon-chat",
           "rasa-chat-input"
+        ],
+        "rasa-session-divider": [
+          "rasa-text"
+        ],
+        "chat-message": [
+          "rasa-icon-robot"
+        ],
+        "rasa-text-message": [
+          "rasa-text"
+        ],
+        "rasa-image-message": [
+          "rasa-image",
+          "rasa-text"
+        ],
+        "rasa-image": [
+          "rasa-icon-default-image-fallback"
+        ],
+        "rasa-file-download-message": [
+          "rasa-text"
+        ],
+        "rasa-accordion": [
+          "rasa-icon-chevron-down"
+        ],
+        "rasa-button-group": [
+          "rasa-button",
+          "rasa-text"
+        ],
+        "rasa-carousel": [
+          "rasa-image-message",
+          "rasa-icon-chevron-down"
         ],
         "rasa-chat-input": [
           "rasa-icon-paper-plane"
@@ -521,13 +707,18 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-text"
       ],
       "dependencyGraph": {
         "rasa-file-download-message": [
           "rasa-text"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-file-download-message"
         ]
       }
     },
@@ -564,10 +755,10 @@
         },
         {
           "name": "height",
-          "type": "string",
+          "type": "number",
           "complexType": {
-            "original": "string",
-            "resolved": "string",
+            "original": "number",
+            "resolved": "number",
             "references": {}
           },
           "mutable": false,
@@ -577,7 +768,7 @@
           "docsTags": [],
           "values": [
             {
-              "type": "string"
+              "type": "number"
             }
           ],
           "optional": false,
@@ -606,10 +797,10 @@
         },
         {
           "name": "width",
-          "type": "string",
+          "type": "number",
           "complexType": {
-            "original": "string",
-            "resolved": "string",
+            "original": "number",
+            "resolved": "number",
             "references": {}
           },
           "mutable": false,
@@ -619,7 +810,7 @@
           "docsTags": [],
           "values": [
             {
-              "type": "string"
+              "type": "number"
             }
           ],
           "optional": false,
@@ -656,6 +847,28 @@
       "docsTags": [],
       "usage": {},
       "props": [
+        {
+          "name": "height",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "height",
+          "reflectToAttr": false,
+          "docs": "Image height",
+          "docsTags": [],
+          "default": "170",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
         {
           "name": "imageAlt",
           "type": "string",
@@ -719,6 +932,28 @@
           ],
           "optional": false,
           "required": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "width",
+          "reflectToAttr": false,
+          "docs": "Image width",
+          "docsTags": [],
+          "default": "288",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
         }
       ],
       "methods": [],
@@ -727,7 +962,10 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-carousel",
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-image",
         "rasa-text"
@@ -739,6 +977,12 @@
         ],
         "rasa-image": [
           "rasa-icon-default-image-fallback"
+        ],
+        "rasa-carousel": [
+          "rasa-image-message"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-image-message"
         ]
       }
     },
@@ -783,13 +1027,18 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-text"
       ],
       "dependencyGraph": {
         "rasa-session-divider": [
           "rasa-text"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-session-divider"
         ]
       }
     },
@@ -945,13 +1194,18 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [
         "rasa-text"
       ],
       "dependencyGraph": {
         "rasa-text-message": [
           "rasa-text"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-text-message"
         ]
       }
     },
@@ -1124,16 +1378,27 @@
       "styles": [],
       "slots": [],
       "parts": [],
-      "dependents": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
       "dependencies": [],
-      "dependencyGraph": {}
+      "dependencyGraph": {
+        "rasa-chatbot-widget": [
+          "rasa-video"
+        ]
+      }
     }
   ],
   "typeLibrary": {
-    "../core/src/types/types.ts::Button": {
-      "declaration": "{\n  text: string;\n  purpose: string;\n  value?: string;\n  isSelected: boolean;\n}",
+    "../core/dist/index.d.ts::QuickReply": {
+      "declaration": "any",
       "docstring": "",
-      "path": "../core/src/types/types.ts"
+      "path": "../core/dist/index.d.ts"
+    },
+    "../core/dist/index.d.ts::CarouselElement": {
+      "declaration": "any",
+      "docstring": "",
+      "path": "../core/dist/index.d.ts"
     }
   }
 }

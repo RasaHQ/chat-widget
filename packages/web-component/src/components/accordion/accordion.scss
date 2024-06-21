@@ -2,11 +2,13 @@
   border-radius: 4px 20px 20px 20px;
   background-color: var(--accordion-background-color);
   padding: 8px 16px;
+  margin-bottom: 8px;
 
   &__header {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    align-items: center;
   }
 
   &__description-wrapper {
