@@ -9,15 +9,12 @@
     "storybook": "storybook dev -p 6006"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.2.25",
-    "@storybook/addon-essentials": "^8.0.4",
-    "@storybook/addon-interactions": "^8.0.4",
-    "@storybook/addon-links": "^8.0.4",
-    "@storybook/addon-onboarding": "^8.0.4",
-    "@storybook/blocks": "^8.0.4",
-    "@storybook/html": "^8.0.4",
-    "@storybook/html-vite": "^8.0.5",
-    "@storybook/test": "^8.0.4",
+    "@storybook/addon-essentials": "^8.1.10",
+    "@storybook/addon-interactions": "^8.1.10",
+    "@storybook/addon-links": "^8.1.10",
+    "@storybook/blocks": "^8.1.10",
+    "@storybook/html": "^8.1.10",
+    "@storybook/html-vite": "^8.1.10",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.57.0",
@@ -28,6 +25,6 @@
   },
   "dependencies": {
     "@rasa-widget/web-component": "*",
-    "storybook": "^6.5.16"
+    "storybook": "^8.1.10"
   }
 }
