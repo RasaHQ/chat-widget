@@ -22,7 +22,7 @@ export class RasaTextMessage {
     }
     return (
       <Host class={classList}>
-          <rasa-text value={this.value} disableParsing={this.sender === 'user'}></rasa-text>
+          <rasa-text value={this.value} disableParsing={this.sender === 'user'} notifyCompleteRendering={true}></rasa-text>
       </Host>
     );
   }

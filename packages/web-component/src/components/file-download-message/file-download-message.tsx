@@ -1,4 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-file-download-message',
@@ -19,6 +20,10 @@ export class RasaFileDownloadMessage {
    */
   @Prop() text: string;
 
+  componentDidLoad() {
+    messageQueueService.completeRendering();
+  }
+
   render() {
     return (
       <Host>
@@ -26,7 +31,7 @@ export class RasaFileDownloadMessage {
           <rasa-icon-paperclip class="file-download__icon" size={24}></rasa-icon-paperclip>
           <rasa-text value={this.fileName} class="file-download__name"></rasa-text>
         </a>
-        {!!this.text && <rasa-text value={this.text} class="image-message__text"></rasa-text>}
+        {!!this.text && <rasa-text value={this.text} disableStream={true} class="image-message__text"></rasa-text>}
       </Host>
     );
   }

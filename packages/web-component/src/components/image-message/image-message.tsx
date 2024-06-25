@@ -1,4 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-image-message',
@@ -27,6 +28,16 @@ export class RasaImageMessage {
    */
   @Prop() height: number = 170;
 
+  /**
+   * Is another component using it as child component
+   */
+  @Prop() isChild = false;
+
+  componentDidLoad() {
+    if (this.isChild) return;
+    messageQueueService.completeRendering();
+  }
+
   render() {
     const classListImage = {
       'image-message__image': true,
@@ -35,7 +46,7 @@ export class RasaImageMessage {
     return (
       <Host>
         <rasa-image src={this.imageSrc} alt={this.imageAlt} height={this.height} width={this.width} class={classListImage}></rasa-image>
-        {!!this.text && <rasa-text value={this.text} class="image-message__text"></rasa-text>}
+        {!!this.text && <rasa-text value={this.text} disableStream={true} class="image-message__text"></rasa-text>}
       </Host>
     );
   }

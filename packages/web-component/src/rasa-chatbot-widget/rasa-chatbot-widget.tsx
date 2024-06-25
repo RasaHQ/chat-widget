@@ -3,6 +3,7 @@ import { Component, Host, Listen, Prop, State, h, Event, EventEmitter, Fragment 
 import { Rasa, MESSAGE_TYPES, Message } from '@rasa-widget/core';
 
 import { Messenger } from '../components/messenger';
+import { messageQueueService } from '../store/message-queue';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -42,6 +43,16 @@ export class RasaChatbotWidget {
    * */
   @Prop() autoOpen: boolean = false;
 
+  /**
+   * If set to True, bot messages will be received as stream (printing word by word).
+   * */
+  @Prop() streamMessages: boolean = false;
+
+  /**
+   * Indicates time between message is received and printed.
+   * */
+  @Prop() messageDelay: number = 100;
+
   componentWillLoad() {
     this.client = new Rasa({ url: this.serverUrl });
 
@@ -59,7 +70,7 @@ export class RasaChatbotWidget {
 
   private onNewMessage = (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
-    this.messages = [...this.messages, data];
+    messageQueueService.enqueueMessage(data);
   };
 
   private loadHistory = (data: Message[]) => {
@@ -74,6 +85,12 @@ export class RasaChatbotWidget {
       this.client.disconnect();
     }
   };
+
+  connectedCallback() {
+    messageQueueService.getState().onChange('messageToRender', (message) => {
+      this.messages = [...this.messages, message];
+    });
+  }
 
   @Listen('sendMessageHandler')
   // @ts-ignore

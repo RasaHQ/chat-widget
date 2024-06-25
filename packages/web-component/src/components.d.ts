@@ -62,9 +62,17 @@ export namespace Components {
          */
         "autoOpen": boolean;
         /**
+          * Indicates time between message is received and printed.
+         */
+        "messageDelay": number;
+        /**
           * Url of the Rasa chatbot backend server
          */
         "serverUrl": string;
+        /**
+          * If set to True, bot messages will be received as stream (printing word by word).
+         */
+        "streamMessages": boolean;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -314,6 +322,10 @@ export namespace Components {
          */
         "imageSrc": string;
         /**
+          * Is another component using it as child component
+         */
+        "isChild": boolean;
+        /**
           * Message text
          */
         "text": string;
@@ -334,7 +346,15 @@ export namespace Components {
          */
         "disableParsing": boolean;
         /**
-          * Button click event name
+          * Disables text stream rendering
+         */
+        "disableStream": boolean;
+        /**
+          * Should component notify messageQueueService at complete rendering
+         */
+        "notifyCompleteRendering": boolean;
+        /**
+          * Text value
          */
         "value": string;
     }
@@ -653,6 +673,10 @@ declare namespace LocalJSX {
          */
         "autoOpen"?: boolean;
         /**
+          * Indicates time between message is received and printed.
+         */
+        "messageDelay"?: number;
+        /**
           * Emitted when the user receives a message
          */
         "onChatWidgetReceivedMessage"?: (event: RasaChatbotWidgetCustomEvent<unknown>) => void;
@@ -664,6 +688,10 @@ declare namespace LocalJSX {
           * Url of the Rasa chatbot backend server
          */
         "serverUrl"?: string;
+        /**
+          * If set to True, bot messages will be received as stream (printing word by word).
+         */
+        "streamMessages"?: boolean;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -913,6 +941,10 @@ declare namespace LocalJSX {
          */
         "imageSrc"?: string;
         /**
+          * Is another component using it as child component
+         */
+        "isChild"?: boolean;
+        /**
           * Message text
          */
         "text"?: string;
@@ -933,7 +965,15 @@ declare namespace LocalJSX {
          */
         "disableParsing"?: boolean;
         /**
-          * Button click event name
+          * Disables text stream rendering
+         */
+        "disableStream"?: boolean;
+        /**
+          * Should component notify messageQueueService at complete rendering
+         */
+        "notifyCompleteRendering"?: boolean;
+        /**
+          * Text value
          */
         "value"?: string;
     }
