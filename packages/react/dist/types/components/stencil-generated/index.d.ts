@@ -3,6 +3,7 @@ export declare const ChatMessage: import("react").ForwardRefExoticComponent<Omit
 export declare const RasaAccordion: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaAccordionElement>>;
 export declare const RasaButton: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonElement>>;
 export declare const RasaButtonGroup: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonGroupElement>>;
+export declare const RasaCarousel: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaCarouselElement>>;
 export declare const RasaChatInput: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatInputElement>>;
 export declare const RasaChatbotWidget: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatbotWidgetElement>>;
 export declare const RasaFileDownloadMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaFileDownloadMessageElement>>;

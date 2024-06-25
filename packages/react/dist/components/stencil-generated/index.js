@@ -3,6 +3,7 @@ export const ChatMessage = createReactComponent('chat-message');
 export const RasaAccordion = createReactComponent('rasa-accordion');
 export const RasaButton = createReactComponent('rasa-button');
 export const RasaButtonGroup = createReactComponent('rasa-button-group');
+export const RasaCarousel = createReactComponent('rasa-carousel');
 export const RasaChatInput = createReactComponent('rasa-chat-input');
 export const RasaChatbotWidget = createReactComponent('rasa-chatbot-widget');
 export const RasaFileDownloadMessage = createReactComponent('rasa-file-download-message');

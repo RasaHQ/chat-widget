@@ -238,6 +238,28 @@ export namespace Components {
          */
         "size"?: number;
     }
+    interface RasaIconPaperclip {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaIconRobot {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
@@ -494,6 +516,12 @@ declare global {
         prototype: HTMLRasaIconPaperPlaneElement;
         new (): HTMLRasaIconPaperPlaneElement;
     };
+    interface HTMLRasaIconPaperclipElement extends Components.RasaIconPaperclip, HTMLStencilElement {
+    }
+    var HTMLRasaIconPaperclipElement: {
+        prototype: HTMLRasaIconPaperclipElement;
+        new (): HTMLRasaIconPaperclipElement;
+    };
     interface HTMLRasaIconRobotElement extends Components.RasaIconRobot, HTMLStencilElement {
     }
     var HTMLRasaIconRobotElement: {
@@ -552,6 +580,7 @@ declare global {
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
         "rasa-icon-default-image-fallback": HTMLRasaIconDefaultImageFallbackElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
+        "rasa-icon-paperclip": HTMLRasaIconPaperclipElement;
         "rasa-icon-robot": HTMLRasaIconRobotElement;
         "rasa-image": HTMLRasaImageElement;
         "rasa-image-message": HTMLRasaImageMessageElement;
@@ -808,6 +837,28 @@ declare namespace LocalJSX {
          */
         "size"?: number;
     }
+    interface RasaIconPaperclip {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
     interface RasaIconRobot {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
@@ -942,6 +993,7 @@ declare namespace LocalJSX {
         "rasa-icon-close-chat": RasaIconCloseChat;
         "rasa-icon-default-image-fallback": RasaIconDefaultImageFallback;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
+        "rasa-icon-paperclip": RasaIconPaperclip;
         "rasa-icon-robot": RasaIconRobot;
         "rasa-image": RasaImage;
         "rasa-image-message": RasaImageMessage;
@@ -970,6 +1022,7 @@ declare module "@stencil/core" {
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
             "rasa-icon-default-image-fallback": LocalJSX.RasaIconDefaultImageFallback & JSXBase.HTMLAttributes<HTMLRasaIconDefaultImageFallbackElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
+            "rasa-icon-paperclip": LocalJSX.RasaIconPaperclip & JSXBase.HTMLAttributes<HTMLRasaIconPaperclipElement>;
             "rasa-icon-robot": LocalJSX.RasaIconRobot & JSXBase.HTMLAttributes<HTMLRasaIconRobotElement>;
             "rasa-image": LocalJSX.RasaImage & JSXBase.HTMLAttributes<HTMLRasaImageElement>;
             "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;

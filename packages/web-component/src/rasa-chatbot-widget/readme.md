@@ -62,6 +62,7 @@ graph TD;
   rasa-image-message --> rasa-image
   rasa-image-message --> rasa-text
   rasa-image --> rasa-icon-default-image-fallback
+  rasa-file-download-message --> rasa-icon-paperclip
   rasa-file-download-message --> rasa-text
   rasa-accordion --> rasa-icon-chevron-down
   rasa-button-group --> rasa-button
