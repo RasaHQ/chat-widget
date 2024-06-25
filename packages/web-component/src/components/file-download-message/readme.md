@@ -22,11 +22,13 @@
 
 ### Depends on
 
+- rasa-icon-paperclip
 - [rasa-text](../text)
 
 ### Graph
 ```mermaid
 graph TD;
+  rasa-file-download-message --> rasa-icon-paperclip
   rasa-file-download-message --> rasa-text
   rasa-chatbot-widget --> rasa-file-download-message
   style rasa-file-download-message fill:#f9f,stroke:#333,stroke-width:4px
