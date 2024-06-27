@@ -1,10 +1,10 @@
 import { Component, Host, Listen, Prop, State, h, Event, EventEmitter, Fragment } from '@stencil/core/internal';
 
-import { Rasa, MESSAGE_TYPES, Message } from '@rasa-widget/core';
+import { Rasa, MESSAGE_TYPES, Message, SENDER } from '@rasa-widget/core';
 
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
-import { setConfigStore } from '../store/config-store';
+import { configStore, setConfigStore } from '../store/config-store';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -13,11 +13,14 @@ import { setConfigStore } from '../store/config-store';
 })
 export class RasaChatbotWidget {
   private client: Rasa;
+  private storedPromise: Promise<void> | null = null;
+  private resolveStoredPromise: (() => void) | null = null;
 
   @State() isOpen: boolean = false;
   @State() isFullScreen: boolean = false;
   @State() messageHistory: Message[] = [];
   @State() messages: Message[] = [];
+  @State() typingIndicator: boolean = false;
 
   /**
    * Emitted when the user receives a message
@@ -58,7 +61,7 @@ export class RasaChatbotWidget {
     setConfigStore({
       toggleFullScreen: this.toggleFullScreen,
       autoOpen: this.autoOpen,
-      streamMessages: false,
+      streamMessages: this.messageDelay > 0 ? false : this.streamMessages,
       messageDelay: this.messageDelay,
     });
 
@@ -76,16 +79,35 @@ export class RasaChatbotWidget {
     }
   }
 
-  private onNewMessage = (data: Message) => {
+  private onNewMessage = async (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
-    messageQueueService.enqueueMessage(data);
+
+    const delay = (data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER) ? 0 : configStore().messageDelay;
+
+    if (this.storedPromise) {
+      await this.storedPromise;
+    }
+
+    this.storedPromise = new Promise<void>((resolve) => {
+      this.resolveStoredPromise = resolve;
+    });
+
+    this.typingIndicator = true;
+
+    setTimeout(() => {
+      messageQueueService.enqueueMessage(data);
+      this.typingIndicator = false;
+
+      if (this.resolveStoredPromise) {
+        this.resolveStoredPromise();
+        this.resolveStoredPromise = null;
+      }
+      this.storedPromise = null;
+    }, delay);
   };
 
   private loadHistory = (data: Message[]) => {
     this.messageHistory = data;
-    setConfigStore({
-      streamMessages: this.streamMessages,
-    });
   };
 
   private toggleOpenState = () => {
@@ -184,6 +206,7 @@ export class RasaChatbotWidget {
             <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
               {this.messageHistory.map((message) => this.renderMessage(message, true))}
               {this.messages.map((message) => this.renderMessage(message))}
+              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator> }
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
               {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}

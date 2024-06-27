@@ -372,6 +372,8 @@ export namespace Components {
          */
         "value": string;
     }
+    interface RasaTypingIndicator {
+    }
     interface RasaVideo {
         /**
           * Autoplay on load
@@ -582,6 +584,12 @@ declare global {
         prototype: HTMLRasaTextMessageElement;
         new (): HTMLRasaTextMessageElement;
     };
+    interface HTMLRasaTypingIndicatorElement extends Components.RasaTypingIndicator, HTMLStencilElement {
+    }
+    var HTMLRasaTypingIndicatorElement: {
+        prototype: HTMLRasaTypingIndicatorElement;
+        new (): HTMLRasaTypingIndicatorElement;
+    };
     interface HTMLRasaVideoElement extends Components.RasaVideo, HTMLStencilElement {
     }
     var HTMLRasaVideoElement: {
@@ -611,6 +619,7 @@ declare global {
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
         "rasa-text-message": HTMLRasaTextMessageElement;
+        "rasa-typing-indicator": HTMLRasaTypingIndicatorElement;
         "rasa-video": HTMLRasaVideoElement;
     }
 }
@@ -995,6 +1004,8 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    interface RasaTypingIndicator {
+    }
     interface RasaVideo {
         /**
           * Autoplay on load
@@ -1048,6 +1059,7 @@ declare namespace LocalJSX {
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
         "rasa-text-message": RasaTextMessage;
+        "rasa-typing-indicator": RasaTypingIndicator;
         "rasa-video": RasaVideo;
     }
 }
@@ -1077,6 +1089,7 @@ declare module "@stencil/core" {
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
             "rasa-text-message": LocalJSX.RasaTextMessage & JSXBase.HTMLAttributes<HTMLRasaTextMessageElement>;
+            "rasa-typing-indicator": LocalJSX.RasaTypingIndicator & JSXBase.HTMLAttributes<HTMLRasaTypingIndicatorElement>;
             "rasa-video": LocalJSX.RasaVideo & JSXBase.HTMLAttributes<HTMLRasaVideoElement>;
         }
     }
