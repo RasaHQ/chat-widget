@@ -1,4 +1,6 @@
 import { Component, Prop, h, EventEmitter, Event, State, Watch } from '@stencil/core';
+import { configStore } from '../../store/config-store';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-chat-input',
@@ -27,7 +29,9 @@ export class RasaChatInput {
   }
 
   private sendMessageClick = () => {
-    if (!this.value) return;
+    if (!this.value.trim()) return;
+    const { isRendering, messageQueue } = messageQueueService.getState().state;
+    if (isRendering || messageQueue.length > 0) return;
     this.sendMessageHandler.emit(this.value);
     this.value = '';
   };
@@ -48,7 +52,7 @@ export class RasaChatInput {
         <input
           type="text"
           class="rasa-chat-input__input"
-          placeholder="Type your message here"
+          placeholder={configStore().inputMessagePlaceholder}
           value={this.value}
           onChange={this.inputChangeHandler}
           maxLength={500}

@@ -21,7 +21,7 @@ export class RasaText {
   /**
    * Disables text stream rendering
    */
-  @Prop() disableStream = false;
+  @Prop() enableStream = false;
 
   /**
    * Should component notify messageQueueService at complete rendering
@@ -35,8 +35,7 @@ export class RasaText {
 
   componentWillLoad() {
     if (!this.disableParsing) {
-      const textSegments = parseFormattedString(this.value);
-      this.segments = textSegments;
+      this.segments = parseFormattedString(this.value);
     }
   }
 
@@ -50,7 +49,7 @@ export class RasaText {
 
   private streamText(text: string, element: HTMLElement, delay = 30): Promise<void> {
     return new Promise(resolve => {
-      if (!delay || this.disableStream) {
+      if (!delay || !this.enableStream) {
         element.textContent = text;
         resolve();
         return;

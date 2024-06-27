@@ -4,6 +4,7 @@ import { Rasa, MESSAGE_TYPES, Message } from '@rasa-widget/core';
 
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
+import { setConfigStore } from '../store/config-store';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -54,6 +55,13 @@ export class RasaChatbotWidget {
   @Prop() messageDelay: number = 100;
 
   componentWillLoad() {
+    setConfigStore({
+      toggleFullScreen: this.toggleFullScreen,
+      autoOpen: this.autoOpen,
+      streamMessages: false,
+      messageDelay: this.messageDelay,
+    });
+
     this.client = new Rasa({ url: this.serverUrl });
 
     this.client.on('connect', () => {});
@@ -75,6 +83,9 @@ export class RasaChatbotWidget {
 
   private loadHistory = (data: Message[]) => {
     this.messageHistory = data;
+    setConfigStore({
+      streamMessages: this.streamMessages,
+    });
   };
 
   private toggleOpenState = () => {
@@ -87,7 +98,7 @@ export class RasaChatbotWidget {
   };
 
   connectedCallback() {
-    messageQueueService.getState().onChange('messageToRender', (message) => {
+    messageQueueService.getState().onChange('messageToRender', message => {
       this.messages = [...this.messages, message];
     });
   }
@@ -108,14 +119,14 @@ export class RasaChatbotWidget {
     this.isFullScreen = !this.isFullScreen;
   };
 
-  private renderMessage(message: Message) {
+  private renderMessage(message: Message, isHistory = false) {
     switch (message.type) {
       case MESSAGE_TYPES.SESSION_DIVIDER:
         return <rasa-session-divider sessionStartDate={message.startDate}></rasa-session-divider>;
       case MESSAGE_TYPES.TEXT:
         return (
           <chat-message sender={message.sender}>
-            <rasa-text-message sender={message.sender} value={message.text}></rasa-text-message>
+            <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
           </chat-message>
         );
       case MESSAGE_TYPES.IMAGE:
@@ -170,9 +181,9 @@ export class RasaChatbotWidget {
         <slot />
         <div class="rasa-chatbot-widget">
           <div class="rasa-chatbot-widget__container">
-            <Messenger isOpen={this.isOpen} toggleFullScreen={this.toggleFullScreen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
-              {this.messageHistory.map(this.renderMessage)}
-              {this.messages.map(this.renderMessage)}
+            <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
+              {this.messageHistory.map((message) => this.renderMessage(message, true))}
+              {this.messages.map((message) => this.renderMessage(message))}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
               {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}

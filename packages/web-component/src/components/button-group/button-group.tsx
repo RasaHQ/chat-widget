@@ -22,7 +22,7 @@ export class RasaButtonGroup {
       <div class={`button-group button-group--${this.type}`}>
         {this.buttons.map((button, key) => (
           <rasa-button {...button} key={key}>
-            <rasa-text value={button.text} disableStream={true}></rasa-text>
+            <rasa-text value={button.text}></rasa-text>
           </rasa-button>
         ))}
       </div>

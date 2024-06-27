@@ -348,7 +348,7 @@ export namespace Components {
         /**
           * Disables text stream rendering
          */
-        "disableStream": boolean;
+        "enableStream": boolean;
         /**
           * Should component notify messageQueueService at complete rendering
          */
@@ -359,6 +359,10 @@ export namespace Components {
         "value": string;
     }
     interface RasaTextMessage {
+        /**
+          * Is message form history
+         */
+        "isHistory": boolean;
         /**
           * Who sent the message
          */
@@ -967,7 +971,7 @@ declare namespace LocalJSX {
         /**
           * Disables text stream rendering
          */
-        "disableStream"?: boolean;
+        "enableStream"?: boolean;
         /**
           * Should component notify messageQueueService at complete rendering
          */
@@ -978,6 +982,10 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface RasaTextMessage {
+        /**
+          * Is message form history
+         */
+        "isHistory"?: boolean;
         /**
           * Who sent the message
          */

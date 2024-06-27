@@ -46,7 +46,7 @@ export class RasaImageMessage {
     return (
       <Host>
         <rasa-image src={this.imageSrc} alt={this.imageAlt} height={this.height} width={this.width} class={classListImage}></rasa-image>
-        {!!this.text && <rasa-text value={this.text} disableStream={true} class="image-message__text"></rasa-text>}
+        {!!this.text && <rasa-text value={this.text} class="image-message__text"></rasa-text>}
       </Host>
     );
   }

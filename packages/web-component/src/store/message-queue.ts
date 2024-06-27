@@ -12,13 +12,13 @@ export const messageQueueService = {
     state.messageQueue = [...state.messageQueue, message];
     processQueue();
   },
-  
-  getState: () => ({state, onChange}), 
-  
+
+  getState: () => ({ state, onChange }),
+
   completeRendering: () => {
     state.isRendering = false;
     processQueue();
-  }
+  },
 };
 
 function processQueue() {
