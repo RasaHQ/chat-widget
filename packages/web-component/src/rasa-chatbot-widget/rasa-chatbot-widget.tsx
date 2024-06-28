@@ -82,13 +82,13 @@ export class RasaChatbotWidget {
   private onNewMessage = async (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
 
-    const delay = (data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER) ? 0 : configStore().messageDelay;
+    const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
 
     if (this.storedPromise) {
       await this.storedPromise;
     }
 
-    this.storedPromise = new Promise<void>((resolve) => {
+    this.storedPromise = new Promise<void>(resolve => {
       this.resolveStoredPromise = resolve;
     });
 
@@ -204,9 +204,9 @@ export class RasaChatbotWidget {
         <div class="rasa-chatbot-widget">
           <div class="rasa-chatbot-widget__container">
             <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
-              {this.messageHistory.map((message) => this.renderMessage(message, true))}
-              {this.messages.map((message) => this.renderMessage(message))}
-              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator> }
+              {this.messageHistory.map(message => this.renderMessage(message, true))}
+              {this.messages.map(message => this.renderMessage(message))}
+              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
               {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}

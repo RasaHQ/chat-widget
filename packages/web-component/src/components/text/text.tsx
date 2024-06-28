@@ -83,7 +83,7 @@ export class RasaText {
     const segment = segments[currentSegmentIndex];
     const isLastElement = currentSegmentIndex === segments.length - 1;
 
-    const element = await this.waitForElementInDom(`[data-segment-index="${currentSegmentIndex}"]${segment?.linkSrc ? ' span' : ''}`);
+    const element = await this.waitForElementInDom(`[data-segment-index="${currentSegmentIndex}"]`);
 
     if (element) {
       if (segment.newline) {
@@ -141,8 +141,8 @@ export class RasaText {
           }
           if (linkSrc) {
             return (
-              <a href={linkSrc} target="_blank" key={index} data-segment-index={index}>
-                <span class={classList}></span>
+              <a href={linkSrc} target="_blank" key={index}>
+                <span class={classList} data-segment-index={index}></span>
               </a>
             );
           }

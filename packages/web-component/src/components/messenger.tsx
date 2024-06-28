@@ -18,7 +18,9 @@ export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullS
         {configStore().title}
         {configStore().toggleFullScreen && <Icon onClick={toggleFullScreenMode} class="messenger__header__icon" size={20}></Icon>}
       </div>
-      <div class="messenger__content">{children}</div>
+      <div class="messenger__content-wrapper">
+        <div class="messenger__content">{children}</div>
+      </div>
       <rasa-chat-input></rasa-chat-input>
     </div>
   );

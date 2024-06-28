@@ -10,7 +10,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="Hello, world!">
         <mock:shadow-root>
-          <span class="text">Hello, world!</span>
+          <span class="text" data-segment-index="0">Hello, world!</span>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -24,7 +24,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is **bold**">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--bold">bold</span>
+        <span class="text" data-segment-index="0">This is </span><span class="text text--bold" data-segment-index="1">bold</span>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -38,7 +38,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is *italic*">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--italic">italic</span>
+        <span class="text" data-segment-index="0">This is </span><span class="text text--italic" data-segment-index="1">italic</span>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -52,7 +52,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is _italic_">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--italic">italic</span>
+        <span class="text" data-segment-index="0">This is </span><span class="text text--italic" data-segment-index="1">italic</span>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -66,7 +66,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="Visit [Google](https://google.com)">
         <mock:shadow-root>
-        <span class="text">Visit </span><a href="https://google.com" target="_blank"><span class="text">Google</span></a>
+        <span class="text" data-segment-index="0">Visit </span><a href="https://google.com" target="_blank"><span class="text" data-segment-index="1">Google</span></a>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -80,7 +80,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is **bold**, _italic_">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--bold">bold</span><span class="text">, </span><span class="text text--italic">italic</span>
+        <span class="text" data-segment-index="0">This is </span><span class="text text--bold" data-segment-index="1">bold</span><span class="text" data-segment-index="2">, </span><span class="text text--italic" data-segment-index="3">italic</span>
         </mock:shadow-root>
       </rasa-text>
     `);
@@ -94,7 +94,7 @@ describe('rasa-text', () => {
     expect(page.root).toEqualHtml(`
       <rasa-text value="This is **bold**, an _italic_ link [Google](https://google.com)">
         <mock:shadow-root>
-        <span class="text">This is </span><span class="text text--bold">bold</span><span class="text">, an </span><span class="text text--italic">italic</span><span class="text"> link </span><a href="https://google.com" target="_blank"><span class="text">Google</span></a>
+        <span class="text" data-segment-index="0">This is </span><span class="text text--bold" data-segment-index="1">bold</span><span class="text" data-segment-index="2">, an </span><span class="text text--italic" data-segment-index="3">italic</span><span class="text" data-segment-index="4"> link </span><a href="https://google.com" target="_blank"><span class="text" data-segment-index="5">Google</span></a>
         </mock:shadow-root>
       </rasa-text>
     `);
