@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-28T05:45:33",
+  "timestamp": "2024-06-28T14:14:36",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -497,6 +497,28 @@
           "values": [
             {
               "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "restEnabled",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "rest-enabled",
+          "reflectToAttr": false,
+          "docs": "If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
             }
           ],
           "optional": false,

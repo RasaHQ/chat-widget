@@ -1,4 +1,4 @@
-import { Component, Prop, h, EventEmitter, Event } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'rasa-button',
@@ -20,9 +20,9 @@ export class RasaButton {
    */
   @Event() buttonClickHandler: EventEmitter<{ value?: string }>;
 
-  private buttonClick() {
+  private buttonClick = () => {
     this.buttonClickHandler.emit({ value: this.reply });
-  }
+  };
 
   render() {
     return (
