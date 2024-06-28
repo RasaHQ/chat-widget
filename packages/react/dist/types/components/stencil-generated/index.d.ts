@@ -12,4 +12,5 @@ export declare const RasaImageMessage: import("react").ForwardRefExoticComponent
 export declare const RasaSessionDivider: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaSessionDividerElement>>;
 export declare const RasaText: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextElement>>;
 export declare const RasaTextMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextMessageElement>>;
+export declare const RasaTypingIndicator: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTypingIndicatorElement>>;
 export declare const RasaVideo: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaVideoElement>>;

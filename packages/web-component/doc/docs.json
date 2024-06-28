@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-06-26T15:30:01",
+  "timestamp": "2024-06-28T05:45:33",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -76,7 +76,8 @@
         }
       ],
       "dependents": [
-        "rasa-chatbot-widget"
+        "rasa-chatbot-widget",
+        "rasa-typing-indicator"
       ],
       "dependencies": [
         "rasa-icon-robot"
@@ -86,6 +87,9 @@
           "rasa-icon-robot"
         ],
         "rasa-chatbot-widget": [
+          "chat-message"
+        ],
+        "rasa-typing-indicator": [
           "chat-message"
         ]
       }
@@ -617,6 +621,7 @@
         "rasa-text",
         "rasa-button-group",
         "rasa-carousel",
+        "rasa-typing-indicator",
         "rasa-icon-close-chat",
         "rasa-icon-chat",
         "rasa-chat-input"
@@ -633,6 +638,7 @@
           "rasa-text",
           "rasa-button-group",
           "rasa-carousel",
+          "rasa-typing-indicator",
           "rasa-icon-close-chat",
           "rasa-icon-chat",
           "rasa-chat-input"
@@ -667,6 +673,9 @@
         "rasa-carousel": [
           "rasa-image-message",
           "rasa-icon-chevron-down"
+        ],
+        "rasa-typing-indicator": [
+          "chat-message"
         ],
         "rasa-chat-input": [
           "rasa-icon-paper-plane"
@@ -1341,6 +1350,39 @@
         ],
         "rasa-chatbot-widget": [
           "rasa-text-message"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/typing-indicator/typing-indicator.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-typing-indicator",
+      "readme": "# rasa-typing-indicator\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [
+        "chat-message"
+      ],
+      "dependencyGraph": {
+        "rasa-typing-indicator": [
+          "chat-message"
+        ],
+        "chat-message": [
+          "rasa-icon-robot"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-typing-indicator"
         ]
       }
     },

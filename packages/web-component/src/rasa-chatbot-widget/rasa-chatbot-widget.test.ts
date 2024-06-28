@@ -1,7 +1,3 @@
-import { mockRasaOn, mockRasaConnect, mockRasaDisconnect } from '../__mocks__/@rasa-widget/core';
-import * as CoreSDK from '@rasa-widget/core';
-import RasaChatbotPage from './rasa-chatbot-widget.po';
-
 describe('rasa-chatbot-widget', () => {
   it('pass', () => {
     expect(true).toBe(true);
