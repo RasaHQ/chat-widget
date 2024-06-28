@@ -183,7 +183,7 @@ export class RasaChatbotWidget {
         return (
           <Fragment>
             <chat-message sender={message.sender}>
-              <rasa-text-message sender={message.sender} value={message.text}></rasa-text-message>
+              <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
               <rasa-button-group buttons={message.replies} type="quick-reply"></rasa-button-group>
             </chat-message>
           </Fragment>
