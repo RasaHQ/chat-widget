@@ -10,7 +10,9 @@
 | Property           | Attribute            | Description                                                                                | Type      | Default     |
 | ------------------ | -------------------- | ------------------------------------------------------------------------------------------ | --------- | ----------- |
 | `autoOpen`         | `auto-open`          | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set. | `boolean` | `false`     |
+| `messageDelay`     | `message-delay`      | Indicates time between message is received and printed.                                    | `number`  | `100`       |
 | `serverUrl`        | `server-url`         | Url of the Rasa chatbot backend server                                                     | `string`  | `undefined` |
+| `streamMessages`   | `stream-messages`    | If set to True, bot messages will be received as stream (printing word by word).           | `boolean` | `false`     |
 | `toggleFullScreen` | `toggle-full-screen` | Indicates whether the chat messenger can be toggled to full screen mode.                   | `boolean` | `false`     |
 
 
@@ -36,6 +38,7 @@
 - [rasa-text](../components/text)
 - [rasa-button-group](../components/button-group)
 - [rasa-carousel](../components/carousel)
+- [rasa-typing-indicator](../components/typing-indicator)
 - rasa-icon-close-chat
 - rasa-icon-chat
 - [rasa-chat-input](../components/rasa-chat-input)
@@ -53,6 +56,7 @@ graph TD;
   rasa-chatbot-widget --> rasa-text
   rasa-chatbot-widget --> rasa-button-group
   rasa-chatbot-widget --> rasa-carousel
+  rasa-chatbot-widget --> rasa-typing-indicator
   rasa-chatbot-widget --> rasa-icon-close-chat
   rasa-chatbot-widget --> rasa-icon-chat
   rasa-chatbot-widget --> rasa-chat-input
@@ -69,6 +73,7 @@ graph TD;
   rasa-button-group --> rasa-text
   rasa-carousel --> rasa-image-message
   rasa-carousel --> rasa-icon-chevron-down
+  rasa-typing-indicator --> chat-message
   rasa-chat-input --> rasa-icon-paper-plane
   style rasa-chatbot-widget fill:#f9f,stroke:#333,stroke-width:4px
 ```

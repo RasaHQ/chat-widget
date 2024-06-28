@@ -12,5 +12,6 @@ export const RasaImageMessage = createReactComponent('rasa-image-message');
 export const RasaSessionDivider = createReactComponent('rasa-session-divider');
 export const RasaText = createReactComponent('rasa-text');
 export const RasaTextMessage = createReactComponent('rasa-text-message');
+export const RasaTypingIndicator = createReactComponent('rasa-typing-indicator');
 export const RasaVideo = createReactComponent('rasa-video');
 //# sourceMappingURL=index.js.map

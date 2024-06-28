@@ -26,10 +26,8 @@ export class Rasa extends EventEmitter {
   private initSocketEvents(): void {
     this.socket.on("connect", () => {
       this.socket.emit("session_request", { session_id: this.sessionId });
-      const chatHistory = this.storageService.getChatHistory();
-      if (chatHistory) {
-        this.trigger("loadHistory", parseChatHistory(chatHistory));
-      }
+      const chatHistory = this.storageService.getChatHistory() || [];
+      this.trigger("loadHistory", parseChatHistory(chatHistory));
       this.trigger("connect");
     });
 

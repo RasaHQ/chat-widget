@@ -1,4 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-image-message',
@@ -26,6 +27,16 @@ export class RasaImageMessage {
    * Image height
    */
   @Prop() height: number = 170;
+
+  /**
+   * Is another component using it as child component
+   */
+  @Prop() isChild = false;
+
+  componentDidLoad() {
+    if (this.isChild) return;
+    messageQueueService.completeRendering();
+  }
 
   render() {
     const classListImage = {

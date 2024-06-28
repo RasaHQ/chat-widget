@@ -1,5 +1,6 @@
 import { CarouselElement } from '@rasa-widget/core';
 import { Component, h, State, Element, Prop } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-carousel',
@@ -61,6 +62,10 @@ export class RasaCarousel {
         </div>
       </a>
     );
+  }
+
+  componentDidLoad() {
+    messageQueueService.completeRendering();
   }
 
   render() {

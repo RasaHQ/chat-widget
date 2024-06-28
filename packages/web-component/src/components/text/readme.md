@@ -7,10 +7,12 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                                              | Type      | Default     |
-| ---------------- | ----------------- | -------------------------------------------------------- | --------- | ----------- |
-| `disableParsing` | `disable-parsing` | Disables text parsing (renders text as is, not markdown) | `boolean` | `false`     |
-| `value`          | `value`           | Button click event name                                  | `string`  | `undefined` |
+| Property                  | Attribute                   | Description                                                       | Type      | Default     |
+| ------------------------- | --------------------------- | ----------------------------------------------------------------- | --------- | ----------- |
+| `disableParsing`          | `disable-parsing`           | Disables text parsing (renders text as is, not markdown)          | `boolean` | `false`     |
+| `enableStream`            | `enable-stream`             | Disables text stream rendering                                    | `boolean` | `false`     |
+| `notifyCompleteRendering` | `notify-complete-rendering` | Should component notify messageQueueService at complete rendering | `boolean` | `false`     |
+| `value`                   | `value`                     | Text value                                                        | `string`  | `undefined` |
 
 
 ## Dependencies

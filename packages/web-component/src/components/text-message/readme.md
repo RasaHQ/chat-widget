@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property | Attribute | Description          | Type              | Default     |
-| -------- | --------- | -------------------- | ----------------- | ----------- |
-| `sender` | `sender`  | Who sent the message | `"bot" \| "user"` | `undefined` |
-| `value`  | `value`   | Message value        | `string`          | `undefined` |
+| Property    | Attribute    | Description             | Type              | Default     |
+| ----------- | ------------ | ----------------------- | ----------------- | ----------- |
+| `isHistory` | `is-history` | Is message form history | `boolean`         | `false`     |
+| `sender`    | `sender`     | Who sent the message    | `"bot" \| "user"` | `undefined` |
+| `value`     | `value`      | Message value           | `string`          | `undefined` |
 
 
 ## Dependencies

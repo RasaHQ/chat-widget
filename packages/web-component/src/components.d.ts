@@ -62,9 +62,17 @@ export namespace Components {
          */
         "autoOpen": boolean;
         /**
+          * Indicates time between message is received and printed.
+         */
+        "messageDelay": number;
+        /**
           * Url of the Rasa chatbot backend server
          */
         "serverUrl": string;
+        /**
+          * If set to True, bot messages will be received as stream (printing word by word).
+         */
+        "streamMessages": boolean;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -314,6 +322,10 @@ export namespace Components {
          */
         "imageSrc": string;
         /**
+          * Is another component using it as child component
+         */
+        "isChild": boolean;
+        /**
           * Message text
          */
         "text": string;
@@ -334,11 +346,23 @@ export namespace Components {
          */
         "disableParsing": boolean;
         /**
-          * Button click event name
+          * Disables text stream rendering
+         */
+        "enableStream": boolean;
+        /**
+          * Should component notify messageQueueService at complete rendering
+         */
+        "notifyCompleteRendering": boolean;
+        /**
+          * Text value
          */
         "value": string;
     }
     interface RasaTextMessage {
+        /**
+          * Is message form history
+         */
+        "isHistory": boolean;
         /**
           * Who sent the message
          */
@@ -347,6 +371,8 @@ export namespace Components {
           * Message value
          */
         "value": string;
+    }
+    interface RasaTypingIndicator {
     }
     interface RasaVideo {
         /**
@@ -558,6 +584,12 @@ declare global {
         prototype: HTMLRasaTextMessageElement;
         new (): HTMLRasaTextMessageElement;
     };
+    interface HTMLRasaTypingIndicatorElement extends Components.RasaTypingIndicator, HTMLStencilElement {
+    }
+    var HTMLRasaTypingIndicatorElement: {
+        prototype: HTMLRasaTypingIndicatorElement;
+        new (): HTMLRasaTypingIndicatorElement;
+    };
     interface HTMLRasaVideoElement extends Components.RasaVideo, HTMLStencilElement {
     }
     var HTMLRasaVideoElement: {
@@ -587,6 +619,7 @@ declare global {
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
         "rasa-text-message": HTMLRasaTextMessageElement;
+        "rasa-typing-indicator": HTMLRasaTypingIndicatorElement;
         "rasa-video": HTMLRasaVideoElement;
     }
 }
@@ -653,6 +686,10 @@ declare namespace LocalJSX {
          */
         "autoOpen"?: boolean;
         /**
+          * Indicates time between message is received and printed.
+         */
+        "messageDelay"?: number;
+        /**
           * Emitted when the user receives a message
          */
         "onChatWidgetReceivedMessage"?: (event: RasaChatbotWidgetCustomEvent<unknown>) => void;
@@ -664,6 +701,10 @@ declare namespace LocalJSX {
           * Url of the Rasa chatbot backend server
          */
         "serverUrl"?: string;
+        /**
+          * If set to True, bot messages will be received as stream (printing word by word).
+         */
+        "streamMessages"?: boolean;
         /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
@@ -913,6 +954,10 @@ declare namespace LocalJSX {
          */
         "imageSrc"?: string;
         /**
+          * Is another component using it as child component
+         */
+        "isChild"?: boolean;
+        /**
           * Message text
          */
         "text"?: string;
@@ -933,11 +978,23 @@ declare namespace LocalJSX {
          */
         "disableParsing"?: boolean;
         /**
-          * Button click event name
+          * Disables text stream rendering
+         */
+        "enableStream"?: boolean;
+        /**
+          * Should component notify messageQueueService at complete rendering
+         */
+        "notifyCompleteRendering"?: boolean;
+        /**
+          * Text value
          */
         "value"?: string;
     }
     interface RasaTextMessage {
+        /**
+          * Is message form history
+         */
+        "isHistory"?: boolean;
         /**
           * Who sent the message
          */
@@ -946,6 +1003,8 @@ declare namespace LocalJSX {
           * Message value
          */
         "value"?: string;
+    }
+    interface RasaTypingIndicator {
     }
     interface RasaVideo {
         /**
@@ -1000,6 +1059,7 @@ declare namespace LocalJSX {
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
         "rasa-text-message": RasaTextMessage;
+        "rasa-typing-indicator": RasaTypingIndicator;
         "rasa-video": RasaVideo;
     }
 }
@@ -1029,6 +1089,7 @@ declare module "@stencil/core" {
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
             "rasa-text-message": LocalJSX.RasaTextMessage & JSXBase.HTMLAttributes<HTMLRasaTextMessageElement>;
+            "rasa-typing-indicator": LocalJSX.RasaTypingIndicator & JSXBase.HTMLAttributes<HTMLRasaTypingIndicatorElement>;
             "rasa-video": LocalJSX.RasaVideo & JSXBase.HTMLAttributes<HTMLRasaVideoElement>;
         }
     }

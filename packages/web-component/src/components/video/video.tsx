@@ -1,6 +1,7 @@
 import { Component, Prop, h, Host } from '@stencil/core';
 
 import { constructVideoUrl } from '../../utils/construct-video-url';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-video',
@@ -37,6 +38,10 @@ export class RasaVideo {
    * Video height
    */
   @Prop() height = 170;
+
+  componentDidLoad() {
+    messageQueueService.completeRendering();
+  }
 
   render() {
     const videoSource = constructVideoUrl({

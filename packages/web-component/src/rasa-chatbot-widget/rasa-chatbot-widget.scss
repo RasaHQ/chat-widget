@@ -66,7 +66,14 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    overflow: scroll;
+    flex: 1 1 0%;
+  }
+
+  &__content-wrapper {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
   }
 }
 
