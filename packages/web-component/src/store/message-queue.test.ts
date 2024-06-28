@@ -1,4 +1,3 @@
-import { MESSAGE_TYPES, SENDER } from '@rasa-widget/core';
 import { messageQueueService } from './message-queue';
 
 describe('messageQueueService', () => {
