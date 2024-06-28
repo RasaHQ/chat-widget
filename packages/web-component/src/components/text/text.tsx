@@ -49,7 +49,7 @@ export class RasaText {
 
   private streamText(text: string, element: HTMLElement, delay = 30): Promise<void> {
     return new Promise(resolve => {
-      if (!delay || !this.enableStream) {
+      if (!this.enableStream) {
         element.textContent = text;
         resolve();
         return;
@@ -81,7 +81,6 @@ export class RasaText {
   private async renderNextSegment() {
     const { segments, currentSegmentIndex } = this;
     const segment = segments[currentSegmentIndex];
-    const isLastElement = currentSegmentIndex === segments.length - 1;
 
     const element = await this.waitForElementInDom(`[data-segment-index="${currentSegmentIndex}"]`);
 
@@ -89,7 +88,7 @@ export class RasaText {
       if (segment.newline) {
         await this.streamText('', element, 0);
       } else {
-        await this.streamText(segment.text, element, isLastElement ? 30 : 0);
+        await this.streamText(segment.text, element, 30);
       }
     }
 
