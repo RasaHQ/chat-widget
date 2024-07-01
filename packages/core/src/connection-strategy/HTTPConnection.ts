@@ -43,7 +43,7 @@ export class HTTPConnection implements ConnectionStrategy {
   }
 
   async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void) {
-    fetch(`${this.url}/webhooks/rest/webhook`, {
+    return fetch(`${this.url}/webhooks/rest/webhook`, {
       method: 'POST',
       body: JSON.stringify({ sender: sessionId, message }),
     })
