@@ -1,0 +1,69 @@
+:host {
+    position: relative;
+    height: 0;
+}
+
+.toast {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  bottom: -100px;
+  background-color: var(--error-toast-background-color);
+  color: var(--error-toast-color);
+  padding: 0;
+  border-radius: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+  z-index: 9999; 
+
+  &__show {
+    margin: 0 24px;
+    height: auto;
+    padding: 16px;
+    animation:
+      moveUp 0.5s forwards,
+      fadeIn 0.5s forwards;
+  }
+
+  &__icon {
+    display: flex;
+  }
+
+  &__error {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__message {
+    word-break: break-all;
+    --rasa-text-font-weight: bold;
+  }
+
+  &__description {
+    word-break: break-all;
+
+  }
+}
+
+@keyframes moveUp {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: var(--toast-bottom-end-point);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}

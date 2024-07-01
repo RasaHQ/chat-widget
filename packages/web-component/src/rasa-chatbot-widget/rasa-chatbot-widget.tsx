@@ -1,4 +1,4 @@
-import { Component, Host, Listen, Prop, State, h, Event, EventEmitter, Fragment } from '@stencil/core/internal';
+import { Component, Listen, Prop, State, h, Event, EventEmitter, Fragment } from '@stencil/core/internal';
 
 import { Rasa, MESSAGE_TYPES, Message, SENDER } from '@rasa-widget/core';
 
@@ -199,21 +199,21 @@ export class RasaChatbotWidget {
 
   render() {
     return (
-      <Host>
-        <slot />
-        <div class="rasa-chatbot-widget">
-          <div class="rasa-chatbot-widget__container">
-            <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
-              {this.messageHistory.map(message => this.renderMessage(message, true))}
-              {this.messages.map(message => this.renderMessage(message))}
-              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
-            </Messenger>
-            <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
-              {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
+      <global-error-handler>
+          <slot />
+          <div class="rasa-chatbot-widget">
+            <div class="rasa-chatbot-widget__container">
+              <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
+                {this.messageHistory.map(message => this.renderMessage(message, true))}
+                {this.messages.map(message => this.renderMessage(message))}
+                {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
+              </Messenger>
+              <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
+                {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
+              </div>
             </div>
           </div>
-        </div>
-      </Host>
+      </global-error-handler>
     );
   }
 }

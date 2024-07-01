@@ -1,4 +1,5 @@
 import { Component, Prop, h, State } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-accordion',
@@ -13,6 +14,10 @@ export class RasaAccordion {
    * The label serves as the title or heading for accordion.
    */
   @Prop() label: string;
+
+  componentDidLoad() {
+    messageQueueService.completeRendering();
+  }
 
   private toggle = () => {
     this.open = !this.open;

@@ -38,9 +38,11 @@
 - [rasa-text](../components/text)
 - [rasa-button-group](../components/button-group)
 - [rasa-carousel](../components/carousel)
+- [global-error-handler](../components/error-handler)
 - [rasa-typing-indicator](../components/typing-indicator)
 - rasa-icon-close-chat
 - rasa-icon-chat
+- [error-toast](../components/error-toast)
 - [rasa-chat-input](../components/rasa-chat-input)
 
 ### Graph
@@ -56,9 +58,11 @@ graph TD;
   rasa-chatbot-widget --> rasa-text
   rasa-chatbot-widget --> rasa-button-group
   rasa-chatbot-widget --> rasa-carousel
+  rasa-chatbot-widget --> global-error-handler
   rasa-chatbot-widget --> rasa-typing-indicator
   rasa-chatbot-widget --> rasa-icon-close-chat
   rasa-chatbot-widget --> rasa-icon-chat
+  rasa-chatbot-widget --> error-toast
   rasa-chatbot-widget --> rasa-chat-input
   rasa-session-divider --> rasa-text
   chat-message --> rasa-icon-robot
@@ -74,6 +78,7 @@ graph TD;
   rasa-carousel --> rasa-image-message
   rasa-carousel --> rasa-icon-chevron-down
   rasa-typing-indicator --> chat-message
+  error-toast --> rasa-icon-danger
   rasa-chat-input --> rasa-icon-paper-plane
   style rasa-chatbot-widget fill:#f9f,stroke:#333,stroke-width:4px
 ```

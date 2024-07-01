@@ -1,0 +1,1 @@
+export const CUSTOM_ERROR_NAME = 'CUSTOM_ERROR';

@@ -8,6 +8,8 @@ import type { JSX } from 'web-component';
 
 
 export const ChatMessage = /*@__PURE__*/createReactComponent<JSX.ChatMessage, HTMLChatMessageElement>('chat-message');
+export const ErrorToast = /*@__PURE__*/createReactComponent<JSX.ErrorToast, HTMLErrorToastElement>('error-toast');
+export const GlobalErrorHandler = /*@__PURE__*/createReactComponent<JSX.GlobalErrorHandler, HTMLGlobalErrorHandlerElement>('global-error-handler');
 export const RasaAccordion = /*@__PURE__*/createReactComponent<JSX.RasaAccordion, HTMLRasaAccordionElement>('rasa-accordion');
 export const RasaButton = /*@__PURE__*/createReactComponent<JSX.RasaButton, HTMLRasaButtonElement>('rasa-button');
 export const RasaButtonGroup = /*@__PURE__*/createReactComponent<JSX.RasaButtonGroup, HTMLRasaButtonGroupElement>('rasa-button-group');

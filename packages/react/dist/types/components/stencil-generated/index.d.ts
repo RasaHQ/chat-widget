@@ -1,5 +1,7 @@
 /// <reference types="react" />
 export declare const ChatMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLChatMessageElement>>;
+export declare const ErrorToast: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLErrorToastElement>>;
+export declare const GlobalErrorHandler: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLGlobalErrorHandlerElement>>;
 export declare const RasaAccordion: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaAccordionElement>>;
 export declare const RasaButton: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonElement>>;
 export declare const RasaButtonGroup: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonGroupElement>>;

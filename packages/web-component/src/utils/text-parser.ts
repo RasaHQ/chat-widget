@@ -1,4 +1,7 @@
 // Supporting Bold Italic and Link commonmark markdown
+
+import { CustomErrorClass, ErrorSeverity } from "@rasa-widget/core";
+
 // For more information check https://commonmark.org/help/
 export interface TextSegment {
   text: string;
@@ -88,7 +91,7 @@ const determineFormatting = (segment: string): TextSegment => {
 
 export const parseFormattedString = (input: string): TextSegment[] => {
   if (typeof input !== 'string') {
-    throw new Error(`parseFormattedString: text input is not string`);
+    throw new CustomErrorClass(ErrorSeverity.Error, `Invalid message text`, 'Message text is not string');
   }
   if (input === '') return [{ text: '' }];
 
@@ -96,6 +99,6 @@ export const parseFormattedString = (input: string): TextSegment[] => {
     const segments = splitIntoSegments(input);
     return segments.map(segment => determineFormatting(segment));
   } catch (error) {
-    throw new Error(`parseFormattedString: ${error}`);
+    throw new CustomErrorClass(ErrorSeverity.LogError, `parseFormattedString: ${error}`);
   }
 };

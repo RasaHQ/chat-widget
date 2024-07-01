@@ -18,6 +18,10 @@ export namespace Components {
          */
         "sender": 'user' | 'bot';
     }
+    interface ErrorToast {
+    }
+    interface GlobalErrorHandler {
+    }
     interface RasaAccordion {
         /**
           * Represents the label property of an Accordion component. The label serves as the title or heading for accordion.
@@ -181,6 +185,28 @@ export namespace Components {
         "size"?: number;
     }
     interface RasaIconCloseChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconDanger {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
          */
@@ -424,6 +450,18 @@ declare global {
         prototype: HTMLChatMessageElement;
         new (): HTMLChatMessageElement;
     };
+    interface HTMLErrorToastElement extends Components.ErrorToast, HTMLStencilElement {
+    }
+    var HTMLErrorToastElement: {
+        prototype: HTMLErrorToastElement;
+        new (): HTMLErrorToastElement;
+    };
+    interface HTMLGlobalErrorHandlerElement extends Components.GlobalErrorHandler, HTMLStencilElement {
+    }
+    var HTMLGlobalErrorHandlerElement: {
+        prototype: HTMLGlobalErrorHandlerElement;
+        new (): HTMLGlobalErrorHandlerElement;
+    };
     interface HTMLRasaAccordionElement extends Components.RasaAccordion, HTMLStencilElement {
     }
     var HTMLRasaAccordionElement: {
@@ -530,6 +568,12 @@ declare global {
         prototype: HTMLRasaIconCloseChatElement;
         new (): HTMLRasaIconCloseChatElement;
     };
+    interface HTMLRasaIconDangerElement extends Components.RasaIconDanger, HTMLStencilElement {
+    }
+    var HTMLRasaIconDangerElement: {
+        prototype: HTMLRasaIconDangerElement;
+        new (): HTMLRasaIconDangerElement;
+    };
     interface HTMLRasaIconDefaultImageFallbackElement extends Components.RasaIconDefaultImageFallback, HTMLStencilElement {
     }
     var HTMLRasaIconDefaultImageFallbackElement: {
@@ -598,6 +642,8 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "chat-message": HTMLChatMessageElement;
+        "error-toast": HTMLErrorToastElement;
+        "global-error-handler": HTMLGlobalErrorHandlerElement;
         "rasa-accordion": HTMLRasaAccordionElement;
         "rasa-button": HTMLRasaButtonElement;
         "rasa-button-group": HTMLRasaButtonGroupElement;
@@ -610,6 +656,7 @@ declare global {
         "rasa-icon-chat": HTMLRasaIconChatElement;
         "rasa-icon-chevron-down": HTMLRasaIconChevronDownElement;
         "rasa-icon-close-chat": HTMLRasaIconCloseChatElement;
+        "rasa-icon-danger": HTMLRasaIconDangerElement;
         "rasa-icon-default-image-fallback": HTMLRasaIconDefaultImageFallbackElement;
         "rasa-icon-paper-plane": HTMLRasaIconPaperPlaneElement;
         "rasa-icon-paperclip": HTMLRasaIconPaperclipElement;
@@ -633,6 +680,10 @@ declare namespace LocalJSX {
           * Who sent the message
          */
         "sender"?: 'user' | 'bot';
+    }
+    interface ErrorToast {
+    }
+    interface GlobalErrorHandler {
     }
     interface RasaAccordion {
         /**
@@ -813,6 +864,28 @@ declare namespace LocalJSX {
         "size"?: number;
     }
     interface RasaIconCloseChat {
+        /**
+          * (optional) When using the icon standalone, make it meaningful for accessibility
+         */
+        "accessibilityTitle"?: string;
+        /**
+          * (optional) Alias for `fill`
+         */
+        "color"?: string;
+        /**
+          * (optional) If `true` the SVG element will get `aria-hidden="true"`
+         */
+        "decorative"?: boolean;
+        /**
+          * (optional) Sets the icon color via the `fill` attribute
+         */
+        "fill"?: string;
+        /**
+          * (optional) The width and height in pixels
+         */
+        "size"?: number;
+    }
+    interface RasaIconDanger {
         /**
           * (optional) When using the icon standalone, make it meaningful for accessibility
          */
@@ -1038,6 +1111,8 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "chat-message": ChatMessage;
+        "error-toast": ErrorToast;
+        "global-error-handler": GlobalErrorHandler;
         "rasa-accordion": RasaAccordion;
         "rasa-button": RasaButton;
         "rasa-button-group": RasaButtonGroup;
@@ -1050,6 +1125,7 @@ declare namespace LocalJSX {
         "rasa-icon-chat": RasaIconChat;
         "rasa-icon-chevron-down": RasaIconChevronDown;
         "rasa-icon-close-chat": RasaIconCloseChat;
+        "rasa-icon-danger": RasaIconDanger;
         "rasa-icon-default-image-fallback": RasaIconDefaultImageFallback;
         "rasa-icon-paper-plane": RasaIconPaperPlane;
         "rasa-icon-paperclip": RasaIconPaperclip;
@@ -1068,6 +1144,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "chat-message": LocalJSX.ChatMessage & JSXBase.HTMLAttributes<HTMLChatMessageElement>;
+            "error-toast": LocalJSX.ErrorToast & JSXBase.HTMLAttributes<HTMLErrorToastElement>;
+            "global-error-handler": LocalJSX.GlobalErrorHandler & JSXBase.HTMLAttributes<HTMLGlobalErrorHandlerElement>;
             "rasa-accordion": LocalJSX.RasaAccordion & JSXBase.HTMLAttributes<HTMLRasaAccordionElement>;
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
             "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
@@ -1080,6 +1158,7 @@ declare module "@stencil/core" {
             "rasa-icon-chat": LocalJSX.RasaIconChat & JSXBase.HTMLAttributes<HTMLRasaIconChatElement>;
             "rasa-icon-chevron-down": LocalJSX.RasaIconChevronDown & JSXBase.HTMLAttributes<HTMLRasaIconChevronDownElement>;
             "rasa-icon-close-chat": LocalJSX.RasaIconCloseChat & JSXBase.HTMLAttributes<HTMLRasaIconCloseChatElement>;
+            "rasa-icon-danger": LocalJSX.RasaIconDanger & JSXBase.HTMLAttributes<HTMLRasaIconDangerElement>;
             "rasa-icon-default-image-fallback": LocalJSX.RasaIconDefaultImageFallback & JSXBase.HTMLAttributes<HTMLRasaIconDefaultImageFallbackElement>;
             "rasa-icon-paper-plane": LocalJSX.RasaIconPaperPlane & JSXBase.HTMLAttributes<HTMLRasaIconPaperPlaneElement>;
             "rasa-icon-paperclip": LocalJSX.RasaIconPaperclip & JSXBase.HTMLAttributes<HTMLRasaIconPaperclipElement>;

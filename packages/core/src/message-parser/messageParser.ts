@@ -1,4 +1,5 @@
 
+import { CustomErrorClass, ErrorSeverity } from "../errors";
 import { SenderType } from "./types/common.types";
 import { determineMessageType } from "./utils/determine-message-type";
 import { MessageParsers } from "./utils/message-parsers";
@@ -15,6 +16,6 @@ export const messageParser = (messageResponse: any, sender: SenderType) => {
   if (parser) {
     return parser(typedMessageResponse, sender);
   } else {
-    throw new Error(`Unsupported message type: ${messageType}`);
+    throw new CustomErrorClass(ErrorSeverity.Error, "Can't load new message" ,`Unsupported message type: ${messageType}`);
   }
 };

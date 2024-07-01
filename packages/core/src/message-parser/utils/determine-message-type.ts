@@ -11,6 +11,7 @@ import {
   TextResponse,
 } from "../types/server-response.types";
 import { RESPONSE_MESSAGE_TYPES } from "../constants/message.constants";
+import { CustomErrorClass, ErrorSeverity } from "../../errors";
 
 const messageTypeMap = {
   image: (msg: any): msg is ImageResponse => msg?.attachment?.type === RESPONSE_MESSAGE_TYPES.IMAGE,
@@ -31,5 +32,5 @@ export const determineMessageType = (
       return key as keyof MessageParsersReturnTypes;
     }
   }
-  throw `Message type not implemented MESSAGE: ${message}`;
+  throw new CustomErrorClass(ErrorSeverity.Error, "Can't load new message" ,`Message type not implemented MESSAGE: ${message}`);
 };
