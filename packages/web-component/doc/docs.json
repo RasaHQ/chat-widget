@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-07-01T15:15:04",
+  "timestamp": "2024-07-02T06:40:49",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -98,6 +98,7 @@
       "filePath": "src/components/error-toast/error-toast.tsx",
       "encapsulation": "shadow",
       "tag": "error-toast",
+      "readme": "# error-toast\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -112,11 +113,13 @@
         "rasa-chatbot-widget"
       ],
       "dependencies": [
-        "rasa-icon-danger"
+        "rasa-icon-danger",
+        "rasa-text"
       ],
       "dependencyGraph": {
         "error-toast": [
-          "rasa-icon-danger"
+          "rasa-icon-danger",
+          "rasa-text"
         ],
         "rasa-chatbot-widget": [
           "error-toast"
@@ -736,7 +739,8 @@
           "chat-message"
         ],
         "error-toast": [
-          "rasa-icon-danger"
+          "rasa-icon-danger",
+          "rasa-text"
         ],
         "rasa-chat-input": [
           "rasa-icon-paper-plane"
@@ -1285,6 +1289,7 @@
       "slots": [],
       "parts": [],
       "dependents": [
+        "error-toast",
         "rasa-button-group",
         "rasa-chatbot-widget",
         "rasa-file-download-message",
@@ -1294,6 +1299,9 @@
       ],
       "dependencies": [],
       "dependencyGraph": {
+        "error-toast": [
+          "rasa-text"
+        ],
         "rasa-button-group": [
           "rasa-text"
         ],

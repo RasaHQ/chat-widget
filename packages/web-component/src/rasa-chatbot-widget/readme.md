@@ -79,6 +79,7 @@ graph TD;
   rasa-carousel --> rasa-icon-chevron-down
   rasa-typing-indicator --> chat-message
   error-toast --> rasa-icon-danger
+  error-toast --> rasa-text
   rasa-chat-input --> rasa-icon-paper-plane
   style rasa-chatbot-widget fill:#f9f,stroke:#333,stroke-width:4px
 ```
