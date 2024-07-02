@@ -1,5 +1,3 @@
-import { MESSAGE_TYPES } from "../constants/message.constants";
-import { SenderType } from "../types/common.types";
 import {
   AccordionMessage,
   CarouselMessage,
@@ -8,7 +6,7 @@ import {
   QuickReplyMessage,
   TextMessage,
   VideoMessage,
-} from "../types/parsed-message.types";
+} from '../types/parsed-message.types';
 import {
   AccordionResponse,
   CarouselResponse,
@@ -17,7 +15,10 @@ import {
   QuickReplyResponse,
   TextResponse,
   VideoResponse,
-} from "../types/server-response.types";
+} from '../../types/server-response.types';
+
+import { MESSAGE_TYPES } from '../constants/message.constants';
+import { SenderType } from '../../types/common.types';
 
 export const MessageParsers = {
   text: (message: TextResponse, sender: SenderType): TextMessage => ({
@@ -25,28 +26,19 @@ export const MessageParsers = {
     type: MESSAGE_TYPES.TEXT,
     text: message.text,
   }),
-  image: (
-    { attachment, text }: ImageResponse,
-    sender: SenderType
-  ): ImageMessage => ({
+  image: ({ attachment, text }: ImageResponse, sender: SenderType): ImageMessage => ({
     sender,
     type: MESSAGE_TYPES.IMAGE,
     imageSrc: attachment.payload.src,
-    alt: attachment.payload.alt || "",
+    alt: attachment.payload.alt || '',
     text: text,
   }),
-  accordion: (
-    message: AccordionResponse,
-    sender: SenderType
-  ): AccordionMessage => ({
+  accordion: (message: AccordionResponse, sender: SenderType): AccordionMessage => ({
     sender,
     ...message,
-    type: MESSAGE_TYPES.ACCORDION
+    type: MESSAGE_TYPES.ACCORDION,
   }),
-  carousel: (
-    { elements }: CarouselResponse,
-    sender: SenderType
-  ): CarouselMessage => ({
+  carousel: ({ elements }: CarouselResponse, sender: SenderType): CarouselMessage => ({
     sender,
     type: MESSAGE_TYPES.CAROUSEL,
     elements: elements.map(({ image_url, text, link }) => ({
@@ -55,10 +47,7 @@ export const MessageParsers = {
       imageUrl: image_url,
     })),
   }),
-  quickReply: (
-    message: QuickReplyResponse,
-    sender: SenderType
-  ): QuickReplyMessage => ({
+  quickReply: (message: QuickReplyResponse, sender: SenderType): QuickReplyMessage => ({
     sender,
     type: MESSAGE_TYPES.QUICK_REPLY,
     text: message.text,
@@ -67,10 +56,7 @@ export const MessageParsers = {
       reply: payload,
     })),
   }),
-  fileDownload: (
-    { text, file_url, file_name }: FileDownloadResponse,
-    sender: SenderType
-  ): FileDownloadMessage => ({
+  fileDownload: ({ text, file_url, file_name }: FileDownloadResponse, sender: SenderType): FileDownloadMessage => ({
     sender,
     type: MESSAGE_TYPES.FILE_DOWNLOAD,
     fileName: file_name,
@@ -80,7 +66,7 @@ export const MessageParsers = {
   video: (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { title, video_url }: VideoResponse,
-    sender: SenderType
+    sender: SenderType,
   ): VideoMessage => ({
     sender,
     type: MESSAGE_TYPES.VIDEO,
@@ -96,5 +82,4 @@ export type MessageParamTypesMap = {
 export type MessageParsersReturnTypes = {
   [K in keyof typeof MessageParsers]: ReturnType<(typeof MessageParsers)[K]>;
 };
-export type MessageParamTypeFromString<T extends keyof MessageParamTypesMap> =
-  MessageParamTypesMap[T];
+export type MessageParamTypeFromString<T extends keyof MessageParamTypesMap> = MessageParamTypesMap[T];
