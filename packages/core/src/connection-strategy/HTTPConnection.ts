@@ -16,7 +16,7 @@ export class HTTPConnection implements ConnectionStrategy {
     this.url = options.url;
   }
 
-  connect(): void {
+  public connect(): void {
     // There is no connect in HTTP.
   }
 
@@ -42,7 +42,7 @@ export class HTTPConnection implements ConnectionStrategy {
     });
   }
 
-  async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void) {
+  public async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void): Promise<void> {
     return fetch(`${this.url}/webhooks/rest/webhook`, {
       method: 'POST',
       body: JSON.stringify({ sender: sessionId, message }),
@@ -61,11 +61,11 @@ export class HTTPConnection implements ConnectionStrategy {
       });
   }
 
-  disconnect(): void {
+  public disconnect(): void {
     // There is no disconnection in HTTP.
   }
 
-  sessionRequest(_sessionId: string): void {
+  public sessionRequest(_sessionId: string): void {
     // There is no sessionRequest in HTTP.
   }
 }

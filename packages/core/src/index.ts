@@ -26,17 +26,17 @@ export class Rasa extends EventEmitter {
     this.initSocketEvents();
   }
 
-  private onBotResponse(data: unknown) {
+  private onBotResponse(data: unknown): void {
     this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object) }, this.sessionId);
     this.trigger('message', messageParser(data, SENDER.BOT));
   }
 
-  private loadChatHistory() {
+  private loadChatHistory(): void {
     const chatHistory = this.storageService.getChatHistory() || [];
     this.trigger('loadHistory', parseChatHistory(chatHistory));
   }
 
-  private onSessionConfirm() {
+  private onSessionConfirm(): void {
     const sessionStart = new Date();
     this.storageService.setSession(this.sessionId, sessionStart);
     this.trigger('message', {
@@ -73,7 +73,7 @@ export class Rasa extends EventEmitter {
     });
   }
 
-  private onMessageReceive = (messages: MessageResponse[]) => {
+  private onMessageReceive = (messages: MessageResponse[]): void => {
     if (!messages) return;
     messages.forEach(message => {
       this.onBotResponse(message);

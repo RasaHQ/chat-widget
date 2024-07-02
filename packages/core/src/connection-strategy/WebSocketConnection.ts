@@ -1,5 +1,5 @@
-import { ConnectionParams, ConnectionStrategy } from "./ConnectionStrategy";
-import { Socket, io } from "socket.io-client";
+import { ConnectionParams, ConnectionStrategy } from './ConnectionStrategy';
+import { Socket, io } from 'socket.io-client';
 
 export class WebSocketConnection implements ConnectionStrategy {
   url: string;
@@ -10,20 +10,20 @@ export class WebSocketConnection implements ConnectionStrategy {
     this.socket = io(options.url, { autoConnect: false });
   }
 
-  connect(): void {
+  public connect(): void {
     this.socket.connect();
   }
 
-  sendMessage(message: string, sessionId: string): void {
-    this.socket.emit("user_uttered", { message, session_id: sessionId });
+  public sendMessage(message: string, sessionId: string): void {
+    this.socket.emit('user_uttered', { message, session_id: sessionId });
   }
 
-  disconnect(): void {
+  public disconnect(): void {
     this.socket.disconnect();
   }
 
-  sessionRequest(sessionId: string): void {
-    this.socket.emit("session_request", {
+  public sessionRequest(sessionId: string): void {
+    this.socket.emit('session_request', {
       session_id: sessionId,
     });
   }
