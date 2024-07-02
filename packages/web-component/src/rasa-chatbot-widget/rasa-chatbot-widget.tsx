@@ -2,9 +2,9 @@ import { Component, Listen, Prop, State, h, Event, EventEmitter, Fragment } from
 
 import { Rasa, MESSAGE_TYPES, Message, SENDER } from '@rasa-widget/core';
 
+import { configStore, setConfigStore } from '../store/config-store';
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
-import { configStore, setConfigStore } from '../store/config-store';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -57,6 +57,11 @@ export class RasaChatbotWidget {
    * */
   @Prop() messageDelay: number = 100;
 
+  /**
+   * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
+   * */
+  @Prop() restEnabled: boolean = false;
+
   componentWillLoad() {
     setConfigStore({
       toggleFullScreen: this.toggleFullScreen,
@@ -64,8 +69,9 @@ export class RasaChatbotWidget {
       streamMessages: this.messageDelay > 0 ? false : this.streamMessages,
       messageDelay: this.messageDelay,
     });
+    const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl });
+    this.client = new Rasa({ url: this.serverUrl, protocol });
 
     this.client.on('connect', () => {});
     this.client.on('message', this.onNewMessage);

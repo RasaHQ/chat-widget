@@ -1,5 +1,5 @@
-import { MESSAGE_TYPES } from "../constants/message.constants";
-import { SenderType } from "./common.types";
+import { MESSAGE_TYPES } from '../constants/message.constants';
+import { SenderType } from '../../types/common.types';
 
 export type SessionDivider = {
   type: typeof MESSAGE_TYPES.SESSION_DIVIDER;

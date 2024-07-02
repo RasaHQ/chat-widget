@@ -70,6 +70,10 @@ export namespace Components {
          */
         "messageDelay": number;
         /**
+          * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
+         */
+        "restEnabled": boolean;
+        /**
           * Url of the Rasa chatbot backend server
          */
         "serverUrl": string;
@@ -748,6 +752,10 @@ declare namespace LocalJSX {
           * Emitted when the user sends a message
          */
         "onChatWidgetSentMessage"?: (event: RasaChatbotWidgetCustomEvent<string>) => void;
+        /**
+          * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
+         */
+        "restEnabled"?: boolean;
         /**
           * Url of the Rasa chatbot backend server
          */

@@ -1,5 +1,5 @@
-import type { SenderType } from "./common.types";
-import type { MessageResponse } from "./server-response.types";
+import { MessageResponse } from "../../types/server-response.types";
+import { SenderType } from "../../types/common.types";
 
 type Message = MessageResponse & { sender: SenderType };
 

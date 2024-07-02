@@ -1,5 +1,6 @@
-import { SENDER } from '@rasa-widget/core';
 import { Component, h } from '@stencil/core';
+
+import { SENDER } from '@rasa-widget/core/dist/constants';
 
 @Component({
   tag: 'rasa-typing-indicator',

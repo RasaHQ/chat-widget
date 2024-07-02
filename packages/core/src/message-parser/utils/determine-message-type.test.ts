@@ -1,5 +1,6 @@
+import { MESSAGE_TYPES } from "../constants";
+import { RESPONSE_MESSAGE_TYPES } from "../../constants";
 import { determineMessageType } from "./determine-message-type";
-import { MESSAGE_TYPES, RESPONSE_MESSAGE_TYPES } from "../constants";
 
 describe("determineMessageType", () => {
   it("text message", () => {

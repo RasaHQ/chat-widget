@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageParsersReturnTypes } from "./message-parsers";
-
 import {
-  ImageResponse,
   AccordionResponse,
   CarouselResponse,
-  QuickReplyResponse,
   FileDownloadResponse,
-  VideoResponse,
+  ImageResponse,
+  QuickReplyResponse,
   TextResponse,
-} from "../types/server-response.types";
-import { RESPONSE_MESSAGE_TYPES } from "../constants/message.constants";
-import { CustomErrorClass, ErrorSeverity } from "../../errors";
+  VideoResponse,
+} from '../../types/server-response.types';
+import { CustomErrorClass, ErrorSeverity } from '../../errors';
+
+import { MessageParsersReturnTypes } from './message-parsers';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { RESPONSE_MESSAGE_TYPES } from '../../constants';
 
 const messageTypeMap = {
   image: (msg: any): msg is ImageResponse => msg?.attachment?.type === RESPONSE_MESSAGE_TYPES.IMAGE,
@@ -23,10 +23,7 @@ const messageTypeMap = {
   text: (msg: any): msg is TextResponse => msg.text && msg.type === undefined,
 };
 
-export const determineMessageType = (
-  message: unknown
-): keyof MessageParsersReturnTypes => {
-
+export const determineMessageType = (message: unknown): keyof MessageParsersReturnTypes => {
   for (const [key, guard] of Object.entries(messageTypeMap)) {
     if (guard(message)) {
       return key as keyof MessageParsersReturnTypes;
