@@ -47,7 +47,7 @@ export class Rasa extends EventEmitter {
       startDate: sessionStart,
     });
     if (this.initialPayload) {
-      this.sendMessage(this.initialPayload);
+      this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
     }
   }
 
