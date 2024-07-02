@@ -8,6 +8,7 @@ import {
   normalizeHttpImageResponse,
   normalizeHttpQuickReplyResponse,
 } from './HTTPConnection.utils';
+import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class HTTPConnection implements ConnectionStrategy {
   url: string;
@@ -49,15 +50,15 @@ export class HTTPConnection implements ConnectionStrategy {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+          throw new CustomErrorClass(ErrorSeverity.Error, 'Network response error', response.statusText);
         }
         return response.json() as Promise<HttpResponse[]>;
       })
       .then(data => {
         cb(this.normalizeResponse(data));
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch(_ => {
+        throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
       });
   }
 

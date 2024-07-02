@@ -95,4 +95,6 @@ export class Rasa extends EventEmitter {
   }
 }
 
+export * from './errors';
 export * from './message-parser';
+export * from './constants';

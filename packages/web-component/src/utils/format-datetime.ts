@@ -1,6 +1,8 @@
+import { CustomErrorClass, ErrorSeverity } from "@rasa-widget/core";
+
 export const formatDateTime = (date: Date) => {
   if (!date) {
-    throw 'formatDateTime: Date not found';
+    throw new CustomErrorClass(ErrorSeverity.Error, 'Date not found');
   }
 
   try {
@@ -16,6 +18,6 @@ export const formatDateTime = (date: Date) => {
         
         return `${day} ${month} ${year}, ${timePart}`;
     } catch(error) {
-        throw `formatDateTime: Invalid time object - arg:${date}, ${error}`;
+        throw new CustomErrorClass(ErrorSeverity.LogError, `formatDateTime: Invalid time object - arg:${date}, ${error}`);
     }
 };

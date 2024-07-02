@@ -1,3 +1,5 @@
+import { CustomErrorClass, ErrorSeverity } from "@rasa-widget/core";
+
 interface constructVideoUrlProps {
   videoSrc: string;
   autoplay?: boolean;
@@ -8,7 +10,7 @@ interface constructVideoUrlProps {
 
 export const constructVideoUrl = ({ videoSrc, autoplay = false, disableControls = false, loop = false, mute = false }: constructVideoUrlProps): string => {
   if (!videoSrc) {
-    throw `constructVideoUrl: invalid videoSrc ${videoSrc}`;
+    throw new CustomErrorClass(ErrorSeverity.Error, 'Invalid video source');
   }
 
   try {
@@ -39,6 +41,6 @@ export const constructVideoUrl = ({ videoSrc, autoplay = false, disableControls 
       return `${videoSrc}?${queryString}`;
     }
   } catch (error) {
-    throw `constructVideoUrl: ${error}`;
+    throw new CustomErrorClass(ErrorSeverity.Error, "Can't construct video url");
   }
 };

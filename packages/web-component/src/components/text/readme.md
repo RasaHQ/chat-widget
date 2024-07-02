@@ -19,6 +19,7 @@
 
 ### Used by
 
+ - [error-toast](../error-toast)
  - [rasa-button-group](../button-group)
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
  - [rasa-file-download-message](../file-download-message)
@@ -29,6 +30,7 @@
 ### Graph
 ```mermaid
 graph TD;
+  error-toast --> rasa-text
   rasa-button-group --> rasa-text
   rasa-chatbot-widget --> rasa-text
   rasa-file-download-message --> rasa-text

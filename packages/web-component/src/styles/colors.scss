@@ -3,6 +3,7 @@
   --color-white: #ffffff;
   --color-secondary: #ffffff;
   --color-secondary-opposite: #000000;
+  --color-danger: #C6423F;
 
   --color-secondary-10: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 10%);
   --color-secondary-20: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) 20%);

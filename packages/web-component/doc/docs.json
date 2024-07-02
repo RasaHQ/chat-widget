@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-07-02T07:34:59",
+  "timestamp": "2024-07-02T07:56:05",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -91,6 +91,63 @@
         ],
         "rasa-typing-indicator": [
           "chat-message"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/error-toast/error-toast.tsx",
+      "encapsulation": "shadow",
+      "tag": "error-toast",
+      "readme": "# error-toast\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [
+        "rasa-icon-danger",
+        "rasa-text"
+      ],
+      "dependencyGraph": {
+        "error-toast": [
+          "rasa-icon-danger",
+          "rasa-text"
+        ],
+        "rasa-chatbot-widget": [
+          "error-toast"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/error-handler/global-error-handler.tsx",
+      "encapsulation": "shadow",
+      "tag": "global-error-handler",
+      "readme": "# error-handler\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "rasa-chatbot-widget": [
+          "global-error-handler"
         ]
       }
     },
@@ -643,9 +700,11 @@
         "rasa-text",
         "rasa-button-group",
         "rasa-carousel",
+        "global-error-handler",
         "rasa-typing-indicator",
         "rasa-icon-close-chat",
         "rasa-icon-chat",
+        "error-toast",
         "rasa-chat-input"
       ],
       "dependencyGraph": {
@@ -660,9 +719,11 @@
           "rasa-text",
           "rasa-button-group",
           "rasa-carousel",
+          "global-error-handler",
           "rasa-typing-indicator",
           "rasa-icon-close-chat",
           "rasa-icon-chat",
+          "error-toast",
           "rasa-chat-input"
         ],
         "rasa-session-divider": [
@@ -698,6 +759,10 @@
         ],
         "rasa-typing-indicator": [
           "chat-message"
+        ],
+        "error-toast": [
+          "rasa-icon-danger",
+          "rasa-text"
         ],
         "rasa-chat-input": [
           "rasa-icon-paper-plane"
@@ -1246,6 +1311,7 @@
       "slots": [],
       "parts": [],
       "dependents": [
+        "error-toast",
         "rasa-button-group",
         "rasa-chatbot-widget",
         "rasa-file-download-message",
@@ -1255,6 +1321,9 @@
       ],
       "dependencies": [],
       "dependencyGraph": {
+        "error-toast": [
+          "rasa-text"
+        ],
         "rasa-button-group": [
           "rasa-text"
         ],

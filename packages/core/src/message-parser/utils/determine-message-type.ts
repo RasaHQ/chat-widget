@@ -7,6 +7,7 @@ import {
   TextResponse,
   VideoResponse,
 } from '../../types/server-response.types';
+import { CustomErrorClass, ErrorSeverity } from '../../errors';
 
 import { MessageParsersReturnTypes } from './message-parsers';
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -28,5 +29,5 @@ export const determineMessageType = (message: unknown): keyof MessageParsersRetu
       return key as keyof MessageParsersReturnTypes;
     }
   }
-  throw `Message type not implemented MESSAGE: ${message}`;
+  throw new CustomErrorClass(ErrorSeverity.Error, "Can't load new message" ,`Message type not implemented MESSAGE: ${message}`);
 };

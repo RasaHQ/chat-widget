@@ -1,5 +1,7 @@
 import { createReactComponent } from './react-component-lib';
 export const ChatMessage = createReactComponent('chat-message');
+export const ErrorToast = createReactComponent('error-toast');
+export const GlobalErrorHandler = createReactComponent('global-error-handler');
 export const RasaAccordion = createReactComponent('rasa-accordion');
 export const RasaButton = createReactComponent('rasa-button');
 export const RasaButtonGroup = createReactComponent('rasa-button-group');
