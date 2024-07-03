@@ -62,6 +62,11 @@ export class RasaChatbotWidget {
    * */
   @Prop() restEnabled: boolean = false;
 
+  /**
+   * Data that should be sent on Chat Widget initialization
+   */
+  @Prop() initialPayload?: string;
+
   componentWillLoad() {
     setConfigStore({
       toggleFullScreen: this.toggleFullScreen,
@@ -71,7 +76,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload });
 
     this.client.on('connect', () => {});
     this.client.on('message', this.onNewMessage);

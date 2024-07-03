@@ -58,6 +58,10 @@ export namespace Components {
          */
         "autoOpen": boolean;
         /**
+          * Data that should be sent on Chat Widget initialization
+         */
+        "initialPayload"?: string;
+        /**
           * Indicates time between message is received and printed.
          */
         "messageDelay": number;
@@ -754,6 +758,10 @@ declare namespace LocalJSX {
           * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
          */
         "autoOpen"?: boolean;
+        /**
+          * Data that should be sent on Chat Widget initialization
+         */
+        "initialPayload"?: string;
         /**
           * Indicates time between message is received and printed.
          */

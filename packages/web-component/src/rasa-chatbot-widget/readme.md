@@ -10,6 +10,7 @@
 | Property           | Attribute            | Description                                                                                            | Type      | Default     |
 | ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------ | --------- | ----------- |
 | `autoOpen`         | `auto-open`          | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `false`     |
+| `initialPayload`   | `initial-payload`    | Data that should be sent on Chat Widget initialization                                                 | `string`  | `undefined` |
 | `messageDelay`     | `message-delay`      | Indicates time between message is received and printed.                                                | `number`  | `100`       |
 | `restEnabled`      | `rest-enabled`       | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`     |
 | `serverUrl`        | `server-url`         | Url of the Rasa chatbot backend server                                                                 | `string`  | `undefined` |
