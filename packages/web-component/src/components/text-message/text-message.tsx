@@ -1,6 +1,8 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
+import { SENDER } from '@rasa-widget/core';
+import { SenderType } from '@rasa-widget/core/dist/types/common.types';
 
 @Component({
   tag: 'rasa-text-message',
@@ -15,7 +17,7 @@ export class RasaTextMessage {
   /**
    * Who sent the message
    */
-  @Prop() sender: 'user' | 'bot';
+  @Prop() sender: SenderType;
 
   /**
    * Is message form history
@@ -23,20 +25,20 @@ export class RasaTextMessage {
   @Prop() isHistory = false;
 
   componentDidLoad() {
-    if (this.sender !== 'user' && configStore().streamMessages) return;
+    if (this.sender !== SENDER.USER && configStore().streamMessages) return;
     messageQueueService.completeRendering();
   }
 
   render() {
     const classList = {
-      'text-message--bot': this.sender === 'bot',
-      'text-message--user': this.sender === 'user',
+      'text-message--bot': this.sender === SENDER.BOT,
+      'text-message--user': this.sender === SENDER.USER,
     };
     return (
       <Host class={classList}>
         <rasa-text
           value={this.value}
-          disableParsing={this.sender === 'user'}
+          disableParsing={this.sender === SENDER.USER}
           notifyCompleteRendering={configStore().streamMessages}
           enableStream={configStore().streamMessages && !this.isHistory}
         ></rasa-text>

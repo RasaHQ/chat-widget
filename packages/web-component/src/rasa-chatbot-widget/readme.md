@@ -37,7 +37,7 @@
 - [rasa-file-download-message](../components/file-download-message)
 - [rasa-accordion](../components/accordion)
 - [rasa-text](../components/text)
-- [rasa-button-group](../components/button-group)
+- [rasa-quick-reply](../components/quick-reply)
 - [rasa-carousel](../components/carousel)
 - [global-error-handler](../components/error-handler)
 - [rasa-typing-indicator](../components/typing-indicator)
@@ -57,7 +57,7 @@ graph TD;
   rasa-chatbot-widget --> rasa-file-download-message
   rasa-chatbot-widget --> rasa-accordion
   rasa-chatbot-widget --> rasa-text
-  rasa-chatbot-widget --> rasa-button-group
+  rasa-chatbot-widget --> rasa-quick-reply
   rasa-chatbot-widget --> rasa-carousel
   rasa-chatbot-widget --> global-error-handler
   rasa-chatbot-widget --> rasa-typing-indicator
@@ -74,8 +74,9 @@ graph TD;
   rasa-file-download-message --> rasa-icon-paperclip
   rasa-file-download-message --> rasa-text
   rasa-accordion --> rasa-icon-chevron-down
-  rasa-button-group --> rasa-button
-  rasa-button-group --> rasa-text
+  rasa-quick-reply --> chat-message
+  rasa-quick-reply --> rasa-text
+  rasa-quick-reply --> rasa-button
   rasa-carousel --> rasa-image-message
   rasa-carousel --> rasa-icon-chevron-down
   rasa-typing-indicator --> chat-message
