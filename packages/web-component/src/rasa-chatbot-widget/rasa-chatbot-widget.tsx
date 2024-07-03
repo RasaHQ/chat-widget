@@ -34,6 +34,11 @@ export class RasaChatbotWidget {
   @Event() chatWidgetSentMessage: EventEmitter<string>;
 
   /**
+   * Emitted when the user click on quick reply
+   * */
+  @Event() chatWidgetQuickReply: EventEmitter<string>;
+
+  /**
    * Url of the Rasa chatbot backend server
    */
   @Prop() serverUrl: string;
@@ -153,7 +158,7 @@ export class RasaChatbotWidget {
     updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
     this.messages[key] = updatedMessage;
     this.client.sendMessage(value, true, key - 1);
-    this.chatWidgetSentMessage.emit(value);
+    this.chatWidgetQuickReply.emit(value);
   }
 
   private getAltText() {

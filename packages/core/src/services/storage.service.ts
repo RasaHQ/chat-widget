@@ -1,4 +1,5 @@
 import { SESSION_STORAGE_KEYS } from '../constants';
+import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class StorageService {
   public setSession(sessionId: string, sessionStart: Date): void {
@@ -36,10 +37,20 @@ export class StorageService {
     const chatHistory = this.getChatHistory() || {};
     if (chatHistory[sessionId]) {
       if (Array.isArray(chatHistory[sessionId].messages)) {
-        chatHistory[sessionId].messages[messageKey].quick_replies.find(quickReply => quickReply.payload === reply).isSelected = true;
+        try {
+          chatHistory[sessionId].messages[messageKey].quick_replies.find(
+            quickReply => quickReply.payload === reply,
+          ).isSelected = true;
+          sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(chatHistory));
+        } catch {
+          throw new CustomErrorClass(
+            ErrorSeverity.LogWarning,
+            `Failed to save selected quick reply to history`,
+            `reply: ${reply}, messageKey:${messageKey}`,
+          );
+        }
       }
     }
-    sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(chatHistory));
   }
 
   private parseSessionStorageValue(value: string | null) {
