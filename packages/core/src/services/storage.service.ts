@@ -29,8 +29,17 @@ export class StorageService {
 
   public getChatHistory() {
     const value = sessionStorage.getItem(SESSION_STORAGE_KEYS.CHAT_HISTORY);
-
     return this.parseSessionStorageValue(value);
+  }
+
+  public setQuickReplyValue(reply: string, messageKey: number, sessionId: string) {
+    const chatHistory = this.getChatHistory() || {};
+    if (chatHistory[sessionId]) {
+      if (Array.isArray(chatHistory[sessionId].messages)) {
+        chatHistory[sessionId].messages[messageKey].quick_replies.find(quickReply => quickReply.payload === reply).isSelected = true;
+      }
+    }
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(chatHistory));
   }
 
   private parseSessionStorageValue(value: string | null) {

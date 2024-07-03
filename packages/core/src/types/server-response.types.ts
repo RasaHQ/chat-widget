@@ -27,7 +27,7 @@ export interface CarouselResponse {
 
 export interface QuickReplyResponse {
   text?: string;
-  quick_replies: { content_type: string; payload: string; title: string }[];
+  quick_replies: { content_type: string; payload: string; title: string, isSelected?: boolean }[];
 }
 
 export interface FileDownloadResponse {

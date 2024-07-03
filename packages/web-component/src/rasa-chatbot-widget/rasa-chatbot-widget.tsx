@@ -5,6 +5,7 @@ import { Rasa, MESSAGE_TYPES, Message, SENDER, QuickReplyMessage } from '@rasa-w
 import { configStore, setConfigStore } from '../store/config-store';
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
+import { widgetState } from '../store/widget-state-store';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -147,10 +148,12 @@ export class RasaChatbotWidget {
   @Listen('quickReplySelected')
   // @ts-ignore-next-line
   private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
+    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user' }];
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.sendMessageHandler({ detail: value } as CustomEvent);
+    this.client.sendMessage(value, true, key - 1);
+    this.chatWidgetSentMessage.emit(value);
   }
 
   private getAltText() {
@@ -200,6 +203,11 @@ export class RasaChatbotWidget {
           </chat-message>
         );
       case MESSAGE_TYPES.QUICK_REPLY:
+        let activeQuickReplyId = '';
+        if (!isHistory) {
+          activeQuickReplyId = crypto.randomUUID();
+          widgetState.getState().state.activeQuickReply = activeQuickReplyId;
+        }
         return <rasa-quick-reply message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;
       case MESSAGE_TYPES.CAROUSEL:
         return (

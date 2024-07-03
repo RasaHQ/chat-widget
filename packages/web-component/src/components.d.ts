@@ -373,6 +373,10 @@ export namespace Components {
           * Message value
          */
         "message": QuickReplyMessage;
+        /**
+          * Element unique id
+         */
+        "quickReplyId": string;
     }
     interface RasaSessionDivider {
         /**
@@ -1089,6 +1093,10 @@ declare namespace LocalJSX {
     value: string;
     key: number;
   }>) => void;
+        /**
+          * Element unique id
+         */
+        "quickReplyId"?: string;
     }
     interface RasaSessionDivider {
         /**

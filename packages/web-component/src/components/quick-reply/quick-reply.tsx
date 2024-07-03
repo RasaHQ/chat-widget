@@ -2,6 +2,7 @@ import { Component, Host, Prop, State, h, Event, EventEmitter, Listen } from '@s
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
 import { QuickReplyMessage, SENDER } from '@rasa-widget/core';
+import { widgetState } from '../../store/widget-state-store';
 
 @Component({
   tag: 'rasa-quick-reply',
@@ -13,12 +14,14 @@ export class RasaQuickReply {
    * Message value
    */
   @Prop() message: QuickReplyMessage;
-
   /**
    * Element key
    */
   @Prop() elementKey: number;
-
+  /**
+   * Element unique id
+   */
+  @Prop() quickReplyId: string;
   /**
    * Is message form history
    */
@@ -52,6 +55,10 @@ export class RasaQuickReply {
   componentWillLoad() {
     this.determineButtonState();
     this.quickReplyMessage = this.message;
+    widgetState.getState().onChange('activeQuickReply', (newValue) => {
+      console.log(newValue);
+      if (newValue !== this.quickReplyId) this.disableButtons = true;
+    })
   }
 
   componentDidLoad() {
