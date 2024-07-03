@@ -89,6 +89,7 @@ export class RasaChatbotWidget {
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('disconnect', () => {
       this.messageHistory = [];
+      this.messages = [];
     });
 
     if (this.autoOpen) {

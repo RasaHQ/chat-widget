@@ -533,6 +533,7 @@ declare global {
     interface HTMLRasaChatbotWidgetElementEventMap {
         "chatWidgetReceivedMessage": unknown;
         "chatWidgetSentMessage": string;
+        "chatWidgetQuickReply": string;
     }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -770,6 +771,10 @@ declare namespace LocalJSX {
           * Indicates time between message is received and printed.
          */
         "messageDelay"?: number;
+        /**
+          * Emitted when the user click on quick reply
+         */
+        "onChatWidgetQuickReply"?: (event: RasaChatbotWidgetCustomEvent<string>) => void;
         /**
           * Emitted when the user receives a message
          */

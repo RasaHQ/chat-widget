@@ -20,10 +20,11 @@
 
 ## Events
 
-| Event                       | Description                              | Type                   |
-| --------------------------- | ---------------------------------------- | ---------------------- |
-| `chatWidgetReceivedMessage` | Emitted when the user receives a message | `CustomEvent<unknown>` |
-| `chatWidgetSentMessage`     | Emitted when the user sends a message    | `CustomEvent<string>`  |
+| Event                       | Description                                | Type                   |
+| --------------------------- | ------------------------------------------ | ---------------------- |
+| `chatWidgetQuickReply`      | Emitted when the user click on quick reply | `CustomEvent<string>`  |
+| `chatWidgetReceivedMessage` | Emitted when the user receives a message   | `CustomEvent<unknown>` |
+| `chatWidgetSentMessage`     | Emitted when the user sends a message      | `CustomEvent<string>`  |
 
 
 ## Dependencies

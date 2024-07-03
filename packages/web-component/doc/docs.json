@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-07-03T11:25:59",
+  "timestamp": "2024-07-03T14:52:31",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -590,6 +590,20 @@
       "methods": [],
       "events": [
         {
+          "event": "chatWidgetQuickReply",
+          "detail": "string",
+          "bubbles": true,
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the user click on quick reply",
+          "docsTags": []
+        },
+        {
           "event": "chatWidgetReceivedMessage",
           "detail": "unknown",
           "bubbles": true,
@@ -1170,6 +1184,27 @@
           "values": [
             {
               "type": "QuickReplyMessage"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "quickReplyId",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "quick-reply-id",
+          "reflectToAttr": false,
+          "docs": "Element unique id",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
             }
           ],
           "optional": false,

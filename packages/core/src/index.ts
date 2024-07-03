@@ -54,6 +54,7 @@ export class Rasa extends EventEmitter {
   private initHttpSession(): void {
     if (this.connection instanceof HTTPConnection) {
       this.onSessionConfirm();
+      this.loadChatHistory();
     }
   }
 
@@ -87,6 +88,7 @@ export class Rasa extends EventEmitter {
   };
 
   public connect(): void {
+    this.sessionId = window.crypto.randomUUID();
     this.connection.connect();
     this.initHttpSession();
   }
