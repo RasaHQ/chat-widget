@@ -1,8 +1,7 @@
-import { Component, Listen, Prop, State, h, Event, EventEmitter, Fragment } from '@stencil/core/internal';
-
-import { Rasa, MESSAGE_TYPES, Message, SENDER } from '@rasa-widget/core';
-
+import { Component, Event, EventEmitter, Fragment, Listen, Prop, State, h } from '@stencil/core/internal';
+import { MESSAGE_TYPES, Message, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
+
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
 
@@ -62,6 +61,11 @@ export class RasaChatbotWidget {
    * */
   @Prop() restEnabled: boolean = false;
 
+  /**
+   * Data that should be sent on Chat Widget initialization
+   */
+  @Prop() initialPayload?: string;
+
   componentWillLoad() {
     setConfigStore({
       toggleFullScreen: this.toggleFullScreen,
@@ -71,7 +75,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload });
 
     this.client.on('connect', () => {});
     this.client.on('message', this.onNewMessage);
@@ -206,19 +210,19 @@ export class RasaChatbotWidget {
   render() {
     return (
       <global-error-handler>
-          <slot />
-          <div class="rasa-chatbot-widget">
-            <div class="rasa-chatbot-widget__container">
-              <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
-                {this.messageHistory.map(message => this.renderMessage(message, true))}
-                {this.messages.map(message => this.renderMessage(message))}
-                {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
-              </Messenger>
-              <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
-                {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
-              </div>
+        <slot />
+        <div class="rasa-chatbot-widget">
+          <div class="rasa-chatbot-widget__container">
+            <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
+              {this.messageHistory.map(message => this.renderMessage(message, true))}
+              {this.messages.map(message => this.renderMessage(message))}
+              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
+            </Messenger>
+            <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
+              {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
             </div>
           </div>
+        </div>
       </global-error-handler>
     );
   }

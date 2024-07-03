@@ -10,16 +10,19 @@ import { parseChatHistory } from './message-parser/utils/parse-chat-history';
 interface Options {
   url: string;
   protocol?: 'http' | 'ws';
+  initialPayload?: string;
 }
 
 export class Rasa extends EventEmitter {
   sessionId: string;
   private storageService: StorageService;
   connection: HTTPConnection | WebSocketConnection;
+  initialPayload: string | undefined;
 
-  public constructor({ url, protocol = 'ws' }: Options) {
+  public constructor({ url, protocol = 'ws', initialPayload }: Options) {
     super();
     this.sessionId = window.crypto.randomUUID();
+    this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
     this.connection = new Connection({ url });
@@ -43,6 +46,9 @@ export class Rasa extends EventEmitter {
       type: 'sessionDivider',
       startDate: sessionStart,
     });
+    if (this.initialPayload) {
+      this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
+    }
   }
 
   private initHttpSession(): void {
