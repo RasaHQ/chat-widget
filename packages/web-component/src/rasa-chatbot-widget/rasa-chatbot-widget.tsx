@@ -41,6 +41,16 @@ export class RasaChatbotWidget {
   @Event() chatWidgetQuickReply: EventEmitter<string>;
 
   /**
+   * Emitted when the Chat Widget is opened by the user
+   * */
+  @Event() chatWidgetOpened: EventEmitter<undefined>;
+
+  /**
+   * Emitted when the Chat Widget is closed by the user
+   * */
+  @Event() chatWidgetClosed: EventEmitter<undefined>;
+
+  /**
    * Url of the Rasa chatbot backend server
    */
   @Prop() serverUrl: string;
@@ -147,11 +157,16 @@ export class RasaChatbotWidget {
     }, DISCONNECT_TIMEOUT);
   }
 
+  private emitChatWidgetOpenCloseEvents(): void {
+    this.isOpen ? this.chatWidgetOpened.emit() : this.chatWidgetClosed.emit();
+  }
+
   private toggleOpenState = (): void => {
     this.isOpen = !this.isOpen;
     clearTimeout(this.disconnectTimeout);
     this.disconnectTimeout = null;
     this.isOpen ? this.connect() : this.disconnect();
+    this.emitChatWidgetOpenCloseEvents();
   };
 
   connectedCallback() {

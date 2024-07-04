@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-07-03T14:52:31",
+  "timestamp": "2024-07-04T09:19:48",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -589,6 +589,34 @@
       ],
       "methods": [],
       "events": [
+        {
+          "event": "chatWidgetClosed",
+          "detail": "undefined",
+          "bubbles": true,
+          "complexType": {
+            "original": "undefined",
+            "resolved": "undefined",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the Chat Widget is closed by the user",
+          "docsTags": []
+        },
+        {
+          "event": "chatWidgetOpened",
+          "detail": "undefined",
+          "bubbles": true,
+          "complexType": {
+            "original": "undefined",
+            "resolved": "undefined",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the Chat Widget is opened by the user",
+          "docsTags": []
+        },
         {
           "event": "chatWidgetQuickReply",
           "detail": "string",
