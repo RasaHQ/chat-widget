@@ -14,7 +14,7 @@
     width: 100%;
     background-color: transparent;
     color: var(--input-color);
-    font-family: Lato;
+    font-family: var(--font-family);
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -24,7 +24,7 @@
     @include placeholder {
       color: var(--input-placeholder-color);
       opacity: var(--input-placeholder-opacity);
-      font-family: Lato;
+      font-family: var(--font-family);
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
