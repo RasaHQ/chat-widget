@@ -8,7 +8,7 @@
     "dev": "lerna run dev --parallel",
     "storybook": "lerna run build:watch,storybook",
     "test": "lerna run test",
-    "build": "lerna run build"
+    "build": "lerna run build --concurrency 1"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
