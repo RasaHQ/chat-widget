@@ -1,0 +1,1 @@
+export const DISCONNECT_TIMEOUT = 5000;
