@@ -1,5 +1,5 @@
 {
-  "timestamp": "2024-07-03T14:04:56",
+  "timestamp": "2024-07-03T14:52:31",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.18.3",
@@ -77,6 +77,7 @@
       ],
       "dependents": [
         "rasa-chatbot-widget",
+        "rasa-quick-reply",
         "rasa-typing-indicator"
       ],
       "dependencies": [
@@ -87,6 +88,9 @@
           "rasa-icon-robot"
         ],
         "rasa-chatbot-widget": [
+          "chat-message"
+        ],
+        "rasa-quick-reply": [
           "chat-message"
         ],
         "rasa-typing-indicator": [
@@ -260,11 +264,11 @@
       "events": [
         {
           "event": "buttonClickHandler",
-          "detail": "{ value?: string; }",
+          "detail": "{ value: string; }",
           "bubbles": true,
           "complexType": {
-            "original": "{ value?: string }",
-            "resolved": "{ value?: string; }",
+            "original": "{ value: string }",
+            "resolved": "{ value: string; }",
             "references": {}
           },
           "cancelable": true,
@@ -278,97 +282,12 @@
       "slots": [],
       "parts": [],
       "dependents": [
-        "rasa-button-group"
+        "rasa-quick-reply"
       ],
       "dependencies": [],
       "dependencyGraph": {
-        "rasa-button-group": [
+        "rasa-quick-reply": [
           "rasa-button"
-        ]
-      }
-    },
-    {
-      "filePath": "src/components/button-group/button-group.tsx",
-      "encapsulation": "shadow",
-      "tag": "rasa-button-group",
-      "readme": "# rasa-button-group\n\n\n",
-      "docs": "",
-      "docsTags": [],
-      "usage": {},
-      "props": [
-        {
-          "name": "buttons",
-          "type": "QuickReply[]",
-          "complexType": {
-            "original": "QuickReply[]",
-            "resolved": "QuickReply[]",
-            "references": {
-              "QuickReply": {
-                "location": "import",
-                "path": "@rasa-widget/core",
-                "id": "../core/dist/index.d.ts::QuickReply"
-              }
-            }
-          },
-          "mutable": false,
-          "reflectToAttr": false,
-          "docs": "Buttons list",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "QuickReply[]"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "type",
-          "type": "\"buttons\" | \"quick-reply\"",
-          "complexType": {
-            "original": "'quick-reply' | 'buttons'",
-            "resolved": "\"buttons\" | \"quick-reply\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "type",
-          "reflectToAttr": false,
-          "docs": "Type of button list",
-          "docsTags": [],
-          "values": [
-            {
-              "value": "buttons",
-              "type": "string"
-            },
-            {
-              "value": "quick-reply",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "listeners": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "dependents": [
-        "rasa-chatbot-widget"
-      ],
-      "dependencies": [
-        "rasa-button",
-        "rasa-text"
-      ],
-      "dependencyGraph": {
-        "rasa-button-group": [
-          "rasa-button",
-          "rasa-text"
-        ],
-        "rasa-chatbot-widget": [
-          "rasa-button-group"
         ]
       }
     },
@@ -671,6 +590,20 @@
       "methods": [],
       "events": [
         {
+          "event": "chatWidgetQuickReply",
+          "detail": "string",
+          "bubbles": true,
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the user click on quick reply",
+          "docsTags": []
+        },
+        {
           "event": "chatWidgetReceivedMessage",
           "detail": "unknown",
           "bubbles": true,
@@ -704,6 +637,11 @@
           "event": "sendMessageHandler",
           "capture": false,
           "passive": false
+        },
+        {
+          "event": "quickReplySelected",
+          "capture": false,
+          "passive": false
         }
       ],
       "styles": [],
@@ -719,7 +657,7 @@
         "rasa-file-download-message",
         "rasa-accordion",
         "rasa-text",
-        "rasa-button-group",
+        "rasa-quick-reply",
         "rasa-carousel",
         "global-error-handler",
         "rasa-typing-indicator",
@@ -738,7 +676,7 @@
           "rasa-file-download-message",
           "rasa-accordion",
           "rasa-text",
-          "rasa-button-group",
+          "rasa-quick-reply",
           "rasa-carousel",
           "global-error-handler",
           "rasa-typing-indicator",
@@ -770,9 +708,10 @@
         "rasa-accordion": [
           "rasa-icon-chevron-down"
         ],
-        "rasa-button-group": [
-          "rasa-button",
-          "rasa-text"
+        "rasa-quick-reply": [
+          "chat-message",
+          "rasa-text",
+          "rasa-button"
         ],
         "rasa-carousel": [
           "rasa-image-message",
@@ -1173,6 +1112,155 @@
       }
     },
     {
+      "filePath": "src/components/quick-reply/quick-reply.tsx",
+      "encapsulation": "shadow",
+      "tag": "rasa-quick-reply",
+      "readme": "# rasa-quick-reply\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "elementKey",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "element-key",
+          "reflectToAttr": false,
+          "docs": "Element key",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "isHistory",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "is-history",
+          "reflectToAttr": false,
+          "docs": "Is message form history",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "message",
+          "type": "QuickReplyMessage",
+          "complexType": {
+            "original": "QuickReplyMessage",
+            "resolved": "QuickReplyMessage",
+            "references": {
+              "QuickReplyMessage": {
+                "location": "import",
+                "path": "@rasa-widget/core",
+                "id": "../core/dist/index.d.ts::QuickReplyMessage"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "Message value",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "QuickReplyMessage"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "quickReplyId",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "quick-reply-id",
+          "reflectToAttr": false,
+          "docs": "Element unique id",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "quickReplySelected",
+          "detail": "{ value: string; key: number; }",
+          "bubbles": true,
+          "complexType": {
+            "original": "{\n    value: string;\n    key: number;\n  }",
+            "resolved": "{ value: string; key: number; }",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Quick reply selected",
+          "docsTags": []
+        }
+      ],
+      "listeners": [
+        {
+          "event": "buttonClickHandler",
+          "capture": true,
+          "passive": false
+        }
+      ],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "dependents": [
+        "rasa-chatbot-widget"
+      ],
+      "dependencies": [
+        "chat-message",
+        "rasa-text",
+        "rasa-button"
+      ],
+      "dependencyGraph": {
+        "rasa-quick-reply": [
+          "chat-message",
+          "rasa-text",
+          "rasa-button"
+        ],
+        "chat-message": [
+          "rasa-icon-robot"
+        ],
+        "rasa-chatbot-widget": [
+          "rasa-quick-reply"
+        ]
+      }
+    },
+    {
       "filePath": "src/components/session-devider/session-divider.tsx",
       "encapsulation": "shadow",
       "tag": "rasa-session-divider",
@@ -1333,19 +1421,16 @@
       "parts": [],
       "dependents": [
         "error-toast",
-        "rasa-button-group",
         "rasa-chatbot-widget",
         "rasa-file-download-message",
         "rasa-image-message",
+        "rasa-quick-reply",
         "rasa-session-divider",
         "rasa-text-message"
       ],
       "dependencies": [],
       "dependencyGraph": {
         "error-toast": [
-          "rasa-text"
-        ],
-        "rasa-button-group": [
           "rasa-text"
         ],
         "rasa-chatbot-widget": [
@@ -1355,6 +1440,9 @@
           "rasa-text"
         ],
         "rasa-image-message": [
+          "rasa-text"
+        ],
+        "rasa-quick-reply": [
           "rasa-text"
         ],
         "rasa-session-divider": [
@@ -1400,9 +1488,15 @@
           "name": "sender",
           "type": "\"bot\" | \"user\"",
           "complexType": {
-            "original": "'user' | 'bot'",
+            "original": "SenderType",
             "resolved": "\"bot\" | \"user\"",
-            "references": {}
+            "references": {
+              "SenderType": {
+                "location": "import",
+                "path": "@rasa-widget/core/dist/types/common.types",
+                "id": "../core/dist/types/common.types.d.ts::SenderType"
+              }
+            }
           },
           "mutable": false,
           "attr": "sender",
@@ -1679,15 +1773,20 @@
     }
   ],
   "typeLibrary": {
-    "../core/dist/index.d.ts::QuickReply": {
-      "declaration": "any",
-      "docstring": "",
-      "path": "../core/dist/index.d.ts"
-    },
     "../core/dist/index.d.ts::CarouselElement": {
       "declaration": "any",
       "docstring": "",
       "path": "../core/dist/index.d.ts"
+    },
+    "../core/dist/index.d.ts::QuickReplyMessage": {
+      "declaration": "any",
+      "docstring": "",
+      "path": "../core/dist/index.d.ts"
+    },
+    "../core/dist/types/common.types.d.ts::SenderType": {
+      "declaration": "export type SenderType = ValueOf<typeof SENDER>;",
+      "docstring": "",
+      "path": "../core/dist/types/common.types.d.ts"
     }
   }
 }

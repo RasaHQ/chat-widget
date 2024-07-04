@@ -1,9 +1,11 @@
-import { Component, Event, EventEmitter, Fragment, Listen, Prop, State, h } from '@stencil/core/internal';
-import { MESSAGE_TYPES, Message, Rasa, SENDER } from '@rasa-widget/core';
-import { configStore, setConfigStore } from '../store/config-store';
+import { Component, Listen, Prop, State, h, Event, EventEmitter } from '@stencil/core/internal';
 
+import { Rasa, MESSAGE_TYPES, Message, SENDER, QuickReplyMessage } from '@rasa-widget/core';
+
+import { configStore, setConfigStore } from '../store/config-store';
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
+import { widgetState } from '../store/widget-state-store';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -30,6 +32,11 @@ export class RasaChatbotWidget {
    * Emitted when the user sends a message
    * */
   @Event() chatWidgetSentMessage: EventEmitter<string>;
+
+  /**
+   * Emitted when the user click on quick reply
+   * */
+  @Event() chatWidgetQuickReply: EventEmitter<string>;
 
   /**
    * Url of the Rasa chatbot backend server
@@ -137,11 +144,22 @@ export class RasaChatbotWidget {
   }
 
   @Listen('sendMessageHandler')
-  // @ts-ignore
+  // @ts-ignore-next-line
   private sendMessageHandler(event: CustomEvent<string>) {
     this.client.sendMessage(event.detail);
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user' }];
+  }
+
+  @Listen('quickReplySelected')
+  // @ts-ignore-next-line
+  private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
+    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user' }];
+    const updatedMessage = this.messages[key] as QuickReplyMessage;
+    updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
+    this.messages[key] = updatedMessage;
+    this.client.sendMessage(value, true, key - 1);
+    this.chatWidgetQuickReply.emit(value);
   }
 
   private getAltText() {
@@ -152,37 +170,37 @@ export class RasaChatbotWidget {
     this.isFullScreen = !this.isFullScreen;
   };
 
-  private renderMessage(message: Message, isHistory = false) {
+  private renderMessage(message: Message, isHistory = false, key) {
     switch (message.type) {
       case MESSAGE_TYPES.SESSION_DIVIDER:
-        return <rasa-session-divider sessionStartDate={message.startDate}></rasa-session-divider>;
+        return <rasa-session-divider sessionStartDate={message.startDate} key={key}></rasa-session-divider>;
       case MESSAGE_TYPES.TEXT:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} key={key}>
             <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
           </chat-message>
         );
       case MESSAGE_TYPES.IMAGE:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} key={key}>
             <rasa-image-message imageSrc={message.imageSrc} text={message.text} imageAlt={message.alt}></rasa-image-message>
           </chat-message>
         );
       case MESSAGE_TYPES.VIDEO:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} key={key}>
             <rasa-video src={message.src}></rasa-video>
           </chat-message>
         );
       case MESSAGE_TYPES.FILE_DOWNLOAD:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} key={key}>
             <rasa-file-download-message fileUrl={message.fileUrl} fileName={message.fileName} text={message.text}></rasa-file-download-message>
           </chat-message>
         );
       case MESSAGE_TYPES.ACCORDION:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} key={key}>
             {message.elements.map(element => (
               <rasa-accordion label={element.title}>
                 <rasa-text value={element.text}></rasa-text>
@@ -191,14 +209,12 @@ export class RasaChatbotWidget {
           </chat-message>
         );
       case MESSAGE_TYPES.QUICK_REPLY:
-        return (
-          <Fragment>
-            <chat-message sender={message.sender}>
-              <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
-              <rasa-button-group buttons={message.replies} type="quick-reply"></rasa-button-group>
-            </chat-message>
-          </Fragment>
-        );
+        let activeQuickReplyId = '';
+        if (!isHistory) {
+          activeQuickReplyId = crypto.randomUUID();
+          widgetState.getState().state.activeQuickReply = activeQuickReplyId;
+        }
+        return <rasa-quick-reply message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;
       case MESSAGE_TYPES.CAROUSEL:
         return (
           <chat-message sender={message.sender}>
@@ -215,8 +231,8 @@ export class RasaChatbotWidget {
         <div class="rasa-chatbot-widget">
           <div class="rasa-chatbot-widget__container">
             <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
-              {this.messageHistory.map(message => this.renderMessage(message, true))}
-              {this.messages.map(message => this.renderMessage(message))}
+              {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
+              {this.messages.map((message, key) => this.renderMessage(message, false, key))}
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>

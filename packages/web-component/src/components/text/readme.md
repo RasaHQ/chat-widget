@@ -20,10 +20,10 @@
 ### Used by
 
  - [error-toast](../error-toast)
- - [rasa-button-group](../button-group)
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
  - [rasa-file-download-message](../file-download-message)
  - [rasa-image-message](../image-message)
+ - [rasa-quick-reply](../quick-reply)
  - [rasa-session-divider](../session-devider)
  - [rasa-text-message](../text-message)
 
@@ -31,10 +31,10 @@
 ```mermaid
 graph TD;
   error-toast --> rasa-text
-  rasa-button-group --> rasa-text
   rasa-chatbot-widget --> rasa-text
   rasa-file-download-message --> rasa-text
   rasa-image-message --> rasa-text
+  rasa-quick-reply --> rasa-text
   rasa-session-divider --> rasa-text
   rasa-text-message --> rasa-text
   style rasa-text fill:#f9f,stroke:#333,stroke-width:4px

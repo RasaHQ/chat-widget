@@ -4,13 +4,13 @@ export declare const ErrorToast: import("react").ForwardRefExoticComponent<Omit<
 export declare const GlobalErrorHandler: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLGlobalErrorHandlerElement>>;
 export declare const RasaAccordion: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaAccordionElement>>;
 export declare const RasaButton: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonElement>>;
-export declare const RasaButtonGroup: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaButtonGroupElement>>;
 export declare const RasaCarousel: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaCarouselElement>>;
 export declare const RasaChatInput: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatInputElement>>;
 export declare const RasaChatbotWidget: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaChatbotWidgetElement>>;
 export declare const RasaFileDownloadMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaFileDownloadMessageElement>>;
 export declare const RasaImage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaImageElement>>;
 export declare const RasaImageMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaImageMessageElement>>;
+export declare const RasaQuickReply: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaQuickReplyElement>>;
 export declare const RasaSessionDivider: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaSessionDividerElement>>;
 export declare const RasaText: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextElement>>;
 export declare const RasaTextMessage: import("react").ForwardRefExoticComponent<Omit<any, "ref"> & import("react").RefAttributes<HTMLRasaTextMessageElement>>;

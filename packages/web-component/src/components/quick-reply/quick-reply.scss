@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-reply {
+  &__text {
+    display: flex;
+    height: 100%;
+    padding: 8px 16px;
+    background-color: var(--message-robot-background-color);
+    color: var(--message-robot-color);
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0 40px;
+
+    &--disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+}

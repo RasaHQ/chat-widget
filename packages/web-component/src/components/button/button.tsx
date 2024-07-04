@@ -18,7 +18,7 @@ export class RasaButton {
   /**
    * On button click event emitter
    */
-  @Event() buttonClickHandler: EventEmitter<{ value?: string }>;
+  @Event() buttonClickHandler: EventEmitter<{ value: string }>;
 
   private buttonClick = () => {
     this.buttonClickHandler.emit({ value: this.reply });

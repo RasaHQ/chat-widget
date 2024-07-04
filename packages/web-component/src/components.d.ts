@@ -5,8 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CarouselElement, QuickReply } from "@rasa-widget/core";
-export { CarouselElement, QuickReply } from "@rasa-widget/core";
+import { CarouselElement, QuickReplyMessage } from "@rasa-widget/core";
+import { SenderType } from "@rasa-widget/core/dist/types/common.types";
+export { CarouselElement, QuickReplyMessage } from "@rasa-widget/core";
+export { SenderType } from "@rasa-widget/core/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
         /**
@@ -37,16 +39,6 @@ export namespace Components {
           * Additional value that is passed at button click
          */
         "reply": string;
-    }
-    interface RasaButtonGroup {
-        /**
-          * Buttons list
-         */
-        "buttons": QuickReply[];
-        /**
-          * Type of button list
-         */
-        "type": 'quick-reply' | 'buttons';
     }
     interface RasaCarousel {
         /**
@@ -368,6 +360,24 @@ export namespace Components {
          */
         "width": number;
     }
+    interface RasaQuickReply {
+        /**
+          * Element key
+         */
+        "elementKey": number;
+        /**
+          * Is message form history
+         */
+        "isHistory": boolean;
+        /**
+          * Message value
+         */
+        "message": QuickReplyMessage;
+        /**
+          * Element unique id
+         */
+        "quickReplyId": string;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -400,7 +410,7 @@ export namespace Components {
         /**
           * Who sent the message
          */
-        "sender": 'user' | 'bot';
+        "sender": SenderType;
         /**
           * Message value
          */
@@ -451,6 +461,10 @@ export interface RasaChatbotWidgetCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatbotWidgetElement;
 }
+export interface RasaQuickReplyCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaQuickReplyElement;
+}
 declare global {
     interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {
     }
@@ -477,7 +491,7 @@ declare global {
         new (): HTMLRasaAccordionElement;
     };
     interface HTMLRasaButtonElementEventMap {
-        "buttonClickHandler": { value?: string };
+        "buttonClickHandler": { value: string };
     }
     interface HTMLRasaButtonElement extends Components.RasaButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaButtonElementEventMap>(type: K, listener: (this: HTMLRasaButtonElement, ev: RasaButtonCustomEvent<HTMLRasaButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -492,12 +506,6 @@ declare global {
     var HTMLRasaButtonElement: {
         prototype: HTMLRasaButtonElement;
         new (): HTMLRasaButtonElement;
-    };
-    interface HTMLRasaButtonGroupElement extends Components.RasaButtonGroup, HTMLStencilElement {
-    }
-    var HTMLRasaButtonGroupElement: {
-        prototype: HTMLRasaButtonGroupElement;
-        new (): HTMLRasaButtonGroupElement;
     };
     interface HTMLRasaCarouselElement extends Components.RasaCarousel, HTMLStencilElement {
     }
@@ -525,6 +533,7 @@ declare global {
     interface HTMLRasaChatbotWidgetElementEventMap {
         "chatWidgetReceivedMessage": unknown;
         "chatWidgetSentMessage": string;
+        "chatWidgetQuickReply": string;
     }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -618,6 +627,26 @@ declare global {
         prototype: HTMLRasaImageMessageElement;
         new (): HTMLRasaImageMessageElement;
     };
+    interface HTMLRasaQuickReplyElementEventMap {
+        "quickReplySelected": {
+    value: string;
+    key: number;
+  };
+    }
+    interface HTMLRasaQuickReplyElement extends Components.RasaQuickReply, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaQuickReplyElementEventMap>(type: K, listener: (this: HTMLRasaQuickReplyElement, ev: RasaQuickReplyCustomEvent<HTMLRasaQuickReplyElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaQuickReplyElementEventMap>(type: K, listener: (this: HTMLRasaQuickReplyElement, ev: RasaQuickReplyCustomEvent<HTMLRasaQuickReplyElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRasaQuickReplyElement: {
+        prototype: HTMLRasaQuickReplyElement;
+        new (): HTMLRasaQuickReplyElement;
+    };
     interface HTMLRasaSessionDividerElement extends Components.RasaSessionDivider, HTMLStencilElement {
     }
     var HTMLRasaSessionDividerElement: {
@@ -654,7 +683,6 @@ declare global {
         "global-error-handler": HTMLGlobalErrorHandlerElement;
         "rasa-accordion": HTMLRasaAccordionElement;
         "rasa-button": HTMLRasaButtonElement;
-        "rasa-button-group": HTMLRasaButtonGroupElement;
         "rasa-carousel": HTMLRasaCarouselElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
@@ -671,6 +699,7 @@ declare global {
         "rasa-icon-robot": HTMLRasaIconRobotElement;
         "rasa-image": HTMLRasaImageElement;
         "rasa-image-message": HTMLRasaImageMessageElement;
+        "rasa-quick-reply": HTMLRasaQuickReplyElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
         "rasa-text-message": HTMLRasaTextMessageElement;
@@ -707,21 +736,11 @@ declare namespace LocalJSX {
         /**
           * On button click event emitter
          */
-        "onButtonClickHandler"?: (event: RasaButtonCustomEvent<{ value?: string }>) => void;
+        "onButtonClickHandler"?: (event: RasaButtonCustomEvent<{ value: string }>) => void;
         /**
           * Additional value that is passed at button click
          */
         "reply"?: string;
-    }
-    interface RasaButtonGroup {
-        /**
-          * Buttons list
-         */
-        "buttons"?: QuickReply[];
-        /**
-          * Type of button list
-         */
-        "type"?: 'quick-reply' | 'buttons';
     }
     interface RasaCarousel {
         /**
@@ -752,6 +771,10 @@ declare namespace LocalJSX {
           * Indicates time between message is received and printed.
          */
         "messageDelay"?: number;
+        /**
+          * Emitted when the user click on quick reply
+         */
+        "onChatWidgetQuickReply"?: (event: RasaChatbotWidgetCustomEvent<string>) => void;
         /**
           * Emitted when the user receives a message
          */
@@ -1055,6 +1078,31 @@ declare namespace LocalJSX {
          */
         "width"?: number;
     }
+    interface RasaQuickReply {
+        /**
+          * Element key
+         */
+        "elementKey"?: number;
+        /**
+          * Is message form history
+         */
+        "isHistory"?: boolean;
+        /**
+          * Message value
+         */
+        "message"?: QuickReplyMessage;
+        /**
+          * Quick reply selected
+         */
+        "onQuickReplySelected"?: (event: RasaQuickReplyCustomEvent<{
+    value: string;
+    key: number;
+  }>) => void;
+        /**
+          * Element unique id
+         */
+        "quickReplyId"?: string;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -1087,7 +1135,7 @@ declare namespace LocalJSX {
         /**
           * Who sent the message
          */
-        "sender"?: 'user' | 'bot';
+        "sender"?: SenderType;
         /**
           * Message value
          */
@@ -1131,7 +1179,6 @@ declare namespace LocalJSX {
         "global-error-handler": GlobalErrorHandler;
         "rasa-accordion": RasaAccordion;
         "rasa-button": RasaButton;
-        "rasa-button-group": RasaButtonGroup;
         "rasa-carousel": RasaCarousel;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
@@ -1148,6 +1195,7 @@ declare namespace LocalJSX {
         "rasa-icon-robot": RasaIconRobot;
         "rasa-image": RasaImage;
         "rasa-image-message": RasaImageMessage;
+        "rasa-quick-reply": RasaQuickReply;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
         "rasa-text-message": RasaTextMessage;
@@ -1164,7 +1212,6 @@ declare module "@stencil/core" {
             "global-error-handler": LocalJSX.GlobalErrorHandler & JSXBase.HTMLAttributes<HTMLGlobalErrorHandlerElement>;
             "rasa-accordion": LocalJSX.RasaAccordion & JSXBase.HTMLAttributes<HTMLRasaAccordionElement>;
             "rasa-button": LocalJSX.RasaButton & JSXBase.HTMLAttributes<HTMLRasaButtonElement>;
-            "rasa-button-group": LocalJSX.RasaButtonGroup & JSXBase.HTMLAttributes<HTMLRasaButtonGroupElement>;
             "rasa-carousel": LocalJSX.RasaCarousel & JSXBase.HTMLAttributes<HTMLRasaCarouselElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
@@ -1181,6 +1228,7 @@ declare module "@stencil/core" {
             "rasa-icon-robot": LocalJSX.RasaIconRobot & JSXBase.HTMLAttributes<HTMLRasaIconRobotElement>;
             "rasa-image": LocalJSX.RasaImage & JSXBase.HTMLAttributes<HTMLRasaImageElement>;
             "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;
+            "rasa-quick-reply": LocalJSX.RasaQuickReply & JSXBase.HTMLAttributes<HTMLRasaQuickReplyElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
             "rasa-text-message": LocalJSX.RasaTextMessage & JSXBase.HTMLAttributes<HTMLRasaTextMessageElement>;

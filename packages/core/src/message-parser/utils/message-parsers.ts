@@ -51,9 +51,10 @@ export const MessageParsers = {
     sender,
     type: MESSAGE_TYPES.QUICK_REPLY,
     text: message.text,
-    replies: message.quick_replies.map(({ title, payload }) => ({
+    replies: message.quick_replies.map(({ title, payload, isSelected }) => ({
       text: title,
       reply: payload,
+      isSelected
     })),
   }),
   fileDownload: ({ text, file_url, file_name }: FileDownloadResponse, sender: SenderType): FileDownloadMessage => ({

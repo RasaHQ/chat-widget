@@ -15,21 +15,21 @@
 
 ## Events
 
-| Event                | Description                   | Type                               |
-| -------------------- | ----------------------------- | ---------------------------------- |
-| `buttonClickHandler` | On button click event emitter | `CustomEvent<{ value?: string; }>` |
+| Event                | Description                   | Type                              |
+| -------------------- | ----------------------------- | --------------------------------- |
+| `buttonClickHandler` | On button click event emitter | `CustomEvent<{ value: string; }>` |
 
 
 ## Dependencies
 
 ### Used by
 
- - [rasa-button-group](../button-group)
+ - [rasa-quick-reply](../quick-reply)
 
 ### Graph
 ```mermaid
 graph TD;
-  rasa-button-group --> rasa-button
+  rasa-quick-reply --> rasa-button
   style rasa-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

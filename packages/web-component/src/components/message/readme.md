@@ -25,6 +25,7 @@
 ### Used by
 
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
+ - [rasa-quick-reply](../quick-reply)
  - [rasa-typing-indicator](../typing-indicator)
 
 ### Depends on
@@ -36,6 +37,7 @@
 graph TD;
   chat-message --> rasa-icon-robot
   rasa-chatbot-widget --> chat-message
+  rasa-quick-reply --> chat-message
   rasa-typing-indicator --> chat-message
   style chat-message fill:#f9f,stroke:#333,stroke-width:4px
 ```
