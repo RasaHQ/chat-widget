@@ -30,6 +30,7 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
+      copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
     },
     reactOutputTarget({
       componentCorePackage: 'web-component',
@@ -42,5 +43,4 @@ export const config: Config = {
   extras: {
     enableImportInjection: false,
   },
-
 };

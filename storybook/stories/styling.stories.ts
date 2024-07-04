@@ -14,6 +14,7 @@ export default {
         :root {
           --color-primary: #FF0080;
           --color-secondary: #FFFF80;
+          --font-family: 'Brush Script MT', cursive;
         }
       </style>
     </rasa-chatbot-widget>`,

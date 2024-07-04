@@ -15,7 +15,7 @@ export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullS
   return (
     <div class={{ 'messenger': true, 'messenger--fullscreen': isFullScreen }}>
       <div class="messenger__header">
-        {configStore().title}
+        <rasa-text value={configStore().title} disableParsing></rasa-text>
         {configStore().toggleFullScreen && <Icon onClick={toggleFullScreenMode} class="messenger__header__icon" size={20}></Icon>}
       </div>
       <div class="messenger__content-wrapper">

@@ -4,6 +4,12 @@ import { Meta } from "@storybook/blocks";
 
 export const variables = [
   {
+    name: "--font-family",
+    description:
+      "Sets the font family for widget.",
+    defaultValue: "var(--color-primary)",
+  },
+  {
     name: "--launcher-background-color",
     description:
       "Sets the background color of the chat widget launcher button.",
@@ -120,6 +126,26 @@ export const variables = [
     description: "Sets the background color of the accordion component.",
     defaultValue: "var(--color-secondary-10)",
   },
+  {
+    name: "--session-divider-color",
+    description: "Sets the color of the divider between chat sessions.",
+    defaultValue: "var(--color-secondary-10)",
+  },
+  {
+    name: "--session-divider-text-color",
+    description: "Sets the color of the text on the session divider.",
+    defaultValue: "var(--color-secondary-40)",
+  },
+  {
+    name: "--error-toast-background-color",
+    description: "Sets the background color of error toast notifications.",
+    defaultValue: "var(--color-danger)",
+  },
+  {
+    name: "--error-toast-color",
+    description: "Sets the color of the text within error toast notifications.",
+    defaultValue: "var(--color-white)",
+  }
 ];
 
 
@@ -156,6 +182,7 @@ To customize the chat widget's appearance, define these variables within the `:r
     :root {
       --color-primary: #ff0080;
       --color-secondary: #ffff80;
+      --font-family: 'Brush Script MT', cursive;
     }
   </style>
 </rasa-chatbot-widget>

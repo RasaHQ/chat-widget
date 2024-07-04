@@ -1,5 +1,5 @@
 .text {
-  font-family: Lato;
+  font-family: var(--font-family);
   font-size: var(--rasa-text-font-size, 13px);
   font-style: normal;
   font-weight: var(--rasa-text-font-weight, 400);
