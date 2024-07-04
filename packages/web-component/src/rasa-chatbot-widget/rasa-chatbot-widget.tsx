@@ -1,8 +1,8 @@
-import { Component, Listen, Prop, State, h, Event, EventEmitter } from '@stencil/core/internal';
-
-import { Rasa, MESSAGE_TYPES, Message, SENDER, QuickReplyMessage } from '@rasa-widget/core';
-
+import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
+import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
+
+import { DISCONNECT_TIMEOUT } from './constants';
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
@@ -16,6 +16,8 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private storedPromise: Promise<void> | null = null;
   private resolveStoredPromise: (() => void) | null = null;
+  private disconnectTimeout: NodeJS.Timeout | null = null;
+  private isConnected = false;
 
   @State() isOpen: boolean = false;
   @State() isFullScreen: boolean = false;
@@ -84,10 +86,13 @@ export class RasaChatbotWidget {
 
     this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload });
 
-    this.client.on('connect', () => {});
+    this.client.on('connect', () => {
+      this.isConnected = true;
+    });
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('disconnect', () => {
+      this.isConnected = false;
       this.messageHistory = [];
       this.messages = [];
     });
@@ -124,17 +129,29 @@ export class RasaChatbotWidget {
     }, delay);
   };
 
-  private loadHistory = (data: Message[]) => {
+  private loadHistory = (data: Message[]): void => {
     this.messageHistory = data;
   };
 
-  private toggleOpenState = () => {
+  private connect(): void {
+    if (this.isConnected) return;
+    this.client.connect();
+  }
+
+  private disconnect(): void {
+    if (!this.isConnected) return;
+    this.disconnectTimeout = setTimeout(() => {
+      if (!this.isOpen) {
+        this.client.disconnect();
+      }
+    }, DISCONNECT_TIMEOUT);
+  }
+
+  private toggleOpenState = (): void => {
     this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      this.client.connect();
-    } else {
-      this.client.disconnect();
-    }
+    clearTimeout(this.disconnectTimeout);
+    this.disconnectTimeout = null;
+    this.isOpen ? this.connect() : this.disconnect();
   };
 
   connectedCallback() {
