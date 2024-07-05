@@ -4,6 +4,7 @@ import { configStore, setConfigStore } from '../store/config-store';
 
 import { DISCONNECT_TIMEOUT } from './constants';
 import { Messenger } from '../components/messenger';
+import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
 
@@ -53,7 +54,7 @@ export class RasaChatbotWidget {
   /**
    * Url of the Rasa chatbot backend server
    */
-  @Prop() serverUrl: string;
+  @Prop() serverUrl!: string;
 
   /**
    * Indicates whether the chat messenger can be toggled to full screen mode.
@@ -257,6 +258,10 @@ export class RasaChatbotWidget {
   }
 
   render() {
+    if (!isValidURL(this.serverUrl)) {
+      console.error("Widget misconfigured. Missing property 'serverUrl'");
+      return null;
+    }
     return (
       <global-error-handler>
         <slot />

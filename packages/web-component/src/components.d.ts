@@ -800,7 +800,7 @@ declare namespace LocalJSX {
         /**
           * Url of the Rasa chatbot backend server
          */
-        "serverUrl"?: string;
+        "serverUrl": string;
         /**
           * If set to True, bot messages will be received as stream (printing word by word).
          */
