@@ -8,3 +8,4 @@
  * to consume components of this package as outlined in the `README.md`.
  */
 
+export * from './components';

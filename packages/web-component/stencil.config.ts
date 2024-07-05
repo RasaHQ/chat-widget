@@ -17,8 +17,6 @@ export const config: Config = {
     },
     {
       type: 'dist-custom-elements',
-      customElementsExportBehavior: 'auto-define-custom-elements',
-      externalRuntime: false,
     },
     {
       type: 'docs-readme',
@@ -33,8 +31,27 @@ export const config: Config = {
       copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
     },
     reactOutputTarget({
-      componentCorePackage: 'web-component',
+      componentCorePackage: '@rasa-widget/web-component',
       proxiesFile: '../react/lib/components/stencil-generated/index.ts',
+      includeDefineCustomElements: true,
+      excludeComponents: [
+        'chat-message',
+        'error-toast',
+        'global-error-handler',
+        'rasa-accordion',
+        'rasa-button',
+        'rasa-carousel',
+        'rasa-chat-input',
+        'rasa-file-download-message',
+        'rasa-image',
+        'rasa-image-message',
+        'rasa-quick-reply',
+        'rasa-session-divider',
+        'rasa-text',
+        'rasa-text-message',
+        'rasa-typing-indicator',
+        'rasa-video',
+      ],
     }),
   ],
   testing: {

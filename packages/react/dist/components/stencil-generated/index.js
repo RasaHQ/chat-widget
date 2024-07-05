@@ -1,19 +1,5 @@
 import { createReactComponent } from './react-component-lib';
-export const ChatMessage = createReactComponent('chat-message');
-export const ErrorToast = createReactComponent('error-toast');
-export const GlobalErrorHandler = createReactComponent('global-error-handler');
-export const RasaAccordion = createReactComponent('rasa-accordion');
-export const RasaButton = createReactComponent('rasa-button');
-export const RasaCarousel = createReactComponent('rasa-carousel');
-export const RasaChatInput = createReactComponent('rasa-chat-input');
+import { defineCustomElements } from '@rasa-widget/web-component/loader';
+defineCustomElements();
 export const RasaChatbotWidget = createReactComponent('rasa-chatbot-widget');
-export const RasaFileDownloadMessage = createReactComponent('rasa-file-download-message');
-export const RasaImage = createReactComponent('rasa-image');
-export const RasaImageMessage = createReactComponent('rasa-image-message');
-export const RasaQuickReply = createReactComponent('rasa-quick-reply');
-export const RasaSessionDivider = createReactComponent('rasa-session-divider');
-export const RasaText = createReactComponent('rasa-text');
-export const RasaTextMessage = createReactComponent('rasa-text-message');
-export const RasaTypingIndicator = createReactComponent('rasa-typing-indicator');
-export const RasaVideo = createReactComponent('rasa-video');
 //# sourceMappingURL=index.js.map
