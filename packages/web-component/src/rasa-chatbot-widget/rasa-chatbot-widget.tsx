@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil
 import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
 
-import { DISCONNECT_TIMEOUT } from './constants';
+import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
 import { Messenger } from '../components/messenger';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
@@ -52,44 +52,126 @@ export class RasaChatbotWidget {
   /**
    * Url of the Rasa chatbot backend server
    */
-  @Prop() serverUrl: string;
+  @Prop() serverUrl: string = WIDGET_DEFAULT_CONFIGURATION.SERVER_URL;
 
   /**
-   * Indicates whether the chat messenger can be toggled to full screen mode.
-   * */
-  @Prop() toggleFullScreen: boolean = false;
+   * Title of the Chat Widget
+   */
+  @Prop() widgetTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE;
 
   /**
-   * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
-   * */
-  @Prop() autoOpen: boolean = false;
+   * The subtitle of the Chat Widget
+   */
+  @Prop() widgetSubTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_SUBTITLE;
 
   /**
-   * If set to True, bot messages will be received as stream (printing word by word).
-   * */
-  @Prop() streamMessages: boolean = false;
+   * Static icon for the chatbot
+   */
+  @Prop() botIcon: string = WIDGET_DEFAULT_CONFIGURATION.BOT_ICON;
 
   /**
-   * Indicates time between message is received and printed.
-   * */
-  @Prop() messageDelay: number = 100;
+   * Static icon for the widget
+   */
+  @Prop() widgetIcon: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON;
 
   /**
-   * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
-   * */
-  @Prop() restEnabled: boolean = false;
+   * Indicates if a message timestamp should be displayed
+   */
+  @Prop() displayTimestamp: boolean = WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP;
+
+  /**
+   * Format of the message timestamp
+   */
+  @Prop() messageTimestamp: string = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP;
 
   /**
    * Data that should be sent on Chat Widget initialization
    */
-  @Prop() initialPayload?: string;
+  @Prop() initialPayload: string = WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD;
+
+  /**
+   * ID of a user engaged with the Chat Widget
+   */
+  @Prop() userId: string = WIDGET_DEFAULT_CONFIGURATION.USER_ID;
+
+  /**
+   * Indicates time between message is received and printed.
+   * */
+  @Prop() messageDelay: number = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY;
+
+  /**
+   * If set to True, bot messages will be received as stream (printing word by word).
+   * */
+  @Prop() streamMessages: boolean = WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES;
+
+  /**
+   * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+   * */
+  @Prop() autoOpen: boolean = WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN;
+
+  /**
+   * Message that should be displayed if an error occurs
+   */
+  @Prop() errorMessage: string = WIDGET_DEFAULT_CONFIGURATION.ERROR_MESSAGE;
+
+  /**
+   * Indicates whether the chat messenger can be toggled to full screen mode.
+   * */
+  @Prop() toggleFullScreen: boolean = WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN;
+
+  /**
+   * Indicates if the number of unread messages should be displayed
+   */
+  @Prop() unreadDisplayEnabled: boolean = WIDGET_DEFAULT_CONFIGURATION.UNREAD_DISPLAY_ENABLED;
+
+  /**
+   * Message placeholder for input
+   */
+  @Prop() inputMessagePlaceholder: string = WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER;
+
+  /**
+   * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
+   * */
+  @Prop() restEnabled: boolean = WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED;
 
   componentWillLoad() {
+    const {
+      serverUrl,
+      widgetTitle,
+      widgetSubTitle,
+      botIcon,
+      widgetIcon,
+      displayTimestamp,
+      messageTimestamp,
+      initialPayload,
+      userId,
+      messageDelay,
+      streamMessages,
+      autoOpen,
+      errorMessage,
+      toggleFullScreen,
+      unreadDisplayEnabled,
+      inputMessagePlaceholder,
+      restEnabled,
+    } = this;
     setConfigStore({
-      toggleFullScreen: this.toggleFullScreen,
-      autoOpen: this.autoOpen,
-      streamMessages: this.streamMessages,
-      messageDelay: this.streamMessages ? 0 : this.messageDelay,
+      serverUrl,
+      widgetTitle,
+      widgetSubTitle,
+      botIcon,
+      widgetIcon,
+      displayTimestamp,
+      messageTimestamp,
+      initialPayload,
+      userId,
+      streamMessages,
+      messageDelay: streamMessages ? 0 : messageDelay,
+      autoOpen,
+      errorMessage,
+      toggleFullScreen,
+      unreadDisplayEnabled,
+      inputMessagePlaceholder,
+      restEnabled,
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 

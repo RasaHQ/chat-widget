@@ -29,6 +29,12 @@
     color: var(--message-robot-icon-color);
   }
 
+  &__robot-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
   &__icon {
     display: flex;
     align-items: center;

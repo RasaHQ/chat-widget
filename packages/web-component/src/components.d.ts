@@ -58,13 +58,33 @@ export namespace Components {
          */
         "autoOpen": boolean;
         /**
+          * Static icon for the chatbot
+         */
+        "botIcon": string;
+        /**
+          * Indicates if a message timestamp should be displayed
+         */
+        "displayTimestamp": boolean;
+        /**
+          * Message that should be displayed if an error occurs
+         */
+        "errorMessage": string;
+        /**
           * Data that should be sent on Chat Widget initialization
          */
-        "initialPayload"?: string;
+        "initialPayload": string;
+        /**
+          * Message placeholder for input
+         */
+        "inputMessagePlaceholder": string;
         /**
           * Indicates time between message is received and printed.
          */
         "messageDelay": number;
+        /**
+          * Format of the message timestamp
+         */
+        "messageTimestamp": string;
         /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
@@ -81,6 +101,26 @@ export namespace Components {
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
         "toggleFullScreen": boolean;
+        /**
+          * Indicates if the number of unread messages should be displayed
+         */
+        "unreadDisplayEnabled": boolean;
+        /**
+          * ID of a user engaged with the Chat Widget
+         */
+        "userId": string;
+        /**
+          * Static icon for the widget
+         */
+        "widgetIcon": string;
+        /**
+          * The subtitle of the Chat Widget
+         */
+        "widgetSubTitle": string;
+        /**
+          * Title of the Chat Widget
+         */
+        "widgetTitle": string;
     }
     interface RasaFileDownloadMessage {
         /**
@@ -766,13 +806,33 @@ declare namespace LocalJSX {
          */
         "autoOpen"?: boolean;
         /**
+          * Static icon for the chatbot
+         */
+        "botIcon"?: string;
+        /**
+          * Indicates if a message timestamp should be displayed
+         */
+        "displayTimestamp"?: boolean;
+        /**
+          * Message that should be displayed if an error occurs
+         */
+        "errorMessage"?: string;
+        /**
           * Data that should be sent on Chat Widget initialization
          */
         "initialPayload"?: string;
         /**
+          * Message placeholder for input
+         */
+        "inputMessagePlaceholder"?: string;
+        /**
           * Indicates time between message is received and printed.
          */
         "messageDelay"?: number;
+        /**
+          * Format of the message timestamp
+         */
+        "messageTimestamp"?: string;
         /**
           * Emitted when the Chat Widget is closed by the user
          */
@@ -809,6 +869,26 @@ declare namespace LocalJSX {
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
         "toggleFullScreen"?: boolean;
+        /**
+          * Indicates if the number of unread messages should be displayed
+         */
+        "unreadDisplayEnabled"?: boolean;
+        /**
+          * ID of a user engaged with the Chat Widget
+         */
+        "userId"?: string;
+        /**
+          * Static icon for the widget
+         */
+        "widgetIcon"?: string;
+        /**
+          * The subtitle of the Chat Widget
+         */
+        "widgetSubTitle"?: string;
+        /**
+          * Title of the Chat Widget
+         */
+        "widgetTitle"?: string;
     }
     interface RasaFileDownloadMessage {
         /**

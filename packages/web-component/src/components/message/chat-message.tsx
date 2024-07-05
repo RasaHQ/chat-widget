@@ -1,4 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
+import { configStore } from '../../store/config-store';
 
 @Component({
   tag: 'chat-message',
@@ -30,9 +31,7 @@ export class ChatMessage {
       <Host class="chat-message">
         <div class={contentClassList}>
           {!this.hideSenderIcon && this.sender === 'bot' && (
-            <div class="chat-message__robot">
-              <rasa-icon-robot size={20} class="chat-message__icon" />
-            </div>
+            <div class="chat-message__robot">{configStore().botIcon ? <img class="chat-message__robot-image" src={configStore().botIcon}></img> : <rasa-icon-robot size={20} class="chat-message__icon" />}</div>
           )}
           <div part="messageContent" class={messageContentClassList}>
             <slot></slot>

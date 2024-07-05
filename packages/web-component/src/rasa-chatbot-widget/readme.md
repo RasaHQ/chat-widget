@@ -7,15 +7,25 @@
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                                            | Type      | Default     |
-| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------ | --------- | ----------- |
-| `autoOpen`         | `auto-open`          | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `false`     |
-| `initialPayload`   | `initial-payload`    | Data that should be sent on Chat Widget initialization                                                 | `string`  | `undefined` |
-| `messageDelay`     | `message-delay`      | Indicates time between message is received and printed.                                                | `number`  | `100`       |
-| `restEnabled`      | `rest-enabled`       | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`     |
-| `serverUrl`        | `server-url`         | Url of the Rasa chatbot backend server                                                                 | `string`  | `undefined` |
-| `streamMessages`   | `stream-messages`    | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `false`     |
-| `toggleFullScreen` | `toggle-full-screen` | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `false`     |
+| Property                  | Attribute                   | Description                                                                                            | Type      | Default                                                  |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | --------- | -------------------------------------------------------- |
+| `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN`                 |
+| `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                            | `string`  | `WIDGET_DEFAULT_CONFIGURATION.BOT_ICON`                  |
+| `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                   | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP`         |
+| `errorMessage`            | `error-message`             | Message that should be displayed if an error occurs                                                    | `string`  | `WIDGET_DEFAULT_CONFIGURATION.ERROR_MESSAGE`             |
+| `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                 | `string`  | `WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD`           |
+| `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                          | `string`  | `WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER` |
+| `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY`             |
+| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP`         |
+| `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED`              |
+| `serverUrl`               | `server-url`                | Url of the Rasa chatbot backend server                                                                 | `string`  | `WIDGET_DEFAULT_CONFIGURATION.SERVER_URL`                |
+| `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES`           |
+| `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN`         |
+| `unreadDisplayEnabled`    | `unread-display-enabled`    | Indicates if the number of unread messages should be displayed                                         | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.UNREAD_DISPLAY_ENABLED`    |
+| `userId`                  | `user-id`                   | ID of a user engaged with the Chat Widget                                                              | `string`  | `WIDGET_DEFAULT_CONFIGURATION.USER_ID`                   |
+| `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                             | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON`               |
+| `widgetSubTitle`          | `widget-sub-title`          | The subtitle of the Chat Widget                                                                        | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_SUBTITLE`           |
+| `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                               | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE`              |
 
 
 ## Events

@@ -9,11 +9,14 @@ describe('configStore', () => {
       displayTimestamp: false,
       errorMessage: 'Something bad happened',
       inputMessagePlaceholder: 'Type your message here',
+      initialPayload: '',
+      restEnabled: false,
+      serverUrl: '',
       messageDelay: 100,
       messageTimestamp: '',
       streamMessages: false,
-      subTitle: '',
-      title: 'Rasa Widget',
+      widgetSubTitle: '',
+      widgetTitle: 'Rasa Widget',
       toggleFullScreen: false,
       unreadDisplayEnabled: false,
       userId: '',
@@ -35,6 +38,6 @@ describe('configStore', () => {
     expect(updatedConfig.autoOpen).toBe(true);
     expect(updatedConfig.botIcon).toBe('bot-icon.png');
     expect(updatedConfig.displayTimestamp).toBe(true);
-    expect(updatedConfig.title).toBe('New Title');
+    expect(updatedConfig.widgetTitle).toBe('New Title');
   });
 });
