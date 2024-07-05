@@ -4,6 +4,7 @@ import { configStore, setConfigStore } from '../store/config-store';
 
 import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
 import { Messenger } from '../components/messenger';
+import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
 
@@ -328,6 +329,10 @@ export class RasaChatbotWidget {
   }
 
   render() {
+    if (!isValidURL(this.serverUrl)) {
+      console.error("Widget misconfigured. Missing property 'serverUrl'");
+      return null;
+    }
     return (
       <global-error-handler>
         <slot />
