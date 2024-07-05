@@ -11,7 +11,7 @@ describe('rasa-file-download-message', () => {
     expect(page.root).toEqualHtml(`
       <rasa-file-download-message file-url="http://example.com/file.pdf" file-name="example.pdf">
         <mock:shadow-root>
-          <a href="http://example.com/file.pdf" download="example.pdf" class="file-download">
+          <a href="http://example.com/file.pdf" download="example.pdf" class="file-download" target="_blank">
             <rasa-icon-paperclip class="file-download__icon" size="24"></rasa-icon-paperclip>
             <rasa-text value="example.pdf" class="file-download__name"></rasa-text>
           </a>
@@ -29,7 +29,7 @@ describe('rasa-file-download-message', () => {
     expect(page.root).toEqualHtml(`
       <rasa-file-download-message file-url="http://example.com/file.pdf" file-name="example.pdf" text="Click to download the file">
         <mock:shadow-root>
-          <a href="http://example.com/file.pdf" download="example.pdf" class="file-download">
+          <a href="http://example.com/file.pdf" download="example.pdf" class="file-download" target="_blank">
             <rasa-icon-paperclip class="file-download__icon" size="24"></rasa-icon-paperclip>
             <rasa-text value="example.pdf" class="file-download__name"></rasa-text>
           </a>

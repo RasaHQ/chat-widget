@@ -33,7 +33,7 @@ describe('formatDateTime', () => {
 
   it('handles empty argument', () => {
     // @ts-ignore-next-line
-    expect(() => formatDateTime()).toThrow('formatDateTime: Date not found');
+    expect(() => formatDateTime()).toThrow('Date not found');
   });
 
   it('handles non date object argument', () => {

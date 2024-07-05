@@ -27,7 +27,7 @@ export class RasaFileDownloadMessage {
   render() {
     return (
       <Host>
-        <a href={this.fileUrl} download={this.fileName} class="file-download">
+        <a href={this.fileUrl} download={this.fileName} class="file-download" target='_blank'>
           <rasa-icon-paperclip class="file-download__icon" size={24}></rasa-icon-paperclip>
           <rasa-text value={this.fileName} class="file-download__name"></rasa-text>
         </a>

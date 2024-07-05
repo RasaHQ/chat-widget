@@ -41,7 +41,7 @@ describe("determineMessageType", () => {
   it("throw an error for undefined message type", () => {
     const message = { unknownType: "someValue" };
     expect(() => determineMessageType(message)).toThrow(
-      "Message type not implemented MESSAGE: [object Object]"
+      "Can't load new message"
     );
   });
 });

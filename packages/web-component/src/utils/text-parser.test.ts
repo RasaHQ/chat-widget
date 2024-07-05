@@ -111,6 +111,6 @@ describe('parseFormattedString', () => {
   test('handles non string argument', () => {
     const input = null;
     // @ts-ignore-next-line
-    expect(() => parseFormattedString(input)).toThrow(`parseFormattedString: text input is not string`);
+    expect(() => parseFormattedString(input)).toThrow(`Invalid message text`);
   });
 });

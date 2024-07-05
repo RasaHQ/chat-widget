@@ -14,8 +14,7 @@ import { widgetState } from '../store/widget-state-store';
 })
 export class RasaChatbotWidget {
   private client: Rasa;
-  private storedPromise: Promise<void> | null = null;
-  private resolveStoredPromise: (() => void) | null = null;
+  private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
   private isConnected = false;
 
@@ -89,8 +88,8 @@ export class RasaChatbotWidget {
     setConfigStore({
       toggleFullScreen: this.toggleFullScreen,
       autoOpen: this.autoOpen,
-      streamMessages: this.messageDelay > 0 ? false : this.streamMessages,
-      messageDelay: this.messageDelay,
+      streamMessages: this.streamMessages,
+      messageDelay: this.streamMessages ? 0 : this.messageDelay,
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
@@ -112,31 +111,21 @@ export class RasaChatbotWidget {
     }
   }
 
-  private onNewMessage = async (data: Message) => {
+  private onNewMessage = (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
-
     const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
 
-    if (this.storedPromise) {
-      await this.storedPromise;
-    }
+    this.messageDelayQueue = this.messageDelayQueue.then(() => {
+      return new Promise<void>(resolve => {
+        this.typingIndicator = delay > 0;
 
-    this.storedPromise = new Promise<void>(resolve => {
-      this.resolveStoredPromise = resolve;
+        setTimeout(() => {
+          messageQueueService.enqueueMessage(data);
+          this.typingIndicator = false;
+          resolve();
+        }, delay);
+      });
     });
-
-    this.typingIndicator = true;
-
-    setTimeout(() => {
-      messageQueueService.enqueueMessage(data);
-      this.typingIndicator = false;
-
-      if (this.resolveStoredPromise) {
-        this.resolveStoredPromise();
-        this.resolveStoredPromise = null;
-      }
-      this.storedPromise = null;
-    }, delay);
   };
 
   private loadHistory = (data: Message[]): void => {
