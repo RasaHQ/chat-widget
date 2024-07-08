@@ -61,11 +61,6 @@ export class RasaChatbotWidget {
   @Prop() widgetTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE;
 
   /**
-   * The subtitle of the Chat Widget
-   */
-  @Prop() widgetSubTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_SUBTITLE;
-
-  /**
    * Static icon for the chatbot
    */
   @Prop() botIcon: string = WIDGET_DEFAULT_CONFIGURATION.BOT_ICON;
@@ -93,7 +88,7 @@ export class RasaChatbotWidget {
   /**
    * ID of a user engaged with the Chat Widget
    */
-  @Prop() userId: string = WIDGET_DEFAULT_CONFIGURATION.USER_ID;
+  @Prop() senderId: string = WIDGET_DEFAULT_CONFIGURATION.SENDER_ID;
 
   /**
    * Indicates time between message is received and printed.
@@ -121,11 +116,6 @@ export class RasaChatbotWidget {
   @Prop() toggleFullScreen: boolean = WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN;
 
   /**
-   * Indicates if the number of unread messages should be displayed
-   */
-  @Prop() unreadDisplayEnabled: boolean = WIDGET_DEFAULT_CONFIGURATION.UNREAD_DISPLAY_ENABLED;
-
-  /**
    * Message placeholder for input
    */
   @Prop() inputMessagePlaceholder: string = WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER;
@@ -139,38 +129,34 @@ export class RasaChatbotWidget {
     const {
       serverUrl,
       widgetTitle,
-      widgetSubTitle,
       botIcon,
       widgetIcon,
       displayTimestamp,
       messageTimestamp,
       initialPayload,
-      userId,
+      senderId,
       messageDelay,
       streamMessages,
       autoOpen,
       errorMessage,
       toggleFullScreen,
-      unreadDisplayEnabled,
       inputMessagePlaceholder,
       restEnabled,
     } = this;
     setConfigStore({
       serverUrl,
       widgetTitle,
-      widgetSubTitle,
       botIcon,
       widgetIcon,
       displayTimestamp,
       messageTimestamp,
       initialPayload,
-      userId,
+      senderId,
       streamMessages,
       messageDelay: streamMessages ? 0 : messageDelay,
       autoOpen,
       errorMessage,
       toggleFullScreen,
-      unreadDisplayEnabled,
       inputMessagePlaceholder,
       restEnabled,
     });
@@ -344,7 +330,7 @@ export class RasaChatbotWidget {
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
-              {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
+              {configStore().widgetIcon ? <img src={configStore().widgetIcon} class="rasa-chatbot-widget__launcher-image"></img> : this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
             </div>
           </div>
         </div>

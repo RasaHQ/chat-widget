@@ -12,11 +12,9 @@ export type WidgetConfig = {
   messageTimestamp: string;
   initialPayload: string;
   streamMessages: boolean;
-  widgetSubTitle: string;
   widgetTitle: string;
   toggleFullScreen: boolean;
-  unreadDisplayEnabled: boolean;
-  userId: string;
+  senderId: string;
   widgetIcon: string;
   restEnabled: boolean;
 };
@@ -32,11 +30,9 @@ const configStoreDefaults: WidgetConfig = {
   messageTimestamp: WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP,
   initialPayload: WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD,
   streamMessages: WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES,
-  widgetSubTitle: WIDGET_DEFAULT_CONFIGURATION.WIDGET_SUBTITLE,
   widgetTitle: WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE,
   toggleFullScreen: WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN,
-  unreadDisplayEnabled: WIDGET_DEFAULT_CONFIGURATION.UNREAD_DISPLAY_ENABLED,
-  userId: WIDGET_DEFAULT_CONFIGURATION.USER_ID,
+  senderId: WIDGET_DEFAULT_CONFIGURATION.SENDER_ID,
   widgetIcon: WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON,
   restEnabled: WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED,
 };

@@ -90,6 +90,10 @@ export namespace Components {
          */
         "restEnabled": boolean;
         /**
+          * ID of a user engaged with the Chat Widget
+         */
+        "senderId": string;
+        /**
           * Url of the Rasa chatbot backend server
          */
         "serverUrl": string;
@@ -102,21 +106,9 @@ export namespace Components {
          */
         "toggleFullScreen": boolean;
         /**
-          * Indicates if the number of unread messages should be displayed
-         */
-        "unreadDisplayEnabled": boolean;
-        /**
-          * ID of a user engaged with the Chat Widget
-         */
-        "userId": string;
-        /**
           * Static icon for the widget
          */
         "widgetIcon": string;
-        /**
-          * The subtitle of the Chat Widget
-         */
-        "widgetSubTitle": string;
         /**
           * Title of the Chat Widget
          */
@@ -858,6 +850,10 @@ declare namespace LocalJSX {
          */
         "restEnabled"?: boolean;
         /**
+          * ID of a user engaged with the Chat Widget
+         */
+        "senderId"?: string;
+        /**
           * Url of the Rasa chatbot backend server
          */
         "serverUrl"?: string;
@@ -870,21 +866,9 @@ declare namespace LocalJSX {
          */
         "toggleFullScreen"?: boolean;
         /**
-          * Indicates if the number of unread messages should be displayed
-         */
-        "unreadDisplayEnabled"?: boolean;
-        /**
-          * ID of a user engaged with the Chat Widget
-         */
-        "userId"?: string;
-        /**
           * Static icon for the widget
          */
         "widgetIcon"?: string;
-        /**
-          * The subtitle of the Chat Widget
-         */
-        "widgetSubTitle"?: string;
         /**
           * Title of the Chat Widget
          */

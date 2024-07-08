@@ -18,13 +18,11 @@
 | `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY`             |
 | `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP`         |
 | `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED`              |
+| `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                              | `string`  | `WIDGET_DEFAULT_CONFIGURATION.SENDER_ID`                 |
 | `serverUrl`               | `server-url`                | Url of the Rasa chatbot backend server                                                                 | `string`  | `WIDGET_DEFAULT_CONFIGURATION.SERVER_URL`                |
 | `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES`           |
 | `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN`         |
-| `unreadDisplayEnabled`    | `unread-display-enabled`    | Indicates if the number of unread messages should be displayed                                         | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.UNREAD_DISPLAY_ENABLED`    |
-| `userId`                  | `user-id`                   | ID of a user engaged with the Chat Widget                                                              | `string`  | `WIDGET_DEFAULT_CONFIGURATION.USER_ID`                   |
 | `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                             | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON`               |
-| `widgetSubTitle`          | `widget-sub-title`          | The subtitle of the Chat Widget                                                                        | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_SUBTITLE`           |
 | `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                               | `string`  | `WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE`              |
 
 
