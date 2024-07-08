@@ -1,4 +1,5 @@
-import { h, FunctionalComponent } from '@stencil/core';
+import { FunctionalComponent, h } from '@stencil/core';
+
 import { configStore } from '../store/config-store';
 
 type MessengerProps = {
@@ -8,12 +9,10 @@ type MessengerProps = {
 };
 
 export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullScreen, toggleFullScreenMode }, children) => {
-  if (!isOpen) return null;
-
   const Icon = isFullScreen ? 'rasa-icon-arrows-contract' : 'rasa-icon-arrows-expand';
 
   return (
-    <div class={{ 'messenger': true, 'messenger--fullscreen': isFullScreen }}>
+    <div class={{ 'messenger': true, 'messenger--fullscreen': isFullScreen, 'messenger--open': isOpen }}>
       <div class="messenger__header">
         <rasa-text value={configStore().title} disableParsing></rasa-text>
         {configStore().toggleFullScreen && <Icon onClick={toggleFullScreenMode} class="messenger__header__icon" size={20}></Icon>}
