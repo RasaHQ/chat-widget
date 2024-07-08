@@ -1,3 +1,5 @@
+import { CustomErrorClass, ErrorSeverity } from './errors';
+
 import { EventEmitter } from './EventEmitter';
 import { HTTPConnection } from './connection-strategy/HTTPConnection';
 import { MessageResponse } from './types/server-response.types';
@@ -78,6 +80,10 @@ export class Rasa extends EventEmitter {
     this.connection.socket.on('session_confirm', () => {
       this.onSessionConfirm();
     });
+
+    this.connection.socket.on('connect_error', () => {
+      throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
+    });
   }
 
   private onMessageReceive = (messages: MessageResponse[]): void => {
@@ -101,7 +107,7 @@ export class Rasa extends EventEmitter {
     this.connection.sendMessage(message, this.sessionId, this.onMessageReceive);
     this.storageService.setMessage({ sender: SENDER.USER, text: message }, this.sessionId);
     if (isQuickReply && messageKey) {
-      this.storageService.setQuickReplyValue(message, messageKey, this.sessionId)
+      this.storageService.setQuickReplyValue(message, messageKey, this.sessionId);
     }
   }
 }
