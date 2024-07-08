@@ -56,7 +56,7 @@ describe('constructVideoUrl', () => {
 
     expect(() => {
       constructVideoUrl({ videoSrc: invalidVideoSrc, autoplay: true });
-    }).toThrow('constructVideoUrl: invalid videoSrc');
+    }).toThrow('Invalid video source');
   });
 
   it('throws an error if invalid videoSrc is provided with wrong type', () => {
@@ -65,7 +65,7 @@ describe('constructVideoUrl', () => {
     expect(() => {
       // @ts-ignore-next-line
       constructVideoUrl({ videoSrc: invalidVideoSrc, autoplay: true });
-    }).toThrow('constructVideoUrl: TypeError: videoSrc.includes is not a function');
+    }).toThrow("Can't construct video url");
   });
 
   it('constructs URL without query string when parameters are false', () => {

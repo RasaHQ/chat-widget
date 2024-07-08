@@ -19,6 +19,12 @@
     border-radius: 100px;
     color: var(--launcher-color);
   }
+
+  &__launcher-image {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+  }
 }
 
 .messenger {

@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil
 import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
 
-import { DISCONNECT_TIMEOUT } from './constants';
+import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
 import { Messenger } from '../components/messenger';
 import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
@@ -15,8 +15,7 @@ import { widgetState } from '../store/widget-state-store';
 })
 export class RasaChatbotWidget {
   private client: Rasa;
-  private storedPromise: Promise<void> | null = null;
-  private resolveStoredPromise: (() => void) | null = null;
+  private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
   private isConnected = false;
 
@@ -54,44 +53,112 @@ export class RasaChatbotWidget {
   /**
    * Url of the Rasa chatbot backend server
    */
-  @Prop() serverUrl!: string;
+  @Prop() serverUrl: string = WIDGET_DEFAULT_CONFIGURATION.SERVER_URL;
 
   /**
-   * Indicates whether the chat messenger can be toggled to full screen mode.
-   * */
-  @Prop() toggleFullScreen: boolean = false;
+   * Title of the Chat Widget
+   */
+  @Prop() widgetTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE;
 
   /**
-   * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
-   * */
-  @Prop() autoOpen: boolean = false;
+   * Static icon for the chatbot
+   */
+  @Prop() botIcon: string = WIDGET_DEFAULT_CONFIGURATION.BOT_ICON;
 
   /**
-   * If set to True, bot messages will be received as stream (printing word by word).
-   * */
-  @Prop() streamMessages: boolean = false;
+   * Static icon for the widget
+   */
+  @Prop() widgetIcon: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON;
 
   /**
-   * Indicates time between message is received and printed.
-   * */
-  @Prop() messageDelay: number = 100;
+   * Indicates if a message timestamp should be displayed
+   */
+  @Prop() displayTimestamp: boolean = WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP;
 
   /**
-   * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
-   * */
-  @Prop() restEnabled: boolean = false;
+   * Format of the message timestamp
+   */
+  @Prop() messageTimestamp: string = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP;
 
   /**
    * Data that should be sent on Chat Widget initialization
    */
-  @Prop() initialPayload?: string;
+  @Prop() initialPayload: string = WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD;
+
+  /**
+   * ID of a user engaged with the Chat Widget
+   */
+  @Prop() senderId: string = WIDGET_DEFAULT_CONFIGURATION.SENDER_ID;
+
+  /**
+   * Indicates time between message is received and printed.
+   * */
+  @Prop() messageDelay: number = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY;
+
+  /**
+   * If set to True, bot messages will be received as stream (printing word by word).
+   * */
+  @Prop() streamMessages: boolean = WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES;
+
+  /**
+   * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+   * */
+  @Prop() autoOpen: boolean = WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN;
+
+  /**
+   * Message that should be displayed if an error occurs
+   */
+  @Prop() errorMessage: string = WIDGET_DEFAULT_CONFIGURATION.ERROR_MESSAGE;
+
+  /**
+   * Indicates whether the chat messenger can be toggled to full screen mode.
+   * */
+  @Prop() toggleFullScreen: boolean = WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN;
+
+  /**
+   * Message placeholder for input
+   */
+  @Prop() inputMessagePlaceholder: string = WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER;
+
+  /**
+   * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
+   * */
+  @Prop() restEnabled: boolean = WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED;
 
   componentWillLoad() {
+    const {
+      serverUrl,
+      widgetTitle,
+      botIcon,
+      widgetIcon,
+      displayTimestamp,
+      messageTimestamp,
+      initialPayload,
+      senderId,
+      messageDelay,
+      streamMessages,
+      autoOpen,
+      errorMessage,
+      toggleFullScreen,
+      inputMessagePlaceholder,
+      restEnabled,
+    } = this;
     setConfigStore({
-      toggleFullScreen: this.toggleFullScreen,
-      autoOpen: this.autoOpen,
-      streamMessages: this.messageDelay > 0 ? false : this.streamMessages,
-      messageDelay: this.messageDelay,
+      serverUrl,
+      widgetTitle,
+      botIcon,
+      widgetIcon,
+      displayTimestamp,
+      messageTimestamp,
+      initialPayload,
+      senderId,
+      streamMessages,
+      messageDelay: streamMessages ? 0 : messageDelay,
+      autoOpen,
+      errorMessage,
+      toggleFullScreen,
+      inputMessagePlaceholder,
+      restEnabled,
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
@@ -113,31 +180,21 @@ export class RasaChatbotWidget {
     }
   }
 
-  private onNewMessage = async (data: Message) => {
+  private onNewMessage = (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
-
     const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
 
-    if (this.storedPromise) {
-      await this.storedPromise;
-    }
+    this.messageDelayQueue = this.messageDelayQueue.then(() => {
+      return new Promise<void>(resolve => {
+        this.typingIndicator = delay > 0;
 
-    this.storedPromise = new Promise<void>(resolve => {
-      this.resolveStoredPromise = resolve;
+        setTimeout(() => {
+          messageQueueService.enqueueMessage(data);
+          this.typingIndicator = false;
+          resolve();
+        }, delay);
+      });
     });
-
-    this.typingIndicator = true;
-
-    setTimeout(() => {
-      messageQueueService.enqueueMessage(data);
-      this.typingIndicator = false;
-
-      if (this.resolveStoredPromise) {
-        this.resolveStoredPromise();
-        this.resolveStoredPromise = null;
-      }
-      this.storedPromise = null;
-    }, delay);
   };
 
   private loadHistory = (data: Message[]): void => {
@@ -273,7 +330,7 @@ export class RasaChatbotWidget {
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
-              {this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
+              {configStore().widgetIcon ? <img src={configStore().widgetIcon} class="rasa-chatbot-widget__launcher-image"></img> : this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
             </div>
           </div>
         </div>

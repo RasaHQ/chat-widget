@@ -1,6 +1,8 @@
 import { createStore } from '@stencil/store';
+import { WIDGET_DEFAULT_CONFIGURATION } from '../rasa-chatbot-widget/constants';
 
-type WidgetConfig = {
+export type WidgetConfig = {
+  serverUrl: string;
   autoOpen: boolean;
   botIcon: string;
   displayTimestamp: boolean;
@@ -8,34 +10,35 @@ type WidgetConfig = {
   inputMessagePlaceholder: string;
   messageDelay: number;
   messageTimestamp: string;
+  initialPayload: string;
   streamMessages: boolean;
-  subTitle: string;
-  title: string;
+  widgetTitle: string;
   toggleFullScreen: boolean;
-  unreadDisplayEnabled: boolean;
-  userId: string;
+  senderId: string;
   widgetIcon: string;
+  restEnabled: boolean;
 };
 
-const WIDGET_CONFIG_DEFAULT: WidgetConfig = {
-  autoOpen: false,
-  botIcon: '',
-  displayTimestamp: false,
-  errorMessage: 'Something bad happened',
-  inputMessagePlaceholder: 'Type your message here',
-  messageDelay: 100,
-  messageTimestamp: '',
-  streamMessages: false,
-  subTitle: '',
-  title: 'Rasa Widget',
-  toggleFullScreen: false,
-  unreadDisplayEnabled: false,
-  userId: '',
-  widgetIcon: '',
+const configStoreDefaults: WidgetConfig = {
+  serverUrl: WIDGET_DEFAULT_CONFIGURATION.SERVER_URL,
+  autoOpen: WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN,
+  botIcon: WIDGET_DEFAULT_CONFIGURATION.BOT_ICON,
+  displayTimestamp: WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP,
+  errorMessage: WIDGET_DEFAULT_CONFIGURATION.ERROR_MESSAGE,
+  inputMessagePlaceholder: WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER,
+  messageDelay: WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY,
+  messageTimestamp: WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP,
+  initialPayload: WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD,
+  streamMessages: WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES,
+  widgetTitle: WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE,
+  toggleFullScreen: WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN,
+  senderId: WIDGET_DEFAULT_CONFIGURATION.SENDER_ID,
+  widgetIcon: WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON,
+  restEnabled: WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED,
 };
 
 const { state } = createStore<WidgetConfig>({
-  ...WIDGET_CONFIG_DEFAULT,
+  ...configStoreDefaults,
 });
 
 export const configStore = () => state;
