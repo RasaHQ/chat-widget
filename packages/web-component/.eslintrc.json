@@ -2,7 +2,8 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "extends": [
-    "plugin:@stencil-community/recommended"
-  ]
+  "extends": ["plugin:@stencil-community/recommended"],
+  "rules": {
+    "@stencil-community/strict-boolean-conditions": "off"
+  }
 }

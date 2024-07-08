@@ -20,12 +20,16 @@ export class Rasa extends EventEmitter {
   private storageService: StorageService;
   connection: HTTPConnection | WebSocketConnection;
   initialPayload: string | undefined;
+  isInitialConnection: boolean;
+  isSessionConfirmed: boolean;
 
   public constructor({ url, protocol = 'ws', initialPayload }: Options) {
     super();
     this.sessionId = window.crypto.randomUUID();
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
+    this.isInitialConnection = true;
+    this.isSessionConfirmed = false;
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
     this.connection = new Connection({ url });
     this.initSocketEvents();
@@ -65,7 +69,10 @@ export class Rasa extends EventEmitter {
 
     this.connection.socket.on('connect', () => {
       this.connection.sessionRequest(this.sessionId);
-      this.loadChatHistory();
+      if (this.isInitialConnection) {
+        this.loadChatHistory();
+        this.isInitialConnection = false;
+      }
       this.trigger('connect');
     });
 
@@ -78,11 +85,22 @@ export class Rasa extends EventEmitter {
     });
 
     this.connection.socket.on('session_confirm', () => {
-      this.onSessionConfirm();
+      if (!this.isSessionConfirmed) {
+        this.onSessionConfirm();
+        this.isSessionConfirmed = true;
+      }
     });
 
     this.connection.socket.on('connect_error', () => {
-      throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
+      // The setTimeout function schedules the error to be thrown after the current execution context,
+      // allowing the reconnection logic of Socket.IO to continue.
+      setTimeout(() => {
+        throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
+      }, 0);
+    });
+
+    this.connection.socket.on('reconnect_attempt', attemptNumber => {
+      console.log(`Reconnection attempt #${attemptNumber}`);
     });
   }
 
@@ -101,6 +119,8 @@ export class Rasa extends EventEmitter {
 
   public disconnect(): void {
     this.connection.disconnect();
+    this.isSessionConfirmed = false;
+    this.isInitialConnection = true;
   }
 
   public sendMessage(message: string, isQuickReply = false, messageKey?: number): void {

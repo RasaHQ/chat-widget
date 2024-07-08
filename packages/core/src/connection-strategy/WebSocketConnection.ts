@@ -7,7 +7,9 @@ export class WebSocketConnection implements ConnectionStrategy {
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
-    this.socket = io(options.url, { autoConnect: false });
+    this.socket = io(options.url, {
+      autoConnect: false,
+    });
   }
 
   public connect(): void {

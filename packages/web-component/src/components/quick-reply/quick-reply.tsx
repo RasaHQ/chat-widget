@@ -1,7 +1,8 @@
-import { Component, Host, Prop, State, h, Event, EventEmitter, Listen } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
+import { QuickReplyMessage, SENDER } from '@rasa-widget/core';
+
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
-import { QuickReplyMessage, SENDER } from '@rasa-widget/core';
 import { widgetState } from '../../store/widget-state-store';
 
 @Component({
@@ -55,10 +56,9 @@ export class RasaQuickReply {
   componentWillLoad() {
     this.determineButtonState();
     this.quickReplyMessage = this.message;
-    widgetState.getState().onChange('activeQuickReply', (newValue) => {
-      console.log(newValue);
+    widgetState.getState().onChange('activeQuickReply', newValue => {
       if (newValue !== this.quickReplyId) this.disableButtons = true;
-    })
+    });
   }
 
   componentDidLoad() {

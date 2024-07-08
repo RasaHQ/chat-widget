@@ -1,8 +1,8 @@
 import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
+import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
 import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
 
-import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
 import { Messenger } from '../components/messenger';
 import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
@@ -171,8 +171,6 @@ export class RasaChatbotWidget {
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('disconnect', () => {
       this.isConnected = false;
-      this.messageHistory = [];
-      this.messages = [];
     });
 
     if (this.autoOpen) {
@@ -211,6 +209,8 @@ export class RasaChatbotWidget {
     this.disconnectTimeout = setTimeout(() => {
       if (!this.isOpen) {
         this.client.disconnect();
+        this.messageHistory = [];
+        this.messages = [];
       }
     }, DISCONNECT_TIMEOUT);
   }
@@ -330,7 +330,13 @@ export class RasaChatbotWidget {
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
-              {configStore().widgetIcon ? <img src={configStore().widgetIcon} class="rasa-chatbot-widget__launcher-image"></img> : this.isOpen ? <rasa-icon-close-chat size={18} /> : <rasa-icon-chat />}
+              {configStore().widgetIcon ? (
+                <img src={configStore().widgetIcon} class="rasa-chatbot-widget__launcher-image"></img>
+              ) : this.isOpen ? (
+                <rasa-icon-close-chat size={18} />
+              ) : (
+                <rasa-icon-chat />
+              )}
             </div>
           </div>
         </div>
