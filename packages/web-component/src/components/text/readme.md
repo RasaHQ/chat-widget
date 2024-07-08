@@ -15,6 +15,13 @@
 | `value`                   | `value`                     | Text value                                                        | `string`  | `undefined` |
 
 
+## Events
+
+| Event         | Description          | Type                     |
+| ------------- | -------------------- | ------------------------ |
+| `linkClicked` | User clicked on link | `CustomEvent<undefined>` |
+
+
 ## Dependencies
 
 ### Used by

@@ -3,16 +3,16 @@ import { ManagerOptions, Socket, SocketOptions, io } from 'socket.io-client';
 
 export class WebSocketConnection implements ConnectionStrategy {
   url: string;
-  authorizationToken?: string;
+  authenticationToken?: string;
   socket: Socket;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
-    this.authorizationToken = options.authorizationToken;
+    this.authenticationToken = options.authenticationToken;
     const ioOptons: Partial<ManagerOptions & SocketOptions> = { autoConnect: false };
-    if (this.authorizationToken) {
+    if (this.authenticationToken) {
       ioOptons.auth = {
-        token: this.authorizationToken,
+        token: this.authenticationToken,
       };
     }
 

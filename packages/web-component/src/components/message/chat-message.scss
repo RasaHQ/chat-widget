@@ -59,6 +59,7 @@
     display: flex;
     color: var(--timestamp-color);
     margin-top: 5px;
+    --rasa-text-font-size: 10px;
 
     &--left {
       justify-content: flex-start;

@@ -13,7 +13,7 @@ interface Options {
   url: string;
   protocol?: 'http' | 'ws';
   initialPayload?: string;
-  authorizationToken?: string;
+  authenticationToken?: string;
 }
 
 export class Rasa extends EventEmitter {
@@ -22,13 +22,13 @@ export class Rasa extends EventEmitter {
   connection: HTTPConnection | WebSocketConnection;
   initialPayload: string | undefined;
 
-  public constructor({ url, protocol = 'ws', initialPayload, authorizationToken }: Options) {
+  public constructor({ url, protocol = 'ws', initialPayload, authenticationToken }: Options) {
     super();
     this.sessionId = window.crypto.randomUUID();
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
-    this.connection = new Connection({ url, authorizationToken });
+    this.connection = new Connection({ url, authenticationToken });
     this.initSocketEvents();
   }
 

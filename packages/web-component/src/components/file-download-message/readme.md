@@ -14,6 +14,13 @@
 | `text`     | `text`      | Message text                          | `string` | `undefined` |
 
 
+## Events
+
+| Event                 | Description                   | Type                     |
+| --------------------- | ----------------------------- | ------------------------ |
+| `fileDownloadStarted` | User clicked on file download | `CustomEvent<undefined>` |
+
+
 ## Dependencies
 
 ### Used by

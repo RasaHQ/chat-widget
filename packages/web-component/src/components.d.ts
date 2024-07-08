@@ -62,9 +62,9 @@ export namespace Components {
     }
     interface RasaChatbotWidget {
         /**
-          * User authorization token
+          * User authentication token
          */
-        "authorizationToken": string;
+        "authenticationToken": string;
         /**
           * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
          */
@@ -865,9 +865,9 @@ declare namespace LocalJSX {
     }
     interface RasaChatbotWidget {
         /**
-          * User authorization token
+          * User authentication token
          */
-        "authorizationToken"?: string;
+        "authenticationToken"?: string;
         /**
           * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
          */

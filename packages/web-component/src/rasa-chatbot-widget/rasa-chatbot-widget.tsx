@@ -66,9 +66,9 @@ export class RasaChatbotWidget {
   @Prop() serverUrl: string = WIDGET_DEFAULT_CONFIGURATION.SERVER_URL;
 
   /**
-   * User authorization token
+   * User authentication token
    */
-  @Prop() authorizationToken: string = WIDGET_DEFAULT_CONFIGURATION.AUTHORIZATION_TOKEN;
+  @Prop() authenticationToken: string = WIDGET_DEFAULT_CONFIGURATION.AUTHENTICATION_TOKEN;
 
   /**
    * Title of the Chat Widget
@@ -143,7 +143,7 @@ export class RasaChatbotWidget {
   componentWillLoad() {
     const {
       serverUrl,
-      authorizationToken,
+      authenticationToken,
       widgetTitle,
       botIcon,
       widgetIcon,
@@ -161,7 +161,7 @@ export class RasaChatbotWidget {
     } = this;
     setConfigStore({
       serverUrl,
-      authorizationToken,
+      authenticationToken,
       widgetTitle,
       botIcon,
       widgetIcon,
@@ -179,7 +179,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload, authorizationToken: this.authorizationToken });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload, authenticationToken: this.authenticationToken });
 
     this.client.on('connect', () => {
       this.isConnected = true;

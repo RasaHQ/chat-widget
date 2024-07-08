@@ -5,7 +5,7 @@ describe('configStore', () => {
     const defaultConfig = configStore();
 
     expect(defaultConfig).toEqual({
-      authorizationToken: '',
+      authenticationToken: '',
       autoOpen: false,
       botIcon: '',
       displayTimestamp: false,
