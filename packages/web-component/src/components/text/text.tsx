@@ -1,4 +1,4 @@
-import { Component, Prop, State, h, Host, Element } from '@stencil/core';
+import { Component, Prop, State, h, Host, Element, Event, EventEmitter } from '@stencil/core';
 import { parseFormattedString } from '../../utils/text-parser';
 import { messageQueueService } from '../../store/message-queue';
 
@@ -27,6 +27,11 @@ export class RasaText {
    * Should component notify messageQueueService at complete rendering
    */
   @Prop() notifyCompleteRendering = false;
+
+  /**
+   * User clicked on link
+   */
+  @Event() linkClicked: EventEmitter<undefined>;
 
   @Element() el: HTMLRasaTextElement;
 
@@ -122,6 +127,11 @@ export class RasaText {
     });
   }
 
+  private onLinkClick() {
+    this.linkClicked.emit();
+    return true;
+  }
+
   render() {
     if (this.disableParsing) {
       return (
@@ -140,7 +150,7 @@ export class RasaText {
           }
           if (linkSrc) {
             return (
-              <a href={linkSrc} target="_blank" key={index}>
+              <a href={linkSrc} target="_blank" key={index} onClick={this.onLinkClick}>
                 <span class={classList} data-segment-index={index}></span>
               </a>
             );

@@ -12,9 +12,11 @@ import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class HTTPConnection implements ConnectionStrategy {
   url: string;
+  authorizationToken?: string;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
+    this.authorizationToken = options.authorizationToken;
   }
 
   public connect(): void {
@@ -44,8 +46,13 @@ export class HTTPConnection implements ConnectionStrategy {
   }
 
   public async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void): Promise<void> {
+    const headers = new Headers();
+    if (this.authorizationToken) {
+      headers.append('Authorization', `Bearer ${this.authorizationToken}`)
+    }
     return fetch(`${this.url}/webhooks/rest/webhook`, {
       method: 'POST',
+      headers,
       body: JSON.stringify({ sender: sessionId, message }),
     })
       .then(response => {

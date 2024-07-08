@@ -1,10 +1,13 @@
 import { RESPONSE_MESSAGE_TYPES } from '../constants';
 
-export interface TextResponse {
+interface BaseMessageResponse {
+  timestamp?: Date;
+}
+export interface TextResponse extends BaseMessageResponse {
   text: string;
 }
 
-export interface ImageResponse {
+export interface ImageResponse extends BaseMessageResponse {
   attachment: {
     payload: {
       alt?: string;
@@ -15,65 +18,65 @@ export interface ImageResponse {
   text?: string;
 }
 
-export interface AccordionResponse {
+export interface AccordionResponse extends BaseMessageResponse {
   type: typeof RESPONSE_MESSAGE_TYPES.ACCORDION;
   elements: { title: string; text: string; link?: string }[];
 }
 
-export interface CarouselResponse {
+export interface CarouselResponse extends BaseMessageResponse {
   type: typeof RESPONSE_MESSAGE_TYPES.CAROUSEL;
   elements: { image_url: string; text: string; link?: string }[];
 }
 
-export interface QuickReplyResponse {
+export interface QuickReplyResponse extends BaseMessageResponse {
   text?: string;
-  quick_replies: { content_type: string; payload: string; title: string, isSelected?: boolean }[];
+  quick_replies: { content_type: string; payload: string; title: string; isSelected?: boolean }[];
 }
 
-export interface FileDownloadResponse {
+export interface FileDownloadResponse extends BaseMessageResponse {
   type: typeof RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD;
   text?: string;
   file_url: string;
   file_name: string;
 }
 
-export interface VideoResponse {
+export interface VideoResponse extends BaseMessageResponse {
   title: string;
   type: typeof RESPONSE_MESSAGE_TYPES.VIDEO;
   video_url: string;
 }
 
-export interface HttpTextResponse {
+export interface HttpTextResponse extends BaseMessageResponse {
   recipient_id: string;
   text: string;
 }
 
-export interface HttpImageResponse {
+export interface HttpImageResponse extends BaseMessageResponse {
   recipient_id: string;
   image: string;
 }
 
-export interface HttpCarouselResponse {
+export interface HttpCarouselResponse extends BaseMessageResponse {
   recipient_id: string;
   custom: CarouselResponse;
 }
 
-export interface HttpVideoResponse {
+export interface HttpVideoResponse extends BaseMessageResponse {
   recipient_id: string;
   custom: VideoResponse;
 }
 
-export interface HttpAccordionResponse {
+export interface HttpAccordionResponse extends BaseMessageResponse {
   recipient_id: string;
   custom: AccordionResponse;
 }
 
-export interface HttpFileDownloadResponse {
+export interface HttpFileDownloadResponse extends BaseMessageResponse {
   recipient_id: string;
   custom: FileDownloadResponse;
 }
 
-export interface HttpQuickReplyResponse {
+export interface HttpQuickReplyResponse extends BaseMessageResponse {
   recipient_id: string;
   text: string;
   buttons: { payload: string; title: string }[];

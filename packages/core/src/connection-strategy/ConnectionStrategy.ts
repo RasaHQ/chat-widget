@@ -3,6 +3,7 @@ import { Socket } from 'socket.io-client';
 
 export interface ConnectionParams {
   url: string;
+  authorizationToken?: string;
 }
 
 export interface ConnectionStrategy extends ConnectionParams {

@@ -9,6 +9,7 @@
 
 | Property                  | Attribute                   | Description                                                                                            | Type      | Default                                                  |
 | ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | --------- | -------------------------------------------------------- |
+| `authorizationToken`      | `authorization-token`       | User authorization token                                                                               | `string`  | `WIDGET_DEFAULT_CONFIGURATION.AUTHORIZATION_TOKEN`       |
 | `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN`                 |
 | `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                            | `string`  | `WIDGET_DEFAULT_CONFIGURATION.BOT_ICON`                  |
 | `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                   | `boolean` | `WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP`         |
@@ -79,6 +80,7 @@ graph TD;
   rasa-chatbot-widget --> rasa-chat-input
   rasa-session-divider --> rasa-text
   chat-message --> rasa-icon-robot
+  chat-message --> rasa-text
   rasa-text-message --> rasa-text
   rasa-image-message --> rasa-image
   rasa-image-message --> rasa-text

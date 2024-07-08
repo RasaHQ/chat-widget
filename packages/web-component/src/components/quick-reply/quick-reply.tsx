@@ -85,7 +85,7 @@ export class RasaQuickReply {
     };
     return (
       <Host>
-        <chat-message sender={SENDER.BOT}>
+        <chat-message sender={SENDER.BOT} timestamp={this.message.timestamp}>
           <rasa-text value={this.message.text} enableStream={false} class="quick-reply__text"></rasa-text>
         </chat-message>
         {this.quickReplyMessage.replies.length && (

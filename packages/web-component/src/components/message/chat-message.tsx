@@ -1,5 +1,6 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 import { configStore } from '../../store/config-store';
+import { formatDateTime } from '../../utils/format-datetime';
 
 @Component({
   tag: 'chat-message',
@@ -15,6 +16,19 @@ export class ChatMessage {
    * Show sender icon
    */
   @Prop() hideSenderIcon: boolean = false;
+  /**
+   * Show message timestamp
+   */
+  @Prop() showTimestamp: boolean;
+
+  /**
+   * Message timestamp
+   */
+  @Prop() timestamp: Date;
+
+  componentWillLoad() {
+    this.showTimestamp = this.showTimestamp ?? configStore().displayTimestamp;
+  }
 
   render() {
     const messageContentClassList = {
@@ -27,6 +41,14 @@ export class ChatMessage {
       'chat-message__content--right': this.sender === 'user',
       'chat-message__content--left': this.sender === 'bot',
     };
+    const timestampClassList = {
+      'chat-message__timestamp': true,
+      'chat-message__timestamp--right': this.sender === 'user',
+      'chat-message__timestamp--left': this.sender === 'bot',
+    }
+
+    const timestamp = this.showTimestamp ? formatDateTime(new Date(this.timestamp)) : ''
+
     return (
       <Host class="chat-message">
         <div class={contentClassList}>
@@ -37,6 +59,7 @@ export class ChatMessage {
             <slot></slot>
           </div>
         </div>
+          {timestamp && <rasa-text value={timestamp} class={timestampClassList}></rasa-text>}
       </Host>
     );
   }

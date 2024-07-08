@@ -11,6 +11,7 @@ interface Options {
   url: string;
   protocol?: 'http' | 'ws';
   initialPayload?: string;
+  authorizationToken?: string;
 }
 
 export class Rasa extends EventEmitter {
@@ -19,19 +20,20 @@ export class Rasa extends EventEmitter {
   connection: HTTPConnection | WebSocketConnection;
   initialPayload: string | undefined;
 
-  public constructor({ url, protocol = 'ws', initialPayload }: Options) {
+  public constructor({ url, protocol = 'ws', initialPayload, authorizationToken }: Options) {
     super();
     this.sessionId = window.crypto.randomUUID();
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
-    this.connection = new Connection({ url });
+    this.connection = new Connection({ url, authorizationToken });
     this.initSocketEvents();
   }
 
   private onBotResponse(data: unknown): void {
-    this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object) }, this.sessionId);
-    this.trigger('message', messageParser(data, SENDER.BOT));
+    const timestamp = new Date();
+    this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object), timestamp }, this.sessionId);
+    this.trigger('message', messageParser({ ...(data as object), timestamp }, SENDER.BOT));
   }
 
   private loadChatHistory(): void {
@@ -101,7 +103,7 @@ export class Rasa extends EventEmitter {
     this.connection.sendMessage(message, this.sessionId, this.onMessageReceive);
     this.storageService.setMessage({ sender: SENDER.USER, text: message }, this.sessionId);
     if (isQuickReply && messageKey) {
-      this.storageService.setQuickReplyValue(message, messageKey, this.sessionId)
+      this.storageService.setQuickReplyValue(message, messageKey, this.sessionId);
     }
   }
 }

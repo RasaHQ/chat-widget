@@ -7,10 +7,12 @@
 
 ## Properties
 
-| Property         | Attribute          | Description          | Type              | Default     |
-| ---------------- | ------------------ | -------------------- | ----------------- | ----------- |
-| `hideSenderIcon` | `hide-sender-icon` | Show sender icon     | `boolean`         | `false`     |
-| `sender`         | `sender`           | Who sent the message | `"bot" \| "user"` | `undefined` |
+| Property         | Attribute          | Description            | Type              | Default     |
+| ---------------- | ------------------ | ---------------------- | ----------------- | ----------- |
+| `hideSenderIcon` | `hide-sender-icon` | Show sender icon       | `boolean`         | `false`     |
+| `sender`         | `sender`           | Who sent the message   | `"bot" \| "user"` | `undefined` |
+| `showTimestamp`  | `show-timestamp`   | Show message timestamp | `boolean`         | `undefined` |
+| `timestamp`      | --                 | Message timestamp      | `Date`            | `undefined` |
 
 
 ## Shadow Parts
@@ -31,11 +33,13 @@
 ### Depends on
 
 - rasa-icon-robot
+- [rasa-text](../text)
 
 ### Graph
 ```mermaid
 graph TD;
   chat-message --> rasa-icon-robot
+  chat-message --> rasa-text
   rasa-chatbot-widget --> chat-message
   rasa-quick-reply --> chat-message
   rasa-typing-indicator --> chat-message

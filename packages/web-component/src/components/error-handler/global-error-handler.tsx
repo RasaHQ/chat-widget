@@ -13,6 +13,7 @@ export class ErrorHandler {
       switch (error.severity) {
         case ErrorSeverity.Error:
           errorMessageService.setErrorMessage(error as CustomErrorClass);
+          console.error(error.message, error.description);
         case ErrorSeverity.LogError:
           console.error(error.message, error.description);
         case ErrorSeverity.LogWarning:

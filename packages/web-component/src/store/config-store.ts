@@ -3,6 +3,7 @@ import { WIDGET_DEFAULT_CONFIGURATION } from '../rasa-chatbot-widget/constants';
 
 export type WidgetConfig = {
   serverUrl: string;
+  authorizationToken: string;
   autoOpen: boolean;
   botIcon: string;
   displayTimestamp: boolean;
@@ -21,6 +22,7 @@ export type WidgetConfig = {
 
 const configStoreDefaults: WidgetConfig = {
   serverUrl: WIDGET_DEFAULT_CONFIGURATION.SERVER_URL,
+  authorizationToken: WIDGET_DEFAULT_CONFIGURATION.AUTHORIZATION_TOKEN,
   autoOpen: WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN,
   botIcon: WIDGET_DEFAULT_CONFIGURATION.BOT_ICON,
   displayTimestamp: WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP,

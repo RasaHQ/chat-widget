@@ -19,6 +19,14 @@ export namespace Components {
           * Who sent the message
          */
         "sender": 'user' | 'bot';
+        /**
+          * Show message timestamp
+         */
+        "showTimestamp": boolean;
+        /**
+          * Message timestamp
+         */
+        "timestamp": Date;
     }
     interface ErrorToast {
     }
@@ -53,6 +61,10 @@ export namespace Components {
         "initialValue"?: string;
     }
     interface RasaChatbotWidget {
+        /**
+          * User authorization token
+         */
+        "authorizationToken": string;
         /**
           * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
          */
@@ -94,7 +106,7 @@ export namespace Components {
          */
         "senderId": string;
         /**
-          * Url of the Rasa chatbot backend server
+          * Url of the Rasa chatbot backend server (example: https://example.com)
          */
         "serverUrl": string;
         /**
@@ -485,6 +497,10 @@ export interface RasaButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaButtonElement;
 }
+export interface RasaCarouselCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaCarouselElement;
+}
 export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatInputElement;
@@ -493,9 +509,17 @@ export interface RasaChatbotWidgetCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatbotWidgetElement;
 }
+export interface RasaFileDownloadMessageCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaFileDownloadMessageElement;
+}
 export interface RasaQuickReplyCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaQuickReplyElement;
+}
+export interface RasaTextCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaTextElement;
 }
 declare global {
     interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {
@@ -539,7 +563,18 @@ declare global {
         prototype: HTMLRasaButtonElement;
         new (): HTMLRasaButtonElement;
     };
+    interface HTMLRasaCarouselElementEventMap {
+        "linkClicked": undefined;
+    }
     interface HTMLRasaCarouselElement extends Components.RasaCarousel, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaCarouselElementEventMap>(type: K, listener: (this: HTMLRasaCarouselElement, ev: RasaCarouselCustomEvent<HTMLRasaCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaCarouselElementEventMap>(type: K, listener: (this: HTMLRasaCarouselElement, ev: RasaCarouselCustomEvent<HTMLRasaCarouselElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLRasaCarouselElement: {
         prototype: HTMLRasaCarouselElement;
@@ -568,6 +603,8 @@ declare global {
         "chatWidgetQuickReply": string;
         "chatWidgetOpened": undefined;
         "chatWidgetClosed": undefined;
+        "chatWidgetHyperlinkClicked": undefined;
+        "chatWidgetFileStartedDownload": undefined;
     }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -583,7 +620,18 @@ declare global {
         prototype: HTMLRasaChatbotWidgetElement;
         new (): HTMLRasaChatbotWidgetElement;
     };
+    interface HTMLRasaFileDownloadMessageElementEventMap {
+        "fileDownloadStarted": undefined;
+    }
     interface HTMLRasaFileDownloadMessageElement extends Components.RasaFileDownloadMessage, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaFileDownloadMessageElementEventMap>(type: K, listener: (this: HTMLRasaFileDownloadMessageElement, ev: RasaFileDownloadMessageCustomEvent<HTMLRasaFileDownloadMessageElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaFileDownloadMessageElementEventMap>(type: K, listener: (this: HTMLRasaFileDownloadMessageElement, ev: RasaFileDownloadMessageCustomEvent<HTMLRasaFileDownloadMessageElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLRasaFileDownloadMessageElement: {
         prototype: HTMLRasaFileDownloadMessageElement;
@@ -687,7 +735,18 @@ declare global {
         prototype: HTMLRasaSessionDividerElement;
         new (): HTMLRasaSessionDividerElement;
     };
+    interface HTMLRasaTextElementEventMap {
+        "linkClicked": undefined;
+    }
     interface HTMLRasaTextElement extends Components.RasaText, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaTextElementEventMap>(type: K, listener: (this: HTMLRasaTextElement, ev: RasaTextCustomEvent<HTMLRasaTextElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaTextElementEventMap>(type: K, listener: (this: HTMLRasaTextElement, ev: RasaTextCustomEvent<HTMLRasaTextElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLRasaTextElement: {
         prototype: HTMLRasaTextElement;
@@ -751,6 +810,14 @@ declare namespace LocalJSX {
           * Who sent the message
          */
         "sender"?: 'user' | 'bot';
+        /**
+          * Show message timestamp
+         */
+        "showTimestamp"?: boolean;
+        /**
+          * Message timestamp
+         */
+        "timestamp"?: Date;
     }
     interface ErrorToast {
     }
@@ -781,6 +848,10 @@ declare namespace LocalJSX {
           * List of carousel elements
          */
         "elements"?: CarouselElement[];
+        /**
+          * User clicked on link
+         */
+        "onLinkClicked"?: (event: RasaCarouselCustomEvent<undefined>) => void;
     }
     interface RasaChatInput {
         /**
@@ -793,6 +864,10 @@ declare namespace LocalJSX {
         "onSendMessageHandler"?: (event: RasaChatInputCustomEvent<string>) => void;
     }
     interface RasaChatbotWidget {
+        /**
+          * User authorization token
+         */
+        "authorizationToken"?: string;
         /**
           * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
          */
@@ -830,6 +905,14 @@ declare namespace LocalJSX {
          */
         "onChatWidgetClosed"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
         /**
+          * Emitted when a user is starting to download a file.
+         */
+        "onChatWidgetFileStartedDownload"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
+        /**
+          * Emitted when a user clicks on a hyperlink option.
+         */
+        "onChatWidgetHyperlinkClicked"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
+        /**
           * Emitted when the Chat Widget is opened by the user
          */
         "onChatWidgetOpened"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
@@ -854,7 +937,7 @@ declare namespace LocalJSX {
          */
         "senderId"?: string;
         /**
-          * Url of the Rasa chatbot backend server
+          * Url of the Rasa chatbot backend server (example: https://example.com)
          */
         "serverUrl"?: string;
         /**
@@ -883,6 +966,10 @@ declare namespace LocalJSX {
           * URL of the file to download
          */
         "fileUrl"?: string;
+        /**
+          * User clicked on file download
+         */
+        "onFileDownloadStarted"?: (event: RasaFileDownloadMessageCustomEvent<undefined>) => void;
         /**
           * Message text
          */
@@ -1196,6 +1283,10 @@ declare namespace LocalJSX {
           * Should component notify messageQueueService at complete rendering
          */
         "notifyCompleteRendering"?: boolean;
+        /**
+          * User clicked on link
+         */
+        "onLinkClicked"?: (event: RasaTextCustomEvent<undefined>) => void;
         /**
           * Text value
          */

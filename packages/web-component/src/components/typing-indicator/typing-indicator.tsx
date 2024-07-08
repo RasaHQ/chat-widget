@@ -10,7 +10,7 @@ import { SENDER } from '@rasa-widget/core/dist/constants';
 export class TypingIndicator {
   render() {
     return (
-      <chat-message sender={SENDER.BOT}>
+      <chat-message sender={SENDER.BOT} showTimestamp={false}>
         <div class="typing-indicator">
           <span class="typing-indicator__dot"></span>
           <span class="typing-indicator__dot"></span>
