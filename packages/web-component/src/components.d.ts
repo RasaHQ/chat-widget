@@ -472,10 +472,6 @@ export namespace Components {
          */
         "disableControls": boolean;
         /**
-          * Video height
-         */
-        "height": number;
-        /**
           * Loop video
          */
         "loop": boolean;
@@ -487,10 +483,6 @@ export namespace Components {
           * Video source url
          */
         "src": string;
-        /**
-          * Video width
-         */
-        "width": number;
     }
 }
 export interface RasaButtonCustomEvent<T> extends CustomEvent<T> {
@@ -1318,10 +1310,6 @@ declare namespace LocalJSX {
          */
         "disableControls"?: boolean;
         /**
-          * Video height
-         */
-        "height"?: number;
-        /**
           * Loop video
          */
         "loop"?: boolean;
@@ -1333,10 +1321,6 @@ declare namespace LocalJSX {
           * Video source url
          */
         "src"?: string;
-        /**
-          * Video width
-         */
-        "width"?: number;
     }
     interface IntrinsicElements {
         "chat-message": ChatMessage;

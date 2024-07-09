@@ -43,7 +43,7 @@
 
   &__message {
     align-items: center;
-    max-width: 289px;
+    max-width: var(--chat-message-max-width);
     overflow: hidden;
 
     &--bot {

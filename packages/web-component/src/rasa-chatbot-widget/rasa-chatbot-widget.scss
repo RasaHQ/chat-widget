@@ -2,6 +2,10 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  --chat-message-max-width: 289px;
+  --image-height: 170px;
+  --video-height: 170px;
+  --image-width: 289px;
 
   &__container {
     position: relative;
@@ -95,4 +99,10 @@
 
 .rasa-icon {
   display: inline-flex;
+}
+
+.fullscreen {
+  --chat-message-max-width: 560px;
+  --video-width: 560px;
+  --image-width: 560px;
 }

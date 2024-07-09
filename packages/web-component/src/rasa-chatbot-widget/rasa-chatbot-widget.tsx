@@ -348,10 +348,14 @@ export class RasaChatbotWidget {
       console.error("Widget misconfigured. Missing property 'serverUrl'");
       return null;
     }
+    const widgetClassList = {
+      'rasa-chatbot-widget': true,
+      'fullscreen': this.isFullScreen
+    }
     return (
       <global-error-handler>
         <slot />
-        <div class="rasa-chatbot-widget">
+        <div class={widgetClassList}>
           <div class="rasa-chatbot-widget__container">
             <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}

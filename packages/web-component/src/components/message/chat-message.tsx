@@ -19,7 +19,7 @@ export class ChatMessage {
   /**
    * Show message timestamp
    */
-  @Prop() showTimestamp: boolean;
+  @Prop({ mutable: true }) showTimestamp: boolean;
 
   /**
    * Message timestamp
@@ -45,21 +45,23 @@ export class ChatMessage {
       'chat-message__timestamp': true,
       'chat-message__timestamp--right': this.sender === 'user',
       'chat-message__timestamp--left': this.sender === 'bot',
-    }
+    };
 
-    const timestamp = this.showTimestamp ? formatDateTime(new Date(this.timestamp)) : ''
+    const timestamp = this.showTimestamp ? formatDateTime(new Date(this.timestamp)) : '';
 
     return (
       <Host class="chat-message">
         <div class={contentClassList}>
           {!this.hideSenderIcon && this.sender === 'bot' && (
-            <div class="chat-message__robot">{configStore().botIcon ? <img class="chat-message__robot-image" src={configStore().botIcon}></img> : <rasa-icon-robot size={20} class="chat-message__icon" />}</div>
+            <div class="chat-message__robot">
+              {configStore().botIcon ? <img class="chat-message__robot-image" src={configStore().botIcon}></img> : <rasa-icon-robot size={20} class="chat-message__icon" />}
+            </div>
           )}
           <div part="messageContent" class={messageContentClassList}>
             <slot></slot>
           </div>
         </div>
-          {timestamp && <rasa-text value={timestamp} class={timestampClassList}></rasa-text>}
+        {timestamp && <rasa-text value={timestamp} class={timestampClassList}></rasa-text>}
       </Host>
     );
   }
