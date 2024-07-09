@@ -9,14 +9,14 @@ export class WebSocketConnection implements ConnectionStrategy {
   constructor(options: ConnectionParams) {
     this.url = options.url;
     this.authenticationToken = options.authenticationToken;
-    const ioOptons: Partial<ManagerOptions & SocketOptions> = { autoConnect: false };
+    const ioOptions: Partial<ManagerOptions & SocketOptions> = { autoConnect: false };
     if (this.authenticationToken) {
-      ioOptons.auth = {
+      ioOptions.auth = {
         token: this.authenticationToken,
       };
     }
 
-    this.socket = io(options.url, ioOptons);
+    this.socket = io(options.url, ioOptions);
   }
 
   public connect(): void {
