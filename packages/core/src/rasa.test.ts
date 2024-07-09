@@ -67,7 +67,7 @@ describe("Rasa Client", () => {
 
   describe("Messaging", () => {
     it("should send a new message", () => {
-      client.sendMessage("Hello");
+      client.sendMessage({text: "Hello"});
 
       expect(mockSocketEmit).toHaveBeenCalledWith("user_uttered", {
         message: "Hello",
