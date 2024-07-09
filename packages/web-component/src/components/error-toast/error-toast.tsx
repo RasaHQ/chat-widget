@@ -1,6 +1,7 @@
 import { Component, Host, State, h, Element } from '@stencil/core';
 import { errorMessageService } from '../../store/error-message';
 import { CustomErrorClass } from '@rasa-widget/core';
+import { configStore } from '../../store/config-store';
 
 @Component({
   tag: 'error-toast',
@@ -40,8 +41,8 @@ export class ErrorHandler {
         <div class={this.errorMessage ? 'toast toast__show' : 'toast'}>
           <rasa-icon-danger size={16} class="toast__icon"></rasa-icon-danger>
           <div class="toast__error">
-            <rasa-text disableParsing value={this.errorMessage?.message} class="toast__message"></rasa-text>
-            {this.errorMessage?.description && <rasa-text disableParsing value={this.errorMessage?.description} class="toast__description"></rasa-text>}
+            <rasa-text disableParsing value={configStore().errorMessage} class="toast__message"></rasa-text>
+            {/* {this.errorMessage?.description && <rasa-text disableParsing value={this.errorMessage?.description} class="toast__description"></rasa-text>} */}
           </div>
         </div>
       </Host>

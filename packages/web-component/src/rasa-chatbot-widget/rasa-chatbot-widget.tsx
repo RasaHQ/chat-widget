@@ -27,33 +27,48 @@ export class RasaChatbotWidget {
 
   /**
    * Emitted when the user receives a message
-   * */
+   */
   @Event() chatWidgetReceivedMessage: EventEmitter<unknown>;
 
   /**
    * Emitted when the user sends a message
-   * */
+   */
   @Event() chatWidgetSentMessage: EventEmitter<string>;
 
   /**
    * Emitted when the user click on quick reply
-   * */
+   */
   @Event() chatWidgetQuickReply: EventEmitter<string>;
 
   /**
    * Emitted when the Chat Widget is opened by the user
-   * */
+   */
   @Event() chatWidgetOpened: EventEmitter<undefined>;
 
   /**
    * Emitted when the Chat Widget is closed by the user
-   * */
+   */
   @Event() chatWidgetClosed: EventEmitter<undefined>;
 
   /**
-   * Url of the Rasa chatbot backend server
+   * Emitted when a user clicks on a hyperlink option.
+   */
+  @Event() chatWidgetHyperlinkClicked: EventEmitter<undefined>;
+
+  /**
+   * Emitted when a user is starting to download a file.
+   */
+  @Event() chatWidgetFileStartedDownload: EventEmitter<undefined>;
+
+  /**
+   * Url of the Rasa chatbot backend server (example: https://example.com)
    */
   @Prop() serverUrl: string = WIDGET_DEFAULT_CONFIGURATION.SERVER_URL;
+
+  /**
+   * User authentication token
+   */
+  @Prop() authenticationToken: string = WIDGET_DEFAULT_CONFIGURATION.AUTHENTICATION_TOKEN;
 
   /**
    * Title of the Chat Widget
@@ -128,6 +143,7 @@ export class RasaChatbotWidget {
   componentWillLoad() {
     const {
       serverUrl,
+      authenticationToken,
       widgetTitle,
       botIcon,
       widgetIcon,
@@ -145,6 +161,7 @@ export class RasaChatbotWidget {
     } = this;
     setConfigStore({
       serverUrl,
+      authenticationToken,
       widgetTitle,
       botIcon,
       widgetIcon,
@@ -162,7 +179,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload, authenticationToken: this.authenticationToken });
 
     this.client.on('connect', () => {
       this.isConnected = true;
@@ -238,18 +255,30 @@ export class RasaChatbotWidget {
   private sendMessageHandler(event: CustomEvent<string>) {
     this.client.sendMessage(event.detail);
     this.chatWidgetSentMessage.emit(event.detail);
-    this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user' }];
+    this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp: new Date() }];
   }
 
   @Listen('quickReplySelected')
   // @ts-ignore-next-line
   private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
-    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user' }];
+    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user', timestamp: new Date() }];
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
     this.messages[key] = updatedMessage;
     this.client.sendMessage(value, true, key - 1);
     this.chatWidgetQuickReply.emit(value);
+  }
+
+  @Listen('linkClicked')
+  // @ts-ignore-next-line
+  private linkClickedHanlder() {
+    this.chatWidgetHyperlinkClicked.emit();
+  }
+
+  @Listen('fileDownloadStarted')
+  // @ts-ignore-next-line
+  private linkClickedHanlder() {
+    this.chatWidgetFileStartedDownload.emit();
   }
 
   private getAltText() {
@@ -266,31 +295,31 @@ export class RasaChatbotWidget {
         return <rasa-session-divider sessionStartDate={message.startDate} key={key}></rasa-session-divider>;
       case MESSAGE_TYPES.TEXT:
         return (
-          <chat-message sender={message.sender} key={key}>
+          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
             <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
           </chat-message>
         );
       case MESSAGE_TYPES.IMAGE:
         return (
-          <chat-message sender={message.sender} key={key}>
+          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
             <rasa-image-message imageSrc={message.imageSrc} text={message.text} imageAlt={message.alt}></rasa-image-message>
           </chat-message>
         );
       case MESSAGE_TYPES.VIDEO:
         return (
-          <chat-message sender={message.sender} key={key}>
+          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
             <rasa-video src={message.src}></rasa-video>
           </chat-message>
         );
       case MESSAGE_TYPES.FILE_DOWNLOAD:
         return (
-          <chat-message sender={message.sender} key={key}>
+          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
             <rasa-file-download-message fileUrl={message.fileUrl} fileName={message.fileName} text={message.text}></rasa-file-download-message>
           </chat-message>
         );
       case MESSAGE_TYPES.ACCORDION:
         return (
-          <chat-message sender={message.sender} key={key}>
+          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
             {message.elements.map(element => (
               <rasa-accordion label={element.title}>
                 <rasa-text value={element.text}></rasa-text>
@@ -307,7 +336,7 @@ export class RasaChatbotWidget {
         return <rasa-quick-reply message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;
       case MESSAGE_TYPES.CAROUSEL:
         return (
-          <chat-message sender={message.sender}>
+          <chat-message sender={message.sender} timestamp={message.timestamp}>
             <rasa-carousel elements={message.elements}></rasa-carousel>
           </chat-message>
         );

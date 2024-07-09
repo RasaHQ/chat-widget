@@ -77,6 +77,8 @@ describe("Rasa Client", () => {
 
     it("should fire bot_uttered event", () => {
       const onBotResponse = jest.fn();
+      const specificDate = new Date(2024, 7, 8);
+      jest.spyOn(global, 'Date').mockImplementation(() => specificDate);
       client.on("message", onBotResponse);
 
       triggerSocketEvent("bot_uttered", { text: "Hello! How can I help you?" });
@@ -84,6 +86,7 @@ describe("Rasa Client", () => {
       expect(onBotResponse).toHaveBeenCalledWith({
         sender: "bot",
         text: "Hello! How can I help you?",
+        timestamp: specificDate,
         type: "text",
       });
     });

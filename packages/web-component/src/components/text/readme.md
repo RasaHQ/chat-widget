@@ -15,10 +15,18 @@
 | `value`                   | `value`                     | Text value                                                        | `string`  | `undefined` |
 
 
+## Events
+
+| Event         | Description          | Type                     |
+| ------------- | -------------------- | ------------------------ |
+| `linkClicked` | User clicked on link | `CustomEvent<undefined>` |
+
+
 ## Dependencies
 
 ### Used by
 
+ - [chat-message](../message)
  - [error-toast](../error-toast)
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
  - [rasa-file-download-message](../file-download-message)
@@ -30,6 +38,7 @@
 ### Graph
 ```mermaid
 graph TD;
+  chat-message --> rasa-text
   error-toast --> rasa-text
   rasa-chatbot-widget --> rasa-text
   rasa-file-download-message --> rasa-text

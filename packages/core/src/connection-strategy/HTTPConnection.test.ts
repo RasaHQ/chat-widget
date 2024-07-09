@@ -25,6 +25,7 @@ describe('HTTPConnection', () => {
 
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
+      headers: new Headers(),
       json: jest.fn().mockResolvedValue(response),
     });
 
@@ -33,6 +34,7 @@ describe('HTTPConnection', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(`${url}/webhooks/rest/webhook`, {
       method: 'POST',
+      headers: new Headers(),
       body: JSON.stringify({ sender: sessionId, message }),
     });
 
@@ -48,7 +50,7 @@ describe('HTTPConnection', () => {
     ];
 
     const result = (httpConnection as any).normalizeResponse(response);
-    expect(result).toEqual(normalizedResponse);
+    expect(result).toEqual([{...normalizedResponse[0], timestamp: result[0].timestamp}]);
   });
 
   it('should normalize custom accordion response', () => {
@@ -64,7 +66,7 @@ describe('HTTPConnection', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (httpConnection as any).normalizeResponse(response);
-    expect(result).toEqual(normalizedResponse);
+    expect(result).toEqual([{...normalizedResponse[0], timestamp: result[0].timestamp}]);
   });
 
   it('should normalize custom image response', () => {
@@ -80,6 +82,6 @@ describe('HTTPConnection', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (httpConnection as any).normalizeResponse(response);
-    expect(result).toEqual(normalizedResponse);
+    expect(result).toEqual([{...normalizedResponse[0], timestamp: result[0].timestamp}]);
   });
 });

@@ -20,6 +20,7 @@ export type CarouselElement = {
 
 interface BaseMessage {
   sender: SenderType;
+  timestamp?: Date;
 }
 
 export interface TextMessage extends BaseMessage {

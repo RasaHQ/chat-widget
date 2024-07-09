@@ -1,15 +1,22 @@
 import { ConnectionParams, ConnectionStrategy } from './ConnectionStrategy';
-import { Socket, io } from 'socket.io-client';
+import { ManagerOptions, Socket, SocketOptions, io } from 'socket.io-client';
 
 export class WebSocketConnection implements ConnectionStrategy {
   url: string;
+  authenticationToken?: string;
   socket: Socket;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
-    this.socket = io(options.url, {
-      autoConnect: false,
-    });
+    this.authenticationToken = options.authenticationToken;
+    const ioOptons: Partial<ManagerOptions & SocketOptions> = { autoConnect: false };
+    if (this.authenticationToken) {
+      ioOptons.auth = {
+        token: this.authenticationToken,
+      };
+    }
+
+    this.socket = io(options.url, ioOptons);
   }
 
   public connect(): void {
