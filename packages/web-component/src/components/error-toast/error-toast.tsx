@@ -32,7 +32,7 @@ export class ErrorHandler {
     this.errorMessage = error;
     setTimeout(() => {
       this.errorMessage = null;
-    }, 3000);
+    }, 3500);
   }
 
   render() {
