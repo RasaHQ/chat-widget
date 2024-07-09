@@ -253,19 +253,21 @@ export class RasaChatbotWidget {
   @Listen('sendMessageHandler')
   // @ts-ignore-next-line
   private sendMessageHandler(event: CustomEvent<string>) {
-    this.client.sendMessage(event.detail);
+    const timestamp = new Date();
+    this.client.sendMessage({text: event.detail, timestamp});
     this.chatWidgetSentMessage.emit(event.detail);
-    this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp: new Date() }];
+    this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
   }
 
   @Listen('quickReplySelected')
   // @ts-ignore-next-line
   private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
-    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user', timestamp: new Date() }];
+    const timestamp = new Date();
+    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user', timestamp }];
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.client.sendMessage(value, true, key - 1);
+    this.client.sendMessage({text: value, timestamp}, true, key - 1);
     this.chatWidgetQuickReply.emit(value);
   }
 
