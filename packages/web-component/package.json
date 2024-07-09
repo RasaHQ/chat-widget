@@ -1,9 +1,6 @@
 {
   "name": "@rasa-widget/web-component",
-  "publishConfig": {
-    "access": "public"
-  },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "TODO",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -47,7 +44,8 @@
     "svgo": "^3.2.0"
   },
   "dependencies": {
-    "@rasa-widget/core": "*"
+    "@rasa-widget/core": "^0.1.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "c8b543d469cd0fe0528aaf46875f83fd69e14601"
 }

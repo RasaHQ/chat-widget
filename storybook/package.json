@@ -1,7 +1,9 @@
 {
   "name": "@rasa-widget/storybook",
-  "private": true,
-  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -24,7 +26,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "@rasa-widget/web-component": "*",
+    "@rasa-widget/web-component": "^0.1.1",
     "storybook": "^8.1.10"
   }
 }
