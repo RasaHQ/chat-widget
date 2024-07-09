@@ -23,9 +23,7 @@
     margin: 0 24px;
     height: auto;
     padding: 16px;
-    animation:
-      moveUp 0.5s forwards,
-      fadeIn 0.5s forwards;
+    animation: toastAnimation 3.5s forwards;
   }
 
   &__icon {
@@ -48,22 +46,26 @@
   }
 }
 
-@keyframes moveUp {
-  from {
+@keyframes toastAnimation {
+  0% {
     bottom: -100px;
-  }
-  to {
-    bottom: var(--toast-bottom-end-point);
-  }
-}
-
-@keyframes fadeIn {
-  from {
     opacity: 0;
     visibility: hidden;
   }
-  to {
+  10%,
+  80% {
+    bottom: var(--toast-bottom-end-point);
     opacity: 1;
     visibility: visible;
+  }
+  90% {
+    bottom: var(--toast-bottom-end-point);
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    bottom: -100px;
+    opacity: 0;
+    visibility: hidden;
   }
 }
