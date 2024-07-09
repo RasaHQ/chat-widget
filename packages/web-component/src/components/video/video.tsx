@@ -30,14 +30,6 @@ export class RasaVideo {
    * Mute video
    */
   @Prop() mute = false;
-  /**
-   * Video width
-   */
-  @Prop() width = 287;
-  /**
-   * Video height
-   */
-  @Prop() height = 170;
 
   componentDidLoad() {
     messageQueueService.completeRendering();
@@ -54,8 +46,6 @@ export class RasaVideo {
     return (
       <Host>
         <iframe
-          width={this.width}
-          height={this.height}
           src={videoSource}
           title="YouTube video player"
           frameborder="0"

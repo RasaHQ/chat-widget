@@ -1,5 +1,5 @@
 import { CarouselElement } from '@rasa-widget/core';
-import { Component, h, State, Element, Prop, EventEmitter, Event } from '@stencil/core';
+import { Component, h, State, Element, Prop, Event, EventEmitter } from '@stencil/core';
 import { messageQueueService } from '../../store/message-queue';
 
 @Component({
@@ -51,10 +51,10 @@ export class RasaCarousel {
     }, 500); // Timeout matching the scroll duration
   }
 
-  private onLinkClick() {
+  private onLinkClick = () => {
     this.linkClicked.emit();
     return true;
-  }
+  };
 
   private renderCarouselElement({ text, imageUrl, link }: CarouselElement, index: number) {
     if (!link) {

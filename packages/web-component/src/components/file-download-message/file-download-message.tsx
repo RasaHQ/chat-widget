@@ -29,7 +29,7 @@ export class RasaFileDownloadMessage {
     messageQueueService.completeRendering();
   }
   
-  private onDownloadClick() {
+  private onDownloadClick = () => {
     this.fileDownloadStarted.emit();
     return true;
   }

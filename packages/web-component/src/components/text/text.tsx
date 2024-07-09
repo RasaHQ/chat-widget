@@ -127,7 +127,7 @@ export class RasaText {
     });
   }
 
-  private onLinkClick() {
+  private onLinkClick = () => {
     this.linkClicked.emit();
     return true;
   }
