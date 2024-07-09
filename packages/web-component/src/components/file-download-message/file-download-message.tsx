@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h } from '@stencil/core';
+import { Component, Host, Prop, h, Event, EventEmitter } from '@stencil/core';
 import { messageQueueService } from '../../store/message-queue';
 
 @Component({
@@ -20,14 +20,24 @@ export class RasaFileDownloadMessage {
    */
   @Prop() text: string;
 
+  /**
+   * User clicked on file download
+   */
+  @Event() fileDownloadStarted: EventEmitter<undefined>;
+
   componentDidLoad() {
     messageQueueService.completeRendering();
+  }
+  
+  private onDownloadClick() {
+    this.fileDownloadStarted.emit();
+    return true;
   }
 
   render() {
     return (
       <Host>
-        <a href={this.fileUrl} download={this.fileName} class="file-download" target='_blank'>
+        <a href={this.fileUrl} download={this.fileName} class="file-download" target='_blank' onClick={this.onDownloadClick}>
           <rasa-icon-paperclip class="file-download__icon" size={24}></rasa-icon-paperclip>
           <rasa-text value={this.fileName} class="file-download__name"></rasa-text>
         </a>

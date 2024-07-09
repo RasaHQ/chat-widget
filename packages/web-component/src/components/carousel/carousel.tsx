@@ -1,5 +1,5 @@
 import { CarouselElement } from '@rasa-widget/core';
-import { Component, h, State, Element, Prop } from '@stencil/core';
+import { Component, h, State, Element, Prop, EventEmitter, Event } from '@stencil/core';
 import { messageQueueService } from '../../store/message-queue';
 
 @Component({
@@ -12,6 +12,10 @@ export class RasaCarousel {
    * List of carousel elements
    */
   @Prop() elements: CarouselElement[];
+  /**
+   * User clicked on link
+   */
+  @Event() linkClicked: EventEmitter<undefined>;
 
   @State() currentIndex: number = 0;
   @Element() el: HTMLRasaCarouselElement;
@@ -47,6 +51,11 @@ export class RasaCarousel {
     }, 500); // Timeout matching the scroll duration
   }
 
+  private onLinkClick() {
+    this.linkClicked.emit();
+    return true;
+  }
+
   private renderCarouselElement({ text, imageUrl, link }: CarouselElement, index: number) {
     if (!link) {
       return (
@@ -56,7 +65,7 @@ export class RasaCarousel {
       );
     }
     return (
-      <a href={link} target='_blank'>
+      <a href={link} target="_blank" onClick={this.onLinkClick}>
         <div class={{ 'carousel__slide': true, 'carousel__slide--active': index === this.currentIndex }}>
           <rasa-image-message class="carousel__image" height={112} text={text} imageSrc={imageUrl} width={188}></rasa-image-message>
         </div>
@@ -76,9 +85,7 @@ export class RasaCarousel {
             <rasa-icon-chevron-down size={24} class="carousel__previous" onClick={this.prevSlide}></rasa-icon-chevron-down>
           </div>
         )}
-        <div class="carousel__slides">
-          {this.elements.map((element, index) => this.renderCarouselElement(element, index))}
-        </div>
+        <div class="carousel__slides">{this.elements.map((element, index) => this.renderCarouselElement(element, index))}</div>
         {this.hasNext() && (
           <div class="carousel__icon carousel__icon--right">
             <rasa-icon-chevron-down size={24} class="carousel__next" onClick={this.nextSlide}></rasa-icon-chevron-down>

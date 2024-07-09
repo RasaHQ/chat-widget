@@ -3,7 +3,9 @@ import { configStore, setConfigStore } from './config-store';
 describe('configStore', () => {
   it('returns the default configuration', () => {
     const defaultConfig = configStore();
+
     expect(defaultConfig).toEqual({
+      authenticationToken: '',
       autoOpen: false,
       botIcon: '',
       displayTimestamp: false,
@@ -12,14 +14,12 @@ describe('configStore', () => {
       initialPayload: '',
       restEnabled: false,
       serverUrl: '',
-      messageDelay: 100,
+      messageDelay: 600,
       messageTimestamp: '',
       streamMessages: false,
-      widgetSubTitle: '',
       widgetTitle: 'Rasa Widget',
       toggleFullScreen: false,
-      unreadDisplayEnabled: false,
-      userId: '',
+      senderId: '',
       widgetIcon: '',
     });
   });
@@ -29,7 +29,7 @@ describe('configStore', () => {
       autoOpen: true,
       botIcon: 'bot-icon.png',
       displayTimestamp: true,
-      title: 'New Title',
+      widgetTitle: 'New Title',
     };
 
     setConfigStore(newConfig);

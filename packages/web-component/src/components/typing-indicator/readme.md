@@ -20,6 +20,7 @@
 graph TD;
   rasa-typing-indicator --> chat-message
   chat-message --> rasa-icon-robot
+  chat-message --> rasa-text
   rasa-chatbot-widget --> rasa-typing-indicator
   style rasa-typing-indicator fill:#f9f,stroke:#333,stroke-width:4px
 ```

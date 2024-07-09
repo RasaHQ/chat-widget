@@ -41,6 +41,7 @@ graph TD;
   rasa-quick-reply --> rasa-text
   rasa-quick-reply --> rasa-button
   chat-message --> rasa-icon-robot
+  chat-message --> rasa-text
   rasa-chatbot-widget --> rasa-quick-reply
   style rasa-quick-reply fill:#f9f,stroke:#333,stroke-width:4px
 ```
