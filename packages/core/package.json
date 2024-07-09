@@ -1,5 +1,8 @@
 {
   "name": "@rasa-widget/core",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.0",
   "description": "> TODO: description",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",

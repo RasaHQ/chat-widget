@@ -1,5 +1,8 @@
 {
   "name": "@rasa-widget/web-component",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.1",
   "description": "TODO",
   "main": "dist/index.cjs.js",
