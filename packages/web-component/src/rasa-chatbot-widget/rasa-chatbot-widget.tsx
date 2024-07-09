@@ -196,7 +196,6 @@ export class RasaChatbotWidget {
   }
 
   private onNewMessage = (data: Message) => {
-    console.log(data);
     this.chatWidgetReceivedMessage.emit(data);
     const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
 
