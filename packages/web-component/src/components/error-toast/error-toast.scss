@@ -1,6 +1,6 @@
 :host {
-    position: relative;
-    height: 0;
+  position: relative;
+  height: 0;
 }
 
 .toast {
@@ -17,7 +17,7 @@
   transition:
     opacity 0.5s ease,
     visibility 0.5s ease;
-  z-index: 9999; 
+  z-index: 9999;
 
   &__show {
     margin: 0 24px;
@@ -42,7 +42,6 @@
 
   &__description {
     word-break: break-all;
-
   }
 }
 
