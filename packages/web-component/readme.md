@@ -17,8 +17,8 @@ npm install @your-org/web-component
 Alternatively, you can use a CDN to include the chatbot widget in your project:
 
 ```html
-<script type="module" src="https://unpkg.com/@your-org/chatbot-widget/web-component/web-component.esm.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@your-org/chatbot-widget/web-component/web-component.css" />
+<script type="module" src="https://unpkg.com/@your-org/chatbot-widget/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@your-org/chatbot-widget/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
 ```
 
 ## Usage

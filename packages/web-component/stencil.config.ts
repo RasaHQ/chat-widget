@@ -3,7 +3,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 import { sass } from '@stencil/sass';
 
 export const config: Config = {
-  namespace: 'web-component',
+  namespace: 'rasa-chatwigdet',
   globalStyle: 'src/styles/index.scss',
   plugins: [
     sass({
