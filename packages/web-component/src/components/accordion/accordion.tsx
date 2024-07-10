@@ -25,8 +25,8 @@ export class RasaAccordion {
 
   render() {
     return (
-      <div class={{ 'accordion': true, 'accordion--open': this.open }} onClick={this.toggle}>
-        <div class="accordion__header">
+      <div class={{ 'accordion': true, 'accordion--open': this.open }}>
+        <div class="accordion__header" onClick={this.toggle}>
           <div class="accordion__header__title">{this.label}</div>
           <rasa-icon-chevron-down class="accordion__header__icon" />
         </div>

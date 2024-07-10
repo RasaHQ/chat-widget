@@ -63,6 +63,7 @@ export namespace Components {
     interface RasaChatbotWidget {
         /**
           * User authentication token
+          * @default ''''
          */
         "authenticationToken": string;
         /**
@@ -107,6 +108,7 @@ export namespace Components {
         "senderId": string;
         /**
           * Url of the Rasa chatbot backend server (example: https://example.com)
+          * @default ''
          */
         "serverUrl": string;
         /**
@@ -858,6 +860,7 @@ declare namespace LocalJSX {
     interface RasaChatbotWidget {
         /**
           * User authentication token
+          * @default ''''
          */
         "authenticationToken"?: string;
         /**
@@ -930,8 +933,9 @@ declare namespace LocalJSX {
         "senderId"?: string;
         /**
           * Url of the Rasa chatbot backend server (example: https://example.com)
+          * @default ''
          */
-        "serverUrl"?: string;
+        "serverUrl": string;
         /**
           * If set to True, bot messages will be received as stream (printing word by word).
          */
