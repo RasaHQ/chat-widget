@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
-import { DISCONNECT_TIMEOUT, WIDGET_DEFAULT_CONFIGURATION } from './constants';
+import { DISCONNECT_TIMEOUT } from './constants';
 import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
 
@@ -63,82 +63,82 @@ export class RasaChatbotWidget {
   /**
    * Url of the Rasa chatbot backend server (example: https://example.com)
    */
-  @Prop() serverUrl: string = WIDGET_DEFAULT_CONFIGURATION.SERVER_URL;
+  @Prop() serverUrl!: string;
 
   /**
    * User authentication token
    */
-  @Prop() authenticationToken: string = WIDGET_DEFAULT_CONFIGURATION.AUTHENTICATION_TOKEN;
+  @Prop() authenticationToken: string = '';
 
   /**
    * Title of the Chat Widget
    */
-  @Prop() widgetTitle: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_TITLE;
+  @Prop() widgetTitle: string = 'Rasa Widget';
 
   /**
    * Static icon for the chatbot
    */
-  @Prop() botIcon: string = WIDGET_DEFAULT_CONFIGURATION.BOT_ICON;
+  @Prop() botIcon: string = '';
 
   /**
    * Static icon for the widget
    */
-  @Prop() widgetIcon: string = WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON;
+  @Prop() widgetIcon: string = '';
 
   /**
    * Indicates if a message timestamp should be displayed
    */
-  @Prop() displayTimestamp: boolean = WIDGET_DEFAULT_CONFIGURATION.DISPLAY_TIMESTAMP;
+  @Prop() displayTimestamp: boolean = false;
 
   /**
    * Format of the message timestamp
    */
-  @Prop() messageTimestamp: string = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_TIMESTAMP;
+  @Prop() messageTimestamp: string = '';
 
   /**
    * Data that should be sent on Chat Widget initialization
    */
-  @Prop() initialPayload: string = WIDGET_DEFAULT_CONFIGURATION.INITIAL_PAYLOAD;
+  @Prop() initialPayload: string = '';
 
   /**
    * ID of a user engaged with the Chat Widget
    */
-  @Prop() senderId: string = WIDGET_DEFAULT_CONFIGURATION.SENDER_ID;
+  @Prop() senderId: string = '';
 
   /**
    * Indicates time between message is received and printed.
    * */
-  @Prop() messageDelay: number = WIDGET_DEFAULT_CONFIGURATION.MESSAGE_DELAY;
+  @Prop() messageDelay: number = 600;
 
   /**
    * If set to True, bot messages will be received as stream (printing word by word).
    * */
-  @Prop() streamMessages: boolean = WIDGET_DEFAULT_CONFIGURATION.STREAM_MESSAGES;
+  @Prop() streamMessages: boolean = false;
 
   /**
    * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
    * */
-  @Prop() autoOpen: boolean = WIDGET_DEFAULT_CONFIGURATION.AUTO_OPEN;
+  @Prop() autoOpen: boolean = false;
 
   /**
    * Message that should be displayed if an error occurs
    */
-  @Prop() errorMessage: string = WIDGET_DEFAULT_CONFIGURATION.ERROR_MESSAGE;
+  @Prop() errorMessage: string = 'Something bad happened';
 
   /**
    * Indicates whether the chat messenger can be toggled to full screen mode.
    * */
-  @Prop() toggleFullScreen: boolean = WIDGET_DEFAULT_CONFIGURATION.TOGGLE_FULLSCREEN;
+  @Prop() toggleFullScreen: boolean = false;
 
   /**
    * Message placeholder for input
    */
-  @Prop() inputMessagePlaceholder: string = WIDGET_DEFAULT_CONFIGURATION.INPUT_MESSAGE_PLACEHOLDER;
+  @Prop() inputMessagePlaceholder: string = 'Type your message here';
 
   /**
    * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
    * */
-  @Prop() restEnabled: boolean = WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED;
+  @Prop() restEnabled: boolean = false;
 
   componentWillLoad() {
     const {
