@@ -2,6 +2,13 @@
 
 This project is a Rasa chatbot widget designed to be easily embeddable into any web applications. It leverages Lerna for managing multiple packages within a single repository. The widget utilizes StencilJS for building efficient and reusable web components.
 
+## Requirements
+
+- Node version v20.11.1
+- npm version 10.2.4
+
+A .nvmrc file is provided for easily switching to the correct Node.js version using nvm.
+
 ## Installation
 
 - Clone the repository
