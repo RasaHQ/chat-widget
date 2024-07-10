@@ -1,8 +1,8 @@
 import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
-import { DISCONNECT_TIMEOUT } from './constants';
 import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
 
+import { DISCONNECT_TIMEOUT } from './constants';
 import { Messenger } from '../components/messenger';
 import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
