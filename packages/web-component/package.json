@@ -1,16 +1,16 @@
 {
   "name": "@rasa-widget/web-component",
   "version": "0.1.0",
-  "description": "TODO",
+  "description": "A lightweight and efficient chatbot widget built with StencilJS, designed for seamless integration and customizable interface.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/widget/widget.esm.js",
+  "unpkg": "dist/web-component/web-component.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "https://github.com/RasaHQ/chat-widget.git"
   },
   "files": [
     "dist/",
@@ -44,8 +44,6 @@
     "svgo": "^3.2.0"
   },
   "dependencies": {
-    "@rasa-widget/core": "^0.1.1"
-  },
-  "license": "MIT",
-  "gitHead": "c8b543d469cd0fe0528aaf46875f83fd69e14601"
+    "@rasa-widget/core": "^0.1.0"
+  }
 }
