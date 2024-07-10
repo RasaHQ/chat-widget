@@ -1,0 +1,19 @@
+{
+  "name": "rasa-html-example",
+  "version": "0.1.0",
+  "description": "This repository provides an example of how to integrate and use a Rasa chatbot widget built with StencilJS in a simple HTML project.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RasaHQ/chat-widget.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RasaHQ/chat-widget/issues"
+  },
+  "homepage": "https://github.com/RasaHQ/chat-widget#readme"
+}

@@ -9,7 +9,7 @@ A customizable chatbot widget built with StencilJS. This widget can be easily in
 To install the chatbot widget via npm, run the following command:
 
 ```bash
-npm install @your-org/web-component
+npm install @vortexwest/chat-widget-ui
 ```
 
 ### Using CDN
