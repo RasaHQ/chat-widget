@@ -23,7 +23,7 @@
     "tsc": "tsc -p . --outDir ./dist"
   },
   "dependencies": {
-    "@rasa-widget/web-component": "^0.1.1"
+    "@rasa-widget/web-component": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
