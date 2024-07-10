@@ -1,5 +1,5 @@
 {
-  "name": "@rasa-widget/react",
+  "name": "@vortexwest/chat-widget-react",
   "version": "0.1.0",
   "publishConfig": {
     "access": "restricted"
@@ -26,7 +26,7 @@
     "tsc": "tsc -p . --outDir ./dist"
   },
   "dependencies": {
-    "@rasa-widget/web-component": "^0.1.0"
+    "@vortexwest/chat-widget-ui": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
