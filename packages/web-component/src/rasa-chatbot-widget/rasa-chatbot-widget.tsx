@@ -62,13 +62,11 @@ export class RasaChatbotWidget {
 
   /**
    * Url of the Rasa chatbot backend server (example: https://example.com)
-   * @default ''
    */
   @Prop() serverUrl!: string;
 
   /**
    * User authentication token
-   * @default ''''
    */
   @Prop() authenticationToken: string = '';
 
