@@ -1,6 +1,9 @@
 {
   "name": "@rasa-widget/web-component",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "restricted"
+  },
   "description": "A lightweight and efficient chatbot widget built with StencilJS, designed for seamless integration and customizable interface.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",

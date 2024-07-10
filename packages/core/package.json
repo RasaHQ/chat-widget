@@ -1,7 +1,10 @@
 {
   "name": "@rasa-widget/core",
   "version": "0.1.0",
-  "description": "> TODO: description",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "description": "The core package provides essential functionality to connect and interact with a Rasa server.",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "license": "ISC",
   "main": "dist/index.js",
