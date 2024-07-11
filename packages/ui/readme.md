@@ -17,8 +17,8 @@ npm install @vortexwest/chat-widget-ui
 Alternatively, you can use a CDN to include the chatbot widget in your project:
 
 ```html
-<script type="module" src="https://unpkg.com/@your-org/chatbot-widget/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@your-org/chatbot-widget/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
+<script type="module" src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
 ```
 
 ## Usage
