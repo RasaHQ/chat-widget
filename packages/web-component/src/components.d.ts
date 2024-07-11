@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CarouselElement, QuickReplyMessage } from "@rasa-widget/core";
+import { CarouselElement, QuickReply, QuickReplyMessage } from "@rasa-widget/core";
 import { SenderType } from "@rasa-widget/core/dist/types/common.types";
-export { CarouselElement, QuickReplyMessage } from "@rasa-widget/core";
+export { CarouselElement, QuickReply, QuickReplyMessage } from "@rasa-widget/core";
 export { SenderType } from "@rasa-widget/core/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
@@ -703,7 +703,7 @@ declare global {
     };
     interface HTMLRasaQuickReplyElementEventMap {
         "quickReplySelected": {
-    value: string;
+    quickReply: QuickReply;
     key: number;
   };
     }
@@ -1248,7 +1248,7 @@ declare namespace LocalJSX {
           * Quick reply selected
          */
         "onQuickReplySelected"?: (event: RasaQuickReplyCustomEvent<{
-    value: string;
+    quickReply: QuickReply;
     key: number;
   }>) => void;
         /**
