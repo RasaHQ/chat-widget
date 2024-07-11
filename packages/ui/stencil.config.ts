@@ -14,6 +14,7 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
+      copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
     },
     {
       type: 'dist-custom-elements',

@@ -2,7 +2,7 @@
 // THIN
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Thin.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Thin.ttf') format('truetype');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 // LIGHT
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Light.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -18,7 +18,7 @@
 // REGULAR
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -26,7 +26,7 @@
 // BOLD
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Bold.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -34,7 +34,7 @@
 // BLACK
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Black.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Black.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -42,7 +42,7 @@
 // THIN-ITALIC
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-ThinItalic.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-ThinItalic.ttf') format('truetype');
   font-weight: 100;
   font-style: italic;
   font-display: swap;
@@ -50,7 +50,7 @@
 // LIGHT-ITALIC
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-LightItalic.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-LightItalic.ttf') format('truetype');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
@@ -58,7 +58,7 @@
 // REGULAR-ITALIC
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-Italic.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-Italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -66,7 +66,7 @@
 // BOLD-ITALIC
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-BoldItalic.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-BoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
@@ -74,7 +74,7 @@
 // BLACK
 @font-face {
   font-family: 'Lato', sans-serif;
-  src: url('/assets/fonts/Lato-BlackItalic.ttf') format('truetype');
+  src: url('./assets/fonts/Lato-BlackItalic.ttf') format('truetype');
   font-weight: 900;
   font-style: italic;
   font-display: swap;
