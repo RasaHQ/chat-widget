@@ -59,6 +59,6 @@ export const config: Config = {
     browserHeadless: 'new',
   },
   extras: {
-    enableImportInjection: false,
+    enableImportInjection: true,
   },
 };
