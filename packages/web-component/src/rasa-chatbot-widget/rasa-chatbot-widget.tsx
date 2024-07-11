@@ -26,6 +26,11 @@ export class RasaChatbotWidget {
   @State() typingIndicator: boolean = false;
 
   /**
+   * Emitted when the Chat Widget is opened by the user
+   */
+  @Event() chatSessionStarted: EventEmitter<{ sessionId: string }>;
+
+  /**
    * Emitted when the user receives a message
    */
   @Event() chatWidgetReceivedMessage: EventEmitter<unknown>;
@@ -186,6 +191,7 @@ export class RasaChatbotWidget {
     });
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
+    this.client.on('sessionConfirm', this.sessionConfirm);
     this.client.on('disconnect', () => {
       this.isConnected = false;
     });
@@ -194,6 +200,10 @@ export class RasaChatbotWidget {
       this.toggleOpenState();
     }
   }
+
+  private sessionConfirm = () => {
+    this.chatSessionStarted.emit({ sessionId: this.client.sessionId });
+  };
 
   private onNewMessage = (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
@@ -254,7 +264,7 @@ export class RasaChatbotWidget {
   // @ts-ignore-next-line
   private sendMessageHandler(event: CustomEvent<string>) {
     const timestamp = new Date();
-    this.client.sendMessage({text: event.detail, timestamp});
+    this.client.sendMessage({ text: event.detail, timestamp });
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
   }
@@ -267,7 +277,7 @@ export class RasaChatbotWidget {
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(qr => qr.reply === quickReply.reply).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.client.sendMessage({text: quickReply.text, reply: quickReply.reply, timestamp}, true, key - 1);
+    this.client.sendMessage({ text: quickReply.text, reply: quickReply.reply, timestamp }, true, key - 1);
     this.chatWidgetQuickReply.emit(quickReply.reply);
   }
 
@@ -352,8 +362,8 @@ export class RasaChatbotWidget {
     }
     const widgetClassList = {
       'rasa-chatbot-widget': true,
-      'fullscreen': this.isFullScreen
-    }
+      'fullscreen': this.isFullScreen,
+    };
     return (
       <global-error-handler>
         <slot />

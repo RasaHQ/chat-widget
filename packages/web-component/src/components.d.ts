@@ -590,6 +590,7 @@ declare global {
         new (): HTMLRasaChatInputElement;
     };
     interface HTMLRasaChatbotWidgetElementEventMap {
+        "chatSessionStarted": { sessionId: string };
         "chatWidgetReceivedMessage": unknown;
         "chatWidgetSentMessage": string;
         "chatWidgetQuickReply": string;
@@ -892,6 +893,10 @@ declare namespace LocalJSX {
           * Format of the message timestamp
          */
         "messageTimestamp"?: string;
+        /**
+          * Emitted when the Chat Widget is opened by the user
+         */
+        "onChatSessionStarted"?: (event: RasaChatbotWidgetCustomEvent<{ sessionId: string }>) => void;
         /**
           * Emitted when the Chat Widget is closed by the user
          */
