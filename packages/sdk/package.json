@@ -1,6 +1,6 @@
 {
   "name": "@vortexwest/chat-widget-sdk",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "restricted"
   },
