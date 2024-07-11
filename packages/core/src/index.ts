@@ -14,19 +14,21 @@ interface Options {
   protocol?: 'http' | 'ws';
   initialPayload?: string;
   authenticationToken?: string;
+  senderId?: string;
 }
 
 export class Rasa extends EventEmitter {
-  sessionId: string;
+  private _sessionId!: string;
   private storageService: StorageService;
-  connection: HTTPConnection | WebSocketConnection;
-  initialPayload: string | undefined;
-  isInitialConnection: boolean;
-  isSessionConfirmed: boolean;
+  private connection: HTTPConnection | WebSocketConnection;
+  private initialPayload: string | undefined;
+  private isInitialConnection: boolean;
+  private isSessionConfirmed: boolean;
+  private senderId?: string;
 
-  public constructor({ url, protocol = 'ws', initialPayload, authenticationToken }: Options) {
+  public constructor({ url, protocol = 'ws', initialPayload, authenticationToken, senderId }: Options) {
     super();
-    this.sessionId = window.crypto.randomUUID();
+    this.senderId = senderId;
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     this.isInitialConnection = true;
@@ -34,6 +36,14 @@ export class Rasa extends EventEmitter {
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
     this.connection = new Connection({ url, authenticationToken });
     this.initSocketEvents();
+  }
+
+  public get sessionId(): string {
+    return this._sessionId;
+  }
+
+  private set sessionId(value) {
+    this._sessionId = value;
   }
 
   private onBotResponse(data: unknown): void {
@@ -49,13 +59,16 @@ export class Rasa extends EventEmitter {
 
   private onSessionConfirm(): void {
     const sessionStart = new Date();
-    this.storageService.setSession(this.sessionId, sessionStart);
-    this.trigger('message', {
-      type: 'sessionDivider',
-      startDate: sessionStart,
-    });
-    if (this.initialPayload) {
-      this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
+    const isContinuesSession = this.storageService.setSession(this.sessionId, sessionStart);
+    if (!isContinuesSession) {
+      this.trigger('message', {
+        type: 'sessionDivider',
+        startDate: sessionStart,
+      });
+      // @TODO ask Tom about this behavior
+      if (this.initialPayload) {
+        this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
+      }
     }
   }
 
@@ -114,7 +127,7 @@ export class Rasa extends EventEmitter {
   };
 
   public connect(): void {
-    this.sessionId = window.crypto.randomUUID();
+    this.sessionId = this.senderId ?? window.crypto.randomUUID();
     this.connection.connect();
     this.initHttpSession();
   }

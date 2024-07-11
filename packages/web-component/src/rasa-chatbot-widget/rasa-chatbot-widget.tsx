@@ -179,7 +179,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
 
     this.client.on('connect', () => {
       this.isConnected = true;
