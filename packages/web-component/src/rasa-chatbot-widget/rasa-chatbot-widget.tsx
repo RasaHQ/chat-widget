@@ -267,7 +267,7 @@ export class RasaChatbotWidget {
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(qr => qr.reply === quickReply.reply).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.client.sendMessage({text: quickReply.text, timestamp}, true, key - 1);
+    this.client.sendMessage({text: quickReply.text, reply: quickReply.reply, timestamp}, true, key - 1);
     this.chatWidgetQuickReply.emit(quickReply.reply);
   }
 
