@@ -61,6 +61,7 @@ export class Rasa extends EventEmitter {
   private onSessionConfirm(): void {
     const sessionStart = new Date();
     const isContinuesSession = this.storageService.setSession(this.sessionId, sessionStart);
+    this.trigger('sessionConfirm');
     if (!isContinuesSession) {
       this.trigger('message', {
         type: 'sessionDivider',
