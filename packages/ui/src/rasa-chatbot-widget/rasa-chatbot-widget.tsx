@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
-import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
+import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
 
 import { DISCONNECT_TIMEOUT } from './constants';
@@ -24,6 +24,11 @@ export class RasaChatbotWidget {
   @State() messageHistory: Message[] = [];
   @State() messages: Message[] = [];
   @State() typingIndicator: boolean = false;
+
+  /**
+   * Emitted when the Chat Widget is opened by the user
+   */
+  @Event() chatSessionStarted: EventEmitter<{ sessionId: string }>;
 
   /**
    * Emitted when the user receives a message
@@ -179,13 +184,14 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload, authenticationToken: this.authenticationToken });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
 
     this.client.on('connect', () => {
       this.isConnected = true;
     });
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
+    this.client.on('sessionConfirm', this.sessionConfirm);
     this.client.on('disconnect', () => {
       this.isConnected = false;
     });
@@ -194,6 +200,10 @@ export class RasaChatbotWidget {
       this.toggleOpenState();
     }
   }
+
+  private sessionConfirm = () => {
+    this.chatSessionStarted.emit({ sessionId: this.client.sessionId });
+  };
 
   private onNewMessage = (data: Message) => {
     this.chatWidgetReceivedMessage.emit(data);
@@ -261,14 +271,14 @@ export class RasaChatbotWidget {
 
   @Listen('quickReplySelected')
   // @ts-ignore-next-line
-  private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
+  private quickReplySelected({ detail: { quickReply, key } }: CustomEvent<{ quickReply: QuickReply; key: number }>) {
     const timestamp = new Date();
-    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user', timestamp }];
+    this.messages = [...this.messages, { type: 'text', text: quickReply.text, sender: 'user', timestamp }];
     const updatedMessage = this.messages[key] as QuickReplyMessage;
-    updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
+    updatedMessage.replies.find(qr => qr.reply === quickReply.reply).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.client.sendMessage({ text: value, timestamp }, true, key - 1);
-    this.chatWidgetQuickReply.emit(value);
+    this.client.sendMessage({ text: quickReply.text, reply: quickReply.reply, timestamp }, true, key - 1);
+    this.chatWidgetQuickReply.emit(quickReply.reply);
   }
 
   @Listen('linkClicked')

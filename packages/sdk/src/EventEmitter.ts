@@ -3,6 +3,7 @@ interface EventMap {
   disconnect: () => void;
   message: (data: unknown) => void;
   loadHistory: (data: unknown) => void;
+  sessionConfirm: () => void;
 }
 
 type EventCallback<T extends keyof EventMap> = EventMap[T];

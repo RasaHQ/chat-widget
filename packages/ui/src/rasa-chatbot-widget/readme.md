@@ -29,15 +29,16 @@
 
 ## Events
 
-| Event                           | Description                                         | Type                     |
-| ------------------------------- | --------------------------------------------------- | ------------------------ |
-| `chatWidgetClosed`              | Emitted when the Chat Widget is closed by the user  | `CustomEvent<undefined>` |
-| `chatWidgetFileStartedDownload` | Emitted when a user is starting to download a file. | `CustomEvent<undefined>` |
-| `chatWidgetHyperlinkClicked`    | Emitted when a user clicks on a hyperlink option.   | `CustomEvent<undefined>` |
-| `chatWidgetOpened`              | Emitted when the Chat Widget is opened by the user  | `CustomEvent<undefined>` |
-| `chatWidgetQuickReply`          | Emitted when the user click on quick reply          | `CustomEvent<string>`    |
-| `chatWidgetReceivedMessage`     | Emitted when the user receives a message            | `CustomEvent<unknown>`   |
-| `chatWidgetSentMessage`         | Emitted when the user sends a message               | `CustomEvent<string>`    |
+| Event                           | Description                                         | Type                                  |
+| ------------------------------- | --------------------------------------------------- | ------------------------------------- |
+| `chatSessionStarted`            | Emitted when the Chat Widget is opened by the user  | `CustomEvent<{ sessionId: string; }>` |
+| `chatWidgetClosed`              | Emitted when the Chat Widget is closed by the user  | `CustomEvent<undefined>`              |
+| `chatWidgetFileStartedDownload` | Emitted when a user is starting to download a file. | `CustomEvent<undefined>`              |
+| `chatWidgetHyperlinkClicked`    | Emitted when a user clicks on a hyperlink option.   | `CustomEvent<undefined>`              |
+| `chatWidgetOpened`              | Emitted when the Chat Widget is opened by the user  | `CustomEvent<undefined>`              |
+| `chatWidgetQuickReply`          | Emitted when the user click on quick reply          | `CustomEvent<string>`                 |
+| `chatWidgetReceivedMessage`     | Emitted when the user receives a message            | `CustomEvent<unknown>`                |
+| `chatWidgetSentMessage`         | Emitted when the user sends a message               | `CustomEvent<string>`                 |
 
 
 ## Dependencies

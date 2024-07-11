@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CarouselElement, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
+import { CarouselElement, QuickReply, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
 import { SenderType } from "@vortexwest/chat-widget-sdk/dist/types/common.types";
-export { CarouselElement, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
+export { CarouselElement, QuickReply, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
 export { SenderType } from "@vortexwest/chat-widget-sdk/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
@@ -590,6 +590,7 @@ declare global {
         new (): HTMLRasaChatInputElement;
     };
     interface HTMLRasaChatbotWidgetElementEventMap {
+        "chatSessionStarted": { sessionId: string };
         "chatWidgetReceivedMessage": unknown;
         "chatWidgetSentMessage": string;
         "chatWidgetQuickReply": string;
@@ -703,7 +704,7 @@ declare global {
     };
     interface HTMLRasaQuickReplyElementEventMap {
         "quickReplySelected": {
-    value: string;
+    quickReply: QuickReply;
     key: number;
   };
     }
@@ -892,6 +893,10 @@ declare namespace LocalJSX {
           * Format of the message timestamp
          */
         "messageTimestamp"?: string;
+        /**
+          * Emitted when the Chat Widget is opened by the user
+         */
+        "onChatSessionStarted"?: (event: RasaChatbotWidgetCustomEvent<{ sessionId: string }>) => void;
         /**
           * Emitted when the Chat Widget is closed by the user
          */
@@ -1248,7 +1253,7 @@ declare namespace LocalJSX {
           * Quick reply selected
          */
         "onQuickReplySelected"?: (event: RasaQuickReplyCustomEvent<{
-    value: string;
+    quickReply: QuickReply;
     key: number;
   }>) => void;
         /**
