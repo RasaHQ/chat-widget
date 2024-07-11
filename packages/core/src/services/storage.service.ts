@@ -2,13 +2,17 @@ import { SESSION_STORAGE_KEYS } from '../constants';
 import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class StorageService {
-  public setSession(sessionId: string, sessionStart: Date): void {
+  public setSession(sessionId: string, sessionStart: Date): boolean {
     const preservedHistory = this.getChatHistory() || {};
-    preservedHistory[sessionId] = {
-      sessionStart,
-      messages: [],
-    };
-    sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(preservedHistory));
+    if (!preservedHistory[sessionId]) {
+      preservedHistory[sessionId] = {
+        sessionStart,
+        messages: [],
+      };
+      sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(preservedHistory));
+      return false;
+    }
+    return true;
   }
 
   public setMessage(message: unknown, sessionId: string): void {
