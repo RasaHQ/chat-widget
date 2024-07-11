@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
-import { QuickReplyMessage, SENDER } from '@rasa-widget/core';
+import { QuickReply, QuickReplyMessage, SENDER } from '@rasa-widget/core';
 
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
@@ -31,15 +31,11 @@ export class RasaQuickReply {
    * Quick reply selected
    */
   @Event() quickReplySelected: EventEmitter<{
-    value: string;
+    quickReply: QuickReply;
     key: number;
   }>;
-  private onQuickReplySelected(
-    event: CustomEvent<{
-      value: string;
-    }>,
-  ) {
-    this.quickReplySelected.emit({ value: event.detail.value, key: this.elementKey });
+  private onQuickReplySelected(quickReply: QuickReply) {
+    this.quickReplySelected.emit({ quickReply, key: this.elementKey });
   }
 
   @State() disableButtons = false;
@@ -48,8 +44,7 @@ export class RasaQuickReply {
   @Listen('buttonClickHandler', { capture: true })
   // @ts-ignore-next-line
   private buttonClicked(event) {
-    this.onQuickReplySelected(event);
-    this.quickReplyMessage.replies.find(quickReply => quickReply.reply === event.detail.value).isSelected = true;
+    this.onQuickReplySelected(this.quickReplyMessage.replies.find(quickReply => quickReply.reply === event.detail.value));
     this.determineButtonState();
   }
 

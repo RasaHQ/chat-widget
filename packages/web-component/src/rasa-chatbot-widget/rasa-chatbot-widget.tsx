@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
 import { DISCONNECT_TIMEOUT } from './constants';
-import { MESSAGE_TYPES, Message, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
+import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@rasa-widget/core';
 import { configStore, setConfigStore } from '../store/config-store';
 
 import { Messenger } from '../components/messenger';
@@ -179,7 +179,7 @@ export class RasaChatbotWidget {
     });
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload: this.initialPayload, authenticationToken: this.authenticationToken });
+    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken });
 
     this.client.on('connect', () => {
       this.isConnected = true;
@@ -261,14 +261,14 @@ export class RasaChatbotWidget {
 
   @Listen('quickReplySelected')
   // @ts-ignore-next-line
-  private quickReplySelected({ detail: { value, key } }: CustomEvent<{ value: string; key: number }>) {
+  private quickReplySelected({ detail: { quickReply, key } }: CustomEvent<{ quickReply: QuickReply; key: number }>) {
     const timestamp = new Date();
-    this.messages = [...this.messages, { type: 'text', text: value, sender: 'user', timestamp }];
+    this.messages = [...this.messages, { type: 'text', text: quickReply.text, sender: 'user', timestamp }];
     const updatedMessage = this.messages[key] as QuickReplyMessage;
-    updatedMessage.replies.find(quickReply => quickReply.reply === value).isSelected = true;
+    updatedMessage.replies.find(qr => qr.reply === quickReply.reply).isSelected = true;
     this.messages[key] = updatedMessage;
-    this.client.sendMessage({text: value, timestamp}, true, key - 1);
-    this.chatWidgetQuickReply.emit(value);
+    this.client.sendMessage({text: quickReply.text, timestamp}, true, key - 1);
+    this.chatWidgetQuickReply.emit(quickReply.reply);
   }
 
   @Listen('linkClicked')

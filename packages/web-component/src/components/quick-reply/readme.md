@@ -17,9 +17,9 @@
 
 ## Events
 
-| Event                | Description          | Type                                           |
-| -------------------- | -------------------- | ---------------------------------------------- |
-| `quickReplySelected` | Quick reply selected | `CustomEvent<{ value: string; key: number; }>` |
+| Event                | Description          | Type                                                    |
+| -------------------- | -------------------- | ------------------------------------------------------- |
+| `quickReplySelected` | Quick reply selected | `CustomEvent<{ quickReply: QuickReply; key: number; }>` |
 
 
 ## Dependencies
