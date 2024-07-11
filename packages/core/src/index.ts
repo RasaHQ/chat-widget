@@ -18,7 +18,7 @@ interface Options {
 }
 
 export class Rasa extends EventEmitter {
-  private _sessionId!: string;
+  private _sessionId: string;
   private storageService: StorageService;
   private connection: HTTPConnection | WebSocketConnection;
   private initialPayload: string | undefined;
@@ -29,6 +29,7 @@ export class Rasa extends EventEmitter {
   public constructor({ url, protocol = 'ws', initialPayload, authenticationToken, senderId }: Options) {
     super();
     this.senderId = senderId;
+    this._sessionId = senderId ? senderId : window.crypto.randomUUID();
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     this.isInitialConnection = true;
@@ -127,7 +128,7 @@ export class Rasa extends EventEmitter {
   };
 
   public connect(): void {
-    this.sessionId = this.senderId ?? window.crypto.randomUUID();
+    this.sessionId = this.senderId ? this.senderId : window.crypto.randomUUID();
     this.connection.connect();
     this.initHttpSession();
   }
