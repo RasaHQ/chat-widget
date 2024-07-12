@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
 import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
+import { v4 as uuidv4 } from 'uuid';
 
 import { DISCONNECT_TIMEOUT } from './constants';
 import { Messenger } from '../components/messenger';
@@ -352,7 +353,7 @@ export class RasaChatbotWidget {
       case MESSAGE_TYPES.QUICK_REPLY:
         let activeQuickReplyId = '';
         if (!isHistory) {
-          activeQuickReplyId = crypto.randomUUID();
+          activeQuickReplyId = uuidv4();
           widgetState.getState().state.activeQuickReply = activeQuickReplyId;
         }
         return <rasa-quick-reply message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;

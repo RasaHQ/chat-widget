@@ -27,7 +27,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -47,6 +47,7 @@
     "svgo": "^3.2.0"
   },
   "dependencies": {
-    "@vortexwest/chat-widget-sdk": "^0.1.1"
+    "@vortexwest/chat-widget-sdk": "^0.1.1",
+    "uuid": "^10.0.0"
   }
 }
