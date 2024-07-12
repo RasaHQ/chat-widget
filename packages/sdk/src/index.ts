@@ -1,6 +1,7 @@
 import { CustomErrorClass, ErrorSeverity } from './errors';
 
 import { EventEmitter } from './EventEmitter';
+import { v4 as uuidv4 } from 'uuid';
 import { HTTPConnection } from './connection-strategy/HTTPConnection';
 import { MessageResponse } from './types/server-response.types';
 import { SENDER } from './constants';
@@ -29,7 +30,7 @@ export class Rasa extends EventEmitter {
   public constructor({ url, protocol = 'ws', initialPayload, authenticationToken, senderId }: Options) {
     super();
     this.senderId = senderId;
-    this._sessionId = senderId ? senderId : window.crypto.randomUUID();
+    this._sessionId = senderId ? senderId : uuidv4();
     this.initialPayload = initialPayload;
     this.storageService = new StorageService();
     this.isInitialConnection = true;
@@ -129,7 +130,7 @@ export class Rasa extends EventEmitter {
   };
 
   public connect(): void {
-    this.sessionId = this.senderId ? this.senderId : window.crypto.randomUUID();
+    this.sessionId = this.senderId ? this.senderId : uuidv4();
     this.connection.connect();
     this.initHttpSession();
   }

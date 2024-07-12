@@ -1,4 +1,5 @@
 import { createStore } from '@stencil/store';
+import { v4 as uuidv4 } from 'uuid';
 
 type WidgetState = {
   connected: boolean;
@@ -9,7 +10,7 @@ type WidgetState = {
 const { state, onChange } = createStore<WidgetState>({
   connected: false,
   historyLoaded: false,
-  activeQuickReply: crypto.randomUUID()
+  activeQuickReply: uuidv4()
 });
 
 export const widgetState = {
