@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
+import { Component, Element, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core/internal';
 import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
 
@@ -19,6 +19,7 @@ export class RasaChatbotWidget {
   private disconnectTimeout: NodeJS.Timeout | null = null;
   private isConnected = false;
 
+  @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
   @State() isFullScreen: boolean = false;
   @State() messageHistory: Message[] = [];
@@ -201,6 +202,14 @@ export class RasaChatbotWidget {
     }
   }
 
+  private scrollToBottom(): void {
+    const container = this.el.shadowRoot.querySelector('.messenger__content-wrapper');
+
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
   private sessionConfirm = () => {
     this.chatSessionStarted.emit({ sessionId: this.client.sessionId });
   };
@@ -267,6 +276,7 @@ export class RasaChatbotWidget {
     this.client.sendMessage({ text: event.detail, timestamp });
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
+    this.scrollToBottom();
   }
 
   @Listen('quickReplySelected')
