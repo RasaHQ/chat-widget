@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core/internal';
+import { Component, Element, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
 import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
 
