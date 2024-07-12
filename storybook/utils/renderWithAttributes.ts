@@ -13,12 +13,20 @@ export const camelToDash = (camelCaseStr: string): string => {
  */
 export const renderWithAttributes = (tag: string) => (props: any) => {
   const args = Object.keys(props)
+    .filter(key => !key.startsWith('--'))
     .map((key) => `${camelToDash(key)}="${props[key]}"`)
     .join(" ");
-
+    
+  const cssVars = Object.keys(props)
+    .filter(key => key.startsWith('--'))
+    .map(key => `${key}: ${props[key]};`)
+    .join(" ");
+  
+  const styleTag = cssVars ? `<style>:root { ${cssVars} }</style>` : '';
+  
   if (args.length === 0) {
-    return `<${tag}></${tag}>`;
+    return `<${tag}>${styleTag}</${tag}>`;
   }
 
-  return `<${tag} ${args}> </${tag}>`;
+  return `<${tag} ${args}>${styleTag}</${tag}>`;
 };
