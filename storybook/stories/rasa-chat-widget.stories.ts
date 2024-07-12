@@ -1,19 +1,29 @@
-import { extractArgTypes, extractComponentDescription } from '../addons/doc-stenciljs';
-import { renderWithAttributes } from '../utils/renderWithAttributes';
+import {
+  extractArgTypes,
+  extractComponentDescription,
+} from "../addons/doc-stenciljs";
+import { styleTokens } from "../addons/doc-style-tokens";
+import { renderWithAttributes } from "../utils/renderWithAttributes";
 
+// Default export for Storybook
 export default {
-  title: 'Rasa Chatbot Widget',
-  component: 'rasa-chatbot-widget',
+  title: "Rasa Chat Widget",
+  component: "rasa-chatbot-widget",
   parameters: {
     docs: {
       extractArgTypes,
       extractComponentDescription,
       story: {
-        height: '900px',
+        height: "900px",
       },
     },
   },
-  render: renderWithAttributes('rasa-chatbot-widget'),
+  argTypes: styleTokens,
+  render: renderWithAttributes("rasa-chatbot-widget"),
 };
 
-export const Playground = {};
+const Template = (args) => renderWithAttributes("rasa-chatbot-widget")(args);
+
+// Export the story
+export const Playground = Template.bind({});
+Playground.args = {};
