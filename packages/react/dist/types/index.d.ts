@@ -1,3 +1,3 @@
 export * from "./components/stencil-generated";
-export { defineCustomElements } from "@rasa-widget/web-component/loader";
-import "@rasa-widget/web-component/dist/web-component/web-component.css";
+export { defineCustomElements } from "@vortexwest/chat-widget-ui/loader";
+import "@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css";

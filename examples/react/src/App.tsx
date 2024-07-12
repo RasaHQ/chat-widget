@@ -1,4 +1,4 @@
-import { RasaChatbotWidget } from "@rasa-widget/react";
+import { RasaChatbotWidget } from "@vortexwest/chat-widget-react";
 
 function App() {
   return (

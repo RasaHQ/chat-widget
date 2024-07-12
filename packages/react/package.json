@@ -1,7 +1,10 @@
 {
-  "name": "@rasa-widget/react",
-  "version": "0.0.0",
-  "description": "> TODO: description",
+  "name": "@vortexwest/chat-widget-react",
+  "version": "0.1.1",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "description": "The Rasa Chatbot React Library enables seamless integration of Rasa-powered chatbot into React applications using web components.",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "license": "ISC",
   "main": "dist/index.js",
@@ -23,7 +26,7 @@
     "tsc": "tsc -p . --outDir ./dist"
   },
   "dependencies": {
-    "@rasa-widget/web-component": "*"
+    "@vortexwest/chat-widget-ui": "^0.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

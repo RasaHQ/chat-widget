@@ -1,0 +1,43 @@
+{
+  "name": "@vortexwest/chat-widget-sdk",
+  "version": "0.1.1",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "description": "The core package provides essential functionality to connect and interact with a Rasa server.",
+  "homepage": "https://github.com/RasaHQ/chat-widget#readme",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RasaHQ/chat-widget.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest --coverage",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.56.0",
+    "globals": "^15.3.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript-eslint": "^7.11.0"
+  }
+}
