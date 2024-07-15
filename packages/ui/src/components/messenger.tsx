@@ -15,14 +15,14 @@ export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullS
     <div class={{ 'messenger': true, 'messenger--fullscreen': isFullScreen, 'messenger--open': isOpen }}>
       <div class="messenger__header">
         <div>
-        <rasa-text value={configStore().widgetTitle} disableParsing></rasa-text>
+          <rasa-text value={configStore().widgetTitle} disableParsing></rasa-text>
         </div>
         {configStore().toggleFullScreen && <Icon onClick={toggleFullScreenMode} class="messenger__header__icon" size={20}></Icon>}
       </div>
       <div class="messenger__content-wrapper">
-        <error-toast></error-toast>
         <div class="messenger__content">{children}</div>
       </div>
+      <error-toast></error-toast>
       <rasa-chat-input></rasa-chat-input>
     </div>
   );

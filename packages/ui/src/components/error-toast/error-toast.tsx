@@ -1,7 +1,10 @@
-import { Component, Host, State, h, Element } from '@stencil/core';
-import { errorMessageService } from '../../store/error-message';
+import { Component, Element, Host, State, h } from '@stencil/core';
+
 import { CustomErrorClass } from '@vortexwest/chat-widget-sdk';
 import { configStore } from '../../store/config-store';
+import { errorMessageService } from '../../store/error-message';
+
+const TOAST_ANIMATION_TIME = 3500;
 
 @Component({
   tag: 'error-toast',
@@ -11,13 +14,6 @@ import { configStore } from '../../store/config-store';
 export class ErrorHandler {
   @State() errorMessage: CustomErrorClass | null = null;
   @Element() el: HTMLErrorToastElement;
-  private toastElement: HTMLElement;
-
-  componentDidUpdate() {
-    this.toastElement = this.el.shadowRoot.querySelector('.toast') as HTMLElement;
-    const computedHeight = this.toastElement.offsetHeight;
-    this.toastElement.style.setProperty('--toast-bottom-end-point', `calc(${computedHeight}px + 24px)`);
-  }
 
   connectedCallback() {
     errorMessageService.getState().onChange('errorMessage', errorMessage => {
@@ -32,7 +28,7 @@ export class ErrorHandler {
     this.errorMessage = error;
     setTimeout(() => {
       this.errorMessage = null;
-    }, 3500);
+    }, TOAST_ANIMATION_TIME);
   }
 
   render() {
@@ -42,7 +38,6 @@ export class ErrorHandler {
           <rasa-icon-danger size={16} class="toast__icon"></rasa-icon-danger>
           <div class="toast__error">
             <rasa-text disableParsing value={configStore().errorMessage} class="toast__message"></rasa-text>
-            {/* {this.errorMessage?.description && <rasa-text disableParsing value={this.errorMessage?.description} class="toast__description"></rasa-text>} */}
           </div>
         </div>
       </Host>
