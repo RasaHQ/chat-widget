@@ -34,7 +34,6 @@ export class RasaChatInput {
     if (isRendering || messageQueue.length > 0) return;
     this.sendMessageHandler.emit(this.value);
     this.value = '';
-
   };
 
   private inputChangeHandler = (event: Event) => {
