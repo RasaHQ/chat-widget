@@ -90,6 +90,7 @@ graph TD;
   rasa-image --> rasa-icon-default-image-fallback
   rasa-file-download-message --> rasa-icon-paperclip
   rasa-file-download-message --> rasa-text
+  rasa-accordion --> rasa-text
   rasa-accordion --> rasa-icon-chevron-down
   rasa-quick-reply --> chat-message
   rasa-quick-reply --> rasa-text

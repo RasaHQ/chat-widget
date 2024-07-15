@@ -38,6 +38,7 @@ The core package provides the following events:
 - `disconnect`: Triggered when the connection is closed.
 - `message`: Triggered when a message is received. It provides the message data.
 - `loadHistory`: Triggered when the history is loaded. It provides the history data.
+- `sessionConfirm`: Triggered when the session is confirmed. It provides session ID.
 
 ### Event Listeners
 
@@ -72,6 +73,10 @@ rasa.on('message', data => {
 
 rasa.on('loadHistory', data => {
   console.log('Chat history loaded:', data);
+});
+
+rasa.on('sessionConfirm', data => {
+  console.log('Session is confirmed:', data);
 });
 
 rasa.connect();

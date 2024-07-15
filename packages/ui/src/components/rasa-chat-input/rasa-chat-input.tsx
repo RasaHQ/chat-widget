@@ -44,6 +44,7 @@ export class RasaChatInput {
     if (event.key === 'Enter') {
       this.sendMessageClick();
     }
+    event.preventDefault();
   };
 
   render() {
@@ -54,9 +55,10 @@ export class RasaChatInput {
           class="rasa-chat-input__input"
           placeholder={configStore().inputMessagePlaceholder}
           value={this.value}
-          onChange={this.inputChangeHandler}
+          onInput={this.inputChangeHandler}
           maxLength={500}
           onKeyUp={event => this.handleKeyUp(event)}
+          enterkeyhint="done"
         />
         <button class="rasa-chat-input__button" onClick={this.sendMessageClick}>
           <rasa-icon-paper-plane class="rasa-chat-input__icon"></rasa-icon-paper-plane>

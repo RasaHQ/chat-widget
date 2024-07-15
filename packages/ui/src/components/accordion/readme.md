@@ -20,11 +20,13 @@
 
 ### Depends on
 
+- [rasa-text](../text)
 - rasa-icon-chevron-down
 
 ### Graph
 ```mermaid
 graph TD;
+  rasa-accordion --> rasa-text
   rasa-accordion --> rasa-icon-chevron-down
   rasa-chatbot-widget --> rasa-accordion
   style rasa-accordion fill:#f9f,stroke:#333,stroke-width:4px
