@@ -1,13 +1,13 @@
 :host {
-  position: relative;
-  height: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 90px;
 }
 
 .toast {
   position: relative;
   display: flex;
   gap: 8px;
-  bottom: -100px;
   background-color: var(--error-toast-background-color);
   color: var(--error-toast-color);
   padding: 0;
@@ -47,23 +47,23 @@
 
 @keyframes toastAnimation {
   0% {
-    bottom: -100px;
+    bottom: -16px;
     opacity: 0;
     visibility: hidden;
   }
   10%,
   80% {
-    bottom: var(--toast-bottom-end-point);
+    bottom: 0;
     opacity: 1;
     visibility: visible;
   }
   90% {
-    bottom: var(--toast-bottom-end-point);
+    bottom: 0;
     opacity: 1;
     visibility: visible;
   }
   100% {
-    bottom: -100px;
+    bottom: -16px;
     opacity: 0;
     visibility: hidden;
   }
