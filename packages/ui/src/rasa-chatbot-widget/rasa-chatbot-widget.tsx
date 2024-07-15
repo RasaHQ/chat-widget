@@ -8,6 +8,7 @@ import { Messenger } from '../components/messenger';
 import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
+import { isMobile } from '../utils/isMobile';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -22,7 +23,7 @@ export class RasaChatbotWidget {
 
   @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
-  @State() isFullScreen: boolean = false;
+  @State() isFullScreen: boolean = isMobile();
   @State() messageHistory: Message[] = [];
   @State() messages: Message[] = [];
   @State() typingIndicator: boolean = false;

@@ -28,6 +28,7 @@
 
  - [chat-message](../message)
  - [error-toast](../error-toast)
+ - [rasa-accordion](../accordion)
  - [rasa-chatbot-widget](../../rasa-chatbot-widget)
  - [rasa-file-download-message](../file-download-message)
  - [rasa-image-message](../image-message)
@@ -40,6 +41,7 @@
 graph TD;
   chat-message --> rasa-text
   error-toast --> rasa-text
+  rasa-accordion --> rasa-text
   rasa-chatbot-widget --> rasa-text
   rasa-file-download-message --> rasa-text
   rasa-image-message --> rasa-text

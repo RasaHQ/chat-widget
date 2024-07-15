@@ -15,7 +15,7 @@ describe('RasaAccordion', () => {
           <div class="accordion">
             <div class="accordion__header">
               <div class="accordion__header__title">
-                Test Accordion
+                <rasa-text disableparsing="" value="Test Accordion"></rasa-text>
               </div>
               <rasa-icon-chevron-down class="accordion__header__icon"></rasa-icon-chevron-down>
             </div>
@@ -43,7 +43,7 @@ describe('RasaAccordion', () => {
     const accordion = page.rootInstance;
     expect(accordion.open).toBeFalsy();
 
-    const accordionElement = page.root.shadowRoot.querySelector('.accordion') as HTMLElement;
+    const accordionElement = page.root.shadowRoot.querySelector('.accordion__header') as HTMLElement;
     accordionElement.click();
     await page.waitForChanges();
     expect(accordion.open).toBeTruthy();

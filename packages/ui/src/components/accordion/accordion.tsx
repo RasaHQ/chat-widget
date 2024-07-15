@@ -27,7 +27,7 @@ export class RasaAccordion {
     return (
       <div class={{ 'accordion': true, 'accordion--open': this.open }}>
         <div class="accordion__header" onClick={this.toggle}>
-          <div class="accordion__header__title">{this.label}</div>
+          <div class="accordion__header__title"><rasa-text disableParsing value={this.label}></rasa-text></div>
           <rasa-icon-chevron-down class="accordion__header__icon" />
         </div>
         <div class="accordion__description-wrapper">
