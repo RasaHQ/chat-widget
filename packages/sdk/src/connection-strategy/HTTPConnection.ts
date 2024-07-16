@@ -1,4 +1,5 @@
 import { ConnectionParams, ConnectionStrategy } from './ConnectionStrategy';
+import { CustomErrorClass, ErrorSeverity } from '../errors';
 import { HttpResponse, MessageResponse } from '../types/server-response.types';
 import {
   hasCustomAttribute,
@@ -8,7 +9,6 @@ import {
   normalizeHttpImageResponse,
   normalizeHttpQuickReplyResponse,
 } from './HTTPConnection.utils';
-import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class HTTPConnection implements ConnectionStrategy {
   url: string;
@@ -48,7 +48,7 @@ export class HTTPConnection implements ConnectionStrategy {
   public async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void): Promise<void> {
     const headers = new Headers();
     if (this.authenticationToken) {
-      headers.append('Authorization', `Bearer ${this.authenticationToken}`)
+      headers.append('Authorization', `Bearer ${this.authenticationToken}`);
     }
     return fetch(`${this.url}/webhooks/rest/webhook`, {
       method: 'POST',
@@ -75,5 +75,9 @@ export class HTTPConnection implements ConnectionStrategy {
 
   public sessionRequest(_sessionId: string): void {
     // There is no sessionRequest in HTTP.
+  }
+
+  public reconnection(): void {
+    // There is no enableReconnect in HTTP.
   }
 }
