@@ -1,14 +1,14 @@
-import { Component, Element, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core/internal';
+import { Component, Element, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core/internal';
 import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
 import { configStore, setConfigStore } from '../store/config-store';
-import { v4 as uuidv4 } from 'uuid';
 
 import { DISCONNECT_TIMEOUT } from './constants';
 import { Messenger } from '../components/messenger';
+import { isMobile } from '../utils/isMobile';
 import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
+import { v4 as uuidv4 } from 'uuid';
 import { widgetState } from '../store/widget-state-store';
-import { isMobile } from '../utils/isMobile';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -27,6 +27,7 @@ export class RasaChatbotWidget {
   @State() messageHistory: Message[] = [];
   @State() messages: Message[] = [];
   @State() typingIndicator: boolean = false;
+  @State() cachedMessages: Element[] = [];
 
   /**
    * Emitted when the Chat Widget is opened by the user
@@ -313,6 +314,13 @@ export class RasaChatbotWidget {
     this.isFullScreen = !this.isFullScreen;
   };
 
+  @Watch('messages')
+  onMessagesChange() {
+    if (this.cachedMessages.length !== this.messages.length) {
+      this.cachedMessages = this.messages.map((message, key) => this.renderMessage(message, false, key));
+    }
+  }
+
   private renderMessage(message: Message, isHistory = false, key) {
     switch (message.type) {
       case MESSAGE_TYPES.SESSION_DIVIDER:
@@ -357,7 +365,7 @@ export class RasaChatbotWidget {
           activeQuickReplyId = uuidv4();
           widgetState.getState().state.activeQuickReply = activeQuickReplyId;
         }
-        return <rasa-quick-reply message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;
+        return <rasa-quick-reply quickReplyId={activeQuickReplyId} message={message} elementKey={key} key={key} isHistory={isHistory}></rasa-quick-reply>;
       case MESSAGE_TYPES.CAROUSEL:
         return (
           <chat-message sender={message.sender} timestamp={message.timestamp}>
@@ -376,6 +384,7 @@ export class RasaChatbotWidget {
       'rasa-chatbot-widget': true,
       'fullscreen': this.isFullScreen,
     };
+
     return (
       <global-error-handler>
         <slot />
@@ -383,7 +392,7 @@ export class RasaChatbotWidget {
           <div class="rasa-chatbot-widget__container">
             <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
-              {this.messages.map((message, key) => this.renderMessage(message, false, key))}
+              {this.cachedMessages}
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
