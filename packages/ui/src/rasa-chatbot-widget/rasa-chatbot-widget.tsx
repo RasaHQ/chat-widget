@@ -19,7 +19,7 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
-  private isConnected = false;
+  public isConnected = false;
 
   @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
@@ -244,6 +244,7 @@ export class RasaChatbotWidget {
   }
 
   private disconnect(): void {
+    console.log('asdasdasd', DISCONNECT_TIMEOUT);
     if (!this.isConnected) return;
     this.disconnectTimeout = setTimeout(() => {
       if (!this.isOpen) {
