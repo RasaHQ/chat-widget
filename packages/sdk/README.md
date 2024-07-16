@@ -98,3 +98,26 @@ rasa.on('sessionConfirm', data => {
 
 rasa.connect();
 ```
+
+## Custom Errors
+
+### Error Severity:
+
+- `Error`: Represents a critical error that should be treated as a failure.
+- `LogError`: Represents an error that should be logged but is not critical.
+- `LogWarning`: Represents a warning that should be logged but is not necessarily an error.
+
+### Errors
+
+The Rasa SDK can throw various custom errors during its operations. Below is a table listing all possible errors, their severity, and the conditions under which they are thrown:
+
+| Error Message                       | Severity   | Description                                                                                                                              |
+| ----------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Server error                        | Error      | Thrown on socket connection error or communication errors with the API.                                                                  |
+| Network response error              | Error      | Thrown when the HTTP response is not ok.                                                                                                 |
+| Can’t load new message              | Error      | Thrown when unable to parse a new message due to a missing message parser for the message type. Or unable to determine the message type. |
+| Failed to save selected quick reply | LogWarning | Thrown when unable to process a quick reply.                                                                                             |
+| Invalid video source                | Error      | Thrown when the video source is invalid.                                                                                                 |
+| formatDateTime: Invalid time object | LogError   | Thrown when unable to format the date/time object.                                                                                       |
+| Date not found                      | Error      | Thrown when the date is missing in a message.                                                                                            |
+| Invalid message text                | Error      | Thrown when unable to parse the message text because it is not a string.                                                                 |
