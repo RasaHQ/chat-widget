@@ -28,6 +28,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: whitesmoke;
+}
+
+.vortex-logo {
+  width: 100vw;
+  height: inherit;
+  margin: auto;
 }
 
 h1 {

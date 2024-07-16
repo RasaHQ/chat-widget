@@ -7,24 +7,24 @@
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                                                            | Type      | Default                    |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | --------- | -------------------------- |
-| `authenticationToken`     | `authentication-token`      | User authentication token                                                                              | `string`  | `''`                       |
-| `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `false`                    |
-| `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                            | `string`  | `''`                       |
-| `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                   | `boolean` | `false`                    |
-| `errorMessage`            | `error-message`             | Message that should be displayed if an error occurs                                                    | `string`  | `'Something bad happened'` |
-| `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                 | `string`  | `''`                       |
-| `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                          | `string`  | `'Type your message here'` |
-| `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `600`                      |
-| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `''`                       |
-| `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`                    |
-| `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                              | `string`  | `''`                       |
-| `serverUrl` _(required)_  | `server-url`                | Url of the Rasa chatbot backend server (example: https://example.com)                                  | `string`  | `undefined`                |
-| `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `false`                    |
-| `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `false`                    |
-| `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                             | `string`  | `''`                       |
-| `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                               | `string`  | `'Rasa Widget'`            |
+| Property                  | Attribute                   | Description                                                                                            | Type      | Default                      |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | --------- | ---------------------------- |
+| `authenticationToken`     | `authentication-token`      | User authentication token                                                                              | `string`  | `''`                         |
+| `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `false`                      |
+| `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                            | `string`  | `''`                         |
+| `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                   | `boolean` | `false`                      |
+| `errorMessage`            | `error-message`             | Message that should be displayed if an error occurs                                                    | `string`  | `'Something bad happened'`   |
+| `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                 | `string`  | `''`                         |
+| `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                          | `string`  | `'Type your message here'`   |
+| `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `600`                        |
+| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `''`                         |
+| `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`                      |
+| `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                              | `string`  | `''`                         |
+| `serverUrl`               | `server-url`                | Url of the Rasa chatbot backend server (example: https://example.com)                                  | `string`  | `'https://pro.vortexwe.com'` |
+| `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `false`                      |
+| `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `false`                      |
+| `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                             | `string`  | `''`                         |
+| `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                               | `string`  | `'Rasa Widget'`              |
 
 
 ## Events
