@@ -19,6 +19,9 @@ export default {
     },
   },
   argTypes: styleTokens,
+  args: {
+    serverUrl: "https://pro.vortexwe.com"
+  },
   render: renderWithAttributes("rasa-chatbot-widget"),
 };
 

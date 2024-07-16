@@ -7,7 +7,6 @@ function App() {
       <img className="vortex-logo" src={logo} />
       <RasaChatbotWidget
         serverUrl="https://pro.vortexwe.com"
-        initialPayload="/session_start"
         toggleFullScreen
         onChatWidgetOpened={console.log}
       />

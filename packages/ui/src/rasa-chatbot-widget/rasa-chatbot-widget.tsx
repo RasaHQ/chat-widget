@@ -75,8 +75,7 @@ export class RasaChatbotWidget {
   /**
    * Url of the Rasa chatbot backend server (example: https://example.com)
    */
-  // @Prop() serverUrl!: string;
-  @Prop() serverUrl: string = 'https://pro.vortexwe.com';
+  @Prop() serverUrl!: string;
 
   /**
    * User authentication token

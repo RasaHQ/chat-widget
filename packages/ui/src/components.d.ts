@@ -94,10 +94,6 @@ export namespace Components {
          */
         "messageDelay": number;
         /**
-          * Format of the message timestamp
-         */
-        "messageTimestamp": string;
-        /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
         "restEnabled": boolean;
@@ -891,10 +887,6 @@ declare namespace LocalJSX {
          */
         "messageDelay"?: number;
         /**
-          * Format of the message timestamp
-         */
-        "messageTimestamp"?: string;
-        /**
           * Emitted when the Chat Widget is opened by the user
          */
         "onChatSessionStarted"?: (event: RasaChatbotWidgetCustomEvent<{ sessionId: string }>) => void;
@@ -937,7 +929,7 @@ declare namespace LocalJSX {
         /**
           * Url of the Rasa chatbot backend server (example: https://example.com)
          */
-        "serverUrl"?: string;
+        "serverUrl": string;
         /**
           * If set to True, bot messages will be received as stream (printing word by word).
          */

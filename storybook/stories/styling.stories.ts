@@ -9,7 +9,7 @@ export default {
     },
   },
   render: () => `
-    <rasa-chatbot-widget>
+    <rasa-chatbot-widget server-url="https://pro.vortexwe.com">
       <style> 
         :root {
           --color-primary: #FF0080;
