@@ -259,7 +259,9 @@ export class RasaChatbotWidget {
   }
 
   private toggleOpenState = (): void => {
-    this.isOpen = !this.isOpen;
+    const nextValue = !this.isOpen;
+    this.isOpen = nextValue;
+    this.client.reconnection(nextValue);
     clearTimeout(this.disconnectTimeout);
     this.disconnectTimeout = null;
     this.isOpen ? this.connect() : this.disconnect();
