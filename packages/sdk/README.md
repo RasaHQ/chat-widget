@@ -1,4 +1,4 @@
-# `Core Package`
+# `Rasa SDK Package`
 
 The core package provides essential functionality to connect and interact with a Rasa server. It supports HTTP and Socket.io protocols, with events to handle connections, disconnections, messages, and loading chat history.
 
@@ -30,7 +30,24 @@ Here’s an example of how to initialize the package:
 const rasa = new Rasa({ url: 'http://example.com' });
 ```
 
-## Events
+## API
+
+### Constructor
+
+- `url`: The URL of the server to connect to.
+- `protocol`: The protocol to use (‘ws’ for WebSocket or ‘http’ for HTTP). Default is ‘ws’.
+- `initialPayload`: Initial message to send after connection.
+- `authenticationToken`: Token for authenticating the connection.
+- `senderId`: Optional sender ID for the session.
+
+### Methods
+
+- `connect()`: Establishes the connection to the server.
+- `disconnect()`: Disconnects from the server.
+- `sendMessage({ text, reply, timestamp }, isQuickReply = false, messageKey)`: Sends a message to the bot. Optionally handles quick replies.
+- `reconnection(value: boolean)`: Enables or disables reconnection logic.
+
+### Events
 
 The core package provides the following events:
 
