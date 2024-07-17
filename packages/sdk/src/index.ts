@@ -1,7 +1,6 @@
 import { CustomErrorClass, ErrorSeverity } from './errors';
 
 import { EventEmitter } from './EventEmitter';
-import { v4 as uuidv4 } from 'uuid';
 import { HTTPConnection } from './connection-strategy/HTTPConnection';
 import { MessageResponse } from './types/server-response.types';
 import { SENDER } from './constants';
@@ -9,6 +8,7 @@ import { StorageService } from './services/storage.service';
 import { WebSocketConnection } from './connection-strategy/WebSocketConnection';
 import { messageParser } from './message-parser/messageParser';
 import { parseChatHistory } from './message-parser/utils/parse-chat-history';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Options {
   url: string;
@@ -151,6 +151,10 @@ export class Rasa extends EventEmitter {
     if (isQuickReply && messageKey && reply) {
       this.storageService.setQuickReplyValue(reply, messageKey, this.sessionId);
     }
+  }
+
+  public reconnection(value: boolean): void {
+    this.connection.reconnection(value);
   }
 }
 

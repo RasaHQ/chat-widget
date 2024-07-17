@@ -9,7 +9,10 @@ export class WebSocketConnection implements ConnectionStrategy {
   constructor(options: ConnectionParams) {
     this.url = options.url;
     this.authenticationToken = options.authenticationToken;
-    const ioOptions: Partial<ManagerOptions & SocketOptions> = { autoConnect: false };
+    const ioOptions: Partial<ManagerOptions & SocketOptions> = {
+      autoConnect: false,
+      reconnectionAttempts: 4,
+    };
     if (this.authenticationToken) {
       ioOptions.auth = {
         token: this.authenticationToken,
@@ -35,5 +38,12 @@ export class WebSocketConnection implements ConnectionStrategy {
     this.socket.emit('session_request', {
       session_id: sessionId,
     });
+  }
+
+  public reconnection(value: boolean): void {
+    this.socket.io.reconnection(value);
+    if (this.socket.connected === false && this.socket.io._reconnecting) {
+      this.socket.disconnect();
+    }
   }
 }
