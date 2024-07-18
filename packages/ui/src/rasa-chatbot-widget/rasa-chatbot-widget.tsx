@@ -19,7 +19,6 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
-  private isConnected = false;
 
   @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
@@ -191,13 +190,13 @@ export class RasaChatbotWidget {
     this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
 
     this.client.on('connect', () => {
-      this.isConnected = true;
+      widgetState.getState().state.connected = true;
     });
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('sessionConfirm', this.sessionConfirm);
     this.client.on('disconnect', () => {
-      this.isConnected = false;
+      widgetState.getState().state.connected = false;
     });
 
     if (this.autoOpen) {
@@ -239,12 +238,12 @@ export class RasaChatbotWidget {
   };
 
   private connect(): void {
-    if (this.isConnected) return;
+    if (widgetState.isConnected()) return;
     this.client.connect();
   }
 
   private disconnect(): void {
-    if (!this.isConnected) return;
+    if (!widgetState.isConnected()) return;
     this.disconnectTimeout = setTimeout(() => {
       if (!this.isOpen) {
         this.client.disconnect();

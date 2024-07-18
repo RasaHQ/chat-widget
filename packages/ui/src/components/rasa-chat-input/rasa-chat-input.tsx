@@ -1,6 +1,7 @@
 import { Component, Prop, h, EventEmitter, Event, State, Watch } from '@stencil/core';
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
+import { widgetState } from '../../store/widget-state-store';
 
 @Component({
   tag: 'rasa-chat-input',
@@ -32,6 +33,7 @@ export class RasaChatInput {
     if (!this.value.trim()) return;
     const { isRendering, messageQueue } = messageQueueService.getState().state;
     if (isRendering || messageQueue.length > 0) return;
+    if (!widgetState.isConnected()) return;
     this.sendMessageHandler.emit(this.value);
     this.value = '';
   };
