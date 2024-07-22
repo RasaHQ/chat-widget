@@ -1,0 +1,27 @@
+{
+  "name": "@vortexwest/e2e-test-suite",
+  "version": "0.1.1",
+  "description": "E2E test suite with Cypress framework",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:socketMock": "npx ts-node ./cypress/support/mockSocketServer.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RasaHQ/chat-widget.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RasaHQ/chat-widget/issues"
+  },
+  "homepage": "https://github.com/RasaHQ/chat-widget#readme",
+  "devDependencies": {
+    "cypress": "^13.13.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
