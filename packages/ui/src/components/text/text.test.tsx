@@ -99,4 +99,21 @@ describe('rasa-text', () => {
       </rasa-text>
     `);
   });
+
+  it('should emit linkClicked event when a link is clicked', async () => {
+    const page = await newSpecPage({
+      components: [RasaText],
+      html: `<rasa-text value="This is **bold**, an _italic_ link [Google](https://google.com)"></rasa-text>`,
+    });
+
+    const linkClickedSpy = jest.fn();
+    page.root.addEventListener('linkClicked', linkClickedSpy);
+
+    await page.waitForChanges();
+
+    const linkElement = page.root.shadowRoot.querySelector('a');
+    linkElement.click();
+
+    expect(linkClickedSpy).toHaveBeenCalled();
+  });
 });
