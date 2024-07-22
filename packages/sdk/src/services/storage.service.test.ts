@@ -1,4 +1,5 @@
 import { SESSION_STORAGE_KEYS } from '../constants';
+import { CustomErrorClass, ErrorSeverity } from '../errors';
 import { StorageService } from './storage.service';
 
 describe('StorageService', () => {
@@ -90,5 +91,51 @@ describe('StorageService', () => {
     const retrievedHistory = storageService.getChatHistory();
 
     expect(retrievedHistory).toBeNull();
+  });
+
+  it('should set quick reply value successfully', () => {
+    const reply = 'test_reply';
+    const messageKey = 0;
+    const sessionId = 'session1';
+    const chatHistory = {
+      [sessionId]: {
+        messages: [
+          {
+            quick_replies: [{ payload: reply, isSelected: false }],
+          },
+        ],
+      },
+    };
+    jest.spyOn(storageService, 'getChatHistory').mockReturnValue(chatHistory);
+
+    storageService.setQuickReplyValue(reply, messageKey, sessionId);
+
+    expect(chatHistory[sessionId].messages[messageKey].quick_replies[0].isSelected).toBe(true);
+  });
+
+  it('should throw error if setting quick reply value fails', () => {
+    const reply = 'test_reply';
+    const messageKey = 1;
+    const sessionId = 'session_3';
+    const chatHistory = {
+      [sessionId]: {
+        messages: [
+          {
+            quick_replies: [],
+          },
+        ],
+      },
+    };
+    jest.spyOn(storageService, 'getChatHistory').mockReturnValue(chatHistory);
+
+    expect(() => {
+      storageService.setQuickReplyValue(reply, messageKey, sessionId);
+    }).toThrow(
+      new CustomErrorClass(
+        ErrorSeverity.LogWarning,
+        `Failed to save selected quick reply to history`,
+        `reply: ${reply}, messageKey:${messageKey}`,
+      ),
+    );
   });
 });
