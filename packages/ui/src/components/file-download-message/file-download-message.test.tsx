@@ -61,4 +61,19 @@ describe('rasa-file-download-message', () => {
     expect(anchorElement.getAttribute('href')).toBe('http://example.com/file.pdf');
     expect(anchorElement.getAttribute('download')).toBe('example.pdf');
   });
+
+  it('should emit fileDownloadStarted event on click', async () => {
+    const page = await newSpecPage({
+      components: [RasaFileDownloadMessage],
+      html: `<rasa-file-download-message file-url="https://example.com/file.pdf" file-name="file.pdf"></rasa-file-download-message>`,
+    });
+
+    const component = page.rootInstance;
+    const spy = jest.spyOn(component.fileDownloadStarted, 'emit');
+
+    const anchor = page.root.shadowRoot.querySelector('a');
+    anchor.click();
+
+    expect(spy).toHaveBeenCalled();
+  });
 });
