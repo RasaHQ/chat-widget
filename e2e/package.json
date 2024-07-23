@@ -1,6 +1,7 @@
 {
   "name": "@vortexwest/e2e-test-suite",
   "version": "0.1.1",
+  "private": true,
   "description": "E2E test suite with Cypress framework",
   "main": "index.js",
   "scripts": {
