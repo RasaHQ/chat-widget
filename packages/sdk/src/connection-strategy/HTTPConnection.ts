@@ -13,14 +13,23 @@ import {
 export class HTTPConnection implements ConnectionStrategy {
   url: string;
   authenticationToken?: string;
+  onConnect: () => void;
+  onDisconnect: () => void;
+  onBotResponse: (data: unknown) => void;
+  onSessionConfirm: () => void;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
     this.authenticationToken = options.authenticationToken;
+    this.onConnect = options.onConnect;
+    this.onDisconnect = options.onDisconnect;
+    this.onBotResponse = options.onBotResponse;
+    this.onSessionConfirm = options.onSessionConfirm;
   }
 
   public connect(): void {
-    // There is no connect in HTTP.
+    this.onConnect();
+    this.onSessionConfirm();
   }
 
   private normalizeResponse(data: HttpResponse[]): MessageResponse[] {
@@ -70,7 +79,7 @@ export class HTTPConnection implements ConnectionStrategy {
   }
 
   public disconnect(): void {
-    // There is no disconnection in HTTP.
+    this.onDisconnect();
   }
 
   public sessionRequest(_sessionId: string): void {

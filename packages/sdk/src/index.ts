@@ -1,5 +1,3 @@
-import { CustomErrorClass, ErrorSeverity } from './errors';
-
 import { EventEmitter } from './EventEmitter';
 import { HTTPConnection } from './connection-strategy/HTTPConnection';
 import { MessageResponse } from './types/server-response.types';
@@ -36,8 +34,15 @@ export class Rasa extends EventEmitter {
     this.isInitialConnection = true;
     this.isSessionConfirmed = false;
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
-    this.connection = new Connection({ url, authenticationToken });
-    this.initSocketEvents();
+    const { onConnect, onDisconnect, onBotResponse, onSessionConfirm } = this;
+    this.connection = new Connection({
+      url,
+      authenticationToken,
+      onConnect,
+      onDisconnect,
+      onBotResponse,
+      onSessionConfirm,
+    });
   }
 
   public get sessionId(): string {
@@ -48,18 +53,22 @@ export class Rasa extends EventEmitter {
     this._sessionId = value;
   }
 
-  private onBotResponse(data: unknown): void {
+  private onBotResponse = (data: unknown): void => {
     const timestamp = new Date();
     this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object), timestamp }, this.sessionId);
     this.trigger('message', messageParser({ ...(data as object), timestamp }, SENDER.BOT));
-  }
+  };
 
   private loadChatHistory(): void {
     const chatHistory = this.storageService.getChatHistory() || [];
     this.trigger('loadHistory', parseChatHistory(chatHistory));
   }
 
-  private onSessionConfirm(): void {
+  private onSessionConfirm = (): void => {
+    if (this.isSessionConfirmed) {
+      return;
+    }
+    this.isSessionConfirmed = true;
     const sessionStart = new Date();
     const isContinuesSession = this.storageService.setSession(this.sessionId, sessionStart);
     this.trigger('sessionConfirm');
@@ -73,54 +82,23 @@ export class Rasa extends EventEmitter {
         this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
       }
     }
-  }
+  };
 
-  private initHttpSession(): void {
-    if (this.connection instanceof HTTPConnection) {
-      this.onSessionConfirm();
+  private onConnect = () => {
+    this.sessionId = this.senderId ? this.senderId : uuidv4();
+    this.connection.sessionRequest(this.sessionId);
+    if (this.isInitialConnection) {
       this.loadChatHistory();
+      this.isInitialConnection = false;
     }
-  }
+    this.trigger('connect');
+  };
 
-  private initSocketEvents(): void {
-    if (this.connection instanceof HTTPConnection) return;
-
-    this.connection.socket.on('connect', () => {
-      this.connection.sessionRequest(this.sessionId);
-      if (this.isInitialConnection) {
-        this.loadChatHistory();
-        this.isInitialConnection = false;
-      }
-      this.trigger('connect');
-    });
-
-    this.connection.socket.on('disconnect', () => {
-      this.trigger('disconnect');
-    });
-
-    this.connection.socket.on('bot_uttered', (data: unknown) => {
-      this.onBotResponse(data);
-    });
-
-    this.connection.socket.on('session_confirm', () => {
-      if (!this.isSessionConfirmed) {
-        this.onSessionConfirm();
-        this.isSessionConfirmed = true;
-      }
-    });
-
-    this.connection.socket.on('connect_error', () => {
-      // The setTimeout function schedules the error to be thrown after the current execution context,
-      // allowing the reconnection logic of Socket.IO to continue.
-      setTimeout(() => {
-        throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
-      }, 0);
-    });
-
-    this.connection.socket.on('reconnect_attempt', attemptNumber => {
-      console.log(`Reconnection attempt #${attemptNumber}`);
-    });
-  }
+  private onDisconnect = () => {
+    this.isSessionConfirmed = false;
+    this.isInitialConnection = true;
+    this.trigger('disconnect');
+  };
 
   private onMessageReceive = (messages: MessageResponse[]): void => {
     if (!messages) return;
@@ -130,15 +108,12 @@ export class Rasa extends EventEmitter {
   };
 
   public connect(): void {
-    this.sessionId = this.senderId ? this.senderId : uuidv4();
     this.connection.connect();
-    this.initHttpSession();
+    // this.initHttpSession();
   }
 
   public disconnect(): void {
     this.connection.disconnect();
-    this.isSessionConfirmed = false;
-    this.isInitialConnection = true;
   }
 
   public sendMessage(
