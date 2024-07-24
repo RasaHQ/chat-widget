@@ -1,7 +1,6 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 import { QuickReply, QuickReplyMessage, SENDER } from '@vortexwest/chat-widget-sdk';
 
-import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
 import { widgetState } from '../../store/widget-state-store';
 
@@ -57,7 +56,6 @@ export class RasaQuickReply {
   }
 
   componentDidLoad() {
-    if (configStore().streamMessages) return;
     messageQueueService.completeRendering();
   }
 
