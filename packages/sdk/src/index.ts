@@ -1,6 +1,5 @@
 import { EventEmitter } from './EventEmitter';
 import { HTTPConnection } from './connection-strategy/HTTPConnection';
-import { MessageResponse } from './types/server-response.types';
 import { SENDER } from './constants';
 import { StorageService } from './services/storage.service';
 import { WebSocketConnection } from './connection-strategy/WebSocketConnection';
@@ -53,16 +52,17 @@ export class Rasa extends EventEmitter {
     this._sessionId = value;
   }
 
+  private loadChatHistory(): void {
+    const chatHistory = this.storageService.getChatHistory() || [];
+    this.trigger('loadHistory', parseChatHistory(chatHistory));
+  }
+
+  //#region Connection Event Handlers
   private onBotResponse = (data: unknown): void => {
     const timestamp = new Date();
     this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object), timestamp }, this.sessionId);
     this.trigger('message', messageParser({ ...(data as object), timestamp }, SENDER.BOT));
   };
-
-  private loadChatHistory(): void {
-    const chatHistory = this.storageService.getChatHistory() || [];
-    this.trigger('loadHistory', parseChatHistory(chatHistory));
-  }
 
   private onSessionConfirm = (): void => {
     if (this.isSessionConfirmed) {
@@ -79,7 +79,7 @@ export class Rasa extends EventEmitter {
       });
       // @TODO ask Tom about this behavior
       if (this.initialPayload) {
-        this.connection.sendMessage(this.initialPayload, this.sessionId, this.onMessageReceive);
+        this.connection.sendMessage(this.initialPayload, this.sessionId);
       }
     }
   };
@@ -99,17 +99,11 @@ export class Rasa extends EventEmitter {
     this.isInitialConnection = true;
     this.trigger('disconnect');
   };
+  //#endregion
 
-  private onMessageReceive = (messages: MessageResponse[]): void => {
-    if (!messages) return;
-    messages.forEach(message => {
-      this.onBotResponse(message);
-    });
-  };
-
+  //#region Public Methods
   public connect(): void {
     this.connection.connect();
-    // this.initHttpSession();
   }
 
   public disconnect(): void {
@@ -121,7 +115,7 @@ export class Rasa extends EventEmitter {
     isQuickReply = false,
     messageKey?: number,
   ): void {
-    this.connection.sendMessage(reply ?? text, this.sessionId, this.onMessageReceive);
+    this.connection.sendMessage(reply ?? text, this.sessionId);
     this.storageService.setMessage({ sender: SENDER.USER, text, timestamp }, this.sessionId);
     if (isQuickReply && messageKey && reply) {
       this.storageService.setQuickReplyValue(reply, messageKey, this.sessionId);
@@ -131,6 +125,7 @@ export class Rasa extends EventEmitter {
   public reconnection(value: boolean): void {
     this.connection.reconnection(value);
   }
+  //#endregion
 }
 
 export * from './errors';

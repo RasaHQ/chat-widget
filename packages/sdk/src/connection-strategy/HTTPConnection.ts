@@ -54,7 +54,7 @@ export class HTTPConnection implements ConnectionStrategy {
     });
   }
 
-  public async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void): Promise<void> {
+  public async sendMessage(message: string, sessionId: string): Promise<void> {
     const headers = new Headers();
     if (this.authenticationToken) {
       headers.append('Authorization', `Bearer ${this.authenticationToken}`);
@@ -71,7 +71,9 @@ export class HTTPConnection implements ConnectionStrategy {
         return response.json() as Promise<HttpResponse[]>;
       })
       .then(data => {
-        cb(this.normalizeResponse(data));
+        this.normalizeResponse(data).forEach((message) => {
+          this.onBotResponse(message);
+        });
       })
       .catch(_ => {
         throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');

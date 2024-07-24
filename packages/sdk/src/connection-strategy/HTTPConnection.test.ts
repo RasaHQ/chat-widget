@@ -3,10 +3,15 @@ import { HttpResponse, MessageResponse } from '../types/server-response.types';
 
 import { HTTPConnection } from './HTTPConnection';
 
+const onConnect = jest.fn();
+const onDisconnect = jest.fn();
+const onBotResponse = jest.fn();
+const onSessionConfirm = jest.fn();
+
 describe('HTTPConnection', () => {
   const url = 'http://rasa.com';
   const sessionId = 'b01f371e-006d-4ab5-9762-bcf412453a34';
-  const connectionParams = { url };
+  const connectionParams = { url, onConnect, onDisconnect, onBotResponse, onSessionConfirm };
   let httpConnection: HTTPConnection;
 
   beforeEach(() => {
@@ -29,8 +34,7 @@ describe('HTTPConnection', () => {
       json: jest.fn().mockResolvedValue(response),
     });
 
-    const cb = jest.fn();
-    await httpConnection.sendMessage(message, sessionId, cb);
+    await httpConnection.sendMessage(message, sessionId);
 
     expect(global.fetch).toHaveBeenCalledWith(`${url}/webhooks/rest/webhook`, {
       method: 'POST',
@@ -38,7 +42,7 @@ describe('HTTPConnection', () => {
       body: JSON.stringify({ sender: sessionId, message }),
     });
 
-    expect(cb).toHaveBeenCalledWith(normalizedResponse);
+    expect(onBotResponse).toHaveBeenCalledWith(normalizedResponse[0]);
   });
 
   it('should normalize quick reply responses', () => {
