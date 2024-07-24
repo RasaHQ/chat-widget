@@ -7,7 +7,7 @@
   "description": "A lightweight and efficient chatbot widget built with StencilJS, designed for seamless integration and customizable interface.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/web-component/web-component.esm.js",
