@@ -3,6 +3,7 @@ import { QuickReply, QuickReplyMessage, SENDER } from '@vortexwest/chat-widget-s
 
 import { messageQueueService } from '../../store/message-queue';
 import { widgetState } from '../../store/widget-state-store';
+import { configStore } from '../../store/config-store';
 
 @Component({
   tag: 'rasa-quick-reply',
@@ -39,6 +40,7 @@ export class RasaQuickReply {
 
   @State() disableButtons = false;
   @State() quickReplyMessage: QuickReplyMessage;
+  @State() textStreamComplete = false;
 
   @Listen('buttonClickHandler', { capture: true })
   // @ts-ignore-next-line
@@ -71,17 +73,25 @@ export class RasaQuickReply {
     this.disableButtons = false;
   }
 
+  @Listen('textStreamComplete')
+  // @ts-ignore-next-line
+  private onTextStreamComplete() {
+    this.textStreamComplete = true;
+  }
+
   render() {
     const buttonsClassList = {
       'quick-reply__buttons': true,
       'quick-reply__buttons--disabled': this.disableButtons,
     };
+    const isStreamEnabled = configStore().streamMessages && !this.isHistory;
+    const canShowText = isStreamEnabled ? this.textStreamComplete : true;
     return (
       <Host>
         <chat-message sender={SENDER.BOT} timestamp={this.message.timestamp}>
-          <rasa-text value={this.message.text} enableStream={false} class="quick-reply__text"></rasa-text>
+          <rasa-text value={this.message.text} notifyCompleteRendering={isStreamEnabled} enableStream={isStreamEnabled} class="quick-reply__text"></rasa-text>
         </chat-message>
-        {this.quickReplyMessage.replies.length && (
+        {canShowText && this.quickReplyMessage.replies.length && (
           <div class={buttonsClassList}>
             {this.quickReplyMessage.replies.map((button, key) => (
               <rasa-button {...button} key={key} isSelected={button.isSelected}>

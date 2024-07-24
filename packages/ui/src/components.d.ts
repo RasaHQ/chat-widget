@@ -730,6 +730,7 @@ declare global {
     };
     interface HTMLRasaTextElementEventMap {
         "linkClicked": undefined;
+        "textStreamComplete": { value: true };
     }
     interface HTMLRasaTextElement extends Components.RasaText, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaTextElementEventMap>(type: K, listener: (this: HTMLRasaTextElement, ev: RasaTextCustomEvent<HTMLRasaTextElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1284,6 +1285,10 @@ declare namespace LocalJSX {
           * User clicked on link
          */
         "onLinkClicked"?: (event: RasaTextCustomEvent<undefined>) => void;
+        /**
+          * Trigger on stream complete
+         */
+        "onTextStreamComplete"?: (event: RasaTextCustomEvent<{ value: true }>) => void;
         /**
           * Text value
          */
