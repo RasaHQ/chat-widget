@@ -33,6 +33,11 @@ export class RasaText {
    */
   @Event() linkClicked: EventEmitter<undefined>;
 
+  /**
+   * Trigger on stream complete
+   */
+  @Event() textStreamComplete: EventEmitter<{ value: true }>;
+
   @Element() el: HTMLRasaTextElement;
 
   @State() segments: Array<{ text: string; linkSrc?: string; bold?: boolean; italic?: boolean; newline?: boolean }> = [];
@@ -102,6 +107,7 @@ export class RasaText {
       await this.renderNextSegment();
     } else if (this.notifyCompleteRendering) {
       messageQueueService.completeRendering();
+      this.textStreamComplete.emit();
     }
   }
 
@@ -130,7 +136,7 @@ export class RasaText {
   private onLinkClick = () => {
     this.linkClicked.emit();
     return true;
-  }
+  };
 
   render() {
     if (this.disableParsing) {

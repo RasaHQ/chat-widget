@@ -17,9 +17,10 @@
 
 ## Events
 
-| Event         | Description          | Type                     |
-| ------------- | -------------------- | ------------------------ |
-| `linkClicked` | User clicked on link | `CustomEvent<undefined>` |
+| Event                | Description                | Type                            |
+| -------------------- | -------------------------- | ------------------------------- |
+| `linkClicked`        | User clicked on link       | `CustomEvent<undefined>`        |
+| `textStreamComplete` | Trigger on stream complete | `CustomEvent<{ value: true; }>` |
 
 
 ## Dependencies
