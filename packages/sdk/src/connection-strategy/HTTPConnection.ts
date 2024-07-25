@@ -13,14 +13,23 @@ import {
 export class HTTPConnection implements ConnectionStrategy {
   url: string;
   authenticationToken?: string;
+  onConnect: () => void;
+  onDisconnect: () => void;
+  onBotResponse: (data: unknown) => void;
+  onSessionConfirm: () => void;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
     this.authenticationToken = options.authenticationToken;
+    this.onConnect = options.onConnect;
+    this.onDisconnect = options.onDisconnect;
+    this.onBotResponse = options.onBotResponse;
+    this.onSessionConfirm = options.onSessionConfirm;
   }
 
   public connect(): void {
-    // There is no connect in HTTP.
+    this.onConnect();
+    this.onSessionConfirm();
   }
 
   private normalizeResponse(data: HttpResponse[]): MessageResponse[] {
@@ -45,7 +54,7 @@ export class HTTPConnection implements ConnectionStrategy {
     });
   }
 
-  public async sendMessage(message: string, sessionId: string, cb: (data: MessageResponse[]) => void): Promise<void> {
+  public async sendMessage(message: string, sessionId: string): Promise<void> {
     const headers = new Headers();
     if (this.authenticationToken) {
       headers.append('Authorization', `Bearer ${this.authenticationToken}`);
@@ -62,7 +71,9 @@ export class HTTPConnection implements ConnectionStrategy {
         return response.json() as Promise<HttpResponse[]>;
       })
       .then(data => {
-        cb(this.normalizeResponse(data));
+        this.normalizeResponse(data).forEach((message) => {
+          this.onBotResponse(message);
+        });
       })
       .catch(_ => {
         throw new CustomErrorClass(ErrorSeverity.Error, 'Server error');
@@ -70,7 +81,7 @@ export class HTTPConnection implements ConnectionStrategy {
   }
 
   public disconnect(): void {
-    // There is no disconnection in HTTP.
+    this.onDisconnect();
   }
 
   public sessionRequest(_sessionId: string): void {
