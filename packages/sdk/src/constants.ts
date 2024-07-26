@@ -14,3 +14,5 @@ export const SENDER = {
   BOT: "bot",
   USER: "user",
 } as const;
+
+export const SOCKET_IO_RECONNECTION_DELAY = 4_000;

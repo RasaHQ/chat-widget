@@ -1,15 +1,19 @@
+import { ManagerOptions, Socket, SocketOptions, io } from 'socket.io-client';
+
 import { CustomErrorClass, ErrorSeverity } from '../errors';
 import { ConnectionParams, ConnectionStrategy } from './ConnectionStrategy';
-import { ManagerOptions, Socket, SocketOptions, io } from 'socket.io-client';
+import { SOCKET_IO_RECONNECTION_DELAY } from '../constants';
 
 export class WebSocketConnection implements ConnectionStrategy {
   url: string;
   authenticationToken?: string;
   socket: Socket;
-  onConnect: () => void;
+  onConnect: (isReconnect?: boolean) => void;
   onDisconnect: () => void;
   onBotResponse: (data: unknown) => void;
   onSessionConfirm: () => void;
+
+  private isReconnecting = false;
 
   constructor(options: ConnectionParams) {
     this.url = options.url;
@@ -20,7 +24,8 @@ export class WebSocketConnection implements ConnectionStrategy {
     this.onSessionConfirm = options.onSessionConfirm;
     const ioOptions: Partial<ManagerOptions & SocketOptions> = {
       autoConnect: false,
-      reconnectionAttempts: 4,
+      reconnectionDelay: SOCKET_IO_RECONNECTION_DELAY,
+      reconnectionDelayMax: SOCKET_IO_RECONNECTION_DELAY,
     };
     if (this.authenticationToken) {
       ioOptions.auth = {
@@ -58,20 +63,33 @@ export class WebSocketConnection implements ConnectionStrategy {
   }
 
   public initEvents(): void {
+    //#region Rasa Server Input Events
     this.socket.on('connect', () => {
-      this.onConnect();
+      this.onConnect(this.isReconnecting);
+      this.isReconnecting = false;
     });
 
     this.socket.on('disconnect', () => {
       this.onDisconnect();
+      this.isReconnecting = false;
     });
+    //#endregion
 
+    //#region Rasa Server Output Events
     this.socket.on('bot_uttered', (data: unknown) => {
       this.onBotResponse(data);
     });
 
     this.socket.on('session_confirm', () => {
       this.onSessionConfirm();
+    });
+    //#endregion
+
+    //#region Socket IO Events
+    this.socket.io.on('reconnect', _ => {
+      // Fired upon a successful reconnection.
+      // https://socket.io/docs/v4/client-api/#event-reconnect
+      this.isReconnecting = true;
     });
 
     this.socket.on('connect_error', () => {
@@ -82,8 +100,9 @@ export class WebSocketConnection implements ConnectionStrategy {
       }, 0);
     });
 
-    this.socket.on('reconnect_attempt', attemptNumber => {
+    this.socket.io.on('reconnect_attempt', attemptNumber => {
       console.log(`Reconnection attempt #${attemptNumber}`);
     });
+    //#endregion
   }
 }
