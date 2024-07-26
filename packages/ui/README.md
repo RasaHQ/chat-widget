@@ -1,22 +1,24 @@
-# Rasa Chatbot Widget
+# Rasa Chat Widget
 
-A customizable chatbot widget built with StencilJS. This widget can be easily integrated into any web application to provide interactive chat capabilities.
+A customizable chat widget built with StencilJS. This widget can be easily integrated into any web application to provide interactive chat capabilities.
 
 ## Installation
 
 ### Using npm
 
-To install the chatbot widget via npm, run the following command:
+To install the chat widget via npm, run the following command:
 
 ```bash
+# TODO: Replace npm organization with RasaHQ.
 npm install @vortexwest/chat-widget-ui
 ```
 
 ### Using CDN
 
-Alternatively, you can use a CDN to include the chatbot widget in your project:
+Alternatively, you can use a CDN to include the chat widget in your project:
 
 ```html
+<!-- TODO: Replace npm organization with RasaHQ. -->
 <script type="module" src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
 ```
@@ -50,3 +52,5 @@ To add new icons to the project, follow these steps:
 3. **Access New Icon**: Once the script has executed successfully, your new icon will be available in the `src/components/icons` directory.
 
 By following these steps, you can efficiently add new icons to the project without the need for manual editing of existing components.
+
+### TODO: How to add a new component.

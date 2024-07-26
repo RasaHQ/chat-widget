@@ -15,16 +15,16 @@
     "@storybook/blocks": "^8.1.10",
     "@storybook/html": "^8.1.10",
     "@storybook/html-vite": "^8.1.10",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.8.0",
     "sass": "^1.72.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.5.4",
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "@vortexwest/chat-widget-ui": "^0.1.0",
+    "@vortexwest/chat-widget-ui": "^0.1.9",
     "storybook": "^8.1.10"
   }
 }

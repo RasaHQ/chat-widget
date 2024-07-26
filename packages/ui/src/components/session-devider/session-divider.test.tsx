@@ -4,7 +4,7 @@ import { SessionDivider } from './session-divider';
 
 describe('rasa-session-divider', () => {
   it('renders with the correct date', async () => {
-    const sessionStartDate = new Date('Tue Apr 25 2023 15:45:30 GMT+0200 (Central European Summer Time)');
+    const sessionStartDate = new Date('Tue Apr 25 2023 15:45:30');
     const page = await newSpecPage({
       components: [SessionDivider],
       template: () => <rasa-session-divider sessionStartDate={sessionStartDate}></rasa-session-divider>,
