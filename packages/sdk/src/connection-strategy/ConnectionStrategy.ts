@@ -1,14 +1,15 @@
-import { MessageResponse } from '../types/server-response.types';
 import { Socket } from 'socket.io-client';
+
+import { MessageResponse } from '../types/server-response.types';
 
 export interface ConnectionParams {
   url: string;
   authenticationToken?: string;
-  onConnect: () => void;
+  onConnect: (isReconnected?: boolean) => void;
   onDisconnect: () => void,
   onBotResponse: (data: unknown) => void,
   onSessionConfirm: () => void,
-}
+} 
 
 export interface ConnectionStrategy extends ConnectionParams {
   socket?: Socket;

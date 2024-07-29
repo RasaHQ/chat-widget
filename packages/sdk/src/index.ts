@@ -84,9 +84,16 @@ export class Rasa extends EventEmitter {
     }
   };
 
-  private onConnect = () => {
+  private onConnect = (isReconnected = false) => {
+    if (isReconnected) {
+      this.connection.sessionRequest(this.sessionId);
+      this.trigger('connect');
+      return;
+    }
+
     this.sessionId = this.senderId ? this.senderId : uuidv4();
     this.connection.sessionRequest(this.sessionId);
+
     if (this.isInitialConnection) {
       this.loadChatHistory();
       this.isInitialConnection = false;
