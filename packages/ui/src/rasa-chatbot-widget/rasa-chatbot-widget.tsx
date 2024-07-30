@@ -208,7 +208,7 @@ export class RasaChatbotWidget {
     const container = this.el.shadowRoot.querySelector('.messenger__content-wrapper');
 
     if (container) {
-      container.scrollTop = container.scrollHeight;
+      container.scrollTop = 0;
     }
   }
 
