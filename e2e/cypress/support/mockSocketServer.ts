@@ -13,10 +13,18 @@ io.on('connection', (socket) => {
   console.log('Client connected');
 
   socket.on('user_uttered', (message) => {
-    console.log(`Received message`);
+    console.log(`Received message:`, message.message);
+    const userInput = message.message;
     // Mock server response
-    const response = { text: 'Something went wrong, please try again.' };
-    socket.emit('bot_uttered', response);
+    if (userInput === 'Hello') {
+      socket.emit(
+        'bot_uttered',
+        'Hello there, we were expecting you. Sit back and relax.'
+      );
+    } else {
+      const response2 = { text: 'Your input is not understandable.' };
+      socket.emit('bot_uttered', response2);
+    }
   });
 
   socket.on('disconnect', () => {

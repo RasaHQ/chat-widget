@@ -2,6 +2,8 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
+    baseUrl: 'http://localhost:3333',
+    includeShadowDom: true,
     chromeWebSecurity: false,
     defaultCommandTimeout: 20000,
     requestTimeout: 20000,
@@ -11,8 +13,6 @@ export default defineConfig({
     watchForFileChanges: false,
     specPattern: 'cypress/tests/**/*.cy.{ts, js}',
     setupNodeEvents(on, config) {
-      // implement node event listeners here
-
       // Open DevTools on Cypress runner start
       //@ts-ignore
       on('before:browser:launch', (browser = {}, launchOptions) => {
