@@ -1,6 +1,5 @@
 import { WebSocketConnection } from './WebSocketConnection';
 
-// Mock implementation within the same file
 jest.mock('socket.io-client', () => {
   const mSocket = {
     connect: jest.fn(),
