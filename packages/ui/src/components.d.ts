@@ -94,6 +94,10 @@ export namespace Components {
          */
         "messageDelay": number;
         /**
+          * Format of the message timestamp
+         */
+        "messageTimestamp": string;
+        /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
         "restEnabled": boolean;
@@ -886,6 +890,10 @@ declare namespace LocalJSX {
           * Indicates time between message is received and printed.
          */
         "messageDelay"?: number;
+        /**
+          * Format of the message timestamp
+         */
+        "messageTimestamp"?: string;
         /**
           * Emitted when the Chat Widget is opened by the user
          */

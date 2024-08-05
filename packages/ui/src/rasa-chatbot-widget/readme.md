@@ -17,6 +17,7 @@
 | `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                 | `string`  | `''`                       |
 | `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                          | `string`  | `'Type your message here'` |
 | `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `600`                      |
+| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `''`                       |
 | `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`                    |
 | `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                              | `string`  | `''`                       |
 | `serverUrl` _(required)_  | `server-url`                | Url of the Rasa chatbot backend server (example: https://example.com)                                  | `string`  | `undefined`                |
