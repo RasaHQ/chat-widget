@@ -66,12 +66,6 @@ class ChatbotWidget {
   get botChatVideoMessage() {
     return cy.get('rasa-video');
   }
-
-  sendMessage(text: string) {
-    this.widgetInputField.type(text);
-    // Explicit wait to handle event listeners to load on Send button element
-    this.widgetSendButton.wait(2000).click();
-  }
 }
 
 export const chatbotWidgetPage = new ChatbotWidget();

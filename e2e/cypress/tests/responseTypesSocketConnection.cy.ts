@@ -30,7 +30,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.textMessage);
+    cy.userSendMessage(userInputs.textMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -61,7 +61,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.imageMessage);
+    cy.userSendMessage(userInputs.imageMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -96,7 +96,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.accordionMessage);
+    cy.userSendMessage(userInputs.accordionMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -128,7 +128,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.carouselMessage);
+    cy.userSendMessage(userInputs.carouselMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -166,7 +166,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.fileDownloadMessage);
+    cy.userSendMessage(userInputs.fileDownloadMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -198,7 +198,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.quickRepliesMessage);
+    cy.userSendMessage(userInputs.quickRepliesMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
@@ -248,7 +248,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSendButton.should('be.visible');
 
-    chatbotWidgetPage.sendMessage(userInputs.videoMessage);
+    cy.userSendMessage(userInputs.videoMessage);
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
