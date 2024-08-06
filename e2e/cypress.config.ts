@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import { initPlugin } from '@frsource/cypress-plugin-visual-regression-diff/plugins';
 
 export default defineConfig({
   e2e: {
@@ -12,15 +13,16 @@ export default defineConfig({
     viewportHeight: 1200,
     watchForFileChanges: false,
     specPattern: 'cypress/tests/**/*.cy.{ts, js}',
+    env: {
+      pluginVisualRegressionCreateMissingImages: true,
+      pluginVisualRegressionUpdateImages: false,
+      pluginVisualRegressionDiffConfig: {
+        treshold: 0.01,
+      },
+      pluginVisualRegressionImagesPath: './cypress/screenshots/base',
+    },
     setupNodeEvents(on, config) {
-      // Open DevTools on Cypress runner start
-      //@ts-ignore
-      on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-          launchOptions.args.push('--auto-open-devtools-for-tabs');
-          return launchOptions;
-        }
-      });
+      initPlugin(on, config);
     },
   },
 });

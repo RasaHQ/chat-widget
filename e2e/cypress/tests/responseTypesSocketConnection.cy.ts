@@ -34,6 +34,8 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
+    chatbotWidgetPage.widgetSessionDivider.should('be.visible');
+
     chatbotWidgetPage.userChatMessage
       .get('span')
       .should('contain.text', userInputs.textMessage);
@@ -46,6 +48,10 @@ describe('Response messages types', () => {
         'contain.text',
         "I understand you want to be connected to a human agent, but that's something I cannot help you with at the moment. Is there something else I can help you with?"
       );
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'textMessageResponse',
+    });
   });
 
   it('TC002 - Response message type: Image', () => {
@@ -81,6 +87,10 @@ describe('Response messages types', () => {
       .last()
       .get('span')
       .should('contain.text', 'What else I can help you with?');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'imageMessageResponse',
+    });
   });
 
   it('TC003 - Response message type: Accordion', () => {
@@ -113,6 +123,10 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatTextMessage
       .get('span')
       .should('contain.text', 'What else I can help you with?');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'accordionMessageResponse',
+    });
   });
 
   it('TC004 - Response message type: Carousel', () => {
@@ -151,6 +165,10 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatTextMessage
       .get('span')
       .should('contain.text', 'What else I can help you with?');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'carouselMessageResponse',
+    });
   });
 
   it('TC005 - Response message type: File download', () => {
@@ -183,6 +201,10 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatTextMessage
       .get('span')
       .should('contain.text', 'What else I can help you with?');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'fileDownloadMessageResponse',
+    });
   });
 
   it('TC006 - Response message type: Quick replies', () => {
@@ -233,6 +255,10 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatQuickRepliesButtons
       .eq(4)
       .should('have.attr', 'text', 'New_Line');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'quickRepliesMessageResponse',
+    });
   });
 
   it('TC007 - Response message type: Video Message', () => {
@@ -268,5 +294,9 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatTextMessage
       .get('span')
       .should('contain.text', 'What else I can help you with?');
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'videoMessageResponse',
+    });
   });
 });

@@ -3,6 +3,10 @@ class ChatbotWidget {
     return cy.get('div.messenger.messenger--open');
   }
 
+  get widgetSessionDivider() {
+    return cy.get('rasa-session-divider');
+  }
+
   get widgetHeader() {
     return cy.get('div.messenger__header');
   }

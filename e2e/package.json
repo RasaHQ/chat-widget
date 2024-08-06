@@ -5,6 +5,7 @@
   "description": "E2E test suite with Cypress framework",
   "main": "index.js",
   "scripts": {
+    "cy:run": "npx cypress run --browser chrome",
     "cy:open": "npx cypress open",
     "cy:socketMock": "npx ts-node ./cypress/support/mockSocketServer.ts"
   },
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "devDependencies": {
+    "@frsource/cypress-plugin-visual-regression-diff": "^3.3.10",
     "cypress": "^13.13.1",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",

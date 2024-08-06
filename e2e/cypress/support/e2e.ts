@@ -18,3 +18,6 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// Cypress visual regression plugin
+import '@frsource/cypress-plugin-visual-regression-diff';
