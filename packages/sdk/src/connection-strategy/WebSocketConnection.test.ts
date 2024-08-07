@@ -1,3 +1,4 @@
+import { ErrorSeverity } from '../errors';
 import { WebSocketConnection } from './WebSocketConnection';
 
 jest.mock('socket.io-client', () => {
@@ -176,6 +177,22 @@ describe('WebSocketConnection', () => {
 
       // @ts-expect-error @ts
       expect(connection.isReconnecting).toBe(true);
+    });
+
+    it('should handle connect_error event', () => {
+      socket.io.on.mockImplementation((event, handler) => {
+        if (event === 'connect_error') {
+          try {
+            handler();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } catch (error: any) {
+            expect(error.severity).toBe(ErrorSeverity.Error);
+            expect(error.message).toBe('Server error');
+          }
+        }
+      });
+
+      connection.initEvents();
     });
 
     it('should handle reconnect attempt event', () => {
