@@ -10,12 +10,6 @@ E2E test suite for Rasa Chatbot Widget based on Cypress framework. Along with fu
 
 ## Running the tests locally Cypress runner
 
-- Start the websocket mocking server before starting the Rasa Chatbot Widget
-
-```bash
-npm run cy:socketMock
-```
-
 - Start Rasa Chatbot Widget
 
 ```bash
@@ -29,12 +23,6 @@ npm run cy:open
 ```
 
 ## Running the tests locally CLI
-
-- Start the websocket mocking server before starting the Rasa Chatbot Widget
-
-```bash
-npm run cy:socketMock
-```
 
 - Start the tests with Chrome browser
 

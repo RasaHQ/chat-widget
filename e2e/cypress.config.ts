@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress';
 import { initPlugin } from '@frsource/cypress-plugin-visual-regression-diff/plugins';
+import startFakeWebsocketServer from './cypress/plugins/mockSocketIO';
 
 export default defineConfig({
   e2e: {
@@ -17,12 +18,13 @@ export default defineConfig({
       pluginVisualRegressionCreateMissingImages: true,
       pluginVisualRegressionUpdateImages: false,
       pluginVisualRegressionDiffConfig: {
-        treshold: 0.01,
+        threshold: 0.01,
       },
       pluginVisualRegressionImagesPath: './cypress/screenshots/base',
     },
     setupNodeEvents(on, config) {
       initPlugin(on, config);
+      startFakeWebsocketServer();
     },
   },
 });

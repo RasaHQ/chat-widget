@@ -8,11 +8,16 @@ describe('Response messages types', () => {
         cy.document().then((document) => {
           document
             .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('server-url', 'https://pro.vortexwe.com');
+            .setAttribute('server-url', 'http://localhost:8081');
         });
       },
     });
   });
+
+  afterEach(() => {
+    cy.resetWsMessages();
+  });
+
   it('TC001 - Response message type: Text message', () => {
     chatbotWidgetPage.widgetLauncher.should('be.visible');
 
@@ -75,20 +80,14 @@ describe('Response messages types', () => {
       .get('span')
       .should('contain.text', userInputs.imageMessage);
 
-    chatbotWidgetPage.botChatTextMessage.should('be.visible');
-
-    chatbotWidgetPage.botChatTextMessage
-      .get('span')
-      .should('contain.text', 'No country for old men');
-
     chatbotWidgetPage.botChatImageMessage.should('be.visible');
 
-    chatbotWidgetPage.botChatTextMessage
-      .last()
-      .get('span')
-      .should('contain.text', 'What else I can help you with?');
+    chatbotWidgetPage.botChatImageMessage
+      .find('img')
+      .should('have.attr', 'src')
+      .and('match', /https:\/\/upload.wikimedia.org\/.*/);
 
-    chatbotWidgetPage.widgetOpened.matchImage({
+    chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'imageMessageResponse',
     });
   });
@@ -119,10 +118,6 @@ describe('Response messages types', () => {
     chatbotWidgetPage.botChatAccordionChevronDownIcon.should('have.length', 3);
 
     chatbotWidgetPage.botChatAccordionChevronDownIcon.eq(0).click();
-
-    chatbotWidgetPage.botChatTextMessage
-      .get('span')
-      .should('contain.text', 'What else I can help you with?');
 
     chatbotWidgetPage.widgetOpened.matchImage({
       title: 'accordionMessageResponse',
@@ -162,10 +157,6 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.botChatCarouselLeftIcon.should('not.exist');
 
-    chatbotWidgetPage.botChatTextMessage
-      .get('span')
-      .should('contain.text', 'What else I can help you with?');
-
     chatbotWidgetPage.widgetOpened.matchImage({
       title: 'carouselMessageResponse',
     });
@@ -198,11 +189,7 @@ describe('Response messages types', () => {
       .find('a.file-download')
       .should('have.attr', 'target', '_blank');
 
-    chatbotWidgetPage.botChatTextMessage
-      .get('span')
-      .should('contain.text', 'What else I can help you with?');
-
-    chatbotWidgetPage.widgetOpened.matchImage({
+    chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'fileDownloadMessageResponse',
     });
   });
@@ -256,6 +243,18 @@ describe('Response messages types', () => {
       .eq(4)
       .should('have.attr', 'text', 'New_Line');
 
+    chatbotWidgetPage.botChatQuickRepliesButtons.eq(0).click();
+
+    chatbotWidgetPage.userChatMessage.eq(1).should('be.visible');
+
+    chatbotWidgetPage.userChatMessage
+      .get('span')
+      .should('contain.text', 'Hyperlink');
+
+    chatbotWidgetPage.botChatQuickRepliesMessage
+      .get('span')
+      .should('contain.text', 'For more information, visit Google Website');
+
     chatbotWidgetPage.widgetOpened.matchImage({
       title: 'quickRepliesMessageResponse',
     });
@@ -291,11 +290,7 @@ describe('Response messages types', () => {
       .should('have.attr', 'src')
       .and('match', /https:\/\/www.youtube.com\/embed\/.*/);
 
-    chatbotWidgetPage.botChatTextMessage
-      .get('span')
-      .should('contain.text', 'What else I can help you with?');
-
-    chatbotWidgetPage.widgetOpened.matchImage({
+    chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'videoMessageResponse',
     });
   });

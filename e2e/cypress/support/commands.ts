@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
+import { addCommands } from 'cypress/plugins/mockSocketIO/commands';
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -23,8 +24,11 @@ import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 Cypress.Commands.add('userSendMessage', (message: string) => {
   chatbotWidgetPage.widgetInputField.should('be.visible');
   chatbotWidgetPage.widgetInputField.type(message);
-  chatbotWidgetPage.widgetSendButton.wait(2000).click();
+  chatbotWidgetPage.widgetSendButton.click();
 });
+
+addCommands();
+
 //
 //
 // -- This is a child command --

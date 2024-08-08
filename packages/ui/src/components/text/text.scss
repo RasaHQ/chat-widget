@@ -6,6 +6,7 @@
   line-height: var(--rasa-text-line-height, 150%);
   letter-spacing: var(--rasa-text-letter-spacing, 0.6px);
   overflow-wrap: break-word;
+  white-space: pre-wrap;
 
   &--bold {
     font-weight: bold;
