@@ -15,6 +15,7 @@ export default defineConfig({
     watchForFileChanges: false,
     specPattern: 'cypress/tests/**/*.cy.{ts, js}',
     env: {
+      mockedServerUrl: 'http://localhost:8081',
       pluginVisualRegressionCreateMissingImages: true,
       pluginVisualRegressionUpdateImages: false,
       pluginVisualRegressionDiffConfig: {

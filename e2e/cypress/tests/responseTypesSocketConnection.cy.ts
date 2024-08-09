@@ -2,20 +2,22 @@ import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
 
 describe('Response messages types', () => {
+  const mockedServerUrl = Cypress.env('mockedServerUrl');
+
   beforeEach(() => {
     cy.visit('http://localhost:3333', {
       onBeforeLoad() {
         cy.document().then((document) => {
           document
             .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('server-url', 'http://localhost:8081');
+            .setAttribute('server-url', mockedServerUrl);
         });
       },
     });
   });
 
   afterEach(() => {
-    cy.resetWsMessages();
+    cy.resetWsMessages(mockedServerUrl);
   });
 
   it('TC001 - Response message type: Text message', () => {
@@ -84,8 +86,11 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.botChatImageMessage
       .find('img')
-      .should('have.attr', 'src')
-      .and('match', /https:\/\/upload.wikimedia.org\/.*/);
+      .should(
+        'have.attr',
+        'src',
+        'https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Anton_Chigurh.jpg/220px-Anton_Chigurh.jpg'
+      );
 
     chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'imageMessageResponse',
@@ -189,6 +194,14 @@ describe('Response messages types', () => {
       .find('a.file-download')
       .should('have.attr', 'target', '_blank');
 
+    chatbotWidgetPage.botChatFileDownloadMessage
+      .find('a.file-download')
+      .should(
+        'have.attr',
+        'href',
+        'https://codeload.github.com/RasaHQ/rasa-sdk/zip/refs/heads/main'
+      );
+
     chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'fileDownloadMessageResponse',
     });
@@ -287,8 +300,11 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.botChatVideoMessage
       .find('iframe')
-      .should('have.attr', 'src')
-      .and('match', /https:\/\/www.youtube.com\/embed\/.*/);
+      .should(
+        'have.attr',
+        'src',
+        'https://www.youtube.com/embed/dQw4w9WgXcQ?si=T5VhguqLo5F0q7R0'
+      );
 
     chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
       title: 'videoMessageResponse',
