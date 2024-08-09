@@ -1,7 +1,11 @@
 import { defineConfig } from 'cypress';
+import { initPlugin } from '@frsource/cypress-plugin-visual-regression-diff/plugins';
+import startFakeWebsocketServer from './cypress/plugins/mockSocketIO';
 
 export default defineConfig({
   e2e: {
+    baseUrl: 'http://localhost:3333',
+    includeShadowDom: true,
     chromeWebSecurity: false,
     defaultCommandTimeout: 20000,
     requestTimeout: 20000,
@@ -10,17 +14,18 @@ export default defineConfig({
     viewportHeight: 1200,
     watchForFileChanges: false,
     specPattern: 'cypress/tests/**/*.cy.{ts, js}',
+    env: {
+      mockedServerUrl: 'http://localhost:8081',
+      pluginVisualRegressionCreateMissingImages: true,
+      pluginVisualRegressionUpdateImages: false,
+      pluginVisualRegressionDiffConfig: {
+        threshold: 0.01,
+      },
+      pluginVisualRegressionImagesPath: './cypress/screenshots/base',
+    },
     setupNodeEvents(on, config) {
-      // implement node event listeners here
-
-      // Open DevTools on Cypress runner start
-      //@ts-ignore
-      on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-          launchOptions.args.push('--auto-open-devtools-for-tabs');
-          return launchOptions;
-        }
-      });
+      initPlugin(on, config);
+      startFakeWebsocketServer();
     },
   },
 });

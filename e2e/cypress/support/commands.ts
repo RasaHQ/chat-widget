@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+
+import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
+import { addCommands } from 'cypress/plugins/mockSocketIO/commands';
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -12,6 +15,20 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+/**
+ * Command sends user message in the widget
+ * @param message: string
+ * @example
+ * cy.userSendMessage('test message')
+ */
+Cypress.Commands.add('userSendMessage', (message: string) => {
+  chatbotWidgetPage.widgetInputField.should('be.visible');
+  chatbotWidgetPage.widgetInputField.type(message);
+  chatbotWidgetPage.widgetSendButton.click();
+});
+
+addCommands();
+
 //
 //
 // -- This is a child command --

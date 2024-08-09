@@ -3,11 +3,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@rasa-cypress-POM/*": ["./cypress/pageObjects/*"]
+      "@rasa-cypress-POM/*": ["./cypress/pageObjects/*"],
+      "@rasa-cypress-fixtures/*": ["./cypress/fixtures/*"]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "strict": true
+    "strict": true,
+    "types": ["cypress", "node"]
   }
 }

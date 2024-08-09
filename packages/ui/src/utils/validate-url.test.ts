@@ -8,6 +8,7 @@ describe('isValidURL', () => {
     expect(isValidURL('http://192.168.1.1')).toBe(true);
     expect(isValidURL('http://example.com:8080/path')).toBe(true);
     expect(isValidURL('https://example.com/path?name=value#anchor')).toBe(true);
+    expect(isValidURL('http://localhost:8081')).toBe(true);
   });
 
   it('Invalid URLs', () => {
