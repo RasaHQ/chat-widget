@@ -19,6 +19,6 @@ describe("Rasa React Wrapper", () => {
         "https://pro.example.com"
       );
       expect(chatbotElement).toMatchSnapshot();
-    });
+    }, {timeout: 5000});
   });
 });

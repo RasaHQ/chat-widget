@@ -1,9 +1,20 @@
 {
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "../../tsconfig.lint.json"
   },
   "extends": ["plugin:@stencil-community/recommended"],
   "rules": {
-    "@stencil-community/strict-boolean-conditions": "off"
-  }
+    "@stencil-community/strict-boolean-conditions": "off",
+    "react/jsx-no-bind": "off"
+  },
+  "ignorePatterns": [
+    ".stencil",
+    "dist",
+    "doc",
+    "loader",
+    "scripts",
+    "www",
+    "stencil.config.ts",
+    "jest.setup.js"
+  ]
 }

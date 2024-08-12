@@ -1,0 +1,67 @@
+name: Storybook - Install, Lint, Build and GitHub Pages Deploy
+
+on:
+  push:
+    branches: main
+  pull_request:
+    paths:
+      - 'storybook/**'
+      - '!examples/**'
+      - '!packages/react/**'
+      - '!packages/sdk/**'
+      - '!packages/ui/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: storybook/
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node version
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
+        with:
+          node-version-file: '.nvmrc'  # Root of the repository.
+      
+      # TODO: NPM login instead of auth token?
+      - name: Authenticate with private NPM package
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Build
+        run: npm run build-storybook
+
+        # We upload the artifact and deploy to GitHub Pages only when this workflow is manually triggered.
+      - name: Upload pages artifact
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        id: upload-pages-artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          name: storybook
+          path: storybook/storybook-static/
+          retention-days: 90
+
+  deploy:
+    needs: build
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      pages: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        with:
+          artifact_name: storybook

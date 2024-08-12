@@ -1,18 +1,19 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*",
-    "*"
+    "packages/*"
   ],
   "scripts": {
     "dev": "lerna run dev --parallel",
     "storybook": "lerna run build && lerna run storybook",
-    "test": "lerna run test",
-    "build": "lerna run build --concurrency 1"
+    "test": "lerna run test --verbose",
+    "build": "lerna run build --concurrency 1",
+    "lint": "lerna run lint",
+    "eslint": "eslint packages/ storybook/ --max-warnings 0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.14.12",
     "lerna": "^8.1.2",
-    "typescript": "^5.4.0"
+    "typescript": "^5.5.4"
   }
 }

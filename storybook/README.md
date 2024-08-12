@@ -1,6 +1,6 @@
-# Storybook for Rasa Chatbot Widget
+# Storybook for Rasa Chat Widget
 
-Welcome to the Storybook for the Rasa Chatbot Widget! This Storybook provides comprehensive documentation and interactive demonstrations for the Rasa Chatbot Widget, making it easy for developers to understand, integrate, and customize the widget in their applications.
+Welcome to the Storybook for the Rasa Chat Widget! This Storybook provides comprehensive documentation and interactive demonstrations for the Rasa Chat Widget, making it easy for developers to understand, integrate, and customize the widget in their applications.
 
 ## Installation
 
