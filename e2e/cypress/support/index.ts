@@ -3,6 +3,7 @@
 declare namespace Cypress {
   interface Chainable {
     userSendMessage(message: string): Chainable<void>;
+    checkUserMessageIsSent(message: string): Chainable<void>;
     resetWsMessages(mockedServerURL: string): Chainable<void>;
     overrideWsOptions(
       mockedServerURL: string,

@@ -1,4 +1,8 @@
 class ChatbotWidget {
+  get rasaChatbotWidget() {
+    return cy.get('rasa-chatbot-widget');
+  }
+
   get widgetOpened() {
     return cy.get('div.messenger.messenger--open');
   }
@@ -73,6 +77,10 @@ class ChatbotWidget {
 
   get errorToastMessage() {
     return cy.get('error-toast.hydrated');
+  }
+
+  get toggleFullScreen() {
+    return cy.get('rasa-icon-arrows-expand');
   }
 }
 
