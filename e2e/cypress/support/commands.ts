@@ -24,7 +24,17 @@ import { addCommands } from 'cypress/plugins/mockSocketIO/commands';
 Cypress.Commands.add('userSendMessage', (message: string) => {
   chatbotWidgetPage.widgetInputField.should('be.visible');
   chatbotWidgetPage.widgetInputField.type(message);
-  chatbotWidgetPage.widgetSendButton.click();
+  chatbotWidgetPage.widgetSendButton.wait(2000).click();
+});
+
+/**
+ * Check if User message has been sent and visible in the session window
+ * @param message: string
+ * @example
+ * cy.checkUserMessageIsSent(userInputs.textMessage)
+ */
+Cypress.Commands.add('checkUserMessageIsSent', (message: string) => {
+  chatbotWidgetPage.userChatMessage.get('span').should('contain.text', message);
 });
 
 addCommands();

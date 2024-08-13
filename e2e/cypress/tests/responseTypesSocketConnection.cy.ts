@@ -1,5 +1,6 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
+import { use } from 'chai';
 
 describe('Response messages types', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
@@ -43,9 +44,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.widgetSessionDivider.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.textMessage);
+    cy.checkUserMessageIsSent(userInputs.textMessage);
 
     chatbotWidgetPage.botChatTextMessage.should('be.visible');
 
@@ -78,9 +77,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.imageMessage);
+    cy.checkUserMessageIsSent(userInputs.imageMessage);
 
     chatbotWidgetPage.botChatImageMessage.should('be.visible');
 
@@ -114,9 +111,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.accordionMessage);
+    cy.checkUserMessageIsSent(userInputs.accordionMessage);
 
     chatbotWidgetPage.botChatAccordionMessage.should('have.length', 3);
 
@@ -146,9 +141,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.carouselMessage);
+    cy.checkUserMessageIsSent(userInputs.carouselMessage);
 
     chatbotWidgetPage.botChatCarouselMessage.should('be.visible');
 
@@ -184,9 +177,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.fileDownloadMessage);
+    cy.checkUserMessageIsSent(userInputs.fileDownloadMessage);
 
     chatbotWidgetPage.botChatFileDownloadMessage.should('be.visible');
 
@@ -224,9 +215,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.quickRepliesMessage);
+    cy.checkUserMessageIsSent(userInputs.quickRepliesMessage);
 
     chatbotWidgetPage.botChatQuickRepliesMessage.should('be.visible');
 
@@ -290,9 +279,7 @@ describe('Response messages types', () => {
 
     chatbotWidgetPage.userChatMessage.should('be.visible');
 
-    chatbotWidgetPage.userChatMessage
-      .get('span')
-      .should('contain.text', userInputs.videoMessage);
+    cy.checkUserMessageIsSent(userInputs.videoMessage);
 
     chatbotWidgetPage.botChatVideoMessage.should('be.visible');
 
