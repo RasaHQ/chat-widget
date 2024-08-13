@@ -70,6 +70,10 @@ class ChatbotWidget {
   get botChatVideoMessage() {
     return cy.get('rasa-video');
   }
+
+  get errorToastMessage() {
+    return cy.get('error-toast.hydrated');
+  }
 }
 
 export const chatbotWidgetPage = new ChatbotWidget();
