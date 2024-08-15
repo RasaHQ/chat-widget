@@ -1,25 +1,18 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
-import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
+import {
+  userInputs,
+  widgetProps,
+} from '@rasa-cypress-fixtures/chatbotWidgetData';
 
 describe('Error Toast message on Network Connectivity issues with REST API connection', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
 
   beforeEach(() => {
-    cy.visit('http://localhost:3333', {
-      onBeforeLoad() {
-        cy.document().then((document) => {
-          document
-            .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('server-url', mockedServerUrl);
-          document
-            .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('rest-enabled', 'true');
-          document
-            .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('toggle-full-screen', 'true');
-        });
-      },
-    });
+    cy.setPropertiesAndOpenThePage([
+      { key: 'server-url', value: mockedServerUrl },
+      widgetProps.toggleFullScreen,
+      widgetProps.restEnabled,
+    ]);
   });
 
   it('TC008 - Error toast message on Network connectivity issue - REST API', () => {

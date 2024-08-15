@@ -1,20 +1,13 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
-import { use } from 'chai';
 
 describe('Response messages types', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
 
   beforeEach(() => {
-    cy.visit('http://localhost:3333', {
-      onBeforeLoad() {
-        cy.document().then((document) => {
-          document
-            .getElementsByTagName('rasa-chatbot-widget')[0]
-            .setAttribute('server-url', mockedServerUrl);
-        });
-      },
-    });
+    cy.setPropertiesAndOpenThePage([
+      { key: 'server-url', value: mockedServerUrl },
+    ]);
   });
 
   afterEach(() => {

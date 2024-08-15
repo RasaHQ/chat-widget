@@ -114,4 +114,41 @@ const botResponses = {
   },
 };
 
-export { userInputs, botResponses };
+const widgetProps = {
+  autoOpen: {
+    key: 'auto-open',
+    value: 'true',
+  },
+  displayTimestamp: {
+    key: 'display-timestamp',
+    value: 'true',
+  },
+  inputMessagePlaceholder: {
+    key: 'input-message-placeholder',
+    value: 'Rasa HQ Chatbot Widget QA automation input message placeholder',
+  },
+  toggleFullScreen: {
+    key: 'toggle-full-screen',
+    value: 'true',
+  },
+  widgetIcon: {
+    key: 'widget-icon',
+    value:
+      'https://media.licdn.com/dms/image/D4D0BAQHBFuh4xBFctw/company-logo_200_200/0/1690455513485/vortexwest_logo?e=2147483647&v=beta&t=ZvvBLCPVJ0-aysJgse0Jo-hpQpUlB2Cfa5Z7BodIk5g',
+  },
+  widgetTitle: {
+    key: 'widget-title',
+    value: 'Rasa HQ Chatbot Widget QA automation title',
+  },
+  botIcon: {
+    key: 'bot-icon',
+    value:
+      'https://thumbs.dreamstime.com/z/beagle-cute-cartoon-dog-logo-pet-shop-pet-care-animal-logo-pet-shop-pet-care-your-own-dog-beagle-dog-214081813.jpg',
+  },
+  restEnabled: {
+    key: 'rest-enabled',
+    value: 'true',
+  },
+};
+
+export { userInputs, botResponses, widgetProps };

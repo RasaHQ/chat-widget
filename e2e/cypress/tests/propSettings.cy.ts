@@ -1,5 +1,8 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
-import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
+import {
+  userInputs,
+  widgetProps,
+} from '@rasa-cypress-fixtures/chatbotWidgetData';
 
 describe('Property Settings for Chatbot Widget test suite', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
@@ -7,7 +10,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
   it('TC014 - When auto-open property set, widget is opened automatically', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      { key: 'auto-open', value: 'true' },
+      widgetProps.autoOpen,
     ]);
 
     chatbotWidgetPage.rasaChatbotWidget.should('have.attr', 'auto-open');
@@ -28,11 +31,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
   it('TC016 - Change bot-icon property', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      {
-        key: 'bot-icon',
-        value:
-          'https://thumbs.dreamstime.com/z/beagle-cute-cartoon-dog-logo-pet-shop-pet-care-animal-logo-pet-shop-pet-care-your-own-dog-beagle-dog-214081813.jpg',
-      },
+      widgetProps.botIcon,
     ]);
 
     chatbotWidgetPage.rasaChatbotWidget.should('have.attr', 'bot-icon');
@@ -72,11 +71,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
 
     chatbotWidgetPage.botChatIcon
       .should('be.visible')
-      .and(
-        'have.attr',
-        'src',
-        'https://thumbs.dreamstime.com/z/beagle-cute-cartoon-dog-logo-pet-shop-pet-care-animal-logo-pet-shop-pet-care-your-own-dog-beagle-dog-214081813.jpg'
-      );
+      .and('have.attr', 'src', widgetProps.botIcon.value);
 
     chatbotWidgetPage.botChatIcon.matchImage({
       title: 'botChatIcon',
@@ -86,11 +81,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
   it('TC017 - Change widget-icon property', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      {
-        key: 'widget-icon',
-        value:
-          'https://media.licdn.com/dms/image/D4D0BAQHBFuh4xBFctw/company-logo_200_200/0/1690455513485/vortexwest_logo?e=2147483647&v=beta&t=ZvvBLCPVJ0-aysJgse0Jo-hpQpUlB2Cfa5Z7BodIk5g',
-      },
+      widgetProps.widgetIcon,
     ]);
 
     chatbotWidgetPage.rasaChatbotWidget.should('have.attr', 'widget-icon');
@@ -99,11 +90,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
 
     chatbotWidgetPage.widgetLauncherImage
       .should('be.visible')
-      .and(
-        'have.attr',
-        'src',
-        'https://media.licdn.com/dms/image/D4D0BAQHBFuh4xBFctw/company-logo_200_200/0/1690455513485/vortexwest_logo?e=2147483647&v=beta&t=ZvvBLCPVJ0-aysJgse0Jo-hpQpUlB2Cfa5Z7BodIk5g'
-      );
+      .and('have.attr', 'src', widgetProps.widgetIcon.value);
 
     chatbotWidgetPage.widgetLauncherImage.matchImage({
       title: 'widgetLauncherImage',
@@ -113,10 +100,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
   it('TC018 - Change chat widget title property', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      {
-        key: 'widget-title',
-        value: 'Rasa HQ Chatbot Widget QA automation title',
-      },
+      widgetProps.widgetTitle,
     ]);
 
     chatbotWidgetPage.rasaChatbotWidget.should('have.attr', 'widget-title');
@@ -131,7 +115,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
 
     chatbotWidgetPage.widgetHeader
       .get('span')
-      .should('contain.text', 'Rasa HQ Chatbot Widget QA automation title');
+      .should('contain.text', widgetProps.widgetTitle.value);
 
     chatbotWidgetPage.widgetHeader.matchImage({
       title: 'chatWidgetHeader',
@@ -141,10 +125,7 @@ describe('Property Settings for Chatbot Widget test suite', () => {
   it('TC019 - Change input field message placeholder', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      {
-        key: 'input-message-placeholder',
-        value: 'Rasa HQ Chatbot Widget QA automation input message placeholder',
-      },
+      widgetProps.inputMessagePlaceholder,
     ]);
 
     chatbotWidgetPage.rasaChatbotWidget.should(
@@ -165,23 +146,15 @@ describe('Property Settings for Chatbot Widget test suite', () => {
       .and(
         'have.attr',
         'placeholder',
-        'Rasa HQ Chatbot Widget QA automation input message placeholder'
+        widgetProps.inputMessagePlaceholder.value
       );
   });
 
   it('TC020 - Display message timestamp property', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
-      {
-        key: 'display-timestamp',
-        value: 'true',
-      },
+      widgetProps.displayTimestamp,
     ]);
-
-    chatbotWidgetPage.rasaChatbotWidget.should(
-      'have.attr',
-      'display-timestamp'
-    );
 
     chatbotWidgetPage.rasaChatbotWidget.should(
       'have.attr',
