@@ -49,6 +49,121 @@ Builds all packages sequentially to ensure dependencies are built in the correct
 npm run build
 ```
 
+## How to Use the Chat Widget in a React Application
+
+This guide will show you how to integrate the Rasa chatbot widget into your React application using the `@vortexwest/chat-widget-react` package.
+
+### Step 1: Install the Package
+
+First, you need to install the chat widget package via NPM. Run the following command in your project directory:
+
+```bash
+npm install @vortexwest/chat-widget-react
+```
+
+### Step 2: Import the Chat Widget
+
+In your React component, import the RasaChatbotWidget from the installed package:
+
+```javascript
+import { RasaChatbotWidget } from "@vortexwest/chat-widget-react";
+```
+
+### Step 3: Use the Chat Widget
+
+In your React component, add the RasaChatbotWidget component to your JSX. Pass the serverUrl prop to specify the URL of your Rasa server. You can also handle events like onChatWidgetOpened:
+
+```javascript
+function App() {
+  return (
+    <div>
+      <RasaChatbotWidget
+        serverUrl="https://example.com"
+        onChatWidgetOpened={console.log}
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Notes:
+
+- **Installing via NPM:** The package `@vortexwest/chat-widget-react` should be installed in your project via NPM. This package provides the RasaChatbotWidget component, making it easy to integrate the chatbot into your React application.
+- **Handling Events:** You can handle various events such as `onChatWidgetOpened`, `onMessageSent`, etc., by passing the corresponding callback functions as props to the RasaChatbotWidget component.
+- React example you can find [here](examples/react/src/App.tsx)
+- For a complete list of available events and props, refer to the [documentation](packages/ui/src/rasa-chatbot-widget/readme.md)
+
+## How to Use a Script Tag to Enable the Chat Widget
+
+This guide will show you how to integrate the Rasa chatbot widget into your webpage using a script tag.
+
+### Step 1: Add the Script Tag
+
+In the <head> section of your HTML file, include the script tag to load the chat widget module. This script fetches the necessary JavaScript from a CDN.
+
+```html
+<script
+  type="module"
+  src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
+></script>
+```
+
+### Step 2: Include the CSS
+
+Also, include the CSS file to ensure the widget is styled correctly.
+
+```html
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
+/>
+```
+
+### Step 3: Insert the Chat Widget
+
+In the <body> section of your HTML, add the chat widget’s custom element. Make sure to set the server-url attribute to the appropriate URL of your Rasa server.
+
+```html
+<rasa-chatbot-widget server-url="https://example.com"></rasa-chatbot-widget>
+```
+
+### Complete Example
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Example</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
+    />
+  </head>
+  <body>
+    <rasa-chatbot-widget server-url="https://example.com"></rasa-chatbot-widget>
+  </body>
+</html>
+```
+
+### Notes:
+
+- **Running a Local Server:** If you’re using the `<script type="module">` tag, you can’t simply double-click the HTML file to open it in your browser. This is because modern browsers enforce strict security policies when loading ES modules, preventing them from being executed if the file is accessed via the file:// protocol. Instead, you’ll need to serve your HTML file through a local server (e.g., using tools like http-server, live-server, or running a simple Python HTTP server with python -m http.server).
+  - **Why This Happens:** When loading JavaScript modules, browsers apply stricter security rules to prevent potential vulnerabilities. The file:// protocol does not allow cross-origin imports, which are often needed when working with modules. Running a local server provides the http:// or https:// protocol, which supports proper module loading and allows the browser to manage dependencies correctly.
+- Replace https://example.com with your actual Rasa server URL.
+- Ensure the script and link tags are correctly placed in the <head> section for optimal loading.
+- Example you can find [here](examples/html/index.html)
+- For a complete list of available events and props, refer to the [documentation](packages/ui/src/rasa-chatbot-widget/readme.md)
+
+This is all you need to add the Rasa chatbot widget to your webpage!
+
 ## GIT Convention
 
 ### Commit Message Format
