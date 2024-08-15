@@ -2,6 +2,7 @@
 
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { addCommands } from 'cypress/plugins/mockSocketIO/commands';
+import { rasaChatbotPropertySettings } from './types';
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -36,6 +37,33 @@ Cypress.Commands.add('userSendMessage', (message: string) => {
 Cypress.Commands.add('checkUserMessageIsSent', (message: string) => {
   chatbotWidgetPage.userChatMessage.get('span').should('contain.text', message);
 });
+
+/**
+ * Visit a baseUrl page with setting a property if passed as an argument
+ * @param rasaChatbotPropertySettings[] Array of key/value pairs, where key is a prop name
+ */
+Cypress.Commands.add(
+  'setPropertiesAndOpenThePage',
+  (rasaWidgetProps?: rasaChatbotPropertySettings[]) => {
+    if (!rasaWidgetProps || rasaWidgetProps.length === 0) {
+      cy.visit('/');
+    } else {
+      cy.visit('/', {
+        onBeforeLoad() {
+          cy.document().then((document) => {
+            for (const rasaProp of rasaWidgetProps) {
+              document
+                .getElementsByTagName('rasa-chatbot-widget')[0]
+                .setAttribute(rasaProp.key, rasaProp.value);
+              console.log(rasaProp.key);
+              console.log(rasaProp.value);
+            }
+          });
+        },
+      });
+    }
+  }
+);
 
 addCommands();
 

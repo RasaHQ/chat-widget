@@ -1,8 +1,5 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { userInputs } from '@rasa-cypress-fixtures/chatbotWidgetData';
-import { response } from 'express';
-import { STATUS_CODES } from 'http';
-import { request } from 'https';
 
 describe('Error Toast message on Network Connectivity issues with REST API connection', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
