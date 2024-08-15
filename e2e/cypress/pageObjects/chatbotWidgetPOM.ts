@@ -19,6 +19,10 @@ class ChatbotWidget {
     return cy.get('div.rasa-chatbot-widget__launcher');
   }
 
+  get widgetLauncherImage() {
+    return cy.get('img.rasa-chatbot-widget__launcher-image');
+  }
+
   get widgetInputField() {
     return cy.get('input.rasa-chat-input__input');
   }
@@ -33,6 +37,10 @@ class ChatbotWidget {
 
   get botChatTextMessage() {
     return cy.get('chat-message rasa-text-message.text-message--bot');
+  }
+
+  get botChatIcon() {
+    return cy.get('img.chat-message__robot-image');
   }
 
   get botChatImageMessage() {
@@ -81,6 +89,10 @@ class ChatbotWidget {
 
   get toggleFullScreen() {
     return cy.get('rasa-icon-arrows-expand');
+  }
+
+  get messageTimestamp() {
+    return cy.get('rasa-text.chat-message__timestamp');
   }
 }
 

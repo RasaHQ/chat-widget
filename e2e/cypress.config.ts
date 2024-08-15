@@ -5,6 +5,7 @@ import startFakeWebsocketServer from './cypress/plugins/mockSocketIO';
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3333',
+    testIsolation: true,
     includeShadowDom: true,
     chromeWebSecurity: false,
     defaultCommandTimeout: 20000,
