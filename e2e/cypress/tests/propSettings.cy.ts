@@ -28,6 +28,13 @@ describe('Property Settings for Chatbot Widget test suite', () => {
     chatbotWidgetPage.widgetSendButton.should('be.visible');
   });
 
+  it('TC015 - Required prop not set', () => {
+    //TODO Investigate if it is possible to capture browsers console log message when required prop is not set and if it is available in headless mode
+    cy.visit('/');
+
+    chatbotWidgetPage.widgetLauncher.should('not.exist');
+  });
+
   it('TC016 - Change bot-icon property', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
