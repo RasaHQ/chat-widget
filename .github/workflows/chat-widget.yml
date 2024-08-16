@@ -31,3 +31,9 @@ jobs:
       
       - name: Lerna - Tests
         run: npm run test
+
+      - name: E2E - Install dependencies
+        run: npm run e2e:install
+
+      - name: E2E - Run automation suite
+        run: npm run e2e:run

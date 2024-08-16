@@ -9,7 +9,9 @@
     "test": "lerna run test --verbose",
     "build": "lerna run build --concurrency 1",
     "lint": "lerna run lint",
-    "eslint": "eslint packages/ storybook/ --max-warnings 0"
+    "eslint": "eslint packages/ storybook/ --max-warnings 0",
+    "e2e:install": "cd e2e && npm ci",
+    "e2e:run": "(npm run dev&) && sleep 3s && cd e2e && npm run cy:run"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",
