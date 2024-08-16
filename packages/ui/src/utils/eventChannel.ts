@@ -5,9 +5,8 @@ export const broadcastChatHistoryEvent = (chatHistory: string, senderID) => {
 };
 
 export const receiveChatHistoryEvent = (ev, callback, senderID) => {
-  if (ev.key != `rasaChatHistory-${senderID}`) return;
-  var message = ev.newValue;
-  console.log(ev.newValue);
-  if (!message) return;
-  callback(ev.newValue);
+  const newChatHistory = ev.newValue;
+
+  if (ev.key != `rasaChatHistory-${senderID}` || !newChatHistory) return;
+  callback(newChatHistory);
 };

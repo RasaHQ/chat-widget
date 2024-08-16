@@ -207,6 +207,8 @@ export class RasaChatbotWidget {
       this.toggleOpenState();
     }
 
+    // If senderID is configured watch for storage change event (localStorage) and override chat history (sessionStorage)
+    // This happens on tabs that are not in focus nor message was sent from that tab
     if (this.senderId) {
       window.onstorage = ev => {
         receiveChatHistoryEvent(ev, this.client.overrideChatHistory, this.senderId);
@@ -240,6 +242,7 @@ export class RasaChatbotWidget {
         setTimeout(() => {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
+          // If senderID is configured and message was sent from this tab, broadcast event to share chat history with other tabs with same senderID 
           if (this.senderId && this.sentMessage) {
             debounce(() => {
               broadcastChatHistoryEvent(this.client.getChatHistory(), this.senderId);
