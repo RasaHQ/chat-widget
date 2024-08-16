@@ -66,10 +66,14 @@ function startFakeWebsocketServer(options?: Partial<ServerOptions>) {
     socket.on('user_uttered', (...args) => {
       const message = args[0].message as TUserInput;
       const eventPayload = botResponses[message];
-      io.emit('bot_uttered', {
-        ...eventPayload,
-        session_id: sessionId,
-      });
+      if (message === 'Connection') {
+        io.emit('error');
+      } else {
+        io.emit('bot_uttered', {
+          ...eventPayload,
+          session_id: sessionId,
+        });
+      }
     });
   });
 }
