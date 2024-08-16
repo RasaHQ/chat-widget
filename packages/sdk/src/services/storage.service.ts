@@ -2,6 +2,18 @@ import { SESSION_STORAGE_KEYS } from '../constants';
 import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class StorageService {
+  //#region Private Methods
+  private parseSessionStorageValue(value: string | null) {
+    if (!value) return null;
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+  //#endregion
+
+  //#region Public Methods
   public setSession(sessionId: string, sessionStart: Date): boolean {
     const preservedHistory = this.getChatHistory() || {};
     if (!preservedHistory[sessionId]) {
@@ -57,12 +69,8 @@ export class StorageService {
     }
   }
 
-  private parseSessionStorageValue(value: string | null) {
-    if (!value) return null;
-    try {
-      return JSON.parse(value);
-    } catch (e) {
-      return null;
-    }
+  public overrideChatHistory(chatHistory: string) {
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, chatHistory);
   }
+  //#endregion
 }

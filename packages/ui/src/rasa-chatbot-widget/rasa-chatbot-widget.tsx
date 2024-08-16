@@ -9,6 +9,8 @@ import { isValidURL } from '../utils/validate-url';
 import { messageQueueService } from '../store/message-queue';
 import { v4 as uuidv4 } from 'uuid';
 import { widgetState } from '../store/widget-state-store';
+import { broadcastChatHistoryEvent, receiveChatHistoryEvent } from '../utils/eventChannel';
+import { debounce } from '../utils/debounce';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -19,6 +21,7 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
+  private sentMessage = false;
 
   @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
@@ -202,6 +205,12 @@ export class RasaChatbotWidget {
     if (this.autoOpen) {
       this.toggleOpenState();
     }
+
+    if (this.senderId) {
+      window.onstorage = ev => {
+        receiveChatHistoryEvent(ev, this.client.overrideChatHistory, this.senderId);
+      };
+    }
   }
 
   private scrollToBottom(): void {
@@ -227,6 +236,12 @@ export class RasaChatbotWidget {
         setTimeout(() => {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
+          if (this.senderId && this.sentMessage) {
+            debounce(() => {
+              broadcastChatHistoryEvent(this.client.getChatHistory(), this.senderId);
+              this.sentMessage = false;
+            }, 1000)();
+          }
           resolve();
         }, delay);
       });
@@ -234,7 +249,7 @@ export class RasaChatbotWidget {
   };
 
   private loadHistory = (data: Message[]): void => {
-    this.messageHistory = data;
+    this.messages = data;
   };
 
   private connect(): void {
@@ -281,6 +296,7 @@ export class RasaChatbotWidget {
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
     this.scrollToBottom();
+    this.sentMessage = true;
   }
 
   @Listen('quickReplySelected')
@@ -293,6 +309,7 @@ export class RasaChatbotWidget {
     this.messages[key] = updatedMessage;
     this.client.sendMessage({ text: quickReply.text, reply: quickReply.reply, timestamp }, true, key - 1);
     this.chatWidgetQuickReply.emit(quickReply.reply);
+    this.sentMessage = true;
   }
 
   @Listen('linkClicked')
