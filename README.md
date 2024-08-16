@@ -51,6 +51,10 @@ npm run build
 
 ## How to Use the Chat Widget in a React Application
 
+```
+# TODO: Replace npm organization with RasaHQ.
+```
+
 This guide will show you how to integrate the Rasa chatbot widget into your React application using the `@vortexwest/chat-widget-react` package.
 
 ### Step 1: Install the Package
@@ -58,6 +62,7 @@ This guide will show you how to integrate the Rasa chatbot widget into your Reac
 First, you need to install the chat widget package via NPM. Run the following command in your project directory:
 
 ```bash
+# TODO: Replace npm organization with RasaHQ.
 npm install @vortexwest/chat-widget-react
 ```
 
@@ -66,6 +71,7 @@ npm install @vortexwest/chat-widget-react
 In your React component, import the RasaChatbotWidget from the installed package:
 
 ```javascript
+// TODO: Replace npm organization with RasaHQ.
 import { RasaChatbotWidget } from "@vortexwest/chat-widget-react";
 ```
 
@@ -90,6 +96,10 @@ export default App;
 
 ### Notes:
 
+```
+# TODO: Replace npm organization with RasaHQ.
+```
+
 - **Installing via NPM:** The package `@vortexwest/chat-widget-react` should be installed in your project via NPM. This package provides the RasaChatbotWidget component, making it easy to integrate the chatbot into your React application.
 - **Handling Events:** You can handle various events such as `onChatWidgetOpened`, `onMessageSent`, etc., by passing the corresponding callback functions as props to the RasaChatbotWidget component.
 - React example you can find [here](examples/react/src/App.tsx)
@@ -104,6 +114,7 @@ This guide will show you how to integrate the Rasa chatbot widget into your webp
 In the <head> section of your HTML file, include the script tag to load the chat widget module. This script fetches the necessary JavaScript from a CDN.
 
 ```html
+<!-- TODO: Replace npm organization with RasaHQ. -->
 <script
   type="module"
   src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
@@ -115,6 +126,7 @@ In the <head> section of your HTML file, include the script tag to load the chat
 Also, include the CSS file to ensure the widget is styled correctly.
 
 ```html
+<!-- TODO: Replace npm organization with RasaHQ. -->
 <link
   rel="stylesheet"
   href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
@@ -138,10 +150,12 @@ In the <body> section of your HTML, add the chat widget’s custom element. Make
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML Example</title>
+    <!-- TODO: Replace npm organization with RasaHQ. -->
     <script
       type="module"
       src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
     ></script>
+    <!-- TODO: Replace npm organization with RasaHQ. -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
@@ -199,3 +213,61 @@ We follow the Conventional Commits specification for our GIT commit messages. Ea
 - Use the footer for references to issues or breaking changes.
 
 This convention helps maintain a clear and standardized format for our commit messages, aiding in changelog generation and automated release notes.
+
+## Publishing Packages with Lerna
+
+Lerna simplifies the process of publishing multiple packages within a monorepo. Below are the steps to publish packages using Lerna.
+
+### Prerequisites
+
+Before publishing, ensure that:
+
+- You have logged into the npm registry using npm login.
+- Your packages have the correct version numbers, or you have set up versioning with Lerna.
+
+### Step-by-Step Publishing Guide
+
+### 1.Run tests and build your packages:
+
+Ensure that all your packages are tested and built before publishing:
+
+```bash
+npm run test
+npm run build
+```
+
+### 2. Bump the version numbers (optional):
+
+If you want to automatically bump version numbers based on your commits, you can use:
+
+```bash
+npx lerna version
+```
+
+Lerna will prompt you to select the new version numbers for your packages.
+
+### 3. Publish your packages to the registry:
+
+To publish all updated packages, use:
+
+```bash
+npx lerna publish
+```
+
+Lerna will:
+
+- Increment the versions of your packages.
+- Publish the packages to the npm registry.
+- Create git tags for the versions.
+
+### Troubleshooting
+
+If you encounter any issues during publishing, make sure to:
+
+- Verify your npm registry authentication.
+- Check your package.json files for correct configuration.
+
+For more detailed information on Lerna, visit the official documentation:
+
+- [Lerna Website](https://lerna.js.org/)
+- [Publishing with Lerna](https://lerna.js.org/docs/features/version-and-publish)
