@@ -9,6 +9,7 @@ const userInputs = {
   quickRepliesMessage: 'Markdown',
   videoMessage: 'Video',
   quickRepliesUserReply: 'hyperlink',
+  errorConnectionSocketioTest: 'Connection',
 } as const;
 
 type TUserInputsType = typeof userInputs;
