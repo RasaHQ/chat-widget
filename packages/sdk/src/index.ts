@@ -132,6 +132,15 @@ export class Rasa extends EventEmitter {
   public reconnection(value: boolean): void {
     this.connection.reconnection(value);
   }
+
+  public overrideChatHistory = (chatHistoryString: string): void => {
+    this.storageService.overrideChatHistory(chatHistoryString);
+    this.loadChatHistory();
+  }
+
+  public getChatHistory(): string {
+    return JSON.stringify(this.storageService.getChatHistory());
+  }
   //#endregion
 }
 

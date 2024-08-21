@@ -1,14 +1,17 @@
 import { Component, Element, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core/internal';
-import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
-import { configStore, setConfigStore } from '../store/config-store';
-
-import { DISCONNECT_TIMEOUT } from './constants';
-import { Messenger } from '../components/messenger';
-import { isMobile } from '../utils/isMobile';
-import { isValidURL } from '../utils/validate-url';
-import { messageQueueService } from '../store/message-queue';
 import { v4 as uuidv4 } from 'uuid';
+
+import { MESSAGE_TYPES, Message, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@vortexwest/chat-widget-sdk';
+
+import { Messenger } from '../components/messenger';
+import { configStore, setConfigStore } from '../store/config-store';
+import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
+import { isValidURL } from '../utils/validate-url';
+import { broadcastChatHistoryEvent, receiveChatHistoryEvent } from '../utils/eventChannel';
+import { isMobile } from '../utils/isMobile';
+import { debounce } from '../utils/debounce';
+import { DEBOUNCE_THRESHOLD, DISCONNECT_TIMEOUT } from './constants';
 
 @Component({
   tag: 'rasa-chatbot-widget',
@@ -19,6 +22,7 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
+  private sentMessage = false;
 
   @Element() el: HTMLRasaChatbotWidgetElement;
   @State() isOpen: boolean = false;
@@ -202,6 +206,14 @@ export class RasaChatbotWidget {
     if (this.autoOpen) {
       this.toggleOpenState();
     }
+
+    // If senderID is configured watch for storage change event (localStorage) and override chat history (sessionStorage)
+    // This happens on tabs that are not in focus nor message was sent from that tab
+    if (this.senderId) {
+      window.onstorage = ev => {
+        receiveChatHistoryEvent(ev, this.client.overrideChatHistory, this.senderId);
+      };
+    }
   }
 
   private scrollToBottom(): void {
@@ -217,6 +229,9 @@ export class RasaChatbotWidget {
   };
 
   private onNewMessage = (data: Message) => {
+    // If senderID is configured (continuous session), tab is not in focus and user message was not sent from this tab do not render new server message
+    if (this.senderId && !document.hasFocus() && !this.sentMessage) return;
+
     this.chatWidgetReceivedMessage.emit(data);
     const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
 
@@ -227,6 +242,13 @@ export class RasaChatbotWidget {
         setTimeout(() => {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
+          // If senderID is configured and message was sent from this tab, broadcast event to share chat history with other tabs with same senderID 
+          if (this.senderId && this.sentMessage) {
+            debounce(() => {
+              broadcastChatHistoryEvent(this.client.getChatHistory(), this.senderId);
+              this.sentMessage = false;
+            }, DEBOUNCE_THRESHOLD)();
+          }
           resolve();
         }, delay);
       });
@@ -234,7 +256,7 @@ export class RasaChatbotWidget {
   };
 
   private loadHistory = (data: Message[]): void => {
-    this.messageHistory = data;
+    this.messages = data;
   };
 
   private connect(): void {
@@ -281,6 +303,7 @@ export class RasaChatbotWidget {
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
     this.scrollToBottom();
+    this.sentMessage = true;
   }
 
   @Listen('quickReplySelected')
@@ -293,6 +316,7 @@ export class RasaChatbotWidget {
     this.messages[key] = updatedMessage;
     this.client.sendMessage({ text: quickReply.text, reply: quickReply.reply, timestamp }, true, key - 1);
     this.chatWidgetQuickReply.emit(quickReply.reply);
+    this.sentMessage = true;
   }
 
   @Listen('linkClicked')
