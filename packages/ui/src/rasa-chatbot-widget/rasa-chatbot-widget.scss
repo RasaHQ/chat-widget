@@ -2,6 +2,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  z-index: 99999999;
   --chat-message-max-width: 289px;
   --image-height: 170px;
   --video-height: 170px;
@@ -49,9 +50,7 @@
   opacity: 0;
   transform: scale(0);
   transform-origin: bottom right;
-  transition:
-    transform 300ms cubic-bezier(0, 1.2, 1, 1) 0s,
-    opacity 83ms ease-out 0s;
+  transition: transform 300ms cubic-bezier(0, 1.2, 1, 1) 0s, opacity 83ms ease-out 0s;
   &--open {
     opacity: 1;
     transform: scale(1);
