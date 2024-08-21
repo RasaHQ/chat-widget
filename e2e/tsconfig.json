@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@rasa-cypress-POM/*": ["./cypress/pageObjects/*"],
-      "@rasa-cypress-fixtures/*": ["./cypress/fixtures/*"]
+      "@rasa-cypress-fixtures/*": ["./cypress/fixtures/*"],
+      "@rasa-cypress-utils/*": ["./cypress/utils/*"]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,

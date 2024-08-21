@@ -14,6 +14,10 @@ describe('Error Toast message on Network Connectivity issues with Socket IO conn
     ]);
   });
 
+  afterEach(() => {
+    cy.resetWsMessages(mockedServerUrl);
+  });
+
   it('TC010 - Error toast message on Network connectivity issue - Socket IO', () => {
     chatbotWidgetPage.widgetLauncher.click();
 

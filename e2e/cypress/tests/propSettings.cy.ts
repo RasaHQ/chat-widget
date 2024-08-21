@@ -7,6 +7,10 @@ import {
 describe('Property Settings for Chatbot Widget test suite', () => {
   const mockedServerUrl = Cypress.env('mockedServerUrl');
 
+  afterEach(() => {
+    cy.resetWsMessages(mockedServerUrl);
+  });
+
   it('TC014 - When auto-open property set, widget is opened automatically', () => {
     cy.setPropertiesAndOpenThePage([
       { key: 'server-url', value: mockedServerUrl },
