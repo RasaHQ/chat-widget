@@ -20,6 +20,7 @@ declare global {
         expected: Object,
         options: Object
       ): Chainable<Object>;
+      checkA11yAndReport(context, options?): Chainable<void>;
     }
   }
 }
