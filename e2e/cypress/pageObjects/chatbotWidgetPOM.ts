@@ -19,6 +19,10 @@ class ChatbotWidget {
     return cy.get('div.rasa-chatbot-widget__launcher');
   }
 
+  get widgetCloseButton() {
+    return cy.get('rasa-icon-close-chat');
+  }
+
   get widgetLauncherImage() {
     return cy.get('img.rasa-chatbot-widget__launcher-image');
   }
