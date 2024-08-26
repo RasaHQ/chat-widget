@@ -26,3 +26,6 @@ import './commands';
 
 // Cypress visual regression plugin
 import '@frsource/cypress-plugin-visual-regression-diff';
+
+// Cypress-axe plugin
+import 'cypress-axe';

@@ -3,6 +3,7 @@
 import { chatbotWidgetPage } from '@rasa-cypress-POM/chatbotWidgetPOM';
 import { addCommands } from 'cypress/plugins/mockSocketIO/commands';
 import { rasaChatbotPropertySettings } from './types';
+import 'cypress-axe';
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -55,8 +56,6 @@ Cypress.Commands.add(
               document
                 .getElementsByTagName('rasa-chatbot-widget')[0]
                 .setAttribute(rasaProp.key, rasaProp.value);
-              console.log(rasaProp.key);
-              console.log(rasaProp.value);
             }
           });
         },
@@ -64,6 +63,51 @@ Cypress.Commands.add(
     }
   }
 );
+
+/**
+ * Check accessibility and generate report
+ */
+Cypress.Commands.add('checkA11yAndReport', (context, options?) => {
+  cy.checkA11y(context, options, (violations) => {
+    cy.writeFile(
+      `cypress/accessibilityReports/${context.selector}.html`,
+      formatViolations(violations)
+    );
+  });
+});
+
+function formatViolations(violations) {
+  const violationsHtml = violations
+    .map((violation) => {
+      const nodesHtml = violation.nodes
+        .map((node) => {
+          const target = node.target.join(', ');
+          const html = node.html;
+          const summary = node.failureSummary;
+          return `<li><strong>${target}</strong>: ${html}<br><em>${summary}</em></li>`;
+        })
+        .join('');
+
+      return `
+      <h2>${violation.id}: ${violation.impact}</h2>
+      <p>${violation.description}</p>
+      <ul>${nodesHtml}</ul>
+    `;
+    })
+    .join('');
+
+  return `
+    <html>
+    <head>
+      <title>Accessibility Report</title>
+    </head>
+    <body>
+      <h1>Accessibility Violations</h1>
+      ${violationsHtml}
+    </body>
+    </html>
+  `;
+}
 
 addCommands();
 
