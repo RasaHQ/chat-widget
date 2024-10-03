@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
-import { QuickReply, QuickReplyMessage, SENDER } from '@vortexwest/chat-widget-sdk';
+import { QuickReply, QuickReplyMessage, SENDER } from '@rasahq/chat-widget-sdk';
 
 import { messageQueueService } from '../../store/message-queue';
 import { widgetState } from '../../store/widget-state-store';

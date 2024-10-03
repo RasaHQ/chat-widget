@@ -32,7 +32,7 @@ export const config: Config = {
       copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
     },
     reactOutputTarget({
-      componentCorePackage: '@vortexwest/chat-widget-ui',
+      componentCorePackage: '@rasahq/chat-widget-ui',
       proxiesFile: '../react/lib/components/stencil-generated/index.ts',
       includeDefineCustomElements: true,
       excludeComponents: [
