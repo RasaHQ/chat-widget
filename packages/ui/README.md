@@ -9,8 +9,7 @@ A customizable chat widget built with StencilJS. This widget can be easily integ
 To install the chat widget via npm, run the following command:
 
 ```bash
-# TODO: Replace npm organization with RasaHQ.
-npm install @vortexwest/chat-widget-ui
+npm install @rasahq/chat-widget-ui
 ```
 
 ### Using CDN
@@ -18,9 +17,8 @@ npm install @vortexwest/chat-widget-ui
 Alternatively, you can use a CDN to include the chat widget in your project:
 
 ```html
-<!-- TODO: Replace npm organization with RasaHQ. -->
-<script type="module" src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
+<script type="module" src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
 ```
 
 ## Usage

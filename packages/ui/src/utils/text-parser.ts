@@ -1,6 +1,6 @@
 // Supporting Bold Italic and Link commonmark markdown
 
-import { CustomErrorClass, ErrorSeverity } from '@vortexwest/chat-widget-sdk';
+import { CustomErrorClass, ErrorSeverity } from '@rasahq/chat-widget-sdk';
 
 // For more information check https://commonmark.org/help/
 export interface TextSegment {

@@ -8,6 +8,6 @@ module.exports = {
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  transformIgnorePatterns: ['/node_modules/(?!(@vortexwest)/).*/'],
+  transformIgnorePatterns: ['/node_modules/(?!(@rasahq)/).*/'],
   preset: '@stencil/core/testing',
 };

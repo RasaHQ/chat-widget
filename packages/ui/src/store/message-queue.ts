@@ -1,4 +1,4 @@
-import { Message } from '@vortexwest/chat-widget-sdk';
+import { Message } from '@rasahq/chat-widget-sdk';
 import { createStore } from '@stencil/store';
 
 const { state, onChange } = createStore({
