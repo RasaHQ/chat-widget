@@ -1,10 +1,10 @@
-import { RasaChatbotWidget } from "@rasahq/chat-widget-react";
+import RasaChatbotWidget from "@rasahq/chat-widget-react";
 
 function App() {
   return (
     <div>
       <RasaChatbotWidget
-        serverUrl="https://pro.vortexwe.com"
+        serverUrl="https://example.com"
         onChatWidgetOpened={console.log}
       />
     </div>

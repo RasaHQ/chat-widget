@@ -7,9 +7,9 @@
   "description": "The Rasa Chatbot React Library enables seamless integration of Rasa-powered chatbot into React applications using web components.",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "license": "ISC",
-  "main": "dist/components.js",
-  "module": "dist/components.js",
-  "types": "dist/types/components.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/RasaChatbotWidget.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "../ui"
+    "@rasahq/chat-widget-ui": "^0.1.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",
