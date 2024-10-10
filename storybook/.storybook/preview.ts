@@ -1,4 +1,4 @@
-import "@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css";
+import "@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css";
 
 import { defineCustomElements } from "@rasahq/chat-widget-ui/loader";
 import docJson from "@rasahq/chat-widget-ui/doc/docs.json";

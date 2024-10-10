@@ -17,8 +17,8 @@ npm install @rasahq/chat-widget-ui
 Alternatively, you can use a CDN to include the chat widget in your project:
 
 ```html
-<script type="module" src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css" />
+<script type="module" src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css" />
 ```
 
 ## Usage

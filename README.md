@@ -106,7 +106,7 @@ In the <head> section of your HTML file, include the script tag to load the chat
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
+  src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
 ></script>
 ```
 
@@ -117,7 +117,7 @@ Also, include the CSS file to ensure the widget is styled correctly.
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
+  href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
 />
 ```
 
@@ -140,11 +140,11 @@ In the <body> section of your HTML, add the chat widget’s custom element. Make
     <title>HTML Example</title>
     <script
       type="module"
-      src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.esm.js"
+      src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
     ></script>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwigdet/rasa-chatwigdet.css"
+      href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
     />
   </head>
   <body>

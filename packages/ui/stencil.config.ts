@@ -3,7 +3,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 import { sass } from '@stencil/sass';
 
 export const config: Config = {
-  namespace: 'rasa-chatwigdet',
+  namespace: 'rasa-chatwidget',
   globalStyle: 'src/styles/index.scss',
   plugins: [
     sass({
@@ -17,9 +17,6 @@ export const config: Config = {
       copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
     },
     {
-      type: 'dist-custom-elements',
-    },
-    {
       type: 'docs-readme',
     },
     {
@@ -29,12 +26,12 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
-      copy: [{ src: 'assets/fonts', dest: 'assets/fonts' }],
+      copy: [{ src: 'assets/fonts', dest: 'build/assets/fonts' }],
     },
     reactOutputTarget({
-      componentCorePackage: '@rasahq/chat-widget-ui',
-      proxiesFile: '../react/lib/components/stencil-generated/index.ts',
-      includeDefineCustomElements: true,
+      stencilPackageName: '@rasahq/chat-widget-ui',
+      outDir: '../react/lib/components/stencil-generated/',
+      esModules: true,
       excludeComponents: [
         'chat-message',
         'error-toast',
@@ -54,6 +51,11 @@ export const config: Config = {
         'rasa-video',
       ],
     }),
+    {
+      type: 'dist-custom-elements',
+      customElementsExportBehavior: 'auto-define-custom-elements',
+      externalRuntime: false
+    },
   ],
   testing: {
     browserHeadless: 'new',

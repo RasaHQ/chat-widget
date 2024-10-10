@@ -62,7 +62,7 @@ export class RasaChatInput {
           onKeyUp={event => this.handleKeyUp(event)}
           enterkeyhint="done"
         />
-        <button class="rasa-chat-input__button" onClick={this.sendMessageClick}>
+        <button class="rasa-chat-input__button" onClick={this.sendMessageClick} aria-label="Send message">
           <rasa-icon-paper-plane class="rasa-chat-input__icon"></rasa-icon-paper-plane>
         </button>
       </div>
