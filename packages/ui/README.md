@@ -50,5 +50,3 @@ To add new icons to the project, follow these steps:
 3. **Access New Icon**: Once the script has executed successfully, your new icon will be available in the `src/components/icons` directory.
 
 By following these steps, you can efficiently add new icons to the project without the need for manual editing of existing components.
-
-### TODO: How to add a new component.
