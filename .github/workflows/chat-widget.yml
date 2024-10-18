@@ -4,6 +4,17 @@ on:
   push:
     branches: main
   pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: choice
+        description: Increment ChatWidget NPM version
+        default: 'patch'
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   build:
@@ -37,3 +48,15 @@ jobs:
 
       - name: E2E - Run automation suite
         run: npm run e2e:run
+
+      - name: Authenticate with private NPM package
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: NPM Publish ChatWidget
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        # `--force-publish` flag keeps versions consistent across our packages. Totally wild name for this kind of a flag :shrug:
+        run: |
+          git config --global user.email "chatwidget@rasahq.com"
+          git config --global user.name "RasaHQ ChatWidget"
+          npx lerna publish ${{ inputs.version }} --yes --force-publish

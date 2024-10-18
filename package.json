@@ -11,7 +11,8 @@
     "lint": "lerna run lint",
     "eslint": "eslint packages/ storybook/ --max-warnings 0",
     "e2e:install": "cd e2e && npm ci",
-    "e2e:run": "(npm run dev&) && sleep 3s && cd e2e && npm run cy:run"
+    "e2e:run": "(npm run dev&) && sleep 3s && cd e2e && npm run cy:run",
+    "lerna": "lerna"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",
