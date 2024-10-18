@@ -24,5 +24,16 @@ const config: StorybookConfig = {
     docsMode: true,
     defaultName: "Documentation",
   },
+  async viteFinal(config) {
+    const { mergeConfig } = await import('vite');
+
+    return mergeConfig(config, {
+      server: {
+        fs: {
+          allow: ['../']
+        }
+      }
+    });
+  },
 };
 export default config;

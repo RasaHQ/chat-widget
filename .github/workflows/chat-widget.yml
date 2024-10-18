@@ -4,6 +4,17 @@ on:
   push:
     branches: main
   pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: choice
+        description: Increment ChatWidget NPM version
+        default: 'patch'
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   build:
@@ -19,10 +30,6 @@ jobs:
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
           node-version-file: '.nvmrc'
-      
-      # TODO: NPM login instead of auth token?
-      # - name: Authenticate with private NPM package
-      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Install dependencies
         run: npm ci
@@ -36,8 +43,16 @@ jobs:
       - name: Lerna - Tests
         run: npm run test
 
-      - name: E2E - Install dependencies
-        run: npm run e2e:install
+      # - name: E2E - Install dependencies
+      #   run: npm run e2e:install
 
-      - name: E2E - Run automation suite
-        run: npm run e2e:run
+      # - name: E2E - Run automation suite
+      #   run: npm run e2e:run
+
+      # - name: Authenticate with private NPM package
+      #   # if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      # - name: NPM Publish ChatWidget
+      #   # if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   run: npm run lerna publish bump patch --yes

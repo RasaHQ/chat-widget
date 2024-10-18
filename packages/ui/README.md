@@ -52,3 +52,4 @@ To add new icons to the project, follow these steps:
 By following these steps, you can efficiently add new icons to the project without the need for manual editing of existing components.
 
 ### TODO: How to add a new component.
+

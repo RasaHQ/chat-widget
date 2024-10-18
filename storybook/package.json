@@ -2,6 +2,9 @@
   "name": "@vortexwest/storybook",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "../packages/*"
+  ],
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
