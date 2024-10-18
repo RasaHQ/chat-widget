@@ -27,7 +27,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "^0.1.0",
+    "@rasahq/chat-widget-ui": "^0.1.1",
     "storybook": "^8.1.10"
   }
 }
