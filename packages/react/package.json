@@ -1,9 +1,6 @@
 {
   "name": "@rasahq/chat-widget-react",
   "version": "0.1.0",
-  "publishConfig": {
-    "access": "restricted"
-  },
   "description": "The Rasa Chatbot React Library enables seamless integration of Rasa-powered chatbot into React applications using web components.",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "license": "ISC",

@@ -1,9 +1,6 @@
 {
   "name": "@rasahq/chat-widget-sdk",
   "version": "0.1.0",
-  "publishConfig": {
-    "access": "restricted"
-  },
   "description": "The core package provides essential functionality to connect and interact with a Rasa server.",
   "homepage": "https://github.com/RasaHQ/chat-widget#readme",
   "license": "ISC",
