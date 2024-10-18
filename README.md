@@ -51,14 +51,14 @@ npm run build
 
 ## How to Use the Chat Widget in a React Application
 
-This guide will show you how to integrate the Rasa chatbot widget into your React application using the `@rasahq/chat-widget-react` package.
+This guide will show you how to integrate the Rasa chatbot widget into your React application using the `@vortexwest/chat-widget-react` package.
 
 ### Step 1: Install the Package
 
 First, you need to install the chat widget package via NPM. Run the following command in your project directory:
 
 ```bash
-npm install @rasahq/chat-widget-react
+npm install @vortexwest/chat-widget-react
 ```
 
 ### Step 2: Import the Chat Widget
@@ -66,7 +66,7 @@ npm install @rasahq/chat-widget-react
 In your React component, import the RasaChatbotWidget from the installed package:
 
 ```javascript
-import { RasaChatbotWidget } from "@rasahq/chat-widget-react";
+import { RasaChatbotWidget } from "@vortexwest/chat-widget-react";
 ```
 
 ### Step 3: Use the Chat Widget
@@ -90,7 +90,7 @@ export default App;
 
 ### Notes:
 
-- **Installing via NPM:** The package `@rasahq/chat-widget-react` should be installed in your project via NPM. This package provides the RasaChatbotWidget component, making it easy to integrate the chatbot into your React application.
+- **Installing via NPM:** The package `@vortexwest/chat-widget-react` should be installed in your project via NPM. This package provides the RasaChatbotWidget component, making it easy to integrate the chatbot into your React application.
 - **Handling Events:** You can handle various events such as `onChatWidgetOpened`, `onMessageSent`, etc., by passing the corresponding callback functions as props to the RasaChatbotWidget component.
 - React example you can find [here](examples/react/src/App.tsx)
 - For a complete list of available events and props, refer to the [documentation](packages/ui/src/rasa-chatbot-widget/readme.md)
@@ -106,7 +106,7 @@ In the <head> section of your HTML file, include the script tag to load the chat
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
+  src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
 ></script>
 ```
 
@@ -117,7 +117,7 @@ Also, include the CSS file to ensure the widget is styled correctly.
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
+  href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
 />
 ```
 
@@ -140,11 +140,11 @@ In the <body> section of your HTML, add the chat widget’s custom element. Make
     <title>HTML Example</title>
     <script
       type="module"
-      src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
+      src="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
     ></script>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
+      href="https://unpkg.com/@vortexwest/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
     />
   </head>
   <body>

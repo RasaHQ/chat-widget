@@ -1,6 +1,6 @@
 import { Component, h } from '@stencil/core';
 
-import { SENDER } from '@rasahq/chat-widget-sdk/dist/constants';
+import { SENDER } from '@vortexwest/chat-widget-sdk/dist/constants';
 
 @Component({
   tag: 'rasa-typing-indicator',

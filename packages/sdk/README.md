@@ -7,7 +7,7 @@ The core package provides essential functionality to connect and interact with a
 Install the core package using npm:
 
 ```bash
-npm install '@rasahq/chat-widget-sdk'
+npm install '@vortexwest/chat-widget-sdk'
 ```
 
 ## Initialization
@@ -68,7 +68,7 @@ this.rasa.on('message', this.onNewMessage);
 ## Full Example
 
 ```typescript
-import { Rasa } from '@rasahq/chat-widget-sdk';
+import { Rasa } from '@vortexwest/chat-widget-sdk';
 
 const rasa = new Rasa({
   url: 'http://example.com',

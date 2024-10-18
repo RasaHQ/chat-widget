@@ -1,5 +1,5 @@
 {
-  "name": "@rasahq/e2e-test-suite",
+  "name": "@vortexwest/e2e-test-suite",
   "version": "0.1.0",
   "private": true,
   "description": "E2E test suite with Cypress framework",

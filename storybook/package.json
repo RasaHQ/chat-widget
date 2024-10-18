@@ -1,5 +1,5 @@
 {
-  "name": "@rasahq/storybook",
+  "name": "@vortexwest/storybook",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -24,7 +24,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "^0.1.0",
+    "@vortexwest/chat-widget-ui": "^0.1.0",
     "storybook": "^8.1.10"
   }
 }

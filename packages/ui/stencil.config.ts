@@ -29,7 +29,7 @@ export const config: Config = {
       copy: [{ src: 'assets/fonts', dest: 'build/assets/fonts' }],
     },
     reactOutputTarget({
-      stencilPackageName: '@rasahq/chat-widget-ui',
+      stencilPackageName: '@vortexwest/chat-widget-ui',
       outDir: '../react/lib/components/stencil-generated/',
       esModules: true,
       excludeComponents: [

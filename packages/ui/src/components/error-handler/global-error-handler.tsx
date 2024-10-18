@@ -1,4 +1,4 @@
-import { CUSTOM_ERROR_NAME, CustomErrorClass, ErrorSeverity } from '@rasahq/chat-widget-sdk';
+import { CUSTOM_ERROR_NAME, CustomErrorClass, ErrorSeverity } from '@vortexwest/chat-widget-sdk';
 import { Component, Host, h } from '@stencil/core';
 
 import { errorMessageService } from '../../store/error-message';

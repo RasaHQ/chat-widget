@@ -5,10 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
-import { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
-export { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
-export { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
+import { CarouselElement, QuickReply, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
+import { SenderType } from "@vortexwest/chat-widget-sdk/dist/types/common.types";
+export { CarouselElement, QuickReply, QuickReplyMessage } from "@vortexwest/chat-widget-sdk";
+export { SenderType } from "@vortexwest/chat-widget-sdk/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
         /**

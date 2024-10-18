@@ -1,6 +1,6 @@
 import { Component, Element, Host, State, h } from '@stencil/core';
 
-import { CustomErrorClass } from '@rasahq/chat-widget-sdk';
+import { CustomErrorClass } from '@vortexwest/chat-widget-sdk';
 import { configStore } from '../../store/config-store';
 import { errorMessageService } from '../../store/error-message';
 

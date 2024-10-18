@@ -1,7 +1,7 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 
-import { SENDER } from '@rasahq/chat-widget-sdk';
-import { SenderType } from '@rasahq/chat-widget-sdk/dist/types/common.types';
+import { SENDER } from '@vortexwest/chat-widget-sdk';
+import { SenderType } from '@vortexwest/chat-widget-sdk/dist/types/common.types';
 import { configStore } from '../../store/config-store';
 import { messageQueueService } from '../../store/message-queue';
 

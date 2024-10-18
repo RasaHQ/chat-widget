@@ -1,6 +1,6 @@
 {
-  "name": "@rasahq/chat-widget-react",
-  "version": "0.1.0",
+  "name": "@vortexwest/chat-widget-react",
+  "version": "0.1.12",
   "publishConfig": {
     "access": "restricted"
   },
@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "^0.1.0"
+    "@vortexwest/chat-widget-ui": "^0.1.14"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",

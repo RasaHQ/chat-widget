@@ -1,4 +1,4 @@
-import { CarouselElement } from '@rasahq/chat-widget-sdk';
+import { CarouselElement } from '@vortexwest/chat-widget-sdk';
 import { Component, h, State, Element, Prop, Event, EventEmitter } from '@stencil/core';
 import { messageQueueService } from '../../store/message-queue';
 
