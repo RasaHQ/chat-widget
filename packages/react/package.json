@@ -1,6 +1,6 @@
 {
   "name": "@vortexwest/chat-widget-react",
-  "version": "0.1.12",
+  "version": "0.1.15",
   "publishConfig": {
     "access": "restricted"
   },
@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vortexwest/chat-widget-ui": "^0.1.14"
+    "@vortexwest/chat-widget-ui": "^0.1.15"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",
