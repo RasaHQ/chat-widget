@@ -1,6 +1,6 @@
 'use client';
 import { createComponent } from '@stencil/react-output-target/runtime';
-import { RasaChatbotWidget as RasaChatbotWidgetElement, defineCustomElement as defineRasaChatbotWidget } from "@vortexwest/chat-widget-ui/dist/components/rasa-chatbot-widget.js";
+import { RasaChatbotWidget as RasaChatbotWidgetElement, defineCustomElement as defineRasaChatbotWidget } from "@rasahq/chat-widget-ui/dist/components/rasa-chatbot-widget.js";
 import React from 'react';
 const RasaChatbotWidget = createComponent({
     tagName: 'rasa-chatbot-widget',

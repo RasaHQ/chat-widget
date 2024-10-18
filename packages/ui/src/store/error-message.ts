@@ -1,4 +1,4 @@
-import { CustomErrorClass } from '@vortexwest/chat-widget-sdk';
+import { CustomErrorClass } from '@rasahq/chat-widget-sdk';
 import { createStore } from '@stencil/store';
 
 const { state, onChange } = createStore({

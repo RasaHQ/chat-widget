@@ -43,16 +43,20 @@ jobs:
       - name: Lerna - Tests
         run: npm run test
 
-      # - name: E2E - Install dependencies
-      #   run: npm run e2e:install
+      - name: E2E - Install dependencies
+        run: npm run e2e:install
 
-      # - name: E2E - Run automation suite
-      #   run: npm run e2e:run
+      - name: E2E - Run automation suite
+        run: npm run e2e:run
 
-      # - name: Authenticate with private NPM package
-      #   # if: ${{ github.event_name == 'workflow_dispatch' }}
-      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Authenticate with private NPM package
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      # - name: NPM Publish ChatWidget
-      #   # if: ${{ github.event_name == 'workflow_dispatch' }}
-      #   run: npm run lerna publish bump patch --yes
+      - name: NPM Publish ChatWidget
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        # `--force-publish` flag keeps versions consistent across our packages. Totally wild name for this kind of a flag :shrug:
+        run: |
+          git config --global user.email "chatwidget@rasahq.com"
+          git config --global user.name "RasaHQ ChatWidget"
+          npx lerna publish ${{ inputs.version }} --yes --force-publish

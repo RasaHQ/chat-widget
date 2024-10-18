@@ -1,4 +1,4 @@
-import { CustomErrorClass, ErrorSeverity } from '@vortexwest/chat-widget-sdk';
+import { CustomErrorClass, ErrorSeverity } from '@rasahq/chat-widget-sdk';
 
 export const formatDateTime = (date: Date) => {
   if (!date) {

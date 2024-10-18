@@ -1,7 +1,7 @@
-import "@vortexwest/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css";
+import "@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css";
 
-import { defineCustomElements } from "@vortexwest/chat-widget-ui/loader";
-import docJson from "@vortexwest/chat-widget-ui/doc/docs.json";
+import { defineCustomElements } from "@rasahq/chat-widget-ui/loader";
+import docJson from "@rasahq/chat-widget-ui/doc/docs.json";
 import { setStencilDocJson } from "../addons/doc-stenciljs";
 
 defineCustomElements();

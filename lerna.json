@@ -1,9 +1,4 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "version": "0.1.17",
-  "command": {
-    "publish": {
-      "yes": true
-    }
-  }
+  "version": "0.1.0"
 }
