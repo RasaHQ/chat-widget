@@ -31,6 +31,7 @@ export class RasaChatbotWidget {
   @State() messages: Message[] = [];
   @State() typingIndicator: boolean = false;
   @State() cachedMessages: Element[] = [];
+  @State() isConnected = false;
 
   /**
    * Emitted when the Chat Widget is opened by the user
@@ -194,12 +195,16 @@ export class RasaChatbotWidget {
     this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
 
     this.client.on('connect', () => {
+      this.isConnected = true;
+      // widgetState connected needed for enabling input
       widgetState.getState().state.connected = true;
     });
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('sessionConfirm', this.sessionConfirm);
     this.client.on('disconnect', () => {
+      this.isConnected = false;
+      // widgetState connected needed for disabling input
       widgetState.getState().state.connected = false;
     });
 
@@ -260,12 +265,12 @@ export class RasaChatbotWidget {
   };
 
   private connect(): void {
-    if (widgetState.isConnected()) return;
+    if (this.isConnected) return;
     this.client.connect();
   }
 
   private disconnect(): void {
-    if (!widgetState.isConnected()) return;
+    if (!this.isConnected) return;
     this.disconnectTimeout = setTimeout(() => {
       if (!this.isOpen) {
         this.client.disconnect();
