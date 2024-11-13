@@ -14,7 +14,7 @@ describe('rasa-text-message', () => {
     <mock:shadow-root>
       <rasa-text>
         <mock:shadow-root>
-          <span class="text">
+          <span class="text" part="text">
             Hello, World!
           </span>
         </mock:shadow-root>
@@ -56,7 +56,7 @@ describe('rasa-text-message', () => {
       <mock:shadow-root>
         <rasa-text>
           <mock:shadow-root>
-            <span class="text">
+            <span class="text" part="text">
               User message
             </span>
           </mock:shadow-root>
