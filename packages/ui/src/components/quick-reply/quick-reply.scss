@@ -19,6 +19,15 @@
     flex-wrap: wrap;
     padding: 0 40px;
 
+    rasa-text::part(text) {
+      width: calc(100%);
+      max-width: 250px;
+      text-overflow: ellipsis;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
     &--disabled {
       pointer-events: none;
       opacity: 0.5;
