@@ -55,8 +55,10 @@ jobs:
 
       - name: NPM Publish ChatWidget
         if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.RASABOT_PAT }}
         # `--force-publish` flag keeps versions consistent across our packages. Totally wild name for this kind of a flag :shrug:
         run: |
-          git config --global user.email "chatwidget@rasahq.com"
-          git config --global user.name "RasaHQ ChatWidget"
+          git config --global user.name "rasabot"
+          git config --global user.email "rasabot@rasa.com"
           npx lerna publish ${{ inputs.version }} --yes --force-publish
