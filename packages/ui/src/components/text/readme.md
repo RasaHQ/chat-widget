@@ -23,6 +23,13 @@
 | `textStreamComplete` | Trigger on stream complete | `CustomEvent<{ value: true; }>` |
 
 
+## Shadow Parts
+
+| Part     | Description |
+| -------- | ----------- |
+| `"text"` |             |
+
+
 ## Dependencies
 
 ### Used by

@@ -142,7 +142,7 @@ export class RasaText {
     if (this.disableParsing) {
       return (
         <Host>
-          <span class="text">{this.value}</span>
+          <span class="text" part="text">{this.value}</span>
         </Host>
       );
     }

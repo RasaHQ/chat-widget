@@ -94,7 +94,7 @@ export class RasaQuickReply {
         {canShowText && this.quickReplyMessage.replies.length && (
           <div class={buttonsClassList}>
             {this.quickReplyMessage.replies.map((button, key) => (
-              <rasa-button {...button} key={key} isSelected={button.isSelected}>
+              <rasa-button {...button} key={key} isSelected={button.isSelected} title={button.text}>
                 <rasa-text value={button.text} disableParsing={true}></rasa-text>
               </rasa-button>
             ))}
