@@ -7,14 +7,14 @@
 
 ## Properties
 
-| Property   | Attribute   | Description                                      | Type      | Default     |
-| ---------- | ----------- | ------------------------------------------------ | --------- | ----------- |
-| `height`   | `height`    | Image height                                     | `number`  | `undefined` |
-| `imageAlt` | `image-alt` | Alt text for the image                           | `string`  | `''`        |
-| `imageSrc` | `image-src` | Image source                                     | `string`  | `undefined` |
-| `isChild`  | `is-child`  | Is another component using it as child component | `boolean` | `false`     |
-| `text`     | `text`      | Message text                                     | `string`  | `undefined` |
-| `width`    | `width`     | Image width                                      | `number`  | `undefined` |
+| Property   | Attribute   | Description                                      | Type               | Default     |
+| ---------- | ----------- | ------------------------------------------------ | ------------------ | ----------- |
+| `height`   | `height`    | Image height                                     | `number \| string` | `undefined` |
+| `imageAlt` | `image-alt` | Alt text for the image                           | `string`           | `''`        |
+| `imageSrc` | `image-src` | Image source                                     | `string`           | `undefined` |
+| `isChild`  | `is-child`  | Is another component using it as child component | `boolean`          | `false`     |
+| `text`     | `text`      | Message text                                     | `string`           | `undefined` |
+| `width`    | `width`     | Image width                                      | `number \| string` | `undefined` |
 
 
 ## Dependencies

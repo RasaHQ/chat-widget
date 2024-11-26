@@ -60,14 +60,14 @@ export class RasaCarousel {
     if (!link) {
       return (
         <div class={{ 'carousel__slide': true, 'carousel__slide--active': index === this.currentIndex }}>
-          <rasa-image-message class="carousel__image" height={112} text={text} imageSrc={imageUrl} width={188}></rasa-image-message>
+          <rasa-image-message class="carousel__image" height={112} width={'auto'} text={text} imageSrc={imageUrl}></rasa-image-message>
         </div>
       );
     }
     return (
       <a href={link} target="_blank" onClick={this.onLinkClick}>
         <div class={{ 'carousel__slide': true, 'carousel__slide--active': index === this.currentIndex }}>
-          <rasa-image-message class="carousel__image" height={112} text={text} imageSrc={imageUrl} width={188}></rasa-image-message>
+          <rasa-image-message class="carousel__image" height={112} width={'auto'} text={text} imageSrc={imageUrl}></rasa-image-message>
         </div>
       </a>
     );
