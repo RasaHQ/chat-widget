@@ -22,11 +22,11 @@ export class RasaImageMessage {
   /**
    * Image width
    */
-  @Prop() width: number;
+  @Prop() width: number | string;
   /**
    * Image height
    */
-  @Prop() height: number;
+  @Prop() height: number | string;
 
   /**
    * Is another component using it as child component

@@ -17,11 +17,11 @@ export class RasaImage {
   /**
    * Image width
    */
-  @Prop() width: number;
+  @Prop() width: number | string;
   /**
    * Image height
    */
-  @Prop() height: number;
+  @Prop() height: number | string;
 
   @State() showFallback = false;
 
@@ -29,15 +29,30 @@ export class RasaImage {
     this.showFallback = true;
   };
 
+
+  private getDimension(value?: number | string): string {
+    if (!value) return '100%';
+  
+    const numericValue = Number(value);
+    if (!isNaN(numericValue)) {
+      return `${numericValue}px`;
+    }
+  
+    return value as string;
+  }
+
   render() {
     const style = {
-      width: this.width ? `${this.width}px` : 'auto',
-      height: this.height ? `${this.height}px` : 'auto',
+      width: this.getDimension(this.width),
+      height: this.getDimension(this.height),
     };
+
+    const size = typeof this.width === 'number' ? this.width : undefined;
+
     return (
       <Host>
         {this.showFallback ? (
-          <rasa-icon-default-image-fallback style={style} size={this.width}></rasa-icon-default-image-fallback>
+          <rasa-icon-default-image-fallback style={style} size={size}></rasa-icon-default-image-fallback>
         ) : (
           <img src={this.src} alt={this.alt} onError={this.handleImgError} style={style} />
         )}

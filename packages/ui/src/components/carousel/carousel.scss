@@ -26,6 +26,7 @@
   &__slide {
     transition: transform 0.5s ease-in-out;
     opacity: 1;
+    height: 100%;
 
     &--active {
       opacity: 2;
@@ -65,6 +66,7 @@
 
   &__image {
     width: 188px;
+    height: 100%;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     border-top-left-radius: 4px;
