@@ -2,6 +2,8 @@ import { CarouselElement } from '@rasahq/chat-widget-sdk';
 import { Component, h, State, Element, Prop, Event, EventEmitter } from '@stencil/core';
 import { messageQueueService } from '../../store/message-queue';
 
+const CAROUSEL_IMAGE_HEIGHT = 112;
+
 @Component({
   tag: 'rasa-carousel',
   styleUrl: 'carousel.scss',
@@ -60,14 +62,14 @@ export class RasaCarousel {
     if (!link) {
       return (
         <div class={{ 'carousel__slide': true, 'carousel__slide--active': index === this.currentIndex }}>
-          <rasa-image-message class="carousel__image" height={112} text={text} imageSrc={imageUrl} width={188}></rasa-image-message>
+          <rasa-image-message class="carousel__image" height={CAROUSEL_IMAGE_HEIGHT} width={'auto'} text={text} imageSrc={imageUrl}></rasa-image-message>
         </div>
       );
     }
     return (
       <a href={link} target="_blank" onClick={this.onLinkClick}>
         <div class={{ 'carousel__slide': true, 'carousel__slide--active': index === this.currentIndex }}>
-          <rasa-image-message class="carousel__image" height={112} text={text} imageSrc={imageUrl} width={188}></rasa-image-message>
+          <rasa-image-message class="carousel__image" height={CAROUSEL_IMAGE_HEIGHT} width={'auto'} text={text} imageSrc={imageUrl}></rasa-image-message>
         </div>
       </a>
     );

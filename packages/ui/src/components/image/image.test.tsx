@@ -24,7 +24,7 @@ describe('rasa-image', () => {
     await page.waitForChanges();
 
     expect(page.root.shadowRoot).toEqualHtml(`
-    <rasa-icon-default-image-fallback style="width: auto; height: auto;"></rasa-icon-default-image-fallback>
+    <rasa-icon-default-image-fallback style="width: 100%; height: 100%;"></rasa-icon-default-image-fallback>
     `);
   });
 
@@ -46,7 +46,7 @@ describe('rasa-image', () => {
     });
 
     const img = page.root.shadowRoot.querySelector('img');
-    expect(img.style.width).toBe('auto');
-    expect(img.style.height).toBe('auto');
+    expect(img.style.width).toBe('100%');
+    expect(img.style.height).toBe('100%');
   });
 });

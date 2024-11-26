@@ -1,5 +1,5 @@
-import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { RasaChatbotWidget as RasaChatbotWidgetElement } from "@rasahq/chat-widget-ui/dist/components/rasa-chatbot-widget.js";
+import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 type RasaChatbotWidgetEvents = {
     onChatSessionStarted: EventName<CustomEvent<{
         sessionId: string;
