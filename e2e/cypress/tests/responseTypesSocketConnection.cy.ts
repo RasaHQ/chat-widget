@@ -290,4 +290,76 @@ describe('Response messages types', () => {
       title: 'videoMessageResponse',
     });
   });
+
+  it('TC023 - Response message type: High resolution image', () => {
+    chatbotWidgetPage.widgetLauncher.should('be.visible');
+
+    chatbotWidgetPage.widgetLauncher.click();
+
+    chatbotWidgetPage.widgetOpened.should('be.visible');
+
+    chatbotWidgetPage.widgetHeader.should('be.visible');
+
+    chatbotWidgetPage.widgetInputField.should('be.visible');
+
+    chatbotWidgetPage.widgetSendButton.should('be.visible');
+
+    cy.userSendMessage(userInputs.highResolutionImageMessage);
+
+    chatbotWidgetPage.userChatMessage.should('be.visible');
+
+    cy.checkUserMessageIsSent(userInputs.highResolutionImageMessage);
+
+    chatbotWidgetPage.botChatImageMessage.should('be.visible');
+
+    chatbotWidgetPage.botChatImageMessage
+      .find('img')
+      .should(
+        'have.attr',
+        'src',
+        'https://store.hrblock.com/shoppingcart/assets/Win_H2.png'
+      );
+
+    cy.wait(1000);
+
+    chatbotWidgetPage.widgetOpened.wait(1000).matchImage({
+      title: 'highResolutionImageMessageResponse',
+    });
+  });
+
+  it('TC024 - Response message type: Carousel with high resolution image', () => {
+    chatbotWidgetPage.widgetLauncher.click();
+
+    chatbotWidgetPage.widgetOpened.should('be.visible');
+
+    chatbotWidgetPage.widgetHeader.should('be.visible');
+
+    chatbotWidgetPage.widgetInputField.should('be.visible');
+
+    chatbotWidgetPage.widgetSendButton.should('be.visible');
+
+    cy.userSendMessage(userInputs.highResolutionImageCarouselMessage);
+
+    chatbotWidgetPage.userChatMessage.should('be.visible');
+
+    cy.checkUserMessageIsSent(userInputs.highResolutionImageCarouselMessage);
+
+    chatbotWidgetPage.botChatCarouselMessage.should('be.visible');
+
+    chatbotWidgetPage.botChatCarouselRightIcon.should('be.visible');
+
+    chatbotWidgetPage.botChatCarouselRightIcon.click();
+
+    chatbotWidgetPage.botChatCarouselLeftIcon.should('be.visible');
+
+    chatbotWidgetPage.botChatCarouselLeftIcon.click();
+
+    chatbotWidgetPage.botChatCarouselLeftIcon.should('not.exist');
+
+    cy.wait(2000);
+
+    chatbotWidgetPage.widgetOpened.matchImage({
+      title: 'carouselWithHighResolutionImageMessageResponse',
+    });
+  });
 });
