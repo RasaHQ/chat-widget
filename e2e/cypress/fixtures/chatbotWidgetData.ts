@@ -3,8 +3,10 @@ import { link } from 'fs';
 const userInputs = {
   textMessage: 'Hello',
   imageMessage: 'Image',
+  highResolutionImageMessage: 'HR_image',
   accordionMessage: 'Accordion',
   carouselMessage: 'Carousel',
+  highResolutionImageCarouselMessage: 'Carousel_with_high_resolution',
   fileDownloadMessage: 'File',
   quickRepliesMessage: 'Markdown',
   videoMessage: 'Video',
@@ -27,6 +29,15 @@ const botResponses = {
       type: 'image',
       payload: {
         src: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Anton_Chigurh.jpg/220px-Anton_Chigurh.jpg',
+      },
+    },
+  },
+  HR_image: {
+    text: 'You are seeing high resolution image.',
+    attachment: {
+      type: 'image',
+      payload: {
+        src: 'https://store.hrblock.com/shoppingcart/assets/Win_H2.png',
       },
     },
   },
@@ -66,6 +77,21 @@ const botResponses = {
           'https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/09/Kate-Mulgrew-Captain-Janeway-Star-Trek-Voyager-1.jpg',
         text: 'Click here for more details on Kathryn Janeway',
         link: 'https://memory-alpha.fandom.com/wiki/Kathryn_Janeway',
+      },
+    ],
+  },
+  Carousel_with_high_resolution: {
+    type: 'carousel',
+    elements: [
+      {
+        image_url: 'https://store.hrblock.com/shoppingcart/assets/Win_H2.png',
+        text: 'Click here for more details on Premium & Business',
+      },
+      {
+        image_url:
+          'https://static1.moviewebimages.com/wordpress/wp-content/uploads/2023/04/scott-balua-as-captain-archer-in-enterprise-cbs-televisio.jpg',
+        text: 'Click here for more details on Jonathan Archer',
+        link: 'https://memory-alpha.fandom.com/wiki/Jonathan_Archer',
       },
     ],
   },
