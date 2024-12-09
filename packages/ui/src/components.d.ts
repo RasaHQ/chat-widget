@@ -368,7 +368,7 @@ export namespace Components {
         /**
           * Image height
          */
-        "height": number;
+        "height": number | string;
         /**
           * Image source
          */
@@ -376,13 +376,13 @@ export namespace Components {
         /**
           * Image width
          */
-        "width": number;
+        "width": number | string;
     }
     interface RasaImageMessage {
         /**
           * Image height
          */
-        "height": number;
+        "height": number | string;
         /**
           * Alt text for the image
          */
@@ -402,7 +402,7 @@ export namespace Components {
         /**
           * Image width
          */
-        "width": number;
+        "width": number | string;
     }
     interface RasaQuickReply {
         /**
@@ -1201,7 +1201,7 @@ declare namespace LocalJSX {
         /**
           * Image height
          */
-        "height"?: number;
+        "height"?: number | string;
         /**
           * Image source
          */
@@ -1209,13 +1209,13 @@ declare namespace LocalJSX {
         /**
           * Image width
          */
-        "width"?: number;
+        "width"?: number | string;
     }
     interface RasaImageMessage {
         /**
           * Image height
          */
-        "height"?: number;
+        "height"?: number | string;
         /**
           * Alt text for the image
          */
@@ -1235,7 +1235,7 @@ declare namespace LocalJSX {
         /**
           * Image width
          */
-        "width"?: number;
+        "width"?: number | string;
     }
     interface RasaQuickReply {
         /**
