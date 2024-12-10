@@ -22,9 +22,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v 4.2.2
         with:
-          ref: ${{ github.head_ref }}
+          token: ${{ secrets.RASABOT_PAT }}
+          ref: ${{ github.head_ref }}   
 
       - name: Setup Node version
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
