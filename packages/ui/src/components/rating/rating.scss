@@ -1,0 +1,56 @@
+.rasa-rating {
+    border-radius: 4px 20px 20px 20px; /* Matches the accordion style */
+    background-color: var(--rating-background-color, #fff);
+    color: var(--rating-text-color, #333);
+    padding: 16px;
+    margin: 8px 0;
+    text-align: center;
+  
+    &__text {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--rating-instruction-color, #555);
+    }
+  
+    &__options {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+  
+    &__option {
+      background: var(--rating-option-background-color, #f9f9f9);
+      border: 1px solid var(--rating-option-border-color, #ddd);
+      border-radius: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease, background-color 0.3s;
+  
+      &:hover {
+        background: var(--rating-option-hover-color, #f0f0f0);
+        transform: scale(1.05);
+      }
+  
+      &--selected {
+        border-color: var(--rating-option-selected-border-color, #007bff);
+        background: var(--rating-option-selected-background-color, #e9f5ff);
+        color: var(--rating-option-selected-text-color, #007bff);
+      }
+    }
+  
+    &__icon {
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+  
+    &__label {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--rating-option-label-color, #666);
+    }
+  }
+  
