@@ -422,6 +422,16 @@ export namespace Components {
          */
         "quickReplyId": string;
     }
+    interface RasaRating {
+        /**
+          * List of rating options, each containing a value, icon, and label.
+         */
+        "options": { value: string; icon: string; label: string }[];
+        /**
+          * Instructional text displayed above the rating options.
+         */
+        "text": string;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -508,6 +518,10 @@ export interface RasaFileDownloadMessageCustomEvent<T> extends CustomEvent<T> {
 export interface RasaQuickReplyCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaQuickReplyElement;
+}
+export interface RasaRatingCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaRatingElement;
 }
 export interface RasaTextCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -722,6 +736,23 @@ declare global {
         prototype: HTMLRasaQuickReplyElement;
         new (): HTMLRasaQuickReplyElement;
     };
+    interface HTMLRasaRatingElementEventMap {
+        "ratingSelected": { value: string };
+    }
+    interface HTMLRasaRatingElement extends Components.RasaRating, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaRatingElementEventMap>(type: K, listener: (this: HTMLRasaRatingElement, ev: RasaRatingCustomEvent<HTMLRasaRatingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaRatingElementEventMap>(type: K, listener: (this: HTMLRasaRatingElement, ev: RasaRatingCustomEvent<HTMLRasaRatingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRasaRatingElement: {
+        prototype: HTMLRasaRatingElement;
+        new (): HTMLRasaRatingElement;
+    };
     interface HTMLRasaSessionDividerElement extends Components.RasaSessionDivider, HTMLStencilElement {
     }
     var HTMLRasaSessionDividerElement: {
@@ -787,6 +818,7 @@ declare global {
         "rasa-image": HTMLRasaImageElement;
         "rasa-image-message": HTMLRasaImageMessageElement;
         "rasa-quick-reply": HTMLRasaQuickReplyElement;
+        "rasa-rating": HTMLRasaRatingElement;
         "rasa-session-divider": HTMLRasaSessionDividerElement;
         "rasa-text": HTMLRasaTextElement;
         "rasa-text-message": HTMLRasaTextMessageElement;
@@ -1262,6 +1294,20 @@ declare namespace LocalJSX {
          */
         "quickReplyId"?: string;
     }
+    interface RasaRating {
+        /**
+          * Event emitted when a rating option is selected.
+         */
+        "onRatingSelected"?: (event: RasaRatingCustomEvent<{ value: string }>) => void;
+        /**
+          * List of rating options, each containing a value, icon, and label.
+         */
+        "options"?: { value: string; icon: string; label: string }[];
+        /**
+          * Instructional text displayed above the rating options.
+         */
+        "text"?: string;
+    }
     interface RasaSessionDivider {
         /**
           * Session start datetime
@@ -1355,6 +1401,7 @@ declare namespace LocalJSX {
         "rasa-image": RasaImage;
         "rasa-image-message": RasaImageMessage;
         "rasa-quick-reply": RasaQuickReply;
+        "rasa-rating": RasaRating;
         "rasa-session-divider": RasaSessionDivider;
         "rasa-text": RasaText;
         "rasa-text-message": RasaTextMessage;
@@ -1388,6 +1435,7 @@ declare module "@stencil/core" {
             "rasa-image": LocalJSX.RasaImage & JSXBase.HTMLAttributes<HTMLRasaImageElement>;
             "rasa-image-message": LocalJSX.RasaImageMessage & JSXBase.HTMLAttributes<HTMLRasaImageMessageElement>;
             "rasa-quick-reply": LocalJSX.RasaQuickReply & JSXBase.HTMLAttributes<HTMLRasaQuickReplyElement>;
+            "rasa-rating": LocalJSX.RasaRating & JSXBase.HTMLAttributes<HTMLRasaRatingElement>;
             "rasa-session-divider": LocalJSX.RasaSessionDivider & JSXBase.HTMLAttributes<HTMLRasaSessionDividerElement>;
             "rasa-text": LocalJSX.RasaText & JSXBase.HTMLAttributes<HTMLRasaTextElement>;
             "rasa-text-message": LocalJSX.RasaTextMessage & JSXBase.HTMLAttributes<HTMLRasaTextMessageElement>;
