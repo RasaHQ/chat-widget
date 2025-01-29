@@ -424,11 +424,11 @@ export namespace Components {
     }
     interface RasaRating {
         /**
-          * List of rating options, each containing a value, icon, and label.
+          * List of rating options
          */
-        "options": { value: string; icon: string; label: string }[];
+        "options": string | { value: string; icon: string; label: string }[];
         /**
-          * Instructional text displayed above the rating options.
+          * Instructional text for the rating component
          */
         "text": string;
     }
@@ -1296,15 +1296,15 @@ declare namespace LocalJSX {
     }
     interface RasaRating {
         /**
-          * Event emitted when a rating option is selected.
+          * Event emitted when a rating is selected
          */
         "onRatingSelected"?: (event: RasaRatingCustomEvent<{ value: string }>) => void;
         /**
-          * List of rating options, each containing a value, icon, and label.
+          * List of rating options
          */
-        "options"?: { value: string; icon: string; label: string }[];
+        "options"?: string | { value: string; icon: string; label: string }[];
         /**
-          * Instructional text displayed above the rating options.
+          * Instructional text for the rating component
          */
         "text"?: string;
     }
