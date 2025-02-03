@@ -7,6 +7,7 @@ import {
   HttpResponse,
   HttpTextResponse,
   HttpVideoResponse,
+  HttpRatingResponse,
 } from '../types/server-response.types';
 
 import { RESPONSE_MESSAGE_TYPES } from '../constants';
@@ -40,14 +41,15 @@ export function isHttpQuickReplyResponse(response: HttpResponse): response is Ht
 
 export function hasCustomAttribute(
   response: HttpResponse,
-): response is HttpCarouselResponse | HttpVideoResponse | HttpAccordionResponse | HttpFileDownloadResponse {
+): response is HttpCarouselResponse | HttpVideoResponse | HttpAccordionResponse | HttpFileDownloadResponse | HttpRatingResponse {
   return (
     'custom' in response &&
     response.custom !== undefined &&
     (response.custom.type === RESPONSE_MESSAGE_TYPES.CAROUSEL ||
       response.custom.type === RESPONSE_MESSAGE_TYPES.VIDEO ||
       response.custom.type === RESPONSE_MESSAGE_TYPES.ACCORDION ||
-      response.custom.type === RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD)
+      response.custom.type === RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD ||
+      response.custom.type === RESPONSE_MESSAGE_TYPES.RATING) 
   );
 }
 
