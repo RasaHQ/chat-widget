@@ -20,6 +20,19 @@
 | `ratingSelected` | Event emitted when a rating is selected | `CustomEvent<{ value: string; }>` |
 
 
+## Dependencies
+
+### Used by
+
+ - [rasa-chatbot-widget](../../rasa-chatbot-widget)
+
+### Graph
+```mermaid
+graph TD;
+  rasa-chatbot-widget --> rasa-rating
+  style rasa-rating fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

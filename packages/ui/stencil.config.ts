@@ -38,6 +38,7 @@ export const config: Config = {
         'global-error-handler',
         'rasa-accordion',
         'rasa-button',
+        'rasa-rating',
         'rasa-carousel',
         'rasa-chat-input',
         'rasa-file-download-message',
