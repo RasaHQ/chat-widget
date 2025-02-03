@@ -1,4 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h, State } from '@stencil/core';
+import { messageQueueService } from '../../store/message-queue';
 
 @Component({
   tag: 'rasa-rating',
@@ -25,6 +26,10 @@ export class RasaRating {
    * State to track the currently selected option
    */
   @State() selectedOption: string | null = null;
+
+  componentDidLoad() {
+    messageQueueService.completeRendering();
+  }
 
   private handleOptionClick(optionValue: string) {
     this.selectedOption = optionValue; // Update the selected option
