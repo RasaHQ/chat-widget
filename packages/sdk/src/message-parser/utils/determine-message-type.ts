@@ -6,6 +6,7 @@ import {
   QuickReplyResponse,
   TextResponse,
   VideoResponse,
+  RatingResponse,
 } from '../../types/server-response.types';
 import { CustomErrorClass, ErrorSeverity } from '../../errors';
 
@@ -21,6 +22,7 @@ const messageTypeMap = {
   fileDownload: (msg: any): msg is FileDownloadResponse => msg?.type === RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD,
   video: (msg: any): msg is VideoResponse => msg?.type === RESPONSE_MESSAGE_TYPES.VIDEO,
   text: (msg: any): msg is TextResponse => msg.text && msg.type === undefined,
+  rating: (msg: any): msg is RatingResponse => msg?.type === RESPONSE_MESSAGE_TYPES.RATING,
 };
 
 export const determineMessageType = (message: unknown): keyof MessageParsersReturnTypes => {

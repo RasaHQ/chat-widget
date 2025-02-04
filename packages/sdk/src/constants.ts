@@ -4,6 +4,7 @@ export const RESPONSE_MESSAGE_TYPES = {
   FILE_DOWNLOAD: "file_download",
   VIDEO: "video",
   IMAGE: "image",
+  RATING: "rating",
 } as const;
 
 export const SESSION_STORAGE_KEYS = {

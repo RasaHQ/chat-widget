@@ -6,6 +6,7 @@ import type {
   QuickReplyMessage,
   TextMessage,
   VideoMessage,
+  RatingMessage,
 } from '../types';
 import {
   AccordionResponse,
@@ -15,6 +16,7 @@ import {
   QuickReplyResponse,
   TextResponse,
   VideoResponse,
+  RatingResponse,
 } from '../../types/server-response.types';
 
 import { MESSAGE_TYPES } from '../constants';
@@ -176,5 +178,29 @@ describe('MessageParsers', () => {
     };
 
     expect(MessageParsers.video(videoResponse, sender)).toEqual(expected);
+  });
+
+  it('rating message correctly parsed', () => {
+    const ratingResponse: RatingResponse = {
+      type: RESPONSE_MESSAGE_TYPES.RATING,
+      text: 'How would you rate this?',
+      options: [
+        { value: 'positive', icon: '😊', label: 'Positive' },
+        { value: 'neutral', icon: '😐', label: 'Neutral' },
+        { value: 'negative', icon: '☹️', label: 'Negative' },
+      ],
+    };
+    const expected: RatingMessage = {
+      sender,
+      type: MESSAGE_TYPES.RATING,
+      text: 'How would you rate this?',
+      options: [
+        { value: 'positive', icon: '😊', label: 'Positive' },
+        { value: 'neutral', icon: '😐', label: 'Neutral' },
+        { value: 'negative', icon: '☹️', label: 'Negative' },
+      ],
+    };
+
+    expect(MessageParsers.rating(ratingResponse, sender)).toEqual(expected);
   });
 });

@@ -12,6 +12,7 @@ const userInputs = {
   videoMessage: 'Video',
   quickRepliesUserReply: 'hyperlink',
   errorConnectionSocketioTest: 'Connection',
+  ratingMessage: 'Rating',
 } as const;
 
 type TUserInputsType = typeof userInputs;
@@ -138,6 +139,15 @@ const botResponses = {
   },
   hyperlink: {
     text: 'For more information, visit [Google Website](https://www.google.com/).',
+  },
+  Rating: {
+    type: 'rating',
+    text: 'How would you rate this answer?',
+    options: [
+      { value: 'positive', icon: '😊', label: 'Positive' },
+      { value: 'neutral', icon: '😐', label: 'Neutral' },
+      { value: 'negative', icon: '☹️', label: 'Negative' },
+    ],
   },
 };
 

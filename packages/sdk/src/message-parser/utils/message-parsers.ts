@@ -6,6 +6,7 @@ import {
   QuickReplyMessage,
   TextMessage,
   VideoMessage,
+  RatingMessage,
 } from '../types/parsed-message.types';
 import {
   AccordionResponse,
@@ -15,6 +16,7 @@ import {
   QuickReplyResponse,
   TextResponse,
   VideoResponse,
+  RatingResponse,
 } from '../../types/server-response.types';
 
 import { MESSAGE_TYPES } from '../constants/message.constants';
@@ -81,6 +83,13 @@ export const MessageParsers = {
     type: MESSAGE_TYPES.VIDEO,
     src: video_url,
     timestamp,
+  }),
+  rating: (message: RatingResponse, sender: SenderType): RatingMessage => ({
+    sender,
+    type: MESSAGE_TYPES.RATING,
+    text: message.text,
+    options: message.options,
+    timestamp: message.timestamp,
   }),
 };
 

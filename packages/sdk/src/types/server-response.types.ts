@@ -28,6 +28,12 @@ export interface CarouselResponse extends BaseMessageResponse {
   elements: { image_url: string; text: string; link?: string }[];
 }
 
+export interface RatingResponse extends BaseMessageResponse {
+  type: typeof RESPONSE_MESSAGE_TYPES.RATING;
+  text: string;
+  options: { value: string; icon: string; label: string }[];
+}
+
 export interface QuickReplyResponse extends BaseMessageResponse {
   text?: string;
   quick_replies: { content_type: string; payload: string; title: string; isSelected?: boolean }[];
@@ -82,6 +88,11 @@ export interface HttpQuickReplyResponse extends BaseMessageResponse {
   buttons: { payload: string; title: string }[];
 }
 
+export interface HttpRatingResponse extends BaseMessageResponse {
+  recipient_id: string;
+  custom: RatingResponse;
+}
+
 export type HttpResponse =
   | HttpTextResponse
   | HttpImageResponse
@@ -89,7 +100,8 @@ export type HttpResponse =
   | HttpVideoResponse
   | HttpAccordionResponse
   | HttpFileDownloadResponse
-  | HttpQuickReplyResponse;
+  | HttpQuickReplyResponse
+  | HttpRatingResponse;
 
 export type MessageResponse =
   | TextResponse
@@ -98,4 +110,5 @@ export type MessageResponse =
   | CarouselResponse
   | QuickReplyResponse
   | FileDownloadResponse
-  | VideoResponse;
+  | VideoResponse
+  | RatingResponse;

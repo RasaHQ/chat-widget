@@ -55,6 +55,7 @@
 - [rasa-text](../components/text)
 - [rasa-quick-reply](../components/quick-reply)
 - [rasa-carousel](../components/carousel)
+- [rasa-rating](../components/rating)
 - [global-error-handler](../components/error-handler)
 - [rasa-typing-indicator](../components/typing-indicator)
 - rasa-icon-close-chat
@@ -75,6 +76,7 @@ graph TD;
   rasa-chatbot-widget --> rasa-text
   rasa-chatbot-widget --> rasa-quick-reply
   rasa-chatbot-widget --> rasa-carousel
+  rasa-chatbot-widget --> rasa-rating
   rasa-chatbot-widget --> global-error-handler
   rasa-chatbot-widget --> rasa-typing-indicator
   rasa-chatbot-widget --> rasa-icon-close-chat

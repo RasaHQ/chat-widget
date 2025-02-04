@@ -63,6 +63,13 @@ export interface AccordionMessage extends BaseMessage {
   elements: { title: string; text: string; link?: string }[];
 }
 
+export interface RatingMessage extends BaseMessage {
+  type: typeof MESSAGE_TYPES.RATING;
+  text: string;
+  options: { value: string; icon: string; label: string }[];
+}
+
+
 export type Message =
   | AccordionMessage
   | CarouselMessage
@@ -71,4 +78,5 @@ export type Message =
   | SessionDivider
   | QuickReplyMessage
   | TextMessage
-  | VideoMessage;
+  | VideoMessage
+  | RatingMessage;
