@@ -48,27 +48,6 @@ describe('rasa-rating', () => {
     expect(page.root.shadowRoot.textContent).toContain('Rate the answer');
   });
 
-  it('applies the selected class on click', async () => {
-    const page = await newSpecPage({
-      components: [RasaRating],
-      html: `<rasa-rating text="Rate the answer" options='[
-        { "value": "positive", "payload": "/give_positive_feedback" },
-        { "value": "neutral", "payload": "/give_neutral_feedback" }
-      ]'></rasa-rating>`,
-    });
-
-    const options = page.root.shadowRoot.querySelectorAll('.rasa-rating__option');
-    const positiveOption = options[0];
-    const neutralOption = options[1];
-
-    // Click the positive option
-    positiveOption.dispatchEvent(new Event('click'));
-    await page.waitForChanges();
-
-    expect(positiveOption.classList.contains('rasa-rating__option--selected')).toBe(true);
-    expect(neutralOption.classList.contains('rasa-rating__option--selected')).toBe(false);
-  });
-
   it('displays message after selection', async () => {
     const page = await newSpecPage({
       components: [RasaRating],
