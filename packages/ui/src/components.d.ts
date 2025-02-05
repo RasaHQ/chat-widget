@@ -426,11 +426,15 @@ export namespace Components {
         /**
           * List of rating options
          */
-        "options": string | { value: string; icon: string; label: string }[];
+        "options": string | { value: string }[];
         /**
           * Instructional text for the rating component
          */
         "text": string;
+        /**
+          * Customizable thank-you message from Rasa
+         */
+        "thankYouMessage": string;
     }
     interface RasaSessionDivider {
         /**
@@ -1302,11 +1306,15 @@ declare namespace LocalJSX {
         /**
           * List of rating options
          */
-        "options"?: string | { value: string; icon: string; label: string }[];
+        "options"?: string | { value: string }[];
         /**
           * Instructional text for the rating component
          */
         "text"?: string;
+        /**
+          * Customizable thank-you message from Rasa
+         */
+        "thankYouMessage"?: string;
     }
     interface RasaSessionDivider {
         /**
