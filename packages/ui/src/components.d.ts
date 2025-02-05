@@ -424,17 +424,17 @@ export namespace Components {
     }
     interface RasaRating {
         /**
-          * List of rating options
+          * Customizable message from Rasa (Previously thankYouMessage)
          */
-        "options": string | { value: string }[];
+        "message": string;
+        /**
+          * List of rating options from Rasa
+         */
+        "options": string | { value: string; payload: string }[];
         /**
           * Instructional text for the rating component
          */
         "text": string;
-        /**
-          * Customizable thank-you message from Rasa
-         */
-        "thankYouMessage": string;
     }
     interface RasaSessionDivider {
         /**
@@ -741,7 +741,7 @@ declare global {
         new (): HTMLRasaQuickReplyElement;
     };
     interface HTMLRasaRatingElementEventMap {
-        "ratingSelected": { value: string };
+        "ratingSelected": { value: string; payload: string };
     }
     interface HTMLRasaRatingElement extends Components.RasaRating, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaRatingElementEventMap>(type: K, listener: (this: HTMLRasaRatingElement, ev: RasaRatingCustomEvent<HTMLRasaRatingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1300,21 +1300,21 @@ declare namespace LocalJSX {
     }
     interface RasaRating {
         /**
+          * Customizable message from Rasa (Previously thankYouMessage)
+         */
+        "message"?: string;
+        /**
           * Event emitted when a rating is selected
          */
-        "onRatingSelected"?: (event: RasaRatingCustomEvent<{ value: string }>) => void;
+        "onRatingSelected"?: (event: RasaRatingCustomEvent<{ value: string; payload: string }>) => void;
         /**
-          * List of rating options
+          * List of rating options from Rasa
          */
-        "options"?: string | { value: string }[];
+        "options"?: string | { value: string; payload: string }[];
         /**
           * Instructional text for the rating component
          */
         "text"?: string;
-        /**
-          * Customizable thank-you message from Rasa
-         */
-        "thankYouMessage"?: string;
     }
     interface RasaSessionDivider {
         /**

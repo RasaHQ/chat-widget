@@ -144,10 +144,11 @@ const botResponses = {
     type: 'rating',
     text: 'How would you rate this answer?',
     options: [
-      { value: 'positive', icon: '😊', label: 'Positive' },
-      { value: 'neutral', icon: '😐', label: 'Neutral' },
-      { value: 'negative', icon: '☹️', label: 'Negative' },
+      { value: 'positive', payload: '/give_positive_feedback' },
+      { value: 'neutral', payload: '/give_neutral_feedback' },
+      { value: 'negative', payload: '/give_negative_feedback' },
     ],
+    message: 'We appreciate your feedback!', // ✅ Added thank-you message
   },
 };
 

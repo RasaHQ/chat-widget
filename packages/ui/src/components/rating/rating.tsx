@@ -13,22 +13,22 @@ export class RasaRating {
   @Prop() text: string;
 
   /**
-   * List of rating options
+   * List of rating options from Rasa
    */
-  @Prop() options: string | { value: string }[] = [];
+  @Prop() options: string | { value: string; payload: string }[] = [];
 
   /**
-   * Customizable thank-you message from Rasa
+   * Customizable message from Rasa (Previously thankYouMessage)
    */
-  @Prop() thankYouMessage: string = "Thank you for your feedback!";
+  @Prop() message: string = "Thank you for your feedback!";
 
   /**
    * Event emitted when a rating is selected
    */
-  @Event() ratingSelected: EventEmitter<{ value: string }>;
+  @Event() ratingSelected: EventEmitter<{ value: string; payload: string }>;
 
   /**
-   * State to track the currently selected option
+   * State to track the selected option
    */
   @State() selectedOption: string | null = null;
 
@@ -38,16 +38,21 @@ export class RasaRating {
   @State() hasVoted: boolean = false;
 
   componentDidLoad() {
+    console.log("Received Props:", {
+      text: this.text,
+      options: this.options,
+      message: this.message
+    });
     messageQueueService.completeRendering();
   }
 
-  private handleOptionClick(optionValue: string) {
+  private handleOptionClick(optionValue: string, payload: string) {
     this.selectedOption = optionValue;
     this.hasVoted = true;
-    this.ratingSelected.emit({ value: optionValue });
+    this.ratingSelected.emit({ value: optionValue, payload }); // Send payload to Rasa
   }
 
-  private getParsedOptions(): { value: string }[] {
+  private getParsedOptions(): { value: string; payload: string }[] {
     if (typeof this.options === 'string') {
       try {
         return JSON.parse(this.options);
@@ -93,7 +98,7 @@ export class RasaRating {
     return (
       <div class="rasa-rating">
         {this.hasVoted ? (
-          <p class="rasa-rating__thank-you">{this.thankYouMessage}</p> // Thank-you message from Rasa
+          <p class="rasa-rating__thank-you">{this.message}</p> // Dynamic message from Rasa
         ) : (
           <div>
             <p class="rasa-rating__text">{this.text}</p>
@@ -105,8 +110,8 @@ export class RasaRating {
                     'rasa-rating__option': true,
                     'rasa-rating__option--selected': this.selectedOption === option.value,
                   }}
-                  onClick={() => this.handleOptionClick(option.value)}
-                  innerHTML={this.getIconForValue(option.value)} // Injecting the SVG directly into the button
+                  onClick={() => this.handleOptionClick(option.value, option.payload)}
+                  innerHTML={this.getIconForValue(option.value)}
                 ></button>
               ))}
             </div>

@@ -31,7 +31,8 @@ export interface CarouselResponse extends BaseMessageResponse {
 export interface RatingResponse extends BaseMessageResponse {
   type: typeof RESPONSE_MESSAGE_TYPES.RATING;
   text: string;
-  options: { value: string; icon: string; label: string }[];
+  options: { value: string; payload: string }[]; // ✅ Updated: Removed icon/label, added payload
+  message: string; // ✅ Added: To store the thank-you message from Rasa
 }
 
 export interface QuickReplyResponse extends BaseMessageResponse {

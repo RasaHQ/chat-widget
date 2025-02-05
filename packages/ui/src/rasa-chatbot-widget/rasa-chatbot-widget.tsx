@@ -402,16 +402,22 @@ export class RasaChatbotWidget {
             <rasa-carousel elements={message.elements}></rasa-carousel>
           </chat-message>
         );
-      case MESSAGE_TYPES.RATING:
-        return (
-          <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
-            <rasa-rating
-              text={message.text}
-              options={JSON.stringify(message.options)}
-              onRatingSelected={(event) => console.log("Rating selected:", event.detail.value)}
-            ></rasa-rating>
-          </chat-message>
-        );
+        case MESSAGE_TYPES.RATING:
+          return (
+            <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
+              <rasa-rating
+                text={message.text}
+                options={JSON.stringify(message.options)}
+                message={message.message} // ✅ Pass the message field dynamically
+                onRatingSelected={(event) => {
+                  console.log("Rating selected:", event.detail.value);
+                  console.log("Payload triggered:", event.detail.payload); // ✅ Log the payload from Rasa
+                  // Send the payload to Rasa backend (if needed)
+                }}
+              ></rasa-rating>
+            </chat-message>
+          );
+      
     }
   }
 
