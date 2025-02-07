@@ -148,7 +148,7 @@ const botResponses = {
       { value: 'neutral', payload: '/give_neutral_feedback' },
       { value: 'negative', payload: '/give_negative_feedback' },
     ],
-    message: 'We appreciate your feedback!', // ✅ Added thank-you message
+    message: 'We appreciate your feedback!',
   },
 };
 

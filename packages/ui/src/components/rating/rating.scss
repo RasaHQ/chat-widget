@@ -12,15 +12,18 @@
     font-size: 1rem;
     font-weight: 500;
     color: var(--rating-instruction-color, #333);
+    text-align: left;
+    width: 100%;
+    display: block;
   }
 
   &__thank-you {
     margin: 0;
-    font-size: 1rem; /* Slightly larger for emphasis */
-    font-weight: 600; /* Bolder for prominence */
-    color: var(--rating-thank-you-color, #4CAF50); /* Match success color */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--rating-thank-you-color, #4CAF50);
     text-align: center;
-    animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in animation */
+    animation: fadeIn 0.3s ease-in-out;
   }
 
   &__options {
@@ -32,18 +35,19 @@
   }
 
   &__option {
-    flex: 1 1 0;
-    max-width: 100px;
+    width: 60px;
+    height: 60px;
     background: var(--rating-option-background-color, #fff);
     border: 1px solid var(--rating-option-border-color, #ddd);
     border-radius: 8px;
-    padding: 8px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     transition: transform 0.2s ease, background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    flex: none;
 
     &:hover {
       background: var(--rating-option-hover-color, #f9f9f9);
@@ -62,7 +66,9 @@
   &__icon {
     width: 40px;
     height: 40px;
-    margin-bottom: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     svg {
       width: 100%;
@@ -76,6 +82,7 @@
     font-weight: 500;
     color: var(--rating-option-label-color, #444);
     text-align: center;
+    display: block;
   }
 }
 
@@ -85,7 +92,8 @@
   }
 
   .rasa-rating__option {
-    max-width: 80px;
+    width: 50px;
+    height: 50px;
     padding: 6px;
   }
 
@@ -94,7 +102,6 @@
   }
 }
 
-/* Fade-in animation for the thank-you message */
 @keyframes fadeIn {
   from {
     opacity: 0;

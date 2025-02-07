@@ -408,11 +408,10 @@ export class RasaChatbotWidget {
               <rasa-rating
                 text={message.text}
                 options={JSON.stringify(message.options)}
-                message={message.message} // ✅ Pass the message field dynamically
+                message={message.message}
                 onRatingSelected={(event) => {
                   console.log("Rating selected:", event.detail.value);
-                  console.log("Payload triggered:", event.detail.payload); // ✅ Log the payload from Rasa
-                  // Send the payload to Rasa backend (if needed)
+                  console.log("Payload triggered:", event.detail.payload);
                 }}
               ></rasa-rating>
             </chat-message>

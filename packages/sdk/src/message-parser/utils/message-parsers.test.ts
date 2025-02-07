@@ -189,7 +189,7 @@ describe('MessageParsers', () => {
         { value: 'neutral', payload: '/give_neutral_feedback' },
         { value: 'negative', payload: '/give_negative_feedback' },
       ],
-      message: 'We appreciate your feedback!', // ✅ Added the message field
+      message: 'We appreciate your feedback!',
     };
   
     const expected: RatingMessage = {
@@ -201,7 +201,7 @@ describe('MessageParsers', () => {
         { value: 'neutral', payload: '/give_neutral_feedback' },
         { value: 'negative', payload: '/give_negative_feedback' },
       ],
-      message: 'We appreciate your feedback!', // ✅ Ensure message is tested
+      message: 'We appreciate your feedback!',
     };
   
     expect(MessageParsers.rating(ratingResponse, sender)).toEqual(expected);

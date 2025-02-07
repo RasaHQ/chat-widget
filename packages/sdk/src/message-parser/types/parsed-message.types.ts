@@ -66,8 +66,8 @@ export interface AccordionMessage extends BaseMessage {
 export interface RatingMessage extends BaseMessage {
   type: typeof MESSAGE_TYPES.RATING;
   text: string;
-  options: { value: string; payload: string }[]; // ✅ Updated: Removed icon/label, added payload
-  message: string; // ✅ Added: To store the thank-you message from Rasa
+  options: { value: string; payload: string }[]; 
+  message: string;
 }
 
 

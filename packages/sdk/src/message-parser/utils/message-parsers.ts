@@ -90,9 +90,9 @@ export const MessageParsers = {
     text: message.text,
     options: message.options.map(option => ({
       value: option.value,
-      payload: option.payload // ✅ Ensure payload is included
+      payload: option.payload
     })),
-    message: message.message, // ✅ Ensure the thank-you message is passed
+    message: message.message,
     timestamp: message.timestamp,
   }),
 
