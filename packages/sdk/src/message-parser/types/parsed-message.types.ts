@@ -66,8 +66,10 @@ export interface AccordionMessage extends BaseMessage {
 export interface RatingMessage extends BaseMessage {
   type: typeof MESSAGE_TYPES.RATING;
   text: string;
-  options: { value: string; icon: string; label: string }[];
+  options: { value: string; payload: string }[]; 
+  message: string;
 }
+
 
 
 export type Message =

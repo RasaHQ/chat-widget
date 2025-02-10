@@ -88,9 +88,14 @@ export const MessageParsers = {
     sender,
     type: MESSAGE_TYPES.RATING,
     text: message.text,
-    options: message.options,
+    options: message.options.map(option => ({
+      value: option.value,
+      payload: option.payload
+    })),
+    message: message.message,
     timestamp: message.timestamp,
   }),
+
 };
 
 export type MessageParsersType = typeof MessageParsers;
