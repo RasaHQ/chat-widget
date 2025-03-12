@@ -79,9 +79,12 @@ export class RasaQuickReply {
     this.textStreamComplete = true;
   }
 
+  private isQuickReplyLink(reply: string): boolean {
+    return /^\b((mailto|tel|sms):|[a-z]+:\/\/)/i.test(reply);
+  }
+
   render() {
     const buttonsClassList = {
-      'quick-reply__buttons': true,
       'quick-reply__buttons--disabled': this.disableButtons,
     };
     const isStreamEnabled = configStore().streamMessages && !this.isHistory;
@@ -92,12 +95,19 @@ export class RasaQuickReply {
           <rasa-text value={this.message.text} notifyCompleteRendering={isStreamEnabled} enableStream={isStreamEnabled} class="quick-reply__text"></rasa-text>
         </chat-message>
         {canShowText && this.quickReplyMessage.replies.length && (
-          <div class={buttonsClassList}>
-            {this.quickReplyMessage.replies.map((button, key) => (
-              <rasa-button {...button} key={key} isSelected={button.isSelected} title={button.text}>
-                <rasa-text value={button.text} disableParsing={true}></rasa-text>
-              </rasa-button>
-            ))}
+          <div class="quick-reply__buttons">
+            {this.quickReplyMessage.replies.map((button, key) =>
+              this.isQuickReplyLink(button.reply) ? (
+                <rasa-link-button link={button.reply} key={key} isSelected={button.isSelected} title={button.text}>
+                  <rasa-text value={button.text} disableParsing={true}></rasa-text>
+                </rasa-link-button>
+              ) : (
+                <div class={buttonsClassList}>
+                  <rasa-button {...button} key={key} isSelected={button.isSelected} title={button.text}>
+                    <rasa-text value={button.text} disableParsing={true}></rasa-text>
+                  </rasa-button>
+                </div>
+              ))}
           </div>
         )}
       </Host>
