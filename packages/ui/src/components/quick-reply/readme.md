@@ -32,6 +32,7 @@
 
 - [chat-message](../message)
 - [rasa-text](../text)
+- [rasa-link-button](../link-button)
 - [rasa-button](../button)
 
 ### Graph
@@ -39,9 +40,11 @@
 graph TD;
   rasa-quick-reply --> chat-message
   rasa-quick-reply --> rasa-text
+  rasa-quick-reply --> rasa-link-button
   rasa-quick-reply --> rasa-button
   chat-message --> rasa-icon-robot
   chat-message --> rasa-text
+  rasa-link-button --> rasa-icon-external-link
   rasa-chatbot-widget --> rasa-quick-reply
   style rasa-quick-reply fill:#f9f,stroke:#333,stroke-width:4px
 ```

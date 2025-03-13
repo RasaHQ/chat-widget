@@ -96,7 +96,9 @@ graph TD;
   rasa-accordion --> rasa-icon-chevron-down
   rasa-quick-reply --> chat-message
   rasa-quick-reply --> rasa-text
+  rasa-quick-reply --> rasa-link-button
   rasa-quick-reply --> rasa-button
+  rasa-link-button --> rasa-icon-external-link
   rasa-carousel --> rasa-image-message
   rasa-carousel --> rasa-icon-chevron-down
   rasa-typing-indicator --> chat-message
