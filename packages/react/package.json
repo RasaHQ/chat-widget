@@ -1,6 +1,6 @@
 {
   "name": "@rasahq/chat-widget-react",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "^0.1.6"
+    "@rasahq/chat-widget-ui": "^0.1.7"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",
