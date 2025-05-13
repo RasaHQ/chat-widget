@@ -2,64 +2,76 @@ name: Chat Widget
 
 on:
   push:
-    branches: main
+    branches: [main]
   pull_request:
   workflow_dispatch:
     inputs:
       version:
+        description: Increment ChatWidget NPM version
         required: true
         type: choice
-        description: Increment ChatWidget NPM version
-        default: 'patch'
-        options:
-          - patch
-          - minor
-          - major
+        default: patch
+        options: [patch, minor, major]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v 4.2.2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.RASABOT_PAT }}
-          ref: ${{ github.head_ref }}   
-
-      - name: Setup Node version
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
 
-      - name: Install dependencies
-        run: npm ci
+  test:
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run test
 
-      - name: Lerna - Lint check
-        run: npm run lint
+  e2e:
+    runs-on: ubuntu-22.04
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run e2e:install
+      - run: npm run e2e:run
 
-      - name: Lerna - Build
-        run: npm run build
-      
-      - name: Lerna - Tests
-        run: npm run test
-
-      - name: E2E - Install dependencies
-        run: npm run e2e:install
-
-      - name: E2E - Run automation suite
-        run: npm run e2e:run
-
-      - name: Authenticate with private NPM package
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+  publish:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch'
+    needs: [build, test, e2e]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RASABOT_PAT }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Authenticate to NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
-      - name: NPM Publish ChatWidget
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Install prod dependencies only
+        run: npm ci --only=production
+      - name: Publish via Lerna
         env:
           GITHUB_TOKEN: ${{ secrets.RASABOT_PAT }}
-        # `--force-publish` flag keeps versions consistent across our packages. Totally wild name for this kind of a flag :shrug:
         run: |
           git config --global user.name "rasabot"
           git config --global user.email "rasabot@rasa.com"
           npx lerna publish ${{ inputs.version }} --yes --force-publish
+          
