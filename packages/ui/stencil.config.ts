@@ -5,7 +5,6 @@ import { sass } from '@stencil/sass';
 export const config: Config = {
   namespace: 'rasa-chatwidget',
   globalStyle: 'src/styles/index.scss',
-  buildEs5: 'prod',
   plugins: [
     sass({
       injectGlobalPaths: ['src/styles/colors.scss', 'src/styles/theme.scss', 'src/styles/mixins.scss'],
@@ -45,6 +44,7 @@ export const config: Config = {
         'rasa-file-download-message',
         'rasa-image',
         'rasa-image-message',
+        'rasa-link-button',
         'rasa-quick-reply',
         'rasa-session-divider',
         'rasa-text',
