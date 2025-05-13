@@ -14,7 +14,7 @@ on:
           - major
 
 jobs:
-  build:
+  Publish:
     runs-on: ubuntu-22.04
 
     steps:
