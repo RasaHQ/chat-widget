@@ -78,9 +78,29 @@ export namespace Components {
          */
         "displayTimestamp": boolean;
         /**
+          * If set to True, shows conversation feedback component at the bottom of the chat.
+         */
+        "enableFeedback": boolean;
+        /**
           * Message that should be displayed if an error occurs
          */
         "errorMessage": string;
+        /**
+          * Text for the feedback question. If empty, feedback component will not be shown.
+         */
+        "feedbackQuestionText": string;
+        /**
+          * Text for the thank you message after feedback submission. If empty, no thank you message will be shown.
+         */
+        "feedbackThankYouText": string;
+        /**
+          * Number of messages after which to show feedback. Set to 0 to show immediately.
+         */
+        "feedbackTriggerMessages": number;
+        /**
+          * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye"
+         */
+        "feedbackTriggerPattern": string;
         /**
           * Data that should be sent on Chat Widget initialization
          */
@@ -110,6 +130,10 @@ export namespace Components {
          */
         "serverUrl": string;
         /**
+          * Text to display before the session start date in session divider
+         */
+        "sessionStartedText": string;
+        /**
           * If set to True, bot messages will be received as stream (printing word by word).
          */
         "streamMessages": boolean;
@@ -125,6 +149,24 @@ export namespace Components {
           * Title of the Chat Widget
          */
         "widgetTitle": string;
+    }
+    interface RasaConversationFeedback {
+        /**
+          * Text for the feedback question. If empty, component will not be shown.
+         */
+        "questionText": string;
+        /**
+          * Whether the feedback component should be shown
+         */
+        "show": boolean;
+        /**
+          * Whether the feedback has been submitted
+         */
+        "submitted": boolean;
+        /**
+          * Text for the thank you message. If empty, no thank you message will be shown.
+         */
+        "thankYouText": string;
     }
     interface RasaFileDownloadMessage {
         /**
@@ -473,6 +515,10 @@ export namespace Components {
           * Session start datetime
          */
         "sessionStartDate": Date;
+        /**
+          * Text to display before the session start date
+         */
+        "sessionStartedText": string;
     }
     interface RasaText {
         /**
@@ -546,6 +592,10 @@ export interface RasaChatInputCustomEvent<T> extends CustomEvent<T> {
 export interface RasaChatbotWidgetCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRasaChatbotWidgetElement;
+}
+export interface RasaConversationFeedbackCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRasaConversationFeedbackElement;
 }
 export interface RasaFileDownloadMessageCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -648,6 +698,7 @@ declare global {
         "chatWidgetClosed": undefined;
         "chatWidgetHyperlinkClicked": undefined;
         "chatWidgetFileStartedDownload": undefined;
+        "chatWidgetFeedbackSubmitted": { rating: 'positive' | 'negative'; helpful: boolean };
     }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -662,6 +713,23 @@ declare global {
     var HTMLRasaChatbotWidgetElement: {
         prototype: HTMLRasaChatbotWidgetElement;
         new (): HTMLRasaChatbotWidgetElement;
+    };
+    interface HTMLRasaConversationFeedbackElementEventMap {
+        "feedbackSubmitted": { rating: 'positive' | 'negative'; helpful: boolean };
+    }
+    interface HTMLRasaConversationFeedbackElement extends Components.RasaConversationFeedback, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRasaConversationFeedbackElementEventMap>(type: K, listener: (this: HTMLRasaConversationFeedbackElement, ev: RasaConversationFeedbackCustomEvent<HTMLRasaConversationFeedbackElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRasaConversationFeedbackElementEventMap>(type: K, listener: (this: HTMLRasaConversationFeedbackElement, ev: RasaConversationFeedbackCustomEvent<HTMLRasaConversationFeedbackElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRasaConversationFeedbackElement: {
+        prototype: HTMLRasaConversationFeedbackElement;
+        new (): HTMLRasaConversationFeedbackElement;
     };
     interface HTMLRasaFileDownloadMessageElementEventMap {
         "fileDownloadStarted": undefined;
@@ -852,6 +920,7 @@ declare global {
         "rasa-carousel": HTMLRasaCarouselElement;
         "rasa-chat-input": HTMLRasaChatInputElement;
         "rasa-chatbot-widget": HTMLRasaChatbotWidgetElement;
+        "rasa-conversation-feedback": HTMLRasaConversationFeedbackElement;
         "rasa-file-download-message": HTMLRasaFileDownloadMessageElement;
         "rasa-icon-arrows-contract": HTMLRasaIconArrowsContractElement;
         "rasa-icon-arrows-expand": HTMLRasaIconArrowsExpandElement;
@@ -957,9 +1026,29 @@ declare namespace LocalJSX {
          */
         "displayTimestamp"?: boolean;
         /**
+          * If set to True, shows conversation feedback component at the bottom of the chat.
+         */
+        "enableFeedback"?: boolean;
+        /**
           * Message that should be displayed if an error occurs
          */
         "errorMessage"?: string;
+        /**
+          * Text for the feedback question. If empty, feedback component will not be shown.
+         */
+        "feedbackQuestionText"?: string;
+        /**
+          * Text for the thank you message after feedback submission. If empty, no thank you message will be shown.
+         */
+        "feedbackThankYouText"?: string;
+        /**
+          * Number of messages after which to show feedback. Set to 0 to show immediately.
+         */
+        "feedbackTriggerMessages"?: number;
+        /**
+          * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye"
+         */
+        "feedbackTriggerPattern"?: string;
         /**
           * Data that should be sent on Chat Widget initialization
          */
@@ -984,6 +1073,10 @@ declare namespace LocalJSX {
           * Emitted when the Chat Widget is closed by the user
          */
         "onChatWidgetClosed"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
+        /**
+          * Emitted when conversation feedback is submitted.
+         */
+        "onChatWidgetFeedbackSubmitted"?: (event: RasaChatbotWidgetCustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) => void;
         /**
           * Emitted when a user is starting to download a file.
          */
@@ -1021,6 +1114,10 @@ declare namespace LocalJSX {
          */
         "serverUrl": string;
         /**
+          * Text to display before the session start date in session divider
+         */
+        "sessionStartedText"?: string;
+        /**
           * If set to True, bot messages will be received as stream (printing word by word).
          */
         "streamMessages"?: boolean;
@@ -1036,6 +1133,28 @@ declare namespace LocalJSX {
           * Title of the Chat Widget
          */
         "widgetTitle"?: string;
+    }
+    interface RasaConversationFeedback {
+        /**
+          * Event emitted when feedback is submitted
+         */
+        "onFeedbackSubmitted"?: (event: RasaConversationFeedbackCustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) => void;
+        /**
+          * Text for the feedback question. If empty, component will not be shown.
+         */
+        "questionText"?: string;
+        /**
+          * Whether the feedback component should be shown
+         */
+        "show"?: boolean;
+        /**
+          * Whether the feedback has been submitted
+         */
+        "submitted"?: boolean;
+        /**
+          * Text for the thank you message. If empty, no thank you message will be shown.
+         */
+        "thankYouText"?: string;
     }
     interface RasaFileDownloadMessage {
         /**
@@ -1399,6 +1518,10 @@ declare namespace LocalJSX {
           * Session start datetime
          */
         "sessionStartDate"?: Date;
+        /**
+          * Text to display before the session start date
+         */
+        "sessionStartedText"?: string;
     }
     interface RasaText {
         /**
@@ -1473,6 +1596,7 @@ declare namespace LocalJSX {
         "rasa-carousel": RasaCarousel;
         "rasa-chat-input": RasaChatInput;
         "rasa-chatbot-widget": RasaChatbotWidget;
+        "rasa-conversation-feedback": RasaConversationFeedback;
         "rasa-file-download-message": RasaFileDownloadMessage;
         "rasa-icon-arrows-contract": RasaIconArrowsContract;
         "rasa-icon-arrows-expand": RasaIconArrowsExpand;
@@ -1509,6 +1633,7 @@ declare module "@stencil/core" {
             "rasa-carousel": LocalJSX.RasaCarousel & JSXBase.HTMLAttributes<HTMLRasaCarouselElement>;
             "rasa-chat-input": LocalJSX.RasaChatInput & JSXBase.HTMLAttributes<HTMLRasaChatInputElement>;
             "rasa-chatbot-widget": LocalJSX.RasaChatbotWidget & JSXBase.HTMLAttributes<HTMLRasaChatbotWidgetElement>;
+            "rasa-conversation-feedback": LocalJSX.RasaConversationFeedback & JSXBase.HTMLAttributes<HTMLRasaConversationFeedbackElement>;
             "rasa-file-download-message": LocalJSX.RasaFileDownloadMessage & JSXBase.HTMLAttributes<HTMLRasaFileDownloadMessageElement>;
             "rasa-icon-arrows-contract": LocalJSX.RasaIconArrowsContract & JSXBase.HTMLAttributes<HTMLRasaIconArrowsContractElement>;
             "rasa-icon-arrows-expand": LocalJSX.RasaIconArrowsExpand & JSXBase.HTMLAttributes<HTMLRasaIconArrowsExpandElement>;

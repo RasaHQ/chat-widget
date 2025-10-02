@@ -1,0 +1,221 @@
+.rasa-conversation-feedback {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  padding: 10px 16px 12px 16px;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  
+  // Smooth animations - slower and more elegant
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  // Remove border and background when showing thank you message
+  &:has(.rasa-conversation-feedback__thank-you) {
+    border-top: none;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  // Fade-out animation - smooth and elegant
+  &--fading-out {
+    animation: fadeOutDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    // Remove from document flow during fade-out so content moves up
+    position: absolute !important;
+    bottom: 80px !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 10 !important;
+  }
+
+      &__content {
+        max-width: 100%;
+        margin: 0;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+  &__title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--feedback-title-color, #333);
+    margin: 0 0 12px 0;
+    text-align: center;
+  }
+
+  &__rating {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  &__thumb {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--feedback-thumb-border-color, #e0e0e0);
+    border-radius: 50%;
+    background: var(--feedback-thumb-background, #fff);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--feedback-thumb-color, #666);
+    font-size: 16px;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      border-color: var(--feedback-thumb-hover-border, #999);
+      background: var(--feedback-thumb-hover-bg, #f8f9fa);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &--positive {
+      &:hover {
+        border-color: var(--feedback-positive-color, #4CAF50);
+        background: var(--feedback-positive-hover-bg, #f1f8e9);
+        color: var(--feedback-positive-color, #4CAF50);
+      }
+
+      &--selected {
+        border-color: var(--feedback-positive-color, #4CAF50);
+        background: var(--feedback-positive-background, #4CAF50);
+        color: white;
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+    }
+
+    &--negative {
+      &:hover {
+        border-color: var(--feedback-negative-color, #f44336);
+        background: var(--feedback-negative-hover-bg, #ffebee);
+        color: var(--feedback-negative-color, #f44336);
+      }
+
+      &--selected {
+        border-color: var(--feedback-negative-color, #f44336);
+        background: var(--feedback-negative-background, #f44336);
+        color: white;
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+      }
+    }
+  }
+
+      // Thank you message styling - elegant and professional
+      &__thank-you {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border-radius: 0;
+        animation: thankYouFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 20;
+      }
+
+      &__thank-you-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        animation: thankYouContentFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      &__thank-you-text {
+        color: #2E7D32;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        text-align: center;
+        text-shadow: none;
+        animation: thankYouTextPulse 1.5s ease-in-out infinite alternate;
+      }
+}
+
+// Keyframe animations for smooth appearance/disappearance
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+// Thank you message animations
+@keyframes thankYouFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes thankYouFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes thankYouContentFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes thankYouTextPulse {
+  0% {
+    color: #2E7D32;
+    transform: scale(1);
+  }
+  100% {
+    color: #4CAF50;
+    transform: scale(1.02);
+  }
+}
+

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rasa Chat Widget - Feedback & Session Customization Example</title>
+    <script
+        type="module"
+        src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
+    ></script>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .example {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .example h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .code {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Rasa Chat Widget - New Features Demo</h1>
+        
+        <div class="example">
+            <h3>📊 Conversation Feedback Feature</h3>
+            <p>This widget includes a conversation feedback component that appears after bot responses:</p>
+            <div class="code">
+                &lt;rasa-chatbot-widget<br>
+                &nbsp;&nbsp;server-url="https://your-rasa-server.com"<br>
+                &nbsp;&nbsp;enable-feedback="true"<br>
+                &nbsp;&nbsp;feedback-trigger-pattern="text"<br>
+                &nbsp;&nbsp;feedback-question-text="How do you rate this conversation?"<br>
+                &nbsp;&nbsp;feedback-thank-you-text="Thank you for your feedback!"<br>
+                &gt;&lt;/rasa-chatbot-widget&gt;
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>🌐 Internationalization Support</h3>
+            <p>Both feedback and session divider text can be customized for any language:</p>
+            <div class="code">
+                &lt;rasa-chatbot-widget<br>
+                &nbsp;&nbsp;server-url="https://your-rasa-server.com"<br>
+                &nbsp;&nbsp;enable-feedback="true"<br>
+                &nbsp;&nbsp;feedback-trigger-pattern="text"<br>
+                &nbsp;&nbsp;feedback-question-text="Како оцењујете овај разговор?"<br>
+                &nbsp;&nbsp;feedback-thank-you-text="Хвала на повратним информацијама!"<br>
+                &nbsp;&nbsp;session-started-text="Сесија започета:"<br>
+                &gt;&lt;/rasa-chatbot-widget&gt;
+            </div>
+        </div>
+
+        <h2>🎯 Key Features:</h2>
+        <ul>
+            <li><strong>Smart Triggering:</strong> Feedback appears after specific message types (configurable)</li>
+            <li><strong>Smooth UX:</strong> Elegant animations and automatic cleanup</li>
+            <li><strong>Rasa Integration:</strong> Sends feedback data to your Rasa server for analytics</li>
+            <li><strong>Customizable Text:</strong> Support for any language or custom messaging</li>
+            <li><strong>Non-intrusive:</strong> Doesn't interrupt the conversation flow</li>
+            <li><strong>Production Ready:</strong> Thoroughly tested and optimized</li>
+        </ul>
+
+        <h2>📈 Analytics Integration:</h2>
+        <p>The widget automatically sends feedback to Rasa as a custom intent:</p>
+        <div class="code">
+            /widget_feedback{"widget_feedback": "positive"}<br>
+            /widget_feedback{"widget_feedback": "negative"}
+        </div>
+        <p>Configure your Rasa bot to handle these intents for collecting user satisfaction metrics.</p>
+    </div>
+
+    <!-- Example Widget -->
+    <rasa-chatbot-widget
+        server-url="https://your-rasa-server.com"
+        input-message-placeholder="Type your message here..."
+        widget-title="Chat Assistant"
+        enable-feedback="true"
+        feedback-trigger-pattern="text"
+        feedback-question-text="How do you rate this conversation?"
+        feedback-thank-you-text="Thank you for your feedback!"
+        session-started-text="Session started on"
+    >
+        <style>
+            :root {
+                --color-primary: #007bff;
+            }
+        </style>
+    </rasa-chatbot-widget>
+
+    <script>
+        // Listen for feedback events (optional)
+        document.addEventListener('chatWidgetFeedbackSubmitted', (event) => {
+            console.log('Feedback received:', event.detail);
+            // Handle feedback data as needed
+        });
+    </script>
+</body>
+</html>

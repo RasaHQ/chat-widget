@@ -11,6 +11,10 @@ type RasaChatbotWidgetEvents = {
     onChatWidgetClosed: EventName<CustomEvent<undefined>>;
     onChatWidgetHyperlinkClicked: EventName<CustomEvent<undefined>>;
     onChatWidgetFileStartedDownload: EventName<CustomEvent<undefined>>;
+    onChatWidgetFeedbackSubmitted: EventName<CustomEvent<{
+        rating: 'positive' | 'negative';
+        helpful: boolean;
+    }>>;
 };
 declare const RasaChatbotWidget: StencilReactComponent<RasaChatbotWidgetElement, RasaChatbotWidgetEvents>;
 export default RasaChatbotWidget;

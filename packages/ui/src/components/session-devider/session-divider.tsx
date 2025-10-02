@@ -14,6 +14,11 @@ export class SessionDivider {
    */
   @Prop() sessionStartDate: Date;
 
+  /**
+   * Text to display before the session start date
+   */
+  @Prop() sessionStartedText: string = 'Session started on';
+
   componentDidLoad() {
     messageQueueService.completeRendering();
   }
@@ -22,7 +27,7 @@ export class SessionDivider {
     return (
       <Host>
         <div class="session-divider__line"></div>
-          <rasa-text class="session-divider__text" disableParsing={true} value={`Session started on ${formatDateTime(this.sessionStartDate)}`}></rasa-text>
+          <rasa-text class="session-divider__text" disableParsing={true} value={`${this.sessionStartedText} ${formatDateTime(this.sessionStartDate)}`}></rasa-text>
         <div class="session-divider__line"></div>
       </Host>
     );

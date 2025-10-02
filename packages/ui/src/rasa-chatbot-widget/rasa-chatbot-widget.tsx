@@ -32,6 +32,10 @@ export class RasaChatbotWidget {
   @State() typingIndicator: boolean = false;
   @State() cachedMessages: Element[] = [];
   @State() isConnected = false;
+  @State() showFeedback = false;
+  @State() feedbackSubmitted = false;
+  @State() pendingFeedback = false;
+  @State() botMessageCount = 0;
 
   /**
    * Emitted when the Chat Widget is opened by the user
@@ -72,6 +76,11 @@ export class RasaChatbotWidget {
    * Emitted when a user is starting to download a file.
    */
   @Event() chatWidgetFileStartedDownload: EventEmitter<undefined>;
+
+  /**
+   * Emitted when conversation feedback is submitted.
+   */
+  @Event() chatWidgetFeedbackSubmitted: EventEmitter<{ rating: 'positive' | 'negative'; helpful: boolean }>;
 
   /**
    * Url of the Rasa chatbot backend server (example: https://example.com)
@@ -152,6 +161,37 @@ export class RasaChatbotWidget {
    * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
    * */
   @Prop() restEnabled: boolean = false;
+
+  /**
+   * If set to True, shows conversation feedback component at the bottom of the chat.
+   * */
+  @Prop() enableFeedback: boolean = false;
+
+  /**
+   * Number of messages after which to show feedback. Set to 0 to show immediately.
+   * */
+  @Prop() feedbackTriggerMessages: number = 3;
+
+  /**
+   * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown.
+   * Example: "pattern_completed" or "utter_goodbye"
+   * */
+  @Prop() feedbackTriggerPattern: string = '';
+
+  /**
+   * Text for the feedback question. If empty, feedback component will not be shown.
+   * */
+  @Prop() feedbackQuestionText: string = '';
+
+  /**
+   * Text for the thank you message after feedback submission. If empty, no thank you message will be shown.
+   * */
+  @Prop() feedbackThankYouText: string = '';
+
+  /**
+   * Text to display before the session start date in session divider
+   * */
+  @Prop() sessionStartedText: string = 'Session started on';
 
   componentWillLoad() {
     const {
@@ -247,6 +287,26 @@ export class RasaChatbotWidget {
         setTimeout(() => {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
+          
+          // Show feedback after bot response is complete
+          if (this.pendingFeedback && 'sender' in data && data.sender === SENDER.BOT) {
+            // Add a small delay to ensure the message is fully rendered
+            setTimeout(() => {
+              this.showConversationFeedback();
+              this.pendingFeedback = false;
+            }, 500);
+          }
+
+          // Check for pattern-based feedback trigger (skip first bot message)
+          if (this.enableFeedback && !this.showFeedback && !this.feedbackSubmitted && 
+              this.feedbackTriggerPattern && 'sender' in data && data.sender === SENDER.BOT) {
+            this.botMessageCount++;
+            // Only trigger on second bot message or later AND if message type matches pattern
+            if (this.botMessageCount > 1 && data.type === this.feedbackTriggerPattern) {
+              this.checkPatternTrigger();
+            }
+          }
+          
           // If senderID is configured and message was sent from this tab, broadcast event to share chat history with other tabs with same senderID 
           if (this.senderId && this.sentMessage) {
             debounce(() => {
@@ -336,6 +396,53 @@ export class RasaChatbotWidget {
     this.chatWidgetFileStartedDownload.emit();
   }
 
+  @Listen('feedbackSubmitted')
+  // @ts-ignore-next-line
+  private handleFeedbackSubmitted(event: CustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) {
+    // Don't set feedbackSubmitted immediately - let the component show thank you message
+    // this.feedbackSubmitted = true;
+    
+    // Allow time for thank you message to show, then hide the component
+    setTimeout(() => {
+      this.showFeedback = false;
+    }, 3500); // 3.5 seconds to allow thank you message to show and fade
+    
+    // Handle feedback submission by sending custom intent to Rasa
+    const slotValue = event.detail.rating === 'positive' ? 'positive' : 'negative';
+    
+    // Send custom intent to Rasa with slot data
+    if (this.client && this.client.sendMessage) {
+      const customIntent = `/widget_feedback{"widget_feedback": "${slotValue}"}`;
+      
+      this.client.sendMessage({ 
+        text: customIntent, // Send the custom intent
+        timestamp: new Date() 
+      });
+    }
+    
+    // Emit the event safely
+    try {
+      if (this.chatWidgetFeedbackSubmitted && this.chatWidgetFeedbackSubmitted.emit) {
+        this.chatWidgetFeedbackSubmitted.emit(event.detail);
+      }
+    } catch (error) {
+      // Silently handle event emission errors
+    }
+  }
+
+  private showConversationFeedback(): void {
+    if (this.enableFeedback && this.messages.length > 0 && this.feedbackQuestionText.trim()) {
+      this.showFeedback = true;
+    }
+  }
+
+  private checkPatternTrigger(): void {
+    // Add a small delay to ensure the message is fully rendered
+    setTimeout(() => {
+      this.showConversationFeedback();
+    }, 500);
+  }
+
   private getAltText() {
     return this.isOpen ? 'Close Chat' : 'Open Chat';
   }
@@ -348,13 +455,21 @@ export class RasaChatbotWidget {
   onMessagesChange() {
     if (this.cachedMessages.length !== this.messages.length) {
       this.cachedMessages = this.messages.map((message, key) => this.renderMessage(message, false, key));
+      
+      // Check if we should show feedback after certain number of messages
+      // Only use message count if no pattern-based trigger is configured
+      if (this.enableFeedback && !this.showFeedback && !this.feedbackSubmitted && 
+          this.messages.length >= this.feedbackTriggerMessages && !this.pendingFeedback &&
+          !this.feedbackTriggerPattern) {
+        this.pendingFeedback = true;
+      }
     }
   }
 
   private renderMessage(message: Message, isHistory = false, key) {
     switch (message.type) {
       case MESSAGE_TYPES.SESSION_DIVIDER:
-        return <rasa-session-divider sessionStartDate={message.startDate} key={key}></rasa-session-divider>;
+        return <rasa-session-divider sessionStartDate={message.startDate} sessionStartedText={this.sessionStartedText} key={key}></rasa-session-divider>;
       case MESSAGE_TYPES.TEXT:
         return (
           <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
@@ -409,9 +524,8 @@ export class RasaChatbotWidget {
                 text={message.text}
                 options={JSON.stringify(message.options)}
                 message={message.message}
-                onRatingSelected={(event) => {
-                  console.log("Rating selected:", event.detail.value);
-                  console.log("Payload triggered:", event.detail.payload);
+                onRatingSelected={(_event) => {
+                  // Handle rating selection if needed
                 }}
               ></rasa-rating>
             </chat-message>
@@ -435,10 +549,24 @@ export class RasaChatbotWidget {
         <slot />
         <div class={widgetClassList}>
           <div class="rasa-chatbot-widget__container">
-            <Messenger isOpen={this.isOpen} toggleFullScreenMode={this.toggleFullscreenMode} isFullScreen={this.isFullScreen}>
+            <Messenger 
+              isOpen={this.isOpen} 
+              toggleFullScreenMode={this.toggleFullscreenMode} 
+              isFullScreen={this.isFullScreen}
+              hasFeedback={this.enableFeedback && this.isOpen}
+            >
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
               {this.cachedMessages}
               {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
+              {this.enableFeedback && this.isOpen && (
+                <rasa-conversation-feedback 
+                  show={this.showFeedback}
+                  submitted={this.feedbackSubmitted}
+                  questionText={this.feedbackQuestionText}
+                  thankYouText={this.feedbackThankYouText}
+                  onFeedbackSubmitted={this.handleFeedbackSubmitted}
+                ></rasa-conversation-feedback>
+              )}
             </Messenger>
             <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
               {configStore().widgetIcon ? (

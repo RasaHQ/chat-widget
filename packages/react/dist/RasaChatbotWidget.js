@@ -14,7 +14,8 @@ const RasaChatbotWidget = createComponent({
         onChatWidgetOpened: 'chatWidgetOpened',
         onChatWidgetClosed: 'chatWidgetClosed',
         onChatWidgetHyperlinkClicked: 'chatWidgetHyperlinkClicked',
-        onChatWidgetFileStartedDownload: 'chatWidgetFileStartedDownload'
+        onChatWidgetFileStartedDownload: 'chatWidgetFileStartedDownload',
+        onChatWidgetFeedbackSubmitted: 'chatWidgetFeedbackSubmitted'
     },
     defineCustomElement: defineRasaChatbotWidget
 });

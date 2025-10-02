@@ -7,14 +7,18 @@
   color: var(--message-button-color);
   font-family: var(--font-family);
   font-size: 13px;
-  font-weight: 700;
-  line-height: 16.12px;
-  letter-spacing: 0.6000000238418579px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   text-wrap: nowrap;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  vertical-align: middle;
 
   &--selected {
     background-color: var(--message-selected-button-background-color);
