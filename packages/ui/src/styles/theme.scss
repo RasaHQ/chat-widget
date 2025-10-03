@@ -1,5 +1,5 @@
 :root {
-  --font-family: 'OrtoRNIDS', 'Lato', sans-serif;
+  --font-family: var(--widget-font-family, 'Lato', sans-serif);
   --launcher-background-color: var(--color-primary);
   --launcher-color: var(--color-secondary);
   --header-background-color: var(--color-primary);

@@ -102,6 +102,10 @@ export namespace Components {
          */
         "feedbackTriggerPattern": string;
         /**
+          * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+         */
+        "fontFamily": string;
+        /**
           * Data that should be sent on Chat Widget initialization
          */
         "initialPayload": string;
@@ -1049,6 +1053,10 @@ declare namespace LocalJSX {
           * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye"
          */
         "feedbackTriggerPattern"?: string;
+        /**
+          * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+         */
+        "fontFamily"?: string;
         /**
           * Data that should be sent on Chat Widget initialization
          */

@@ -193,6 +193,11 @@ export class RasaChatbotWidget {
    * */
   @Prop() sessionStartedText: string = 'Session started on';
 
+  /**
+   * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+   * */
+  @Prop() fontFamily: string = 'Lato, sans-serif';
+
   componentWillLoad() {
     const {
       serverUrl,
@@ -230,6 +235,10 @@ export class RasaChatbotWidget {
       inputMessagePlaceholder,
       restEnabled,
     });
+    
+    // Set the font family CSS custom property
+    this.el.style.setProperty('--widget-font-family', this.fontFamily);
+    
     const protocol = this.restEnabled ? 'http' : 'ws';
 
     this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
