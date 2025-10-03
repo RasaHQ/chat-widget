@@ -421,18 +421,11 @@ export class RasaChatbotWidget {
       this.showFeedback = false;
     }, 3500); // 3.5 seconds to allow thank you message to show and fade
     
-    // Handle feedback submission by sending custom intent to Rasa
+    // Handle feedback submission by setting slot directly via REST API
     const slotValue = event.detail.rating === 'positive' ? 'positive' : 'negative';
     
-    // Send custom intent to Rasa with slot data
-    if (this.client && this.client.sendMessage) {
-      const customIntent = `/widget_feedback{"widget_feedback": "${slotValue}"}`;
-      
-      this.client.sendMessage({ 
-        text: customIntent, // Send the custom intent
-        timestamp: new Date() 
-      });
-    }
+    // Set slot directly via Rasa REST API
+    this.setWidgetFeedbackSlot(slotValue);
     
     // Emit the event safely
     try {
@@ -441,6 +434,47 @@ export class RasaChatbotWidget {
       }
     } catch (error) {
       // Silently handle event emission errors
+    }
+  }
+
+  /**
+   * Set widget feedback slot directly via Rasa REST API
+   * This bypasses conversation flow and NLU processing
+   */
+  private async setWidgetFeedbackSlot(feedbackValue: 'positive' | 'negative'): Promise<void> {
+    try {
+      // Extract base URL from server URL (remove /webhooks/rest/webhook if present)
+      let baseUrl = this.serverUrl;
+      if (baseUrl.includes('/webhooks/rest/webhook')) {
+        baseUrl = baseUrl.replace('/webhooks/rest/webhook', '');
+      }
+      
+      // Get current session ID
+      const sessionId = this.client?.sessionId || 'default';
+      
+      // Set slot via REST API
+      const response = await fetch(`${baseUrl}/conversations/${sessionId}/tracker/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add authentication headers if needed
+          // 'Authorization': 'Bearer your-token'
+        },
+        body: JSON.stringify({
+          "event": "slot",
+          "name": "widget_feedback",
+          "value": feedbackValue,
+          "timestamp": null
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Widget feedback recorded successfully:', feedbackValue);
+      } else {
+        console.error('❌ Failed to record feedback:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('❌ Error setting widget feedback slot:', error);
     }
   }
 
