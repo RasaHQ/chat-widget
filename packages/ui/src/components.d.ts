@@ -94,10 +94,6 @@ export namespace Components {
          */
         "feedbackThankYouText": string;
         /**
-          * Number of messages after which to show feedback. Set to 0 to show immediately.
-         */
-        "feedbackTriggerMessages": number;
-        /**
           * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye"
          */
         "feedbackTriggerPattern": string;
@@ -1045,10 +1041,6 @@ declare namespace LocalJSX {
           * Text for the thank you message after feedback submission. If empty, no thank you message will be shown.
          */
         "feedbackThankYouText"?: string;
-        /**
-          * Number of messages after which to show feedback. Set to 0 to show immediately.
-         */
-        "feedbackTriggerMessages"?: number;
         /**
           * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye"
          */

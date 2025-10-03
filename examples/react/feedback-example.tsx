@@ -4,7 +4,7 @@ import { RasaChatbotWidget } from '@rasahq/chat-widget-react';
 const FeedbackExample: React.FC = () => {
   const handleFeedbackSubmitted = (event: CustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) => {
     console.log('Feedback submitted:', event.detail);
-    alert(`Thank you for your feedback!\nRating: ${event.detail.rating}\nHelpful: ${event.detail.helpful}`);
+    // No alert - the thank you message is handled internally by the component
   };
 
   const handleChatWidgetOpened = () => {
@@ -40,7 +40,7 @@ const FeedbackExample: React.FC = () => {
         marginBottom: '20px'
       }}>
         <h1 style={{ color: '#333', textAlign: 'center', marginTop: 0 }}>
-          Rasa Chat Widget - Feedback Feature Demo
+          Rasa Chat Widget - Complete Features Demo
         </h1>
         
         <div style={{
@@ -50,8 +50,8 @@ const FeedbackExample: React.FC = () => {
           marginBottom: '20px',
           borderLeft: '4px solid #2196f3'
         }}>
-          <strong>New Feature:</strong> This demo shows the conversation feedback feature. 
-          The feedback component will appear after you exchange a few messages with the bot.
+          <strong>All New Features:</strong> This demo showcases all the new features we've built including 
+          conversation feedback, configurable text, custom fonts, and Rasa slot integration.
         </div>
         
         <div style={{
@@ -60,26 +60,35 @@ const FeedbackExample: React.FC = () => {
           borderRadius: '6px',
           marginBottom: '20px'
         }}>
-          <h3 style={{ marginTop: 0, color: '#495057' }}>Feedback Features:</h3>
+          <h3 style={{ marginTop: 0, color: '#495057' }}>🎯 Complete Feature Set:</h3>
           <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ Thumbs up/down rating system</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ "Was this conversation helpful?" question</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ Automatic display after 3 messages</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ Responsive design for mobile and desktop</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ Event handling for feedback data</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ Customizable styling with CSS variables</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Conversation Feedback:</strong> Thumbs up/down rating system</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Configurable Messages:</strong> Custom question and thank you text</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Pattern-Based Triggering:</strong> Shows after specific message types</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Session Divider:</strong> Customizable "Session started" text</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Custom Fonts:</strong> OrtoRNIDS government font support</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Rasa Integration:</strong> Sends feedback as custom intent to set slots</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Internationalization:</strong> Serbian Cyrillic text support</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Responsive Design:</strong> Works on mobile and desktop</li>
           </ul>
         </div>
         
-        <p><strong>Instructions:</strong> Open the chat widget and send a few messages to see the feedback component appear!</p>
+        <p><strong>Instructions:</strong> Open the chat widget, send a message, and wait for the bot's second text response to see the feedback component appear!</p>
       </div>
 
-      {/* Chat Widget with Feedback Enabled */}
+      {/* Complete Chat Widget with All Features */}
       <RasaChatbotWidget
-        serverUrl="https://minbpd.aiasistent.gov.rs"
-        enableFeedback={true}
-        feedbackTriggerMessages={3}
+        serverUrl="https://aiasistent.gov.rs"
+        inputMessagePlaceholder="Која Вас услуга занима?"
         widgetTitle="еУправа асистент"
+        widgetIcon=""
+        initialPayload="/session_start"
+        enableFeedback={true}
+        feedbackTriggerPattern="text"
+        feedbackQuestionText="Како оцењујете овај разговор?"
+        feedbackThankYouText="Хвала на повратним информацијама!"
+        sessionStartedText="Сесија започета:"
+        fontFamily="'OrtoRNIDS', 'Lato', sans-serif"
         autoOpen={true}
         onChatWidgetFeedbackSubmitted={handleFeedbackSubmitted}
         onChatWidgetOpened={handleChatWidgetOpened}

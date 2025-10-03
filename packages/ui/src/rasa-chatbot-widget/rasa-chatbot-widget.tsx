@@ -167,10 +167,6 @@ export class RasaChatbotWidget {
    * */
   @Prop() enableFeedback: boolean = false;
 
-  /**
-   * Number of messages after which to show feedback. Set to 0 to show immediately.
-   * */
-  @Prop() feedbackTriggerMessages: number = 3;
 
   /**
    * Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown.
@@ -468,7 +464,6 @@ export class RasaChatbotWidget {
       // Check if we should show feedback after certain number of messages
       // Only use message count if no pattern-based trigger is configured
       if (this.enableFeedback && !this.showFeedback && !this.feedbackSubmitted && 
-          this.messages.length >= this.feedbackTriggerMessages && !this.pendingFeedback &&
           !this.feedbackTriggerPattern) {
         this.pendingFeedback = true;
       }
