@@ -284,6 +284,11 @@ export class RasaChatbotWidget {
 
     this.chatWidgetReceivedMessage.emit(data);
     const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
+    
+    // Reset bot message count on new session
+    if (data.type === MESSAGE_TYPES.SESSION_DIVIDER) {
+      this.botMessageCount = 0;
+    }
 
     this.messageDelayQueue = this.messageDelayQueue.then(() => {
       return new Promise<void>(resolve => {
@@ -293,13 +298,17 @@ export class RasaChatbotWidget {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
           
-          // Show feedback after bot response is complete
+          // Show feedback after bot response is complete (skip first bot message)
           if (this.pendingFeedback && 'sender' in data && data.sender === SENDER.BOT) {
-            // Add a small delay to ensure the message is fully rendered
-            setTimeout(() => {
-              this.showConversationFeedback();
-              this.pendingFeedback = false;
-            }, 500);
+            this.botMessageCount++;
+            // Only trigger on second bot message or later
+            if (this.botMessageCount > 1) {
+              // Add a small delay to ensure the message is fully rendered
+              setTimeout(() => {
+                this.showConversationFeedback();
+                this.pendingFeedback = false;
+              }, 500);
+            }
           }
 
           // Check for pattern-based feedback trigger (skip first bot message)
