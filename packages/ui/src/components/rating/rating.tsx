@@ -39,11 +39,6 @@ export class RasaRating {
   @State() hasVoted: boolean = false;
 
   componentDidLoad() {
-    console.log("Received Props:", {
-      text: this.text,
-      options: this.options,
-      message: this.message
-    });
     messageQueueService.completeRendering();
   }
 

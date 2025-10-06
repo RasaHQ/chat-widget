@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property           | Attribute | Description            | Type   | Default     |
-| ------------------ | --------- | ---------------------- | ------ | ----------- |
-| `sessionStartDate` | --        | Session start datetime | `Date` | `undefined` |
+| Property             | Attribute              | Description                                   | Type     | Default                |
+| -------------------- | ---------------------- | --------------------------------------------- | -------- | ---------------------- |
+| `sessionStartDate`   | --                     | Session start datetime                        | `Date`   | `undefined`            |
+| `sessionStartedText` | `session-started-text` | Text to display before the session start date | `string` | `'Session started on'` |
 
 
 ## Dependencies

@@ -20,12 +20,14 @@ type RasaChatbotWidgetEvents = {
     onChatWidgetOpened: EventName<CustomEvent<undefined>>,
     onChatWidgetClosed: EventName<CustomEvent<undefined>>,
     onChatWidgetHyperlinkClicked: EventName<CustomEvent<undefined>>,
-    onChatWidgetFileStartedDownload: EventName<CustomEvent<undefined>>
+    onChatWidgetFileStartedDownload: EventName<CustomEvent<undefined>>,
+    onChatWidgetFeedbackSubmitted: EventName<CustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>>
 };
 
 const RasaChatbotWidget: StencilReactComponent<RasaChatbotWidgetElement, RasaChatbotWidgetEvents> = /*@__PURE__*/ createComponent<RasaChatbotWidgetElement, RasaChatbotWidgetEvents>({
     tagName: 'rasa-chatbot-widget',
     elementClass: RasaChatbotWidgetElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
     react: React,
     events: {
         onChatSessionStarted: 'chatSessionStarted',
@@ -35,7 +37,8 @@ const RasaChatbotWidget: StencilReactComponent<RasaChatbotWidgetElement, RasaCha
         onChatWidgetOpened: 'chatWidgetOpened',
         onChatWidgetClosed: 'chatWidgetClosed',
         onChatWidgetHyperlinkClicked: 'chatWidgetHyperlinkClicked',
-        onChatWidgetFileStartedDownload: 'chatWidgetFileStartedDownload'
+        onChatWidgetFileStartedDownload: 'chatWidgetFileStartedDownload',
+        onChatWidgetFeedbackSubmitted: 'chatWidgetFeedbackSubmitted'
     } as RasaChatbotWidgetEvents,
     defineCustomElement: defineRasaChatbotWidget
 });

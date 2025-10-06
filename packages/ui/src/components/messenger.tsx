@@ -6,13 +6,19 @@ type MessengerProps = {
   isOpen: boolean;
   isFullScreen: boolean;
   toggleFullScreenMode: () => void;
+  hasFeedback?: boolean;
 };
 
-export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullScreen, toggleFullScreenMode }, children) => {
+export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullScreen, toggleFullScreenMode, hasFeedback }, children) => {
   const Icon = isFullScreen ? 'rasa-icon-arrows-contract' : 'rasa-icon-arrows-expand';
 
   return (
-    <div class={{ 'messenger': true, 'messenger--fullscreen': isFullScreen, 'messenger--open': isOpen }}>
+    <div class={{ 
+      'messenger': true, 
+      'messenger--fullscreen': isFullScreen, 
+      'messenger--open': isOpen,
+      'messenger--with-feedback': hasFeedback
+    }}>
       <div class="messenger__header">
         <div>
           <rasa-text value={configStore().widgetTitle} disableParsing></rasa-text>

@@ -7,38 +7,45 @@
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                                                            | Type      | Default                    |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | --------- | -------------------------- |
-| `authenticationToken`     | `authentication-token`      | User authentication token                                                                              | `string`  | `''`                       |
-| `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.             | `boolean` | `false`                    |
-| `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                            | `string`  | `''`                       |
-| `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                   | `boolean` | `false`                    |
-| `errorMessage`            | `error-message`             | Message that should be displayed if an error occurs                                                    | `string`  | `'Something bad happened'` |
-| `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                 | `string`  | `''`                       |
-| `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                          | `string`  | `'Type your message here'` |
-| `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                | `number`  | `600`                      |
-| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                        | `string`  | `''`                       |
-| `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol. | `boolean` | `false`                    |
-| `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                              | `string`  | `''`                       |
-| `serverUrl` _(required)_  | `server-url`                | Url of the Rasa chatbot backend server (example: https://example.com)                                  | `string`  | `undefined`                |
-| `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                       | `boolean` | `false`                    |
-| `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                               | `boolean` | `false`                    |
-| `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                             | `string`  | `''`                       |
-| `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                               | `string`  | `'Rasa Widget'`            |
+| Property                  | Attribute                   | Description                                                                                                                                    | Type      | Default                    |
+| ------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------------------- |
+| `authenticationToken`     | `authentication-token`      | User authentication token                                                                                                                      | `string`  | `''`                       |
+| `autoOpen`                | `auto-open`                 | If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.                                                     | `boolean` | `false`                    |
+| `botIcon`                 | `bot-icon`                  | Static icon for the chatbot                                                                                                                    | `string`  | `''`                       |
+| `displayTimestamp`        | `display-timestamp`         | Indicates if a message timestamp should be displayed                                                                                           | `boolean` | `false`                    |
+| `enableFeedback`          | `enable-feedback`           | If set to True, shows conversation feedback component at the bottom of the chat.                                                               | `boolean` | `false`                    |
+| `errorMessage`            | `error-message`             | Message that should be displayed if an error occurs                                                                                            | `string`  | `'Something bad happened'` |
+| `feedbackQuestionText`    | `feedback-question-text`    | Text for the feedback question. If empty, feedback component will not be shown.                                                                | `string`  | `''`                       |
+| `feedbackThankYouText`    | `feedback-thank-you-text`   | Text for the thank you message after feedback submission. If empty, no thank you message will be shown.                                        | `string`  | `''`                       |
+| `feedbackTriggerPattern`  | `feedback-trigger-pattern`  | Rasa flow pattern to trigger feedback. When this pattern is completed, feedback will be shown. Example: "pattern_completed" or "utter_goodbye" | `string`  | `''`                       |
+| `fontFamily`              | `font-family`               | Font family to use for the widget. Defaults to 'Lato, sans-serif'                                                                              | `string`  | `'Lato, sans-serif'`       |
+| `initialPayload`          | `initial-payload`           | Data that should be sent on Chat Widget initialization                                                                                         | `string`  | `''`                       |
+| `inputMessagePlaceholder` | `input-message-placeholder` | Message placeholder for input                                                                                                                  | `string`  | `'Type your message here'` |
+| `messageDelay`            | `message-delay`             | Indicates time between message is received and printed.                                                                                        | `number`  | `600`                      |
+| `messageTimestamp`        | `message-timestamp`         | Format of the message timestamp                                                                                                                | `string`  | `''`                       |
+| `restEnabled`             | `rest-enabled`              | If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.                                         | `boolean` | `false`                    |
+| `senderId`                | `sender-id`                 | ID of a user engaged with the Chat Widget                                                                                                      | `string`  | `''`                       |
+| `serverUrl` _(required)_  | `server-url`                | Url of the Rasa chatbot backend server (example: https://example.com)                                                                          | `string`  | `undefined`                |
+| `sessionStartedText`      | `session-started-text`      | Text to display before the session start date in session divider                                                                               | `string`  | `'Session started on'`     |
+| `streamMessages`          | `stream-messages`           | If set to True, bot messages will be received as stream (printing word by word).                                                               | `boolean` | `false`                    |
+| `toggleFullScreen`        | `toggle-full-screen`        | Indicates whether the chat messenger can be toggled to full screen mode.                                                                       | `boolean` | `false`                    |
+| `widgetIcon`              | `widget-icon`               | Static icon for the widget                                                                                                                     | `string`  | `''`                       |
+| `widgetTitle`             | `widget-title`              | Title of the Chat Widget                                                                                                                       | `string`  | `'Rasa Widget'`            |
 
 
 ## Events
 
-| Event                           | Description                                         | Type                                  |
-| ------------------------------- | --------------------------------------------------- | ------------------------------------- |
-| `chatSessionStarted`            | Emitted when the Chat Widget is opened by the user  | `CustomEvent<{ sessionId: string; }>` |
-| `chatWidgetClosed`              | Emitted when the Chat Widget is closed by the user  | `CustomEvent<undefined>`              |
-| `chatWidgetFileStartedDownload` | Emitted when a user is starting to download a file. | `CustomEvent<undefined>`              |
-| `chatWidgetHyperlinkClicked`    | Emitted when a user clicks on a hyperlink option.   | `CustomEvent<undefined>`              |
-| `chatWidgetOpened`              | Emitted when the Chat Widget is opened by the user  | `CustomEvent<undefined>`              |
-| `chatWidgetQuickReply`          | Emitted when the user click on quick reply          | `CustomEvent<string>`                 |
-| `chatWidgetReceivedMessage`     | Emitted when the user receives a message            | `CustomEvent<unknown>`                |
-| `chatWidgetSentMessage`         | Emitted when the user sends a message               | `CustomEvent<string>`                 |
+| Event                           | Description                                         | Type                                                                   |
+| ------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------- |
+| `chatSessionStarted`            | Emitted when the Chat Widget is opened by the user  | `CustomEvent<{ sessionId: string; }>`                                  |
+| `chatWidgetClosed`              | Emitted when the Chat Widget is closed by the user  | `CustomEvent<undefined>`                                               |
+| `chatWidgetFeedbackSubmitted`   | Emitted when conversation feedback is submitted.    | `CustomEvent<{ rating: "positive" \| "negative"; helpful: boolean; }>` |
+| `chatWidgetFileStartedDownload` | Emitted when a user is starting to download a file. | `CustomEvent<undefined>`                                               |
+| `chatWidgetHyperlinkClicked`    | Emitted when a user clicks on a hyperlink option.   | `CustomEvent<undefined>`                                               |
+| `chatWidgetOpened`              | Emitted when the Chat Widget is opened by the user  | `CustomEvent<undefined>`                                               |
+| `chatWidgetQuickReply`          | Emitted when the user click on quick reply          | `CustomEvent<string>`                                                  |
+| `chatWidgetReceivedMessage`     | Emitted when the user receives a message            | `CustomEvent<unknown>`                                                 |
+| `chatWidgetSentMessage`         | Emitted when the user sends a message               | `CustomEvent<string>`                                                  |
 
 
 ## Dependencies
@@ -58,6 +65,7 @@
 - [rasa-rating](../components/rating)
 - [global-error-handler](../components/error-handler)
 - [rasa-typing-indicator](../components/typing-indicator)
+- [rasa-conversation-feedback](../components/conversation-feedback)
 - rasa-icon-close-chat
 - rasa-icon-chat
 - [error-toast](../components/error-toast)
@@ -79,6 +87,7 @@ graph TD;
   rasa-chatbot-widget --> rasa-rating
   rasa-chatbot-widget --> global-error-handler
   rasa-chatbot-widget --> rasa-typing-indicator
+  rasa-chatbot-widget --> rasa-conversation-feedback
   rasa-chatbot-widget --> rasa-icon-close-chat
   rasa-chatbot-widget --> rasa-icon-chat
   rasa-chatbot-widget --> error-toast
