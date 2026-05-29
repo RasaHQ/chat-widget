@@ -450,7 +450,7 @@ export class RasaChatbotWidget {
           },
           body: JSON.stringify({
             "event": "slot",
-            "name": "widget_feedback",
+            "name": "csat_score",
             "value": slotValue,
             "timestamp": null
           })
