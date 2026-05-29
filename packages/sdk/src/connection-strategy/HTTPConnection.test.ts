@@ -157,4 +157,52 @@ describe('HTTPConnection', () => {
 
     expect(onDisconnect).toHaveBeenCalledTimes(1);
   });
+
+  it('should pick up an authentication token that is set after construction', async () => {
+    // Simulates the eUprava case: widget mounts with empty token, then host
+    // page sets the token asynchronously on the custom element. The next
+    // request must include the new token in the Authorization header.
+    const message = 'Hello';
+    const response: HttpResponse[] = [{ recipient_id: sessionId, text: 'Hi there' }];
+    const expectedHeaders = new Headers();
+    expectedHeaders.append('Authorization', 'Bearer late-arriving-jwt');
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      headers: new Headers(),
+      json: jest.fn().mockResolvedValue(response),
+    });
+
+    httpConnection.updateAuthenticationToken('late-arriving-jwt');
+    await httpConnection.sendMessage(message, sessionId);
+
+    expect(global.fetch).toHaveBeenCalledWith(`${url}/webhooks/rest/webhook`, {
+      method: 'POST',
+      headers: expectedHeaders,
+      body: JSON.stringify({ sender: sessionId, message }),
+    });
+  });
+
+  it('should replace a previous authentication token on update', async () => {
+    httpConnection = new HTTPConnection({ ...connectionParams, authenticationToken: 'old-jwt' });
+    const message = 'Hello';
+    const response: HttpResponse[] = [{ recipient_id: sessionId, text: 'Hi there' }];
+    const expectedHeaders = new Headers();
+    expectedHeaders.append('Authorization', 'Bearer new-jwt');
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      headers: new Headers(),
+      json: jest.fn().mockResolvedValue(response),
+    });
+
+    httpConnection.updateAuthenticationToken('new-jwt');
+    await httpConnection.sendMessage(message, sessionId);
+
+    expect(global.fetch).toHaveBeenCalledWith(`${url}/webhooks/rest/webhook`, {
+      method: 'POST',
+      headers: expectedHeaders,
+      body: JSON.stringify({ sender: sessionId, message }),
+    });
+  });
 });

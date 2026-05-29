@@ -62,6 +62,22 @@ export class WebSocketConnection implements ConnectionStrategy {
     }
   }
 
+  public updateAuthenticationToken(newToken: string): void {
+    // The auth payload is sent during the WS handshake, so a live connection
+    // is permanently bound to whatever token was set when it connected.
+    // We update the stored token and the socket's auth so future (re)connects
+    // pick it up, and force a reconnect if the connection is already open and
+    // the effective token has actually changed.
+    const previousToken = this.authenticationToken;
+    this.authenticationToken = newToken;
+    this.socket.auth = newToken ? { token: newToken } : {};
+
+    if (previousToken !== newToken && this.socket.connected) {
+      this.socket.disconnect();
+      this.socket.connect();
+    }
+  }
+
   public initEvents(): void {
     //#region Rasa Server Input Events
     this.socket.on('connect', () => {

@@ -504,6 +504,24 @@ export class RasaChatbotWidget {
     this.isFullScreen = !this.isFullScreen;
   };
 
+  /**
+   * Reacts to runtime changes of the `authentication-token` attribute / prop.
+   *
+   * Without this watcher, the token is captured once in `componentWillLoad`
+   * and locked into the underlying Rasa client. Host pages that set the token
+   * asynchronously (after the custom element is already in the DOM) would end
+   * up with an empty/stale token for the entire lifetime of the widget,
+   * causing every request to be sent without the `Authorization` header.
+   */
+  @Watch('authenticationToken')
+  onAuthenticationTokenChange(newToken: string, oldToken: string) {
+    if (newToken === oldToken) return;
+    setConfigStore({ authenticationToken: newToken });
+    if (this.client) {
+      this.client.updateAuthenticationToken(newToken);
+    }
+  }
+
   @Watch('messages')
   onMessagesChange() {
     if (this.cachedMessages.length !== this.messages.length) {

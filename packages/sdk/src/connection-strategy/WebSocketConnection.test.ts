@@ -116,6 +116,56 @@ describe('WebSocketConnection', () => {
     expect(socket.disconnect).toHaveBeenCalled();
   });
 
+  describe('updateAuthenticationToken', () => {
+    it('should update the stored token and socket.auth without reconnecting when not connected', () => {
+      const conn = createInstance({ authenticationToken: '' });
+      socket.connected = false;
+      jest.clearAllMocks();
+
+      conn.updateAuthenticationToken('late-jwt');
+
+      expect(conn.authenticationToken).toBe('late-jwt');
+      expect(socket.auth).toEqual({ token: 'late-jwt' });
+      expect(socket.disconnect).not.toHaveBeenCalled();
+      expect(socket.connect).not.toHaveBeenCalled();
+    });
+
+    it('should reconnect when the token changes while the socket is already connected', () => {
+      const conn = createInstance({ authenticationToken: '' });
+      socket.connected = true;
+      jest.clearAllMocks();
+
+      conn.updateAuthenticationToken('late-jwt');
+
+      expect(conn.authenticationToken).toBe('late-jwt');
+      expect(socket.auth).toEqual({ token: 'late-jwt' });
+      expect(socket.disconnect).toHaveBeenCalledTimes(1);
+      expect(socket.connect).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not reconnect when the token has not actually changed', () => {
+      const conn = createInstance({ authenticationToken: 'same-jwt' });
+      socket.connected = true;
+      jest.clearAllMocks();
+
+      conn.updateAuthenticationToken('same-jwt');
+
+      expect(socket.disconnect).not.toHaveBeenCalled();
+      expect(socket.connect).not.toHaveBeenCalled();
+    });
+
+    it('should clear socket.auth when the new token is empty', () => {
+      const conn = createInstance({ authenticationToken: 'old-jwt' });
+      socket.connected = false;
+      jest.clearAllMocks();
+
+      conn.updateAuthenticationToken('');
+
+      expect(conn.authenticationToken).toBe('');
+      expect(socket.auth).toEqual({});
+    });
+  });
+
   describe('Socket events', () => {
     it('should handle connect event', () => {
       socket.on.mockImplementation((event, handler) => {
