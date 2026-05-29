@@ -6,12 +6,13 @@ on:
       version:
         required: true
         type: choice
-        description: Increment ChatWidget NPM version
+        description: Increment ChatWidget NPM version (use `from-package` to republish versions already committed in package.json without bumping)
         default: 'patch'
         options:
           - patch
           - minor
           - major
+          - from-package
 
 jobs:
   Publish:
@@ -47,7 +48,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RASABOT_PAT }}
         # `--force-publish` flag keeps versions consistent across our packages. Totally wild name for this kind of a flag :shrug:
+        # `from-package` is a recovery mode: it publishes whatever versions are already committed
+        # in each package.json but missing on npm, without bumping or creating a new tag/commit.
         run: |
           git config --global user.name "rasabot"
           git config --global user.email "rasabot@rasa.com"
-          npx lerna publish ${{ inputs.version }} --yes --force-publish
+          if [ "${{ inputs.version }}" = "from-package" ]; then
+            npx lerna publish from-package --yes
+          else
+            npx lerna publish ${{ inputs.version }} --yes --force-publish
+          fi
