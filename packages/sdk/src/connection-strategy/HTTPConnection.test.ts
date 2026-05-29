@@ -159,8 +159,8 @@ describe('HTTPConnection', () => {
   });
 
   it('should pick up an authentication token that is set after construction', async () => {
-    // Simulates the eUprava case: widget mounts with empty token, then host
-    // page sets the token asynchronously on the custom element. The next
+    // Simulates an asynchronous-token host: widget mounts with empty token,
+    // then the host page sets the token on the custom element later. The next
     // request must include the new token in the Authorization header.
     const message = 'Hello';
     const response: HttpResponse[] = [{ recipient_id: sessionId, text: 'Hi there' }];
