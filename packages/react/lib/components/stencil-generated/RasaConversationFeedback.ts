@@ -12,7 +12,7 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
-type RasaConversationFeedbackEvents = { onFeedbackSubmitted: EventName<CustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>> };
+type RasaConversationFeedbackEvents = { onFeedbackSubmitted: EventName<CustomEvent<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>> };
 
 const RasaConversationFeedback: StencilReactComponent<RasaConversationFeedbackElement, RasaConversationFeedbackEvents> = /*@__PURE__*/ createComponent<RasaConversationFeedbackElement, RasaConversationFeedbackEvents>({
     tagName: 'rasa-conversation-feedback',

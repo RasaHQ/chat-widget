@@ -92,4 +92,9 @@ export class HTTPConnection implements ConnectionStrategy {
   public reconnection(): void {
     // There is no enableReconnect in HTTP.
   }
+
+  public updateAuthenticationToken(newToken: string): void {
+    // Token is read at every sendMessage call, so just storing it is sufficient.
+    this.authenticationToken = newToken;
+  }
 }

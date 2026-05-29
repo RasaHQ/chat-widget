@@ -76,9 +76,11 @@ export class RasaChatbotWidget {
   @Event() chatWidgetFileStartedDownload: EventEmitter<undefined>;
 
   /**
-   * Emitted when conversation feedback is submitted.
+   * Emitted when conversation feedback is submitted. The `rating` value
+   * matches the Rasa CALM `csat_score` slot vocabulary (`satisfied` /
+   * `unsatisfied`).
    */
-  @Event() chatWidgetFeedbackSubmitted: EventEmitter<{ rating: 'positive' | 'negative'; helpful: boolean }>;
+  @Event() chatWidgetFeedbackSubmitted: EventEmitter<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>;
 
   /**
    * Url of the Rasa chatbot backend server (example: https://example.com)
@@ -409,7 +411,7 @@ export class RasaChatbotWidget {
 
   @Listen('feedbackSubmitted')
   // @ts-ignore-next-line
-  private handleFeedbackSubmitted(event: CustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) {
+  private handleFeedbackSubmitted(event: CustomEvent<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>) {
     // Set feedbackSubmitted to prevent showing feedback again in this conversation
     this.feedbackSubmitted = true;
     
@@ -418,8 +420,9 @@ export class RasaChatbotWidget {
       this.showFeedback = false;
     }, 3500); // 3.5 seconds to allow thank you message to show and fade
     
-    // Handle feedback submission by directly setting slot in Rasa tracker
-    const slotValue = event.detail.rating === 'positive' ? 'positive' : 'negative';
+    // Pass the rating through unchanged - it already matches the Rasa CALM
+    // `csat_score` slot's categorical values.
+    const slotValue = event.detail.rating;
     
     // Set slot directly in Rasa tracker via REST API (with better error handling)
     (async () => {
@@ -450,7 +453,7 @@ export class RasaChatbotWidget {
           },
           body: JSON.stringify({
             "event": "slot",
-            "name": "widget_feedback",
+            "name": "csat_score",
             "value": slotValue,
             "timestamp": null
           })
@@ -503,6 +506,24 @@ export class RasaChatbotWidget {
   private toggleFullscreenMode = () => {
     this.isFullScreen = !this.isFullScreen;
   };
+
+  /**
+   * Reacts to runtime changes of the `authentication-token` attribute / prop.
+   *
+   * Without this watcher, the token is captured once in `componentWillLoad`
+   * and locked into the underlying Rasa client. Host pages that set the token
+   * asynchronously (after the custom element is already in the DOM) would end
+   * up with an empty/stale token for the entire lifetime of the widget,
+   * causing every request to be sent without the `Authorization` header.
+   */
+  @Watch('authenticationToken')
+  onAuthenticationTokenChange(newToken: string, oldToken: string) {
+    if (newToken === oldToken) return;
+    setConfigStore({ authenticationToken: newToken });
+    if (this.client) {
+      this.client.updateAuthenticationToken(newToken);
+    }
+  }
 
   @Watch('messages')
   onMessagesChange() {

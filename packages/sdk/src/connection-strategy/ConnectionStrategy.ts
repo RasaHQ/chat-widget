@@ -18,4 +18,5 @@ export interface ConnectionStrategy extends ConnectionParams {
   sessionRequest(sessionId: string): void;
   reconnection(value: boolean): void;
   disconnect(): void;
+  updateAuthenticationToken(newToken: string): void;
 }
