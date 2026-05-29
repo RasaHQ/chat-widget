@@ -694,7 +694,7 @@ declare global {
         "chatWidgetClosed": undefined;
         "chatWidgetHyperlinkClicked": undefined;
         "chatWidgetFileStartedDownload": undefined;
-        "chatWidgetFeedbackSubmitted": { rating: 'positive' | 'negative'; helpful: boolean };
+        "chatWidgetFeedbackSubmitted": { rating: 'satisfied' | 'unsatisfied'; helpful: boolean };
     }
     interface HTMLRasaChatbotWidgetElement extends Components.RasaChatbotWidget, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaChatbotWidgetElementEventMap>(type: K, listener: (this: HTMLRasaChatbotWidgetElement, ev: RasaChatbotWidgetCustomEvent<HTMLRasaChatbotWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -711,7 +711,7 @@ declare global {
         new (): HTMLRasaChatbotWidgetElement;
     };
     interface HTMLRasaConversationFeedbackElementEventMap {
-        "feedbackSubmitted": { rating: 'positive' | 'negative'; helpful: boolean };
+        "feedbackSubmitted": { rating: 'satisfied' | 'unsatisfied'; helpful: boolean };
     }
     interface HTMLRasaConversationFeedbackElement extends Components.RasaConversationFeedback, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRasaConversationFeedbackElementEventMap>(type: K, listener: (this: HTMLRasaConversationFeedbackElement, ev: RasaConversationFeedbackCustomEvent<HTMLRasaConversationFeedbackElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1066,9 +1066,9 @@ declare namespace LocalJSX {
          */
         "onChatWidgetClosed"?: (event: RasaChatbotWidgetCustomEvent<undefined>) => void;
         /**
-          * Emitted when conversation feedback is submitted.
+          * Emitted when conversation feedback is submitted. The `rating` value matches the Rasa CALM `csat_score` slot vocabulary (`satisfied` / `unsatisfied`).
          */
-        "onChatWidgetFeedbackSubmitted"?: (event: RasaChatbotWidgetCustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) => void;
+        "onChatWidgetFeedbackSubmitted"?: (event: RasaChatbotWidgetCustomEvent<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>) => void;
         /**
           * Emitted when a user is starting to download a file.
          */
@@ -1128,9 +1128,9 @@ declare namespace LocalJSX {
     }
     interface RasaConversationFeedback {
         /**
-          * Event emitted when feedback is submitted
+          * Event emitted when feedback is submitted. The `rating` value matches the Rasa CALM `csat_score` slot vocabulary so it can be passed through unchanged.
          */
-        "onFeedbackSubmitted"?: (event: RasaConversationFeedbackCustomEvent<{ rating: 'positive' | 'negative'; helpful: boolean }>) => void;
+        "onFeedbackSubmitted"?: (event: RasaConversationFeedbackCustomEvent<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>) => void;
         /**
           * Text for the feedback question. If empty, component will not be shown.
          */

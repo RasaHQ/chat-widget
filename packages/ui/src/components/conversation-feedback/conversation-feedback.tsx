@@ -28,14 +28,15 @@ export class RasaConversationFeedback {
   @Prop() thankYouText: string = '';
 
   /**
-   * Event emitted when feedback is submitted
+   * Event emitted when feedback is submitted. The `rating` value matches the
+   * Rasa CALM `csat_score` slot vocabulary so it can be passed through unchanged.
    */
-  @Event() feedbackSubmitted: EventEmitter<{ rating: 'positive' | 'negative'; helpful: boolean }>;
+  @Event() feedbackSubmitted: EventEmitter<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>;
 
   /**
    * State to track the selected rating
    */
-  @State() selectedRating: 'positive' | 'negative' | null = null;
+  @State() selectedRating: 'satisfied' | 'unsatisfied' | null = null;
 
   /**
    * State to track if the conversation was helpful
@@ -52,7 +53,7 @@ export class RasaConversationFeedback {
    */
   @State() showThankYou: boolean = false;
 
-  private handleRatingClick(rating: 'positive' | 'negative') {
+  private handleRatingClick(rating: 'satisfied' | 'unsatisfied') {
     this.selectedRating = rating;
     
     // Show thank you message immediately (no delay)
@@ -92,9 +93,9 @@ export class RasaConversationFeedback {
                   class={{
                     'rasa-conversation-feedback__thumb': true,
                     'rasa-conversation-feedback__thumb--positive': true,
-                    'rasa-conversation-feedback__thumb--selected': this.selectedRating === 'positive'
+                    'rasa-conversation-feedback__thumb--selected': this.selectedRating === 'satisfied'
                   }}
-                  onClick={() => this.handleRatingClick('positive')}
+                  onClick={() => this.handleRatingClick('satisfied')}
                   disabled={this.selectedRating !== null}
                   aria-label="Thumbs up - positive rating"
                   innerHTML={feedbackIcons.positive}
@@ -104,9 +105,9 @@ export class RasaConversationFeedback {
                   class={{
                     'rasa-conversation-feedback__thumb': true,
                     'rasa-conversation-feedback__thumb--negative': true,
-                    'rasa-conversation-feedback__thumb--selected': this.selectedRating === 'negative'
+                    'rasa-conversation-feedback__thumb--selected': this.selectedRating === 'unsatisfied'
                   }}
-                  onClick={() => this.handleRatingClick('negative')}
+                  onClick={() => this.handleRatingClick('unsatisfied')}
                   disabled={this.selectedRating !== null}
                   aria-label="Thumbs down - negative rating"
                   innerHTML={feedbackIcons.negative}

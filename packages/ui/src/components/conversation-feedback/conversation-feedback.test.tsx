@@ -60,7 +60,7 @@ describe('rasa-conversation-feedback', () => {
 
     expect(feedbackSubmittedSpy).toHaveBeenCalled();
     expect(feedbackSubmittedSpy.mock.calls[0][0].detail).toEqual({
-      rating: 'positive',
+      rating: 'satisfied',
       helpful: true
     });
   });
@@ -80,7 +80,7 @@ describe('rasa-conversation-feedback', () => {
 
     expect(feedbackSubmittedSpy).toHaveBeenCalled();
     expect(feedbackSubmittedSpy.mock.calls[0][0].detail).toEqual({
-      rating: 'negative',
+      rating: 'unsatisfied',
       helpful: true
     });
   });
