@@ -17,9 +17,9 @@
 
 ## Events
 
-| Event               | Description                              | Type                                                                   |
-| ------------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
-| `feedbackSubmitted` | Event emitted when feedback is submitted | `CustomEvent<{ rating: "positive" \| "negative"; helpful: boolean; }>` |
+| Event               | Description                                                                                                                                            | Type                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `feedbackSubmitted` | Event emitted when feedback is submitted. The `rating` value matches the Rasa CALM `csat_score` slot vocabulary so it can be passed through unchanged. | `CustomEvent<{ rating: "satisfied" \| "unsatisfied"; helpful: boolean; }>` |
 
 
 ## Dependencies
