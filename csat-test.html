@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSAT Test - Rasa Chat Widget</title>
+    <!-- Loads the locally built widget (run the Stencil build first) -->
+    <script type="module" src="/packages/ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"></script>
+    <link rel="stylesheet" href="/packages/ui/dist/rasa-chatwidget/rasa-chatwidget.css" />
+    <style>
+      body { font-family: Lato, sans-serif; padding: 24px; }
+    </style>
+  </head>
+  <body>
+    <h1>CSAT bot-driven test</h1>
+    <p>Open the widget, talk to the bot until it asks for satisfaction. The thumbs
+       should appear (no chat bubble for the ask). Clicking a thumb sends the
+       payload silently to the channel.</p>
+
+    <!--
+      Default transport is Socket.IO. Requires the SocketIO channel in the bot's
+      credentials.yml. For REST instead, add: rest-enabled="true"
+      (and run the bot with: rasa run --enable-api --cors "*").
+      question/thank-you here are only fallbacks if the bot omits them.
+    -->
+    <rasa-chatbot-widget
+      server-url="http://localhost:5005"
+      enable-feedback="true"
+      auto-open="true"
+      initial-payload="/session_start"
+      feedback-question-text="Како оцењујете овај разговор?"
+      feedback-thank-you-text="Хвала на повратним информацијама!"
+    >
+    </rasa-chatbot-widget>
+  </body>
+</html>
