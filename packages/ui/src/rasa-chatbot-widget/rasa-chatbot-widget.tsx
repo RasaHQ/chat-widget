@@ -313,12 +313,6 @@ export class RasaChatbotWidget {
         // CSAT request sent as a standard buttons message (the bot's
         // `utter_ask_csat_score` with `csat_score` button payloads). Intercept
         // it so it renders as the thumbs popup instead of in-chat buttons.
-        if (data.type === MESSAGE_TYPES.QUICK_REPLY) {
-          // TEMP DEBUG: surface the exact button payloads so CSAT detection can
-          // be tuned to the bot's actual payload format.
-          // eslint-disable-next-line no-console
-          console.debug('[csat-debug] button payloads:', (data as QuickReplyMessage).replies?.map(reply => reply.reply));
-        }
         if (this.enableFeedback && data.type === MESSAGE_TYPES.QUICK_REPLY && this.handleCsatButtons(data as QuickReplyMessage)) {
           this.typingIndicator = false;
           resolve();
