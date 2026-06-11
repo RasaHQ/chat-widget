@@ -129,6 +129,16 @@ export class Rasa extends EventEmitter {
     }
   }
 
+  /**
+   * Sends a payload to the channel without echoing it as a user message or
+   * persisting it to the chat history. Used for out-of-band signals such as
+   * CSAT feedback, where the user's selection should advance the conversation
+   * (e.g. fill the `csat_score` slot) but must not appear as a chat bubble.
+   */
+  public sendSilentMessage(payload: string): void {
+    this.connection.sendMessage(payload, this.sessionId);
+  }
+
   public reconnection(value: boolean): void {
     this.connection.reconnection(value);
   }

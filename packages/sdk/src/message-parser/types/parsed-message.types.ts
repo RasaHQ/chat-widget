@@ -70,6 +70,13 @@ export interface RatingMessage extends BaseMessage {
   message: string;
 }
 
+export interface CsatMessage extends BaseMessage {
+  type: typeof MESSAGE_TYPES.CSAT;
+  question?: string;
+  thankYou?: string;
+  options?: { value: string; payload: string }[];
+}
+
 
 
 export type Message =
@@ -81,4 +88,5 @@ export type Message =
   | QuickReplyMessage
   | TextMessage
   | VideoMessage
-  | RatingMessage;
+  | RatingMessage
+  | CsatMessage;
