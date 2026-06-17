@@ -8,7 +8,6 @@ import {
   HttpTextResponse,
   HttpVideoResponse,
   HttpRatingResponse,
-  HttpCsatResponse,
 } from '../types/server-response.types';
 
 import { RESPONSE_MESSAGE_TYPES } from '../constants';
@@ -42,7 +41,7 @@ export function isHttpQuickReplyResponse(response: HttpResponse): response is Ht
 
 export function hasCustomAttribute(
   response: HttpResponse,
-): response is HttpCarouselResponse | HttpVideoResponse | HttpAccordionResponse | HttpFileDownloadResponse | HttpRatingResponse | HttpCsatResponse {
+): response is HttpCarouselResponse | HttpVideoResponse | HttpAccordionResponse | HttpFileDownloadResponse | HttpRatingResponse {
   return (
     'custom' in response &&
     response.custom !== undefined &&
@@ -50,8 +49,7 @@ export function hasCustomAttribute(
       response.custom.type === RESPONSE_MESSAGE_TYPES.VIDEO ||
       response.custom.type === RESPONSE_MESSAGE_TYPES.ACCORDION ||
       response.custom.type === RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD ||
-      response.custom.type === RESPONSE_MESSAGE_TYPES.RATING ||
-      response.custom.type === RESPONSE_MESSAGE_TYPES.CSAT) 
+      response.custom.type === RESPONSE_MESSAGE_TYPES.RATING) 
   );
 }
 
