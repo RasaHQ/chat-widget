@@ -8,5 +8,4 @@ export const MESSAGE_TYPES = {
   QUICK_REPLY: "quickReply",
   SESSION_DIVIDER: "sessionDivider",
   RATING: "rating",
-  CSAT: "csat",
 } as const;
