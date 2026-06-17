@@ -7,6 +7,7 @@ import {
   TextMessage,
   VideoMessage,
   RatingMessage,
+  CsatMessage,
 } from '../types/parsed-message.types';
 import {
   AccordionResponse,
@@ -17,6 +18,7 @@ import {
   TextResponse,
   VideoResponse,
   RatingResponse,
+  CsatResponse,
 } from '../../types/server-response.types';
 
 import { MESSAGE_TYPES } from '../constants/message.constants';
@@ -92,6 +94,17 @@ export const MessageParsers = {
       payload: option.payload
     })),
     message: message.message,
+    timestamp: message.timestamp,
+  }),
+  csat: (message: CsatResponse, sender: SenderType): CsatMessage => ({
+    sender,
+    type: MESSAGE_TYPES.CSAT,
+    question: message.question,
+    thankYou: message.thank_you,
+    options: message.options?.map(option => ({
+      value: option.value,
+      payload: option.payload,
+    })),
     timestamp: message.timestamp,
   }),
 
