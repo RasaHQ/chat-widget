@@ -13,6 +13,14 @@ import { isMobile } from '../utils/isMobile';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_THRESHOLD, DISCONNECT_TIMEOUT } from './constants';
 
+/**
+ * sessionStorage flag tracking whether the most recent CSAT request has already
+ * been answered. It shares the same lifetime as the chat history (sessionStorage),
+ * so after a page refresh we can tell an answered CSAT request from a pending one
+ * and avoid re-opening the thumbs popup for an already-rated conversation.
+ */
+const CSAT_ANSWERED_STORAGE_KEY = 'rasa-csat-answered';
+
 @Component({
   tag: 'rasa-chatbot-widget',
   styleUrl: 'rasa-chatbot-widget.scss',
@@ -314,6 +322,9 @@ export class RasaChatbotWidget {
         // `utter_ask_csat_score` with `csat_score` button payloads). Intercept
         // it so it renders as the thumbs popup instead of in-chat buttons.
         if (this.enableFeedback && data.type === MESSAGE_TYPES.QUICK_REPLY && this.handleCsatButtons(data as QuickReplyMessage)) {
+          // Fresh ask from the bot: reset the answered flag so a refresh before
+          // the user rates will correctly re-open the popup.
+          this.setCsatAnswered(false);
           this.typingIndicator = false;
           resolve();
           return;
@@ -371,19 +382,37 @@ export class RasaChatbotWidget {
     this.csatQuestion = message.question || this.feedbackQuestionText;
     this.csatThankYou = message.thankYou || this.feedbackThankYouText;
     this.feedbackSubmitted = false;
+    this.setCsatAnswered(false);
     this.showFeedback = true;
   }
 
-  /**
-   * Detects a standard buttons message that is actually a CSAT request (its
-   * button payloads set the `csat_score` slot, e.g. from the bot's
-   * `utter_ask_csat_score`). When matched, the thumbs popup is shown using the
-   * bot's own button payloads, and the buttons are NOT rendered in the chat.
-   * Returns true when handled as CSAT, false otherwise.
-   */
-  private handleCsatButtons(message: QuickReplyMessage): boolean {
-    if (!message.replies?.length) {
+  /** Persisted "has the current CSAT request been answered?" flag. */
+  private isCsatAnswered(): boolean {
+    try {
+      return sessionStorage.getItem(CSAT_ANSWERED_STORAGE_KEY) === 'true';
+    } catch {
       return false;
+    }
+  }
+
+  private setCsatAnswered(answered: boolean): void {
+    try {
+      sessionStorage.setItem(CSAT_ANSWERED_STORAGE_KEY, answered ? 'true' : 'false');
+    } catch {
+      // sessionStorage may be unavailable (e.g. private mode); the popup simply
+      // falls back to its in-memory behavior.
+    }
+  }
+
+  /**
+   * Inspects a buttons message and returns the CSAT option payloads when it is
+   * a satisfaction request (its buttons set the `csat_score` slot, e.g. from
+   * the bot's `utter_ask_csat_score`). Returns null when the message is a
+   * normal quick-reply message.
+   */
+  private detectCsatButtons(message: QuickReplyMessage): { satisfied?: string; unsatisfied?: string } | null {
+    if (!message.replies?.length) {
+      return null;
     }
 
     let satisfiedPayload: string | undefined;
@@ -402,12 +431,26 @@ export class RasaChatbotWidget {
 
     // Not a CSAT buttons message - let it render as normal quick replies.
     if (!satisfiedPayload && !unsatisfiedPayload) {
+      return null;
+    }
+
+    return { satisfied: satisfiedPayload, unsatisfied: unsatisfiedPayload };
+  }
+
+  /**
+   * Detects a standard buttons message that is actually a CSAT request and, if
+   * so, shows the thumbs popup using the bot's own button payloads instead of
+   * rendering the buttons in the chat. Returns true when handled as CSAT.
+   */
+  private handleCsatButtons(message: QuickReplyMessage): boolean {
+    const detected = this.detectCsatButtons(message);
+    if (!detected) {
       return false;
     }
 
     this.csatPayloads = {
-      satisfied: satisfiedPayload || this.csatPayloads.satisfied,
-      unsatisfied: unsatisfiedPayload || this.csatPayloads.unsatisfied,
+      satisfied: detected.satisfied || this.csatPayloads.satisfied,
+      unsatisfied: detected.unsatisfied || this.csatPayloads.unsatisfied,
     };
     // Prefer the integrator's configured question/thank-you text; fall back to
     // the bot's button-message text.
@@ -419,7 +462,38 @@ export class RasaChatbotWidget {
   }
 
   private loadHistory = (data: Message[]): void => {
-    this.messages = data;
+    // CSAT requests must be treated the same in history as in realtime: never
+    // render the bot's CSAT buttons message as a chat bubble. Strip them out,
+    // and if the last bot turn was an unanswered CSAT request, re-open the
+    // thumbs popup so the user can still rate after a page refresh.
+    if (!this.enableFeedback) {
+      this.messages = data;
+      return;
+    }
+
+    const lastIndex = data.length - 1;
+    let pendingCsat: QuickReplyMessage | null = null;
+    const filtered = data.filter((message, index) => {
+      if (message.type === MESSAGE_TYPES.QUICK_REPLY && this.detectCsatButtons(message as QuickReplyMessage)) {
+        // Only re-show the popup when the CSAT request is the very last message.
+        // An already-answered request is followed by further bot messages, so in
+        // that case we just drop the bubble without re-prompting.
+        if (index === lastIndex) {
+          pendingCsat = message as QuickReplyMessage;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    this.messages = filtered;
+
+    // Re-open the popup only for a CSAT request that is both the last turn AND
+    // not yet answered. An answered request is sent silently (no follow-up
+    // bubble), so it would otherwise still look like the "last" message.
+    if (pendingCsat && !this.isCsatAnswered()) {
+      this.handleCsatButtons(pendingCsat);
+    }
   };
 
   private connect(): void {
@@ -505,6 +579,9 @@ export class RasaChatbotWidget {
   private handleFeedbackSubmitted(event: CustomEvent<{ rating: 'satisfied' | 'unsatisfied'; helpful: boolean }>) {
     // Set feedbackSubmitted to prevent showing feedback again in this conversation
     this.feedbackSubmitted = true;
+    // Persist the answered state so a page refresh does not re-open the popup
+    // for a CSAT request the user has already rated.
+    this.setCsatAnswered(true);
     
     // Allow time for thank you message to show, then hide the component
     setTimeout(() => {
