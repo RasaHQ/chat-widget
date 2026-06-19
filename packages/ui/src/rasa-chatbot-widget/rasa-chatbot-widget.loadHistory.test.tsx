@@ -11,7 +11,13 @@
  *      template in a fresh conversation, the popup opens again.
  */
 import { newSpecPage } from '@stencil/core/testing';
-import { MESSAGE_TYPES, Message, SENDER } from '@rasahq/chat-widget-sdk';
+import {
+  CsatMessage,
+  MESSAGE_TYPES,
+  Message,
+  QuickReplyMessage,
+  SENDER,
+} from '@rasahq/chat-widget-sdk';
 import { RasaChatbotWidget } from './rasa-chatbot-widget';
 
 const divider = (): Message =>
@@ -20,7 +26,7 @@ const divider = (): Message =>
 const text = (sender: 'bot' | 'user' = SENDER.BOT, body = 'hi'): Message =>
   ({ sender, type: MESSAGE_TYPES.TEXT, text: body } as Message);
 
-const csatButtons = (question = 'Was this helpful?'): Message =>
+const csatButtons = (question = 'Was this helpful?'): QuickReplyMessage =>
   ({
     sender: SENDER.BOT,
     type: MESSAGE_TYPES.QUICK_REPLY,
@@ -29,9 +35,9 @@ const csatButtons = (question = 'Was this helpful?'): Message =>
       { text: 'Yes', reply: '/SetSlots{"csat_score":"satisfied"}', isSelected: false },
       { text: 'No', reply: '/SetSlots{"csat_score":"unsatisfied"}', isSelected: false },
     ],
-  } as unknown as Message);
+  } as unknown as QuickReplyMessage);
 
-const csatTyped = (question = 'Was this helpful?'): Message =>
+const csatTyped = (question = 'Was this helpful?'): CsatMessage =>
   ({
     sender: SENDER.BOT,
     type: MESSAGE_TYPES.CSAT,
@@ -41,7 +47,7 @@ const csatTyped = (question = 'Was this helpful?'): Message =>
       { value: 'satisfied', payload: '/SetSlots{"csat_score":"satisfied"}' },
       { value: 'unsatisfied', payload: '/SetSlots{"csat_score":"unsatisfied"}' },
     ],
-  } as unknown as Message);
+  } as unknown as CsatMessage);
 
 /**
  * Render the widget without letting it construct a real Rasa client.
