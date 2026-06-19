@@ -21,15 +21,17 @@
     backdrop-filter: none;
   }
 
-  // Fade-out animation - smooth and elegant
+  // Fade-out: pure opacity, no transform. An earlier version slid the popup
+  // downward + scaled it, which read as the thank-you "dropping" into the
+  // chat input area - jarring rather than graceful. A plain opacity fade is
+  // what an info banner naturally wants.
+  // `forwards` is critical: without it the element snaps back to opacity 1
+  // when the animation ends, producing a flicker right before unmount.
+  // `pointer-events: none` prevents the thumbs from being clickable during
+  // the fade.
   &--fading-out {
-    animation: fadeOutDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    // Remove from document flow during fade-out so content moves up
-    position: absolute !important;
-    bottom: 80px !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 10 !important;
+    animation: feedbackFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    pointer-events: none;
   }
 
       &__content {
@@ -176,29 +178,16 @@
   }
 }
 
-@keyframes fadeOutDown {
+@keyframes feedbackFadeOut {
   0% {
     opacity: 1;
-    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
   }
 }
 
 // Thank you message animations
-@keyframes thankYouFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes thankYouFadeIn {
   0% {
     opacity: 0;

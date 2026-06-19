@@ -1,5 +1,6 @@
 import { Component, Prop, Event, EventEmitter, h, State } from '@stencil/core';
 import { feedbackIcons } from './icons';
+import { THANK_YOU_HOLD_MS } from './conversation-feedback.timings';
 
 @Component({
   tag: 'rasa-conversation-feedback',
@@ -53,28 +54,53 @@ export class RasaConversationFeedback {
    */
   @State() showThankYou: boolean = false;
 
+  /**
+   * Tracks the pending fade-out timer so we can cancel it if the host
+   * unmounts the popup before the hold elapses (e.g. the user sends a new
+   * message and the parent flips `showFeedback = false`). Without this the
+   * timer would later fire against a disposed component and set state on a
+   * detached instance.
+   */
+  private fadeOutTimer: ReturnType<typeof setTimeout> | null = null;
+
+  disconnectedCallback() {
+    if (this.fadeOutTimer !== null) {
+      clearTimeout(this.fadeOutTimer);
+      this.fadeOutTimer = null;
+    }
+  }
+
   private handleRatingClick(rating: 'satisfied' | 'unsatisfied') {
+    // Guard against double-clicks: a second click on the other thumb (or the
+    // same one) after a selection is already locked in must be a no-op.
+    if (this.selectedRating !== null) return;
+
     this.selectedRating = rating;
-    
-    // Show thank you message immediately (no delay)
     this.showThankYou = true;
-    
-    // Hide thank you message after 3 seconds and set fading out
-    setTimeout(() => {
-      this.showThankYou = false;
-      this.isFadingOut = true;
-    }, 3000);
-    
-    // Emit feedback immediately - main widget will handle timing
+
+    // Emit synchronously so the parent persists the answered state before any
+    // visual delay - protects against a refresh that races the fade-out.
     this.feedbackSubmitted.emit({
-      rating: rating,
-      helpful: true // Default to helpful when just rating
+      rating,
+      helpful: true,
     });
+
+    // Hold the thank-you, then trigger the CSS fade-out. We deliberately keep
+    // `showThankYou` true here so the thank-you content stays mounted (and
+    // visible) while it fades; previously we flipped it to false alongside
+    // `isFadingOut`, which collapsed the content before the animation ran.
+    this.fadeOutTimer = setTimeout(() => {
+      this.fadeOutTimer = null;
+      this.isFadingOut = true;
+    }, THANK_YOU_HOLD_MS);
   }
 
 
   render() {
-    if (!this.show || this.isFadingOut || !this.questionText.trim()) {
+    // Note: do NOT short-circuit on `isFadingOut`. Returning null here would
+    // remove the element from the DOM before the CSS fade-out has a chance to
+    // play, producing the abrupt disappearance the PR feedback called out.
+    if (!this.show || !this.questionText.trim()) {
       return null;
     }
 

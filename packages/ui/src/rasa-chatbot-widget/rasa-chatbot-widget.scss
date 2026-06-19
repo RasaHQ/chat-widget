@@ -88,6 +88,15 @@
     flex-direction: column;
     gap: 24px;
     flex: 1 1 0%;
+    // Animate `padding-bottom` so the chat bubbles glide down into the
+    // space reclaimed when the feedback popup dismisses, instead of
+    // snapping. The widget removes the `--with-feedback` class the moment
+    // the thank-you starts its opacity fade, so this slide runs in
+    // lock-step with the popup fade and continues a bit past it for a
+    // soft landing. `easeOutCubic` decelerates very gently, removing the
+    // perceptible "stop" at the end.
+    transition: padding-bottom 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: padding-bottom;
   }
 
   // Add bottom padding when feedback is enabled
