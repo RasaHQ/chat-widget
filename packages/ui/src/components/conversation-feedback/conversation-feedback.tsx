@@ -1,6 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h, State } from '@stencil/core';
 import { feedbackIcons } from './icons';
-import { THANK_YOU_HOLD_MS } from './conversation-feedback.timings';
 
 @Component({
   tag: 'rasa-conversation-feedback',
@@ -45,30 +44,9 @@ export class RasaConversationFeedback {
   @State() isHelpful: boolean | null = null;
 
   /**
-   * State to track if component is fading out
-   */
-  @State() isFadingOut: boolean = false;
-
-  /**
    * State to track if thank you message is showing
    */
   @State() showThankYou: boolean = false;
-
-  /**
-   * Tracks the pending fade-out timer so we can cancel it if the host
-   * unmounts the popup before the hold elapses (e.g. the user sends a new
-   * message and the parent flips `showFeedback = false`). Without this the
-   * timer would later fire against a disposed component and set state on a
-   * detached instance.
-   */
-  private fadeOutTimer: ReturnType<typeof setTimeout> | null = null;
-
-  disconnectedCallback() {
-    if (this.fadeOutTimer !== null) {
-      clearTimeout(this.fadeOutTimer);
-      this.fadeOutTimer = null;
-    }
-  }
 
   private handleRatingClick(rating: 'satisfied' | 'unsatisfied') {
     // Guard against double-clicks: a second click on the other thumb (or the
@@ -85,30 +63,23 @@ export class RasaConversationFeedback {
       helpful: true,
     });
 
-    // Hold the thank-you, then trigger the CSS fade-out. We deliberately keep
-    // `showThankYou` true here so the thank-you content stays mounted (and
-    // visible) while it fades; previously we flipped it to false alongside
-    // `isFadingOut`, which collapsed the content before the animation ran.
-    this.fadeOutTimer = setTimeout(() => {
-      this.fadeOutTimer = null;
-      this.isFadingOut = true;
-    }, THANK_YOU_HOLD_MS);
+    // No JS timer for the fade-out: the thank-you element's CSS animation
+    // is a chained `fadeIn` + delayed `fadeOut` with `forwards` fill, so
+    // the popup self-dismisses visually without any setTimeout here. The
+    // parent's slide-down + unmount run on the same CSS timeline.
   }
 
 
   render() {
-    // Note: do NOT short-circuit on `isFadingOut`. Returning null here would
-    // remove the element from the DOM before the CSS fade-out has a chance to
-    // play, producing the abrupt disappearance the PR feedback called out.
+    // Note: do NOT short-circuit while the popup is fading out. The popup
+    // stays mounted with its `forwards`-filled CSS fade-out animation - the
+    // parent unmounts it via a single setTimeout once the chat slide is done.
     if (!this.show || !this.questionText.trim()) {
       return null;
     }
 
     return (
-      <div class={{
-        'rasa-conversation-feedback': true,
-        'rasa-conversation-feedback--fading-out': this.isFadingOut
-      }}>
+      <div class="rasa-conversation-feedback">
         <div class="rasa-conversation-feedback__content">
           {!this.showThankYou ? (
             <div>

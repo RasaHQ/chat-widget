@@ -87,11 +87,13 @@ describe('rasa-conversation-feedback', () => {
   });
 
   describe('graceful fade-out', () => {
-    // These tests deliberately avoid jest.useFakeTimers() because Stencil's
-    // newSpecPage relies on real timers for its initial render. The fade
-    // trigger is exercised by flipping the component's `isFadingOut` state
-    // directly - which is exactly what the production setTimeout would do
-    // after THANK_YOU_HOLD_MS elapses.
+    // The fade-out is now driven entirely by CSS (a chained `fadeIn` +
+    // delayed `fadeOut` animation with `forwards` fill mode on the
+    // thank-you element). The component itself no longer schedules any
+    // setTimeout for the dismiss - these tests verify the bits that remain
+    // the component's responsibility: synchronous event emit, the
+    // thank-you element being mounted so CSS can animate it, and the
+    // click-once guard.
 
     it('emits the rating event synchronously on click (no visual delay)', async () => {
       const page = await newSpecPage({
@@ -110,7 +112,7 @@ describe('rasa-conversation-feedback', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
-    it('keeps the thank-you mounted with the fade-out class so CSS can animate it', async () => {
+    it('mounts the thank-you element so the CSS fade-out animation can play', async () => {
       const page = await newSpecPage({
         components: [RasaConversationFeedback],
         html: `<rasa-conversation-feedback show="true" question-text="Rate me?" thank-you-text="Thanks!"></rasa-conversation-feedback>`,
@@ -119,20 +121,14 @@ describe('rasa-conversation-feedback', () => {
       (page.root.shadowRoot.querySelector('.rasa-conversation-feedback__thumb--positive') as HTMLElement).click();
       await page.waitForChanges();
 
-      // Mid-hold: thank-you visible, no fade-out class.
-      expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback__thank-you')).toBeTruthy();
-      expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback--fading-out')).toBeFalsy();
-
-      // Simulate the THANK_YOU_HOLD_MS timer elapsing. The host must STILL
-      // render (so the CSS fade-out animation can play out) with the
-      // --fading-out class applied. Returning null here was the original bug
-      // that caused the abrupt disappearance the PR feedback flagged.
-      (page.rootInstance as unknown as { isFadingOut: boolean }).isFadingOut = true;
-      await page.waitForChanges();
-
+      // After the click the thank-you element is present and the rating
+      // buttons have been swapped out. The fade-out itself is a CSS-only
+      // animation on the thank-you element (see conversation-feedback.scss),
+      // so we only need to verify the element is in the DOM here - the
+      // animation runs without any state change from the component.
       expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback')).toBeTruthy();
-      expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback--fading-out')).toBeTruthy();
       expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback__thank-you')).toBeTruthy();
+      expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback__rating')).toBeFalsy();
     });
 
     it('exposes a coherent set of dismiss timings', () => {

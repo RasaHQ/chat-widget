@@ -27,9 +27,10 @@ import { DEBOUNCE_THRESHOLD, DISCONNECT_TIMEOUT } from './constants';
  * settle before tearing the popup out of the DOM. Removing it earlier lets
  * a DOM-removal repaint land in the middle of the chat slide, which reads
  * as a small "cut" at the end of the motion. The slide duration here
- * mirrors the CSS `transition: padding-bottom 0.9s` on `.messenger__content`.
+ * mirrors the CSS `transition: padding-bottom 1s linear` on
+ * `.messenger__content`.
  */
-const CONTENT_SLIDE_MS = 900;
+const CONTENT_SLIDE_MS = 1000;
 const FEEDBACK_UNMOUNT_DELAY_MS =
   CONVERSATION_FEEDBACK_TIMINGS.THANK_YOU_HOLD_MS + CONTENT_SLIDE_MS + 150;
 
@@ -579,17 +580,17 @@ export class RasaChatbotWidget {
       markCsatAnswered(this.currentCsatMessage);
     }
 
-    // Kick off the "dismissing" phase the moment the thank-you starts
-    // fading. This drops the `--with-feedback` class, letting the chat's
-    // bottom padding transition in lock-step with the popup's opacity
-    // fade. Without this sync the chat would only start sliding after
-    // the popup had fully unmounted, which reads as a hard cut.
-    setTimeout(() => {
-      this.isFeedbackDismissing = true;
-    }, CONVERSATION_FEEDBACK_TIMINGS.THANK_YOU_HOLD_MS);
+    // Flip into the "dismissing" phase immediately. The chat slide is gated
+    // on a CSS `transition-delay` (see `.messenger--feedback-dismissing
+    // .messenger__content` in rasa-chatbot-widget.scss) that waits out the
+    // 1.5s thank-you hold before actually sliding. No JS timer needed to
+    // schedule it - the CSS timeline handles the choreography.
+    this.isFeedbackDismissing = true;
 
-    // Unmount slightly after the child's fade-out completes so the CSS
-    // animation has time to play. See FEEDBACK_UNMOUNT_DELAY_MS.
+    // The only timer left in the feedback flow: unmount the popup once
+    // the CSS animations (thank-you fade + chat slide) have all settled.
+    // CSS can hide an element but can't remove it from the DOM, so this
+    // one setTimeout stays.
     setTimeout(() => {
       this.showFeedback = false;
       this.isFeedbackDismissing = false;
@@ -730,11 +731,12 @@ export class RasaChatbotWidget {
         <slot />
         <div class={widgetClassList}>
           <div class="rasa-chatbot-widget__container">
-            <Messenger 
-              isOpen={this.isOpen} 
-              toggleFullScreenMode={this.toggleFullscreenMode} 
+            <Messenger
+              isOpen={this.isOpen}
+              toggleFullScreenMode={this.toggleFullscreenMode}
               isFullScreen={this.isFullScreen}
               hasFeedback={this.showFeedback && this.isOpen && !this.isFeedbackDismissing}
+              isFeedbackDismissing={this.isFeedbackDismissing}
             >
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
               {this.cachedMessages}

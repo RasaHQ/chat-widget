@@ -88,20 +88,35 @@
     flex-direction: column;
     gap: 24px;
     flex: 1 1 0%;
-    // Animate `padding-bottom` so the chat bubbles glide down into the
-    // space reclaimed when the feedback popup dismisses, instead of
-    // snapping. The widget removes the `--with-feedback` class the moment
-    // the thank-you starts its opacity fade, so this slide runs in
-    // lock-step with the popup fade and continues a bit past it for a
-    // soft landing. `easeOutCubic` decelerates very gently, removing the
-    // perceptible "stop" at the end.
-    transition: padding-bottom 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
-    will-change: padding-bottom;
   }
 
-  // Add bottom padding when feedback is enabled
+  // Reserve space below the last message so the absolutely-positioned
+  // feedback popup never overlaps a bubble. The popup itself sits at
+  // `bottom: 80px` from the messenger; the extra 24px on top of that
+  // mirrors the flex `gap` we previously got "for free" when the popup
+  // was a flex child of `.messenger__content`. Now that the host is
+  // `position: absolute` (so unmount doesn't cause a 24px layout jump),
+  // we have to add that clearance explicitly.
   &--with-feedback &__content {
-    padding-bottom: 80px;
+    padding-bottom: 104px;
+  }
+
+  // Animate `padding-bottom` only during the dismiss-down phase: the chat
+  // bubbles glide into the reclaimed space in lock-step with the popup's
+  // opacity fade. On the way *up* (popup appearing) we deliberately leave
+  // the transition off so the padding expands instantly - otherwise the
+  // popup would arrive at its final position while the messages were
+  // still sliding up, briefly overlapping a bubble. Linear timing avoids
+  // the "slow-tail snap" perception that ease-out curves produce on a
+  // 64+px slide.
+  //
+  // The 1.5s `transition-delay` matches `THANK_YOU_HOLD_MS` so the chat
+  // sits still during the hold and only starts sliding when the popup
+  // begins its fade-out. Driving this from CSS lets us drop the
+  // `setTimeout` the widget previously used to defer the class change.
+  &--feedback-dismissing &__content {
+    transition: padding-bottom 1s linear 1.5s;
+    will-change: padding-bottom;
   }
 
   &__content-wrapper {
