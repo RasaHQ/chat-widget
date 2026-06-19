@@ -127,8 +127,7 @@ describe('rasa-conversation-feedback', () => {
       // render (so the CSS fade-out animation can play out) with the
       // --fading-out class applied. Returning null here was the original bug
       // that caused the abrupt disappearance the PR feedback flagged.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (page.rootInstance as any).isFadingOut = true;
+      (page.rootInstance as unknown as { isFadingOut: boolean }).isFadingOut = true;
       await page.waitForChanges();
 
       expect(page.root.shadowRoot.querySelector('.rasa-conversation-feedback')).toBeTruthy();
@@ -157,11 +156,11 @@ describe('rasa-conversation-feedback', () => {
       // Call the handler directly twice to bypass the disabled attribute the
       // buttons get after the first click. The handler itself must guard
       // against re-entry so a stray programmatic call cannot emit twice.
-      const instance = page.rootInstance as RasaConversationFeedback;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (instance as any).handleRatingClick('satisfied');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (instance as any).handleRatingClick('unsatisfied');
+      const instance = page.rootInstance as unknown as {
+        handleRatingClick: (rating: 'satisfied' | 'unsatisfied') => void;
+      };
+      instance.handleRatingClick('satisfied');
+      instance.handleRatingClick('unsatisfied');
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy.mock.calls[0][0].detail.rating).toBe('satisfied');

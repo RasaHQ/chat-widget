@@ -22,8 +22,7 @@ const makeQuickReply = (
   sender: SENDER.BOT,
   type: MESSAGE_TYPES.QUICK_REPLY,
   text,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  replies: replies.map(r => ({ ...r, isSelected: false })) as any,
+  replies: replies.map(r => ({ ...r, isSelected: false })) as unknown as QuickReplyMessage['replies'],
 });
 
 const makeCsat = (
