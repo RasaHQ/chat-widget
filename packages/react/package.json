@@ -1,6 +1,6 @@
 {
   "name": "@rasahq/chat-widget-react",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rasahq/chat-widget-ui": "^0.1.17",
+    "@rasahq/chat-widget-ui": "^0.1.18",
     "@stencil/react-output-target": "^0.7.1"
   },
   "devDependencies": {
