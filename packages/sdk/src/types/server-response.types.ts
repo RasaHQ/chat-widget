@@ -35,6 +35,13 @@ export interface RatingResponse extends BaseMessageResponse {
   message: string;
 }
 
+export interface CsatResponse extends BaseMessageResponse {
+  type: typeof RESPONSE_MESSAGE_TYPES.CSAT;
+  question?: string;
+  thank_you?: string;
+  options?: { value: string; payload: string }[];
+}
+
 export interface QuickReplyResponse extends BaseMessageResponse {
   text?: string;
   quick_replies: { content_type: string; payload: string; title: string; isSelected?: boolean }[];
@@ -94,6 +101,11 @@ export interface HttpRatingResponse extends BaseMessageResponse {
   custom: RatingResponse;
 }
 
+export interface HttpCsatResponse extends BaseMessageResponse {
+  recipient_id: string;
+  custom: CsatResponse;
+}
+
 export type HttpResponse =
   | HttpTextResponse
   | HttpImageResponse
@@ -102,7 +114,8 @@ export type HttpResponse =
   | HttpAccordionResponse
   | HttpFileDownloadResponse
   | HttpQuickReplyResponse
-  | HttpRatingResponse;
+  | HttpRatingResponse
+  | HttpCsatResponse;
 
 export type MessageResponse =
   | TextResponse
@@ -112,4 +125,5 @@ export type MessageResponse =
   | QuickReplyResponse
   | FileDownloadResponse
   | VideoResponse
-  | RatingResponse;
+  | RatingResponse
+  | CsatResponse;

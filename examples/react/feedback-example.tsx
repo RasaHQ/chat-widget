@@ -66,9 +66,9 @@ const FeedbackExample: React.FC = () => {
             <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Configurable Messages:</strong> Custom question and thank you text</li>
             <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Pattern-Based Triggering:</strong> Shows after specific message types</li>
             <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Session Divider:</strong> Customizable "Session started" text</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Custom Fonts:</strong> OrtoRNIDS government font support</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Custom Fonts:</strong> Configurable font family</li>
             <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Rasa Integration:</strong> Sends feedback as custom intent to set slots</li>
-            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Internationalization:</strong> Serbian Cyrillic text support</li>
+            <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Internationalization:</strong> Configurable text for any language/script</li>
             <li style={{ margin: '5px 0', color: '#6c757d' }}>✅ <strong>Responsive Design:</strong> Works on mobile and desktop</li>
           </ul>
         </div>
@@ -78,17 +78,17 @@ const FeedbackExample: React.FC = () => {
 
       {/* Complete Chat Widget with All Features */}
       <RasaChatbotWidget
-        serverUrl="https://aiasistent.gov.rs"
-        inputMessagePlaceholder="Која Вас услуга занима?"
-        widgetTitle="еУправа асистент"
+        serverUrl="http://localhost:5005"
+        inputMessagePlaceholder="What service are you interested in?"
+        widgetTitle="Rasa Assistant"
         widgetIcon=""
         initialPayload="/session_start"
         enableFeedback={true}
         feedbackTriggerPattern="text"
-        feedbackQuestionText="Како оцењујете овај разговор?"
-        feedbackThankYouText="Хвала на повратним информацијама!"
-        sessionStartedText="Сесија започета:"
-        fontFamily="'OrtoRNIDS', 'Lato', sans-serif"
+        feedbackQuestionText="How would you rate this conversation?"
+        feedbackThankYouText="Thank you for your feedback!"
+        sessionStartedText="Session started:"
+        fontFamily="'Lato', sans-serif"
         autoOpen={true}
         onChatWidgetFeedbackSubmitted={handleFeedbackSubmitted}
         onChatWidgetOpened={handleChatWidgetOpened}

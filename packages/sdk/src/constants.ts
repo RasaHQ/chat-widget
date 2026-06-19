@@ -5,6 +5,7 @@ export const RESPONSE_MESSAGE_TYPES = {
   VIDEO: "video",
   IMAGE: "image",
   RATING: "rating",
+  CSAT: "csat",
 } as const;
 
 export const SESSION_STORAGE_KEYS = {

@@ -7,17 +7,26 @@ type MessengerProps = {
   isFullScreen: boolean;
   toggleFullScreenMode: () => void;
   hasFeedback?: boolean;
+  isFeedbackDismissing?: boolean;
 };
 
-export const Messenger: FunctionalComponent<MessengerProps> = ({ isOpen, isFullScreen, toggleFullScreenMode, hasFeedback }, children) => {
+export const Messenger: FunctionalComponent<MessengerProps> = (
+  { isOpen, isFullScreen, toggleFullScreenMode, hasFeedback, isFeedbackDismissing },
+  children
+) => {
   const Icon = isFullScreen ? 'rasa-icon-arrows-contract' : 'rasa-icon-arrows-expand';
 
   return (
-    <div class={{ 
-      'messenger': true, 
-      'messenger--fullscreen': isFullScreen, 
+    <div class={{
+      'messenger': true,
+      'messenger--fullscreen': isFullScreen,
       'messenger--open': isOpen,
-      'messenger--with-feedback': hasFeedback
+      'messenger--with-feedback': hasFeedback,
+      // Only present during the dismiss-down animation. The padding-bottom
+      // transition is gated on this class so the popup's *entrance* (when
+      // `--with-feedback` is added) makes room instantly, while the
+      // *dismissal* slides smoothly in lock-step with the popup fade.
+      'messenger--feedback-dismissing': isFeedbackDismissing,
     }}>
       <div class="messenger__header">
         <div>

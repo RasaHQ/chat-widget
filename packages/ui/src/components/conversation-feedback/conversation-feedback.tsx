@@ -44,45 +44,42 @@ export class RasaConversationFeedback {
   @State() isHelpful: boolean | null = null;
 
   /**
-   * State to track if component is fading out
-   */
-  @State() isFadingOut: boolean = false;
-
-  /**
    * State to track if thank you message is showing
    */
   @State() showThankYou: boolean = false;
 
   private handleRatingClick(rating: 'satisfied' | 'unsatisfied') {
+    // Guard against double-clicks: a second click on the other thumb (or the
+    // same one) after a selection is already locked in must be a no-op.
+    if (this.selectedRating !== null) return;
+
     this.selectedRating = rating;
-    
-    // Show thank you message immediately (no delay)
     this.showThankYou = true;
-    
-    // Hide thank you message after 3 seconds and set fading out
-    setTimeout(() => {
-      this.showThankYou = false;
-      this.isFadingOut = true;
-    }, 3000);
-    
-    // Emit feedback immediately - main widget will handle timing
+
+    // Emit synchronously so the parent persists the answered state before any
+    // visual delay - protects against a refresh that races the fade-out.
     this.feedbackSubmitted.emit({
-      rating: rating,
-      helpful: true // Default to helpful when just rating
+      rating,
+      helpful: true,
     });
+
+    // No JS timer for the fade-out: the thank-you element's CSS animation
+    // is a chained `fadeIn` + delayed `fadeOut` with `forwards` fill, so
+    // the popup self-dismisses visually without any setTimeout here. The
+    // parent's slide-down + unmount run on the same CSS timeline.
   }
 
 
   render() {
-    if (!this.show || this.isFadingOut || !this.questionText.trim()) {
+    // Note: do NOT short-circuit while the popup is fading out. The popup
+    // stays mounted with its `forwards`-filled CSS fade-out animation - the
+    // parent unmounts it via a single setTimeout once the chat slide is done.
+    if (!this.show || !this.questionText.trim()) {
       return null;
     }
 
     return (
-      <div class={{
-        'rasa-conversation-feedback': true,
-        'rasa-conversation-feedback--fading-out': this.isFadingOut
-      }}>
+      <div class="rasa-conversation-feedback">
         <div class="rasa-conversation-feedback__content">
           {!this.showThankYou ? (
             <div>

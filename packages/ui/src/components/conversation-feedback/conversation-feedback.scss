@@ -1,14 +1,27 @@
-.rasa-conversation-feedback {
+// Take the host element out of the parent's flex flow. Otherwise the
+// `<rasa-conversation-feedback>` custom element sits as a flex child of
+// `.messenger__content` (which is `display: flex; gap: 24px`) and reserves a
+// 24px `gap` slot before itself. When the popup later unmounts, that gap
+// disappears in one frame and the chat content visibly drops 24px - which
+// reads as the "quick drop at the end" of the slide-down animation, even
+// though the padding transition itself is perfectly linear. Making the host
+// absolutely-positioned removes it from layout entirely, so unmount is a
+// pure compositor operation with no layout shift.
+:host {
   position: absolute;
   bottom: 80px;
   left: 0;
   right: 0;
+  z-index: 10;
+}
+
+.rasa-conversation-feedback {
+  position: relative;
   padding: 10px 16px 12px 16px;
   margin: 0;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  z-index: 10;
   
   // Smooth animations - slower and more elegant
   animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -19,17 +32,6 @@
     border-top: none;
     background: transparent;
     backdrop-filter: none;
-  }
-
-  // Fade-out animation - smooth and elegant
-  &--fading-out {
-    animation: fadeOutDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    // Remove from document flow during fade-out so content moves up
-    position: absolute !important;
-    bottom: 80px !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 10 !important;
   }
 
       &__content {
@@ -123,7 +125,15 @@
     }
   }
 
-      // Thank you message styling - elegant and professional
+      // Thank you message styling - elegant and professional.
+      //
+      // The fade-out is driven entirely by CSS via an animation list: first
+      // `thankYouFadeIn` (0.5s, no delay), then `feedbackFadeOut` (0.6s,
+      // delayed by 1.5s = THANK_YOU_HOLD_MS). `forwards` keeps the element
+      // at opacity 0 once the fade completes, until the parent unmounts it.
+      // Driving this from CSS removes the need for a JS setTimeout in the
+      // component, which previously had to be cancelled in
+      // disconnectedCallback to avoid setting state on a detached instance.
       &__thank-you {
         position: absolute;
         top: 0;
@@ -135,8 +145,11 @@
         justify-content: center;
         background: transparent;
         border-radius: 0;
-        animation: thankYouFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation:
+          thankYouFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          feedbackFadeOut 0.6s 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         z-index: 20;
+        pointer-events: none;
       }
 
       &__thank-you-content {
@@ -176,29 +189,16 @@
   }
 }
 
-@keyframes fadeOutDown {
+@keyframes feedbackFadeOut {
   0% {
     opacity: 1;
-    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
   }
 }
 
 // Thank you message animations
-@keyframes thankYouFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes thankYouFadeIn {
   0% {
     opacity: 0;

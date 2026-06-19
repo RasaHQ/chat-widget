@@ -7,6 +7,7 @@ import {
   TextResponse,
   VideoResponse,
   RatingResponse,
+  CsatResponse,
 } from '../../types/server-response.types';
 import { CustomErrorClass, ErrorSeverity } from '../../errors';
 
@@ -21,6 +22,7 @@ const messageTypeMap = {
   quickReply: (msg: any): msg is QuickReplyResponse => msg?.quick_replies?.length > 0,
   fileDownload: (msg: any): msg is FileDownloadResponse => msg?.type === RESPONSE_MESSAGE_TYPES.FILE_DOWNLOAD,
   video: (msg: any): msg is VideoResponse => msg?.type === RESPONSE_MESSAGE_TYPES.VIDEO,
+  csat: (msg: any): msg is CsatResponse => msg?.type === RESPONSE_MESSAGE_TYPES.CSAT,
   text: (msg: any): msg is TextResponse => msg.text && msg.type === undefined,
   rating: (msg: any): msg is RatingResponse => msg?.type === RESPONSE_MESSAGE_TYPES.RATING,
 };
