@@ -1,5 +1,5 @@
 .rasa-button {
-  height: 32px;
+  min-height: 32px;
   border: 1px solid var(--message-button-border-color);
   border-radius: 8px;
   padding: 8px 12px;
@@ -12,7 +12,6 @@
   letter-spacing: 0.3px;
   padding-top: 6px;
   padding-bottom: 6px;
-  text-wrap: nowrap;
   cursor: pointer;
   display: flex;
   justify-content: center;

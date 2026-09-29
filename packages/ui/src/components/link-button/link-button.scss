@@ -1,6 +1,6 @@
 .rasa-link-button {
   display: inline-flex;
-  height: 32px; // Adjusted height to account for border
+  min-height: 32px; // Adjusted height to account for border
   padding: 8px 12px; // Adjusted padding to maintain total height of 50px
   justify-content: center;
   align-items: center;
@@ -17,7 +17,6 @@
   letter-spacing: 0.3px;
   padding-top: 6px;
   padding-bottom: 6px;
-  white-space: nowrap;
   cursor: pointer;
   box-sizing: border-box; // Ensure padding and border are included in height calculation
 

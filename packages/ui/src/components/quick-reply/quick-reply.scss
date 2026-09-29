@@ -19,13 +19,20 @@
     flex-wrap: wrap;
     padding: 0 40px;
 
+    // Buttons keep their natural width and may reach into the right padding,
+    // but never past the edge of the chat area.
+    > * {
+      flex-shrink: 0;
+      max-width: calc(100% + 40px);
+    }
+
+    // Long labels wrap onto multiple lines instead of being cut off.
+    // The 18px line height keeps single-line buttons at 32px.
     rasa-text::part(text) {
       width: calc(100%);
       max-width: 250px;
-      text-overflow: ellipsis;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
+      display: block;
+      line-height: 18px;
     }
 
     &--disabled {

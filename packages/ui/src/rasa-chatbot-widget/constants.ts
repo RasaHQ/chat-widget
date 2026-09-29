@@ -1,5 +1,7 @@
 export const DISCONNECT_TIMEOUT = 5_000;
 export const DEBOUNCE_THRESHOLD = 1_000;
+// Hides the typing indicator if the bot never replies to a sent message
+export const TYPING_INDICATOR_TIMEOUT = 30_000;
 
 export const WIDGET_DEFAULT_CONFIGURATION = {
   AUTHENTICATION_TOKEN: '',
