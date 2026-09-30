@@ -52,18 +52,26 @@ export class RasaChatInput {
   render() {
     return (
       <div class="rasa-chat-input">
-        <input
-          type="text"
-          class="rasa-chat-input__input"
-          placeholder={configStore().inputMessagePlaceholder}
-          value={this.value}
-          onInput={this.inputChangeHandler}
-          maxLength={500}
-          onKeyUp={event => this.handleKeyUp(event)}
-          enterkeyhint="done"
-        />
-        <button class="rasa-chat-input__button" onClick={this.sendMessageClick} aria-label="Send message">
-          <rasa-icon-paper-plane class="rasa-chat-input__icon"></rasa-icon-paper-plane>
+        <div class="rasa-chat-input__field">
+          <input
+            type="text"
+            class="rasa-chat-input__input"
+            placeholder={configStore().inputMessagePlaceholder}
+            aria-label={configStore().inputMessagePlaceholder}
+            value={this.value}
+            onInput={this.inputChangeHandler}
+            maxLength={500}
+            onKeyUp={event => this.handleKeyUp(event)}
+            enterkeyhint="send"
+          />
+        </div>
+        <button
+          class={{ 'rasa-chat-input__button': true, 'rasa-chat-input__button--disabled': !this.value?.trim() }}
+          aria-disabled={!this.value?.trim() ? 'true' : 'false'}
+          onClick={this.sendMessageClick}
+          aria-label="Send message"
+        >
+          <rasa-icon-paper-plane class="rasa-chat-input__icon" size={16} decorative></rasa-icon-paper-plane>
         </button>
       </div>
     );

@@ -1,0 +1,36 @@
+/*
+ * Brand overrides for the chat widget. Copy this file and edit the values.
+ * Every token below is optional. Delete what you do not change.
+ *
+ * Works with the default `light` theme. With another `theme`, set colors on the
+ * element instead:  rasa-chatbot-widget { --color-primary: #e8590c; }
+ */
+:root {
+  /* Brand colors. Component tokens (bubbles, header, buttons) derive from these. */
+  --color-primary: #4a3fb5;
+  --color-secondary: #ffffff;
+  --color-secondary-opposite: #000000;
+
+  /* Shape */
+  --radius-messenger: 20px;
+  --radius-bubble: 18px;
+  --radius-bubble-tail: 4px;
+  --radius-control: 12px;
+  --radius-launcher: 999px;
+
+  /* Size and placement */
+  --launcher-size: 60px;
+  --messenger-width: 392px;
+  --messenger-height: 700px;
+  --widget-offset-x: 20px;
+  --widget-offset-y: 20px;
+
+  /* Header: a plain color or any CSS background, such as a gradient */
+  --header-background-color: linear-gradient(135deg, #2b2470 0%, #4a3fb5 100%);
+  --header-color: #ffffff;
+
+  /* Elevation and motion */
+  --shadow-messenger: 0 12px 40px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-launcher: 0 6px 20px rgba(0, 0, 0, 0.22), 0 1px 4px rgba(0, 0, 0, 0.12);
+  --motion-duration: 220ms;
+}

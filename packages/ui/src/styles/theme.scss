@@ -1,5 +1,15 @@
-:root {
-  --font-family: var(--widget-font-family, 'Lato', sans-serif);
+// Design tokens.
+//
+// Layer 1: brand colors (`--color-primary`, `--color-secondary`, ...), see colors.scss.
+// Layer 2: component tokens (`--message-user-background-color`, ...), derived from layer 1.
+// Layer 3: shape, size, elevation and motion tokens, independent of color.
+//
+// Override any token from your own CSS, e.g. `:root { --radius-bubble: 8px; }`.
+
+// Component tokens derived from the brand colors. Emitted at `:root` and again
+// by the built-in themes, so a theme can swap the brand colors and have every
+// derived token follow.
+@mixin component-tokens {
   --launcher-background-color: var(--color-primary);
   --launcher-color: var(--color-secondary);
   --header-background-color: var(--color-primary);
@@ -8,8 +18,10 @@
   --input-placeholder-color: var(--color-secondary-opposite);
   --input-placeholder-opacity: 0.5;
   --input-background-color: var(--color-secondary);
+  --input-field-background-color: var(--color-secondary-10);
   --input-color: var(--color-secondary-opposite);
   --input-send-color: var(--color-primary);
+  --input-send-icon-color: var(--color-secondary);
   --message-robot-icon-background-color: var(--color-primary);
   --message-robot-icon-color: var(--color-secondary);
   --message-robot-background-color: var(--color-secondary-10);
@@ -28,4 +40,44 @@
   --error-toast-background-color: var(--color-danger);
   --error-toast-color: var(--color-secondary);
   --timestamp-color: var(--color-secondary-40);
+  --border-color: var(--color-secondary-20);
+  --focus-ring-color: var(--color-primary);
+}
+
+:root {
+  --font-family: var(--widget-font-family, 'Lato', sans-serif);
+  @include component-tokens;
+
+  // Shape
+  --radius-messenger: 20px;
+  --radius-bubble: 18px;
+  --radius-bubble-tail: 4px;
+  --radius-control: 12px;
+  --radius-launcher: 999px;
+
+  // Size
+  --launcher-size: 60px;
+  --messenger-width: 392px;
+  --messenger-height: 700px;
+  --widget-offset-x: 20px;
+  --widget-offset-y: 20px;
+  --header-padding-y: 14px;
+  --header-padding-x: 20px;
+  --content-padding: 20px;
+  --message-gap: 12px;
+  --avatar-size: 32px;
+  --composer-height: 76px;
+
+  // Elevation
+  --shadow-messenger: 0 12px 40px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-launcher: 0 6px 20px rgba(0, 0, 0, 0.22), 0 1px 4px rgba(0, 0, 0, 0.12);
+  --shadow-bubble: none;
+
+  // Motion
+  --motion-duration: 220ms;
+  --motion-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  // Status indicator in the header
+  --status-online-color: #2ecc71;
+  --status-offline-color: #9aa3ad;
 }

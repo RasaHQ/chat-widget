@@ -12,6 +12,8 @@ import { isValidURL } from '../utils/validate-url';
 import { broadcastChatHistoryEvent, receiveChatHistoryEvent } from '../utils/eventChannel';
 import { isMobile } from '../utils/isMobile';
 import { debounce } from '../utils/debounce';
+import { parseSuggestedPrompts } from '../utils/suggested-prompts';
+import { WidgetTheme } from '../utils/widget-theme';
 import {
   detectCsatButtons,
   isCsatAnsweredFor,
@@ -77,6 +79,7 @@ export class RasaChatbotWidget {
   @State() isFeedbackDismissing = false;
   @State() csatQuestion = '';
   @State() csatThankYou = '';
+  @State() showScrollToBottom = false;
 
   /**
    * Default payloads sent to the channel when the user picks a rating. These
@@ -240,6 +243,53 @@ export class RasaChatbotWidget {
    * */
   @Prop() fontFamily: string = 'Lato, sans-serif';
 
+  /**
+   * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting),
+   * or a designer preset: `midnight`, `ocean`, `forest`, `sunset`, `mono`.
+   * */
+  @Prop({ reflect: true }) theme: WidgetTheme = 'light';
+
+  /**
+   * Which corner of the page the launcher and chat window are anchored to.
+   * */
+  @Prop() position: 'bottom-right' | 'bottom-left' = 'bottom-right';
+
+  /**
+   * Line shown under the title in the header. When empty, the header shows the connection status.
+   * */
+  @Prop() widgetSubtitle: string = '';
+
+  /**
+   * Text shown next to the launcher icon. When empty, the launcher is icon-only.
+   * */
+  @Prop() launcherLabel: string = '';
+
+  /**
+   * Hides the close button in the chat header.
+   * */
+  @Prop() hideCloseButton: boolean = false;
+
+  /**
+   * Text shown at the top of an empty conversation, above the first messages.
+   * */
+  @Prop() welcomeMessage: string = '';
+
+  /**
+   * Conversation starters shown as tappable chips until the visitor sends a message.
+   * Accepts an array, a JSON array string, or a comma separated string.
+   * */
+  @Prop() suggestedPrompts: string[] | string = [];
+
+  /**
+   * Header status text while the widget is connected and no subtitle is set.
+   * */
+  @Prop() connectedText: string = 'Online';
+
+  /**
+   * Header status text while the widget is connecting and no subtitle is set.
+   * */
+  @Prop() disconnectedText: string = 'Connecting…';
+
   componentWillLoad() {
     const {
       serverUrl,
@@ -323,6 +373,24 @@ export class RasaChatbotWidget {
     if (container) {
       container.scrollTop = 0;
     }
+  }
+
+  // The conversation is a `column-reverse` scroller, so scrollTop is 0 at the bottom and goes negative upwards.
+  private handleScroll = (event: Event): void => {
+    const target = event.target as HTMLElement;
+    const shouldShow = target.scrollTop < -120;
+    if (shouldShow !== this.showScrollToBottom) {
+      this.showScrollToBottom = shouldShow;
+    }
+  };
+
+  private handleSuggestedPrompt = (prompt: string): void => {
+    if (!this.isConnected) return;
+    this.sendMessageHandler(new CustomEvent('sendMessageHandler', { detail: prompt }));
+  };
+
+  private get hasUserMessage(): boolean {
+    return [...this.messageHistory, ...this.messages].some(message => 'sender' in message && message.sender === SENDER.USER);
   }
 
   private sessionConfirm = () => {
@@ -650,6 +718,13 @@ export class RasaChatbotWidget {
     }
   }
 
+  private handleLauncherKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleOpenState();
+    }
+  };
+
   private getAltText() {
     return this.isOpen ? 'Close Chat' : 'Open Chat';
   }
@@ -674,6 +749,20 @@ export class RasaChatbotWidget {
     if (this.client) {
       this.client.updateAuthenticationToken(newToken);
     }
+  }
+
+  /**
+   * Keeps display settings live when the host page changes them after load.
+   */
+  @Watch('widgetTitle')
+  @Watch('displayTimestamp')
+  @Watch('toggleFullScreen')
+  @Watch('botIcon')
+  @Watch('widgetIcon')
+  @Watch('inputMessagePlaceholder')
+  onDisplayConfigChange() {
+    const { widgetTitle, displayTimestamp, toggleFullScreen, botIcon, widgetIcon, inputMessagePlaceholder } = this;
+    setConfigStore({ widgetTitle, displayTimestamp, toggleFullScreen, botIcon, widgetIcon, inputMessagePlaceholder });
   }
 
   @Watch('messages')
@@ -758,8 +847,10 @@ export class RasaChatbotWidget {
     }
     const widgetClassList = {
       'rasa-chatbot-widget': true,
+      'rasa-chatbot-widget--left': this.position === 'bottom-left',
       'fullscreen': this.isFullScreen,
     };
+    const prompts = this.hasUserMessage ? [] : parseSuggestedPrompts(this.suggestedPrompts);
 
     return (
       <global-error-handler>
@@ -772,6 +863,18 @@ export class RasaChatbotWidget {
               isFullScreen={this.isFullScreen}
               hasFeedback={this.showFeedback && this.isOpen && !this.isFeedbackDismissing}
               isFeedbackDismissing={this.isFeedbackDismissing}
+              isConnected={this.isConnected}
+              subtitle={this.widgetSubtitle}
+              connectedText={this.connectedText}
+              disconnectedText={this.disconnectedText}
+              showCloseButton={!this.hideCloseButton}
+              onClose={this.toggleOpenState}
+              welcomeMessage={this.welcomeMessage}
+              suggestedPrompts={prompts}
+              onSuggestedPrompt={this.handleSuggestedPrompt}
+              showScrollToBottom={this.showScrollToBottom}
+              onScroll={this.handleScroll}
+              onScrollToBottom={() => this.scrollToBottom()}
             >
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
               {this.cachedMessages}
@@ -786,7 +889,15 @@ export class RasaChatbotWidget {
                 ></rasa-conversation-feedback>
               )}
             </Messenger>
-            <div role="button" onClick={this.toggleOpenState} class="rasa-chatbot-widget__launcher" aria-label={this.getAltText()}>
+            <div
+              role="button"
+              tabindex={0}
+              aria-expanded={this.isOpen ? 'true' : 'false'}
+              onClick={this.toggleOpenState}
+              onKeyDown={this.handleLauncherKeyDown}
+              class={{ 'rasa-chatbot-widget__launcher': true, 'rasa-chatbot-widget__launcher--with-label': !!this.launcherLabel && !this.isOpen }}
+              aria-label={this.getAltText()}
+            >
               {configStore().widgetIcon ? (
                 <img src={configStore().widgetIcon} class="rasa-chatbot-widget__launcher-image"></img>
               ) : this.isOpen ? (
@@ -794,6 +905,7 @@ export class RasaChatbotWidget {
               ) : (
                 <rasa-icon-chat />
               )}
+              {this.launcherLabel && !this.isOpen && !configStore().widgetIcon && <span class="rasa-chatbot-widget__launcher-label">{this.launcherLabel}</span>}
             </div>
           </div>
         </div>

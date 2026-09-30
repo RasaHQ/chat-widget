@@ -6,8 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
+import { WidgetTheme } from "./utils/widget-theme";
 import { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
 export { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
+export { WidgetTheme } from "./utils/widget-theme";
 export { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
@@ -74,6 +76,14 @@ export namespace Components {
          */
         "botIcon": string;
         /**
+          * Header status text while the widget is connected and no subtitle is set.
+         */
+        "connectedText": string;
+        /**
+          * Header status text while the widget is connecting and no subtitle is set.
+         */
+        "disconnectedText": string;
+        /**
           * Indicates if a message timestamp should be displayed
          */
         "displayTimestamp": boolean;
@@ -98,6 +108,10 @@ export namespace Components {
          */
         "fontFamily": string;
         /**
+          * Hides the close button in the chat header.
+         */
+        "hideCloseButton": boolean;
+        /**
           * Data that should be sent on Chat Widget initialization
          */
         "initialPayload": string;
@@ -106,6 +120,10 @@ export namespace Components {
          */
         "inputMessagePlaceholder": string;
         /**
+          * Text shown next to the launcher icon. When empty, the launcher is icon-only.
+         */
+        "launcherLabel": string;
+        /**
           * Delay between receiving and printing the first message of a bot reply. The rest follow right away.
          */
         "messageDelay": number;
@@ -113,6 +131,10 @@ export namespace Components {
           * Format of the message timestamp
          */
         "messageTimestamp": string;
+        /**
+          * Which corner of the page the launcher and chat window are anchored to.
+         */
+        "position": 'bottom-right' | 'bottom-left';
         /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
@@ -134,13 +156,29 @@ export namespace Components {
          */
         "streamMessages": boolean;
         /**
+          * Conversation starters shown as tappable chips until the visitor sends a message. Accepts an array, a JSON array string, or a comma separated string.
+         */
+        "suggestedPrompts": string[] | string;
+        /**
+          * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting), or a designer preset: `midnight`, `ocean`, `forest`, `sunset`, `mono`.
+         */
+        "theme": WidgetTheme;
+        /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
         "toggleFullScreen": boolean;
         /**
+          * Text shown at the top of an empty conversation, above the first messages.
+         */
+        "welcomeMessage": string;
+        /**
           * Static icon for the widget
          */
         "widgetIcon": string;
+        /**
+          * Line shown under the title in the header. When empty, the header shows the connection status.
+         */
+        "widgetSubtitle": string;
         /**
           * Title of the Chat Widget
          */
@@ -1018,6 +1056,14 @@ declare namespace LocalJSX {
          */
         "botIcon"?: string;
         /**
+          * Header status text while the widget is connected and no subtitle is set.
+         */
+        "connectedText"?: string;
+        /**
+          * Header status text while the widget is connecting and no subtitle is set.
+         */
+        "disconnectedText"?: string;
+        /**
           * Indicates if a message timestamp should be displayed
          */
         "displayTimestamp"?: boolean;
@@ -1042,6 +1088,10 @@ declare namespace LocalJSX {
          */
         "fontFamily"?: string;
         /**
+          * Hides the close button in the chat header.
+         */
+        "hideCloseButton"?: boolean;
+        /**
           * Data that should be sent on Chat Widget initialization
          */
         "initialPayload"?: string;
@@ -1049,6 +1099,10 @@ declare namespace LocalJSX {
           * Message placeholder for input
          */
         "inputMessagePlaceholder"?: string;
+        /**
+          * Text shown next to the launcher icon. When empty, the launcher is icon-only.
+         */
+        "launcherLabel"?: string;
         /**
           * Delay between receiving and printing the first message of a bot reply. The rest follow right away.
          */
@@ -1094,6 +1148,10 @@ declare namespace LocalJSX {
          */
         "onChatWidgetSentMessage"?: (event: RasaChatbotWidgetCustomEvent<string>) => void;
         /**
+          * Which corner of the page the launcher and chat window are anchored to.
+         */
+        "position"?: 'bottom-right' | 'bottom-left';
+        /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
         "restEnabled"?: boolean;
@@ -1114,13 +1172,29 @@ declare namespace LocalJSX {
          */
         "streamMessages"?: boolean;
         /**
+          * Conversation starters shown as tappable chips until the visitor sends a message. Accepts an array, a JSON array string, or a comma separated string.
+         */
+        "suggestedPrompts"?: string[] | string;
+        /**
+          * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting), or a designer preset: `midnight`, `ocean`, `forest`, `sunset`, `mono`.
+         */
+        "theme"?: WidgetTheme;
+        /**
           * Indicates whether the chat messenger can be toggled to full screen mode.
          */
         "toggleFullScreen"?: boolean;
         /**
+          * Text shown at the top of an empty conversation, above the first messages.
+         */
+        "welcomeMessage"?: string;
+        /**
           * Static icon for the widget
          */
         "widgetIcon"?: string;
+        /**
+          * Line shown under the title in the header. When empty, the header shows the connection status.
+         */
+        "widgetSubtitle"?: string;
         /**
           * Title of the Chat Widget
          */

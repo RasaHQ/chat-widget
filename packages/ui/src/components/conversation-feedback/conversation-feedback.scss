@@ -9,7 +9,7 @@
 // pure compositor operation with no layout shift.
 :host {
   position: absolute;
-  bottom: 80px;
+  bottom: var(--composer-height);
   left: 0;
   right: 0;
   z-index: 10;
@@ -19,9 +19,9 @@
   position: relative;
   padding: 10px 16px 12px 16px;
   margin: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, var(--messenger-background-color) 95%, transparent);
   backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border-color);
   
   // Smooth animations - slower and more elegant
   animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -58,15 +58,15 @@
   &__thumb {
     width: 36px;
     height: 36px;
-    border: 2px solid var(--feedback-thumb-border-color, #e0e0e0);
+    border: 2px solid var(--feedback-thumb-border-color, var(--border-color));
     border-radius: 50%;
-    background: var(--feedback-thumb-background, #fff);
+    background: var(--feedback-thumb-background, var(--messenger-background-color));
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: #999;
+    color: var(--color-secondary-40);
     font-size: 16px;
     line-height: 1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -83,7 +83,7 @@
 
     &:hover {
       border-color: var(--color-primary);
-      background: var(--feedback-thumb-hover-bg, #f8f9fa);
+      background: var(--feedback-thumb-hover-bg, var(--color-secondary-10));
       color: var(--color-primary);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0, 57, 100, 0.15);

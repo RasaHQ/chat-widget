@@ -12,3 +12,15 @@
     @content;
   }
 }
+
+// Derives the 10-90 neutral scale from the two brand colors.
+@mixin color-scale {
+  @each $step in (10, 20, 30, 40, 50, 60, 70, 80, 90) {
+    --color-secondary-#{$step}: color-mix(in srgb, var(--color-secondary), var(--color-secondary-opposite) #{$step}#{'%'});
+  }
+}
+
+@mixin focus-ring {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}

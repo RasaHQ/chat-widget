@@ -1,10 +1,99 @@
+// ---------------------------------------------------------------------------
+// Built-in themes
+//
+// Select one with the `theme` prop, e.g. `<rasa-chatbot-widget theme="midnight">`.
+// A theme swaps the brand colors and re-derives every component token, so it
+// composes with the shape/size tokens in theme.scss. To make your own theme,
+// copy one of the maps below (see docs in examples/starter/README.md).
+// ---------------------------------------------------------------------------
+$themes: (
+  'dark': (
+    'primary': #6ea8fe,
+    'secondary': #14181f,
+    'opposite': #ffffff,
+    'danger': #ff6b6b,
+  ),
+  'midnight': (
+    'primary': #8b7bff,
+    'secondary': #0f1020,
+    'opposite': #ffffff,
+    'danger': #ff6b81,
+    'header-background': linear-gradient(135deg, #2b2470 0%, #4a3fb5 100%),
+    'header-color': #ffffff,
+  ),
+  'ocean': (
+    'primary': #0b7285,
+    'secondary': #ffffff,
+    'opposite': #0b1f26,
+    'danger': #c6423f,
+    'header-background': linear-gradient(135deg, #0b7285 0%, #1098ad 100%),
+    'header-color': #ffffff,
+  ),
+  'forest': (
+    'primary': #2f7d4f,
+    'secondary': #fbfdfb,
+    'opposite': #10231a,
+    'danger': #c6423f,
+  ),
+  'sunset': (
+    'primary': #e8590c,
+    'secondary': #fffaf5,
+    'opposite': #2b1a10,
+    'danger': #c92a2a,
+    'header-background': linear-gradient(135deg, #e8590c 0%, #d6336c 100%),
+    'header-color': #ffffff,
+  ),
+  'mono': (
+    'primary': #111111,
+    'secondary': #ffffff,
+    'opposite': #000000,
+    'danger': #c6423f,
+  ),
+);
+
+@mixin apply-theme($config) {
+  --color-primary: #{map-get($config, 'primary')};
+  --color-secondary: #{map-get($config, 'secondary')};
+  --color-secondary-opposite: #{map-get($config, 'opposite')};
+  --color-danger: #{map-get($config, 'danger')};
+  @include color-scale;
+  @include component-tokens;
+  @if map-has-key($config, 'header-background') {
+    --header-background-color: #{map-get($config, 'header-background')};
+    --header-color: #{map-get($config, 'header-color')};
+  }
+}
+
+@each $name, $config in $themes {
+  :host([theme='#{$name}']) {
+    @include apply-theme($config);
+    color-scheme: if($name == 'dark' or $name == 'midnight', dark, light);
+  }
+}
+
+// `theme="auto"` follows the visitor's OS setting.
+@media (prefers-color-scheme: dark) {
+  :host([theme='auto']) {
+    @include apply-theme(map-get($themes, 'dark'));
+    color-scheme: dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Launcher and layout
+// ---------------------------------------------------------------------------
 .rasa-chatbot-widget {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: var(--widget-offset-y);
+  right: var(--widget-offset-x);
   z-index: 99999999;
-  --chat-message-max-width: 289px;
+  --chat-message-max-width: 300px;
   --video-height: 170px;
+
+  &--left {
+    right: auto;
+    left: var(--widget-offset-x);
+  }
 
   &__container {
     position: relative;
@@ -15,90 +104,331 @@
     user-select: none;
     display: inline-flex;
     justify-content: center;
-    width: 66px;
-    height: 66px;
+    gap: 10px;
+    min-width: var(--launcher-size);
+    height: var(--launcher-size);
+    box-sizing: border-box;
     align-items: center;
     background: var(--launcher-background-color);
-    border-radius: 100px;
+    border-radius: var(--radius-launcher);
     color: var(--launcher-color);
+    box-shadow: var(--shadow-launcher);
+    transition: transform var(--motion-duration) var(--motion-easing), box-shadow var(--motion-duration) var(--motion-easing);
+
+    &:hover {
+      transform: translateY(-2px) scale(1.04);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &--with-label {
+      padding: 0 22px 0 18px;
+    }
+  }
+
+  &__launcher-label {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   &__launcher-image {
-    width: 66px;
-    height: 66px;
+    width: var(--launcher-size);
+    height: var(--launcher-size);
     border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &--left &__launcher--with-label {
+    flex-direction: row-reverse;
   }
 }
 
 .messenger {
   position: absolute;
-  justify-content: space-between;
   display: flex;
   flex-direction: column;
-  bottom: 90px;
+  bottom: calc(var(--launcher-size) + 14px);
   right: 0;
-  width: 375px;
-  height: 85vh;
-  max-height: 700px;
+  width: min(var(--messenger-width), calc(100vw - var(--widget-offset-x) * 2));
+  height: min(var(--messenger-height), calc(100vh - var(--launcher-size) - var(--widget-offset-y) - 40px));
   background: var(--messenger-background-color);
-  border-radius: 8px;
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.05);
+  color: var(--input-color);
+  border-radius: var(--radius-messenger);
+  box-shadow: var(--shadow-messenger);
   overflow: hidden;
   z-index: 1000;
   opacity: 0;
-  transform: scale(0);
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.96);
   transform-origin: bottom right;
-  transition: transform 300ms cubic-bezier(0, 1.2, 1, 1) 0s, opacity 83ms ease-out 0s;
+  transition:
+    transform var(--motion-duration) var(--motion-easing),
+    opacity var(--motion-duration) var(--motion-easing),
+    visibility 0s linear var(--motion-duration);
+
   &--open {
     opacity: 1;
-    transform: scale(1);
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
   }
 
-  &--fullscreen {
+  .rasa-chatbot-widget--left & {
+    right: auto;
+    left: 0;
+    transform-origin: bottom left;
+  }
+
+  &--fullscreen,
+  .rasa-chatbot-widget--left &--fullscreen {
     position: fixed;
     top: 0;
     left: 0;
+    right: auto;
     width: 100%;
     max-height: 100%;
-    height: calc(100% - 100px);
+    height: calc(100% - var(--launcher-size) - var(--widget-offset-y) - 14px);
     border-radius: 0;
   }
 
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--header-color);
-      background: var(--header-background-color);
-      padding: 16px 24px;
-      font-family: 'OrtoRNIDS', 'Lato', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 124%;
-      letter-spacing: 0.6px;
+  // ---- Header ----
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    color: var(--header-color);
+    background: var(--header-background-color);
+    padding: var(--header-padding-y) var(--header-padding-x);
+    font-family: var(--font-family);
+    letter-spacing: 0.2px;
+  }
 
-    &__icon {
-      cursor: pointer;
+  &__header-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--header-color) 18%, transparent);
+    color: var(--header-color);
+  }
+
+  &__header-avatar-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__status-dot {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 11px;
+    height: 11px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--status-offline-color);
+    border: 2px solid var(--status-ring-color, var(--color-primary));
+    transition: background-color var(--motion-duration) ease;
+
+    &--online {
+      background: var(--status-online-color);
     }
   }
 
-  &__content {
-    padding: 16px 24px 24px 24px;
+  &__header-title,
+  &__header-subtitle {
+    rasa-text {
+      display: block;
+    }
+  }
+
+  &__header-text {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 2px;
+  }
+
+  &__header-title {
+    --rasa-text-font-size: 16px;
+    --rasa-text-font-weight: 700;
+    --rasa-text-line-height: 20px;
+    --rasa-text-letter-spacing: 0.2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__header-subtitle {
+    --rasa-text-font-size: 12px;
+    --rasa-text-line-height: 16px;
+    --rasa-text-letter-spacing: 0.2px;
+    opacity: 0.8;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  &__header-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color var(--motion-duration) ease;
+
+    &:hover {
+      background: color-mix(in srgb, var(--header-color) 18%, transparent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--header-color);
+      outline-offset: 0;
+    }
+  }
+
+  // ---- Conversation ----
+  &__body {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  &__content-wrapper {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-secondary-20) transparent;
+  }
+
+  &__content {
+    padding: var(--content-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--message-gap);
     flex: 1 1 0%;
   }
 
+  &__welcome {
+    align-self: center;
+    text-align: center;
+    max-width: 85%;
+    margin: 8px 0 12px;
+    color: var(--color-secondary-60);
+    --rasa-text-font-size: 14px;
+    --rasa-text-line-height: 150%;
+  }
+
+  &__suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-left: calc(var(--avatar-size) + 8px);
+    animation: messenger-fade-up var(--motion-duration) var(--motion-easing) both;
+  }
+
+  &__suggestion {
+    max-width: 100%;
+    padding: 8px 14px;
+    border: 1px solid var(--message-button-border-color);
+    border-radius: var(--radius-launcher);
+    background: var(--message-button-background-color);
+    color: var(--message-button-color);
+    font-family: var(--font-family);
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration) ease,
+      color var(--motion-duration) ease;
+
+    &:hover {
+      background: var(--message-selected-button-background-color);
+      color: var(--message-selected-button-color);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__scroll-bottom {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--messenger-background-color);
+    color: var(--color-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 8px);
+    transition:
+      opacity var(--motion-duration) ease,
+      transform var(--motion-duration) var(--motion-easing),
+      visibility 0s linear var(--motion-duration);
+
+    &--visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+      transition-delay: 0s;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
   // Reserve space below the last message so the absolutely-positioned
-  // feedback popup never overlaps a bubble. The popup itself sits at
-  // `bottom: 80px` from the messenger; the extra 24px on top of that
-  // mirrors the flex `gap` we previously got "for free" when the popup
-  // was a flex child of `.messenger__content`. Now that the host is
-  // `position: absolute` (so unmount doesn't cause a 24px layout jump),
-  // we have to add that clearance explicitly.
+  // feedback popup never overlaps a bubble. The popup itself sits directly
+  // above the composer; the extra 24px on top of that mirrors the flex `gap`
+  // we previously got "for free" when the popup was a flex child of
+  // `.messenger__content`. Now that the host is `position: absolute` (so
+  // unmount doesn't cause a 24px layout jump), we have to add that clearance
+  // explicitly.
   &--with-feedback &__content {
-    padding-bottom: 104px;
+    padding-bottom: 108px;
   }
 
   // Animate `padding-bottom` only during the dismiss-down phase: the chat
@@ -118,12 +448,16 @@
     transition: padding-bottom 1s linear 1.5s;
     will-change: padding-bottom;
   }
+}
 
-  &__content-wrapper {
-    height: 100%;
-    overflow: auto;
-    display: flex;
-    flex-direction: column-reverse;
+@keyframes messenger-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -135,4 +469,18 @@
   --chat-message-max-width: 560px;
   --video-width: 560px;
   --image-width: 560px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .messenger,
+  .messenger__scroll-bottom,
+  .messenger__suggestions,
+  .rasa-chatbot-widget__launcher {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .messenger__content-wrapper {
+    scroll-behavior: auto;
+  }
 }

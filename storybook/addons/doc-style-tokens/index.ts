@@ -1,4 +1,5 @@
 const tableGlobal = { category: "Style Tokens Global" };
+const tableShape = { category: "Style Tokens Shape and Size" };
 const tableGranular = { category: "Style Tokens Granular " };
 
 export const styleTokens = {
@@ -176,4 +177,55 @@ export const styleTokens = {
     description: "Sets the color of the text on message timestamp.",
     table: tableGranular,
   }
+
+  "--radius-messenger": {
+    control: "text",
+    description: "Corner radius of the chat window, for example 20px.",
+    table: tableShape,
+  },
+  "--radius-bubble": {
+    control: "text",
+    description: "Corner radius of message bubbles.",
+    table: tableShape,
+  },
+  "--radius-control": {
+    control: "text",
+    description: "Corner radius of buttons.",
+    table: tableShape,
+  },
+  "--launcher-size": {
+    control: "text",
+    description: "Diameter of the launcher, for example 60px.",
+    table: tableShape,
+  },
+  "--messenger-width": {
+    control: "text",
+    description: "Width of the chat window, for example 392px.",
+    table: tableShape,
+  },
+  "--messenger-height": {
+    control: "text",
+    description: "Maximum height of the chat window, for example 700px.",
+    table: tableShape,
+  },
+  "--widget-offset-x": {
+    control: "text",
+    description: "Distance from the side edge of the page, for example 20px.",
+    table: tableShape,
+  },
+  "--widget-offset-y": {
+    control: "text",
+    description: "Distance from the bottom edge of the page, for example 20px.",
+    table: tableShape,
+  },
+  "--shadow-messenger": {
+    control: "text",
+    description: "Box shadow of the chat window.",
+    table: tableShape,
+  },
+  "--shadow-launcher": {
+    control: "text",
+    description: "Box shadow of the launcher.",
+    table: tableShape,
+  },
 };
