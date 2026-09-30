@@ -106,7 +106,7 @@ export namespace Components {
          */
         "inputMessagePlaceholder": string;
         /**
-          * Indicates time between message is received and printed.
+          * Delay between receiving and printing the first message of a bot reply. The rest follow right away.
          */
         "messageDelay": number;
         /**
@@ -1050,7 +1050,7 @@ declare namespace LocalJSX {
          */
         "inputMessagePlaceholder"?: string;
         /**
-          * Indicates time between message is received and printed.
+          * Delay between receiving and printing the first message of a bot reply. The rest follow right away.
          */
         "messageDelay"?: number;
         /**

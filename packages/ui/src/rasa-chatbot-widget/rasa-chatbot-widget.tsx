@@ -5,6 +5,7 @@ import { MESSAGE_TYPES, Message, CsatMessage, QuickReply, QuickReplyMessage, Ras
 
 import { Messenger } from '../components/messenger';
 import { configStore, setConfigStore } from '../store/config-store';
+import { errorMessageService } from '../store/error-message';
 import { messageQueueService } from '../store/message-queue';
 import { widgetState } from '../store/widget-state-store';
 import { isValidURL } from '../utils/validate-url';
@@ -19,7 +20,7 @@ import {
   CsatLikeMessage,
 } from '../utils/csat';
 import { CONVERSATION_FEEDBACK_TIMINGS } from '../components/conversation-feedback/conversation-feedback.timings';
-import { DEBOUNCE_THRESHOLD, DISCONNECT_TIMEOUT } from './constants';
+import { DEBOUNCE_THRESHOLD, DISCONNECT_TIMEOUT, TYPING_INDICATOR_TIMEOUT } from './constants';
 
 /**
  * Wait long enough for both the popup's opacity fade AND the chat's slide
@@ -43,6 +44,9 @@ export class RasaChatbotWidget {
   private client: Rasa;
   private messageDelayQueue: Promise<void> = Promise.resolve();
   private disconnectTimeout: NodeJS.Timeout | null = null;
+  private awaitingBotResponseTimeout: NodeJS.Timeout | null = null;
+  // Only the first bot message after a sent message (or at the start of a session) waits for the message delay
+  private delayNextBotMessage = true;
   private sentMessage = false;
 
   /**
@@ -59,6 +63,7 @@ export class RasaChatbotWidget {
   @State() messageHistory: Message[] = [];
   @State() messages: Message[] = [];
   @State() typingIndicator: boolean = false;
+  @State() awaitingBotResponse: boolean = false;
   @State() cachedMessages: Element[] = [];
   @State() isConnected = false;
   @State() showFeedback = false;
@@ -176,7 +181,7 @@ export class RasaChatbotWidget {
   @Prop() senderId: string = '';
 
   /**
-   * Indicates time between message is received and printed.
+   * Delay between receiving and printing the first message of a bot reply. The rest follow right away.
    * */
   @Prop() messageDelay: number = 600;
 
@@ -292,6 +297,11 @@ export class RasaChatbotWidget {
       this.isConnected = false;
       // widgetState connected needed for disabling input
       widgetState.getState().state.connected = false;
+      this.stopAwaitingBotResponse();
+    });
+    // No reply is coming after a failed request, so stop the typing indicator
+    errorMessageService.getState().onChange('errorMessage', error => {
+      if (error) this.stopAwaitingBotResponse();
     });
 
     if (this.autoOpen) {
@@ -319,13 +329,36 @@ export class RasaChatbotWidget {
     this.chatSessionStarted.emit({ sessionId: this.client.sessionId });
   };
 
+  // Shows the typing indicator from the moment a message is sent until the bot replies
+  private startAwaitingBotResponse(): void {
+    clearTimeout(this.awaitingBotResponseTimeout);
+    this.awaitingBotResponse = true;
+    this.delayNextBotMessage = true;
+    this.awaitingBotResponseTimeout = setTimeout(this.stopAwaitingBotResponse, TYPING_INDICATOR_TIMEOUT);
+  }
+
+  private stopAwaitingBotResponse = (): void => {
+    clearTimeout(this.awaitingBotResponseTimeout);
+    this.awaitingBotResponseTimeout = null;
+    this.awaitingBotResponse = false;
+  };
+
   private onNewMessage = (data: Message) => {
+    const isBotMessage = 'sender' in data && data.sender === SENDER.BOT;
+    // The bot replied, from here on the message delay queue below controls the typing indicator
+    if (isBotMessage) {
+      this.stopAwaitingBotResponse();
+    }
+
     // If senderID is configured (continuous session), tab is not in focus and user message was not sent from this tab do not render new server message
     if (this.senderId && !document.hasFocus() && !this.sentMessage) return;
 
     this.chatWidgetReceivedMessage.emit(data);
-    const delay = data.type === MESSAGE_TYPES.SESSION_DIVIDER || data.sender === SENDER.USER ? 0 : configStore().messageDelay;
-    
+    // Only the first message of a bot reply waits for the message delay, the rest are printed right away
+    if (data.type === MESSAGE_TYPES.SESSION_DIVIDER) this.delayNextBotMessage = true;
+    const delay = isBotMessage && this.delayNextBotMessage ? configStore().messageDelay : 0;
+    if (isBotMessage) this.delayNextBotMessage = false;
+
     // Reset feedback state on new session
     if (data.type === MESSAGE_TYPES.SESSION_DIVIDER) {
       this.feedbackSubmitted = false;
@@ -530,6 +563,7 @@ export class RasaChatbotWidget {
   // @ts-ignore-next-line
   private sendMessageHandler(event: CustomEvent<string>) {
     const timestamp = new Date();
+    this.startAwaitingBotResponse();
     this.client.sendMessage({ text: event.detail, timestamp });
     this.chatWidgetSentMessage.emit(event.detail);
     this.messages = [...this.messages, { type: 'text', text: event.detail, sender: 'user', timestamp }];
@@ -548,6 +582,7 @@ export class RasaChatbotWidget {
     const updatedMessage = this.messages[key] as QuickReplyMessage;
     updatedMessage.replies.find(qr => qr.reply === quickReply.reply).isSelected = true;
     this.messages[key] = updatedMessage;
+    this.startAwaitingBotResponse();
     this.client.sendMessage({ text: quickReply.text, reply: quickReply.reply, timestamp }, true, key - 1);
     this.chatWidgetQuickReply.emit(quickReply.reply);
     this.sentMessage = true;
@@ -740,7 +775,7 @@ export class RasaChatbotWidget {
             >
               {this.messageHistory.map((message, key) => this.renderMessage(message, true, key))}
               {this.cachedMessages}
-              {this.typingIndicator && <rasa-typing-indicator></rasa-typing-indicator>}
+              {(this.typingIndicator || this.awaitingBotResponse) && <rasa-typing-indicator></rasa-typing-indicator>}
               {this.showFeedback && this.isOpen && (
                 <rasa-conversation-feedback 
                   show={this.showFeedback}
