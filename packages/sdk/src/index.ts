@@ -124,7 +124,7 @@ export class Rasa extends EventEmitter {
   ): void {
     this.connection.sendMessage(reply ?? text, this.sessionId);
     this.storageService.setMessage({ sender: SENDER.USER, text, timestamp }, this.sessionId);
-    if (isQuickReply && messageKey && reply) {
+    if (isQuickReply && messageKey !== undefined && reply) {
       this.storageService.setQuickReplyValue(reply, messageKey, this.sessionId);
     }
   }

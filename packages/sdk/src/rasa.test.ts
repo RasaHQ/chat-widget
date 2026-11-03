@@ -243,6 +243,12 @@ describe('Rasa Client', () => {
       expect(setQuickReplyValueSpy).toHaveBeenCalledWith('hello', 1, client.sessionId);
     });
 
+    it('should save the selected quick reply when it is the first message in history', () => {
+      client.sendMessage({ text: 'Hello', reply: 'hello', timestamp: new Date() }, true, 0);
+
+      expect(setQuickReplyValueSpy).toHaveBeenCalledWith('hello', 0, client.sessionId);
+    });
+
     it('should fire bot_uttered event', () => {
       const onBotResponse = jest.fn();
       client.on('message', onBotResponse);
