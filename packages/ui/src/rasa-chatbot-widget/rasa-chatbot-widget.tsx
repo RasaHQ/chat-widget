@@ -1,12 +1,24 @@
 import { Component, Element, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core/internal';
 import { v4 as uuidv4 } from 'uuid';
 
-import { MESSAGE_TYPES, Message, CsatMessage, QuickReply, QuickReplyMessage, Rasa, SENDER } from '@rasahq/chat-widget-sdk';
+import {
+  MESSAGE_TYPES,
+  Message,
+  CsatMessage,
+  QuickReply,
+  QuickReplyMessage,
+  Rasa,
+  SENDER,
+  StreamChunkEvent,
+  StreamEndEvent,
+  StreamStartEvent,
+} from '@rasahq/chat-widget-sdk';
 
 import { Messenger } from '../components/messenger';
 import { configStore, setConfigStore } from '../store/config-store';
 import { errorMessageService } from '../store/error-message';
 import { messageQueueService } from '../store/message-queue';
+import { StreamedTextMessage, streamStore } from '../store/stream-store';
 import { widgetState } from '../store/widget-state-store';
 import { isValidURL } from '../utils/validate-url';
 import { broadcastChatHistoryEvent, receiveChatHistoryEvent } from '../utils/eventChannel';
@@ -48,6 +60,8 @@ export class RasaChatbotWidget {
   // Only the first bot message after a sent message (or at the start of a session) waits for the message delay
   private delayNextBotMessage = true;
   private sentMessage = false;
+  // Server streams being rendered, by stream id. `resolve` lets the message delay queue continue once the stream ends.
+  private activeStreams = new Map<string, { message: StreamedTextMessage; resolve: () => void }>();
 
   /**
    * The CSAT prompt currently driving the thumbs popup. Captured so the
@@ -216,6 +230,14 @@ export class RasaChatbotWidget {
   @Prop() restEnabled: boolean = false;
 
   /**
+   * If set to True, bot responses that the server streams over the WebSocket (`stream_start`, `stream_chunk`, `stream_end`)
+   * are rendered while they arrive. Needed for Rasa Mantle and Rasa Pro 3.21+, which send streamed responses only this way.
+   * Keep it disabled for Rasa Pro 3.18 - 3.20, which also send each streamed response as a regular message.
+   * Has no effect when `restEnabled` is set.
+   * */
+  @Prop() enableServerStreaming: boolean = false;
+
+  /**
    * If set to True, shows conversation feedback component at the bottom of the chat.
    * */
   @Prop() enableFeedback: boolean = false;
@@ -258,6 +280,7 @@ export class RasaChatbotWidget {
       toggleFullScreen,
       inputMessagePlaceholder,
       restEnabled,
+      enableServerStreaming,
     } = this;
     setConfigStore({
       serverUrl,
@@ -276,6 +299,8 @@ export class RasaChatbotWidget {
       toggleFullScreen,
       inputMessagePlaceholder,
       restEnabled,
+      // Server streaming is a WebSocket feature
+      enableServerStreaming: enableServerStreaming && !restEnabled,
     });
     
     // Set the font family CSS custom property
@@ -283,7 +308,14 @@ export class RasaChatbotWidget {
     
     const protocol = this.restEnabled ? 'http' : 'ws';
 
-    this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
+    this.client = new Rasa({
+      url: this.serverUrl,
+      protocol,
+      initialPayload,
+      authenticationToken,
+      senderId,
+      enableServerStreaming: configStore().enableServerStreaming,
+    });
 
     this.client.on('connect', () => {
       this.isConnected = true;
@@ -293,6 +325,11 @@ export class RasaChatbotWidget {
     this.client.on('message', this.onNewMessage);
     this.client.on('loadHistory', this.loadHistory);
     this.client.on('sessionConfirm', this.sessionConfirm);
+    if (configStore().enableServerStreaming) {
+      this.client.on('streamStart', this.onStreamStart);
+      this.client.on('streamChunk', this.onStreamChunk);
+      this.client.on('streamEnd', this.onStreamEnd);
+    }
     this.client.on('disconnect', () => {
       this.isConnected = false;
       // widgetState connected needed for disabling input
@@ -414,18 +451,55 @@ export class RasaChatbotWidget {
         setTimeout(() => {
           messageQueueService.enqueueMessage(data);
           this.typingIndicator = false;
-          
-          // If senderID is configured and message was sent from this tab, broadcast event to share chat history with other tabs with same senderID 
-          if (this.senderId && this.sentMessage) {
-            debounce(() => {
-              broadcastChatHistoryEvent(this.client.getChatHistory(), this.senderId);
-              this.sentMessage = false;
-            }, DEBOUNCE_THRESHOLD)();
-          }
+          this.broadcastChatHistory();
           resolve();
         }, delay);
       });
     });
+  };
+
+  // If senderID is configured and message was sent from this tab, broadcast event to share chat history with other tabs with same senderID
+  private broadcastChatHistory(): void {
+    if (this.senderId && this.sentMessage) {
+      debounce(() => {
+        broadcastChatHistoryEvent(this.client.getChatHistory(), this.senderId);
+        this.sentMessage = false;
+      }, DEBOUNCE_THRESHOLD)();
+    }
+  }
+
+  private onStreamStart = ({ streamId, text, timestamp }: StreamStartEvent) => {
+    this.stopAwaitingBotResponse();
+    // Same rule as for other server messages in onNewMessage
+    if (this.senderId && !document.hasFocus() && !this.sentMessage) return;
+
+    streamStore.setText(streamId, text);
+    const message: StreamedTextMessage = { type: MESSAGE_TYPES.TEXT, sender: SENDER.BOT, text, timestamp, streamId };
+    const streamEnded = new Promise<void>(resolve => this.activeStreams.set(streamId, { message, resolve }));
+    // The stream itself shows the bot is responding, so it is not held back by the message delay
+    this.delayNextBotMessage = false;
+    // Messages received after the stream wait until it ends, so they stay below it
+    this.messageDelayQueue = this.messageDelayQueue.then(() => {
+      this.typingIndicator = false;
+      messageQueueService.enqueueMessage(message);
+      return streamEnded;
+    });
+  };
+
+  private onStreamChunk = ({ streamId, text }: StreamChunkEvent) => {
+    if (!this.activeStreams.has(streamId)) return;
+    streamStore.setText(streamId, text);
+  };
+
+  private onStreamEnd = ({ streamId, message }: StreamEndEvent) => {
+    const stream = this.activeStreams.get(streamId);
+    if (!stream) return;
+    this.activeStreams.delete(streamId);
+    streamStore.setText(streamId, message.text);
+    stream.message.text = message.text;
+    this.chatWidgetReceivedMessage.emit(message);
+    this.broadcastChatHistory();
+    stream.resolve();
   };
 
   /**
@@ -690,7 +764,12 @@ export class RasaChatbotWidget {
       case MESSAGE_TYPES.TEXT:
         return (
           <chat-message sender={message.sender} key={key} timestamp={message.timestamp}>
-            <rasa-text-message sender={message.sender} value={message.text} isHistory={isHistory}></rasa-text-message>
+            <rasa-text-message
+              sender={message.sender}
+              value={message.text}
+              isHistory={isHistory}
+              streamId={(message as Partial<StreamedTextMessage>).streamId}
+            ></rasa-text-message>
           </chat-message>
         );
       case MESSAGE_TYPES.IMAGE:

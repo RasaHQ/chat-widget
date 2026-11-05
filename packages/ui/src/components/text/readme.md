@@ -7,12 +7,13 @@
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                       | Type      | Default     |
-| ------------------------- | --------------------------- | ----------------------------------------------------------------- | --------- | ----------- |
-| `disableParsing`          | `disable-parsing`           | Disables text parsing (renders text as is, not markdown)          | `boolean` | `false`     |
-| `enableStream`            | `enable-stream`             | Disables text stream rendering                                    | `boolean` | `false`     |
-| `notifyCompleteRendering` | `notify-complete-rendering` | Should component notify messageQueueService at complete rendering | `boolean` | `false`     |
-| `value`                   | `value`                     | Text value                                                        | `string`  | `undefined` |
+| Property                  | Attribute                   | Description                                                                                          | Type      | Default     |
+| ------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `disableParsing`          | `disable-parsing`           | Disables text parsing (renders text as is, not markdown)                                             | `boolean` | `false`     |
+| `enableStream`            | `enable-stream`             | Disables text stream rendering                                                                       | `boolean` | `false`     |
+| `live`                    | `live`                      | Renders every change of the value right away (text streamed by the server), without stream rendering | `boolean` | `false`     |
+| `notifyCompleteRendering` | `notify-complete-rendering` | Should component notify messageQueueService at complete rendering                                    | `boolean` | `false`     |
+| `value`                   | `value`                     | Text value                                                                                           | `string`  | `undefined` |
 
 
 ## Events

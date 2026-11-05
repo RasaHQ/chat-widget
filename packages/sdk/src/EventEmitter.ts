@@ -1,9 +1,14 @@
+import { StreamChunkEvent, StreamEndEvent, StreamStartEvent } from './message-parser/types/stream-event.types';
+
 interface EventMap {
   connect: () => void;
   disconnect: () => void;
   message: (data: unknown) => void;
   loadHistory: (data: unknown) => void;
   sessionConfirm: () => void;
+  streamStart: (data: StreamStartEvent) => void;
+  streamChunk: (data: StreamChunkEvent) => void;
+  streamEnd: (data: StreamEndEvent) => void;
 }
 
 type EventCallback<T extends keyof EventMap> = EventMap[T];
