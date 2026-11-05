@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { RasaText } from './text';
+import { messageQueueService } from '../../store/message-queue';
 
 describe('rasa-text', () => {
   it('renders plain text', async () => {
@@ -115,5 +116,44 @@ describe('rasa-text', () => {
     linkElement.click();
 
     expect(linkClickedSpy).toHaveBeenCalled();
+  });
+
+  describe('live', () => {
+    it('renders the text right away', async () => {
+      const page = await newSpecPage({
+        components: [RasaText],
+        html: `<rasa-text value="This is **bold**" live></rasa-text>`,
+      });
+      expect(page.root.shadowRoot).toEqualHtml(`
+        <span class="text" data-segment-index="0">This is </span><span class="text text--bold" data-segment-index="1">bold</span>
+      `);
+    });
+
+    it('renders every change of the value', async () => {
+      const page = await newSpecPage({
+        components: [RasaText],
+        html: `<rasa-text value="This is **bo" live></rasa-text>`,
+      });
+      expect(page.root.shadowRoot).toEqualHtml(`
+        <span class="text" data-segment-index="0">This is </span><span class="text" data-segment-index="1">bo</span>
+      `);
+
+      page.root.value = 'This is **bold**, [a link](https://example.com)';
+      await page.waitForChanges();
+
+      expect(page.root.shadowRoot).toEqualHtml(`
+        <span class="text" data-segment-index="0">This is </span><span class="text text--bold" data-segment-index="1">bold</span><span class="text" data-segment-index="2">, </span><a href="https://example.com" target="_blank"><span class="text" data-segment-index="3">a link</span></a>
+      `);
+    });
+
+    it('does not notify the message queue', async () => {
+      const completeRendering = jest.spyOn(messageQueueService, 'completeRendering');
+      await newSpecPage({
+        components: [RasaText],
+        html: `<rasa-text value="Hello" live notify-complete-rendering></rasa-text>`,
+      });
+      expect(completeRendering).not.toHaveBeenCalled();
+      completeRendering.mockRestore();
+    });
   });
 });

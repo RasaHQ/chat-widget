@@ -13,6 +13,7 @@ describe('configStore', () => {
       inputMessagePlaceholder: 'Type your message here',
       initialPayload: '',
       restEnabled: false,
+      enableServerStreaming: false,
       serverUrl: '',
       messageDelay: 600,
       messageTimestamp: '',
