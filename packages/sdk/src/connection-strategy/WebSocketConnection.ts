@@ -12,6 +12,9 @@ export class WebSocketConnection implements ConnectionStrategy {
   onDisconnect: () => void;
   onBotResponse: (data: unknown) => void;
   onSessionConfirm: () => void;
+  onStreamStart?: () => void;
+  onStreamChunk?: (data: unknown) => void;
+  onStreamEnd?: () => void;
 
   private isReconnecting = false;
 
@@ -22,6 +25,9 @@ export class WebSocketConnection implements ConnectionStrategy {
     this.onDisconnect = options.onDisconnect;
     this.onBotResponse = options.onBotResponse;
     this.onSessionConfirm = options.onSessionConfirm;
+    this.onStreamStart = options.onStreamStart;
+    this.onStreamChunk = options.onStreamChunk;
+    this.onStreamEnd = options.onStreamEnd;
     const ioOptions: Partial<ManagerOptions & SocketOptions> = {
       autoConnect: false,
       reconnectionDelay: SOCKET_IO_RECONNECTION_DELAY,
@@ -99,6 +105,21 @@ export class WebSocketConnection implements ConnectionStrategy {
     this.socket.on('session_confirm', () => {
       this.onSessionConfirm();
     });
+
+    const { onStreamStart, onStreamChunk, onStreamEnd } = this;
+    if (onStreamStart && onStreamChunk && onStreamEnd) {
+      this.socket.on('stream_start', () => {
+        onStreamStart();
+      });
+
+      this.socket.on('stream_chunk', (data: unknown) => {
+        onStreamChunk(data);
+      });
+
+      this.socket.on('stream_end', () => {
+        onStreamEnd();
+      });
+    }
     //#endregion
 
     //#region Socket IO Events

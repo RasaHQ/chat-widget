@@ -18,6 +18,7 @@ export type WidgetConfig = {
   senderId: string;
   widgetIcon: string;
   restEnabled: boolean;
+  enableServerStreaming: boolean;
 };
 
 const configStoreDefaults: WidgetConfig = {
@@ -37,6 +38,7 @@ const configStoreDefaults: WidgetConfig = {
   senderId: WIDGET_DEFAULT_CONFIGURATION.SENDER_ID,
   widgetIcon: WIDGET_DEFAULT_CONFIGURATION.WIDGET_ICON,
   restEnabled: WIDGET_DEFAULT_CONFIGURATION.REST_ENABLED,
+  enableServerStreaming: WIDGET_DEFAULT_CONFIGURATION.ENABLE_SERVER_STREAMING,
 };
 
 const { state } = createStore<WidgetConfig>({

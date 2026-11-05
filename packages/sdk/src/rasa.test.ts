@@ -1,4 +1,5 @@
 import { Rasa } from '.';
+import { SESSION_STORAGE_KEYS } from './constants';
 
 const eventHandlers = {};
 const mockSocketConnect = jest.fn();
@@ -255,6 +256,197 @@ describe('Rasa Client', () => {
         timestamp: new Date(),
         type: 'text',
       });
+    });
+  });
+
+  describe('Server streaming', () => {
+    const sessionId = 'session1';
+    const streamId = '3edc172c-c2f6-4211-bfbc-c3a84d190cac';
+    let events: [string, unknown][];
+
+    const createClient = (enableServerStreaming: boolean) => {
+      Object.keys(eventHandlers).forEach(event => delete eventHandlers[event]);
+      const streamingClient = new Rasa({ url: 'localhost:3000', senderId: sessionId, enableServerStreaming });
+      events = [];
+      (['message', 'streamStart', 'streamChunk', 'streamEnd', 'disconnect'] as const).forEach(eventName => {
+        streamingClient.on(eventName, (data?: unknown) => events.push([eventName, data]));
+      });
+      return streamingClient;
+    };
+
+    const storedMessages = () =>
+      JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEYS.CHAT_HISTORY) || '{}')[sessionId]?.messages;
+
+    const streamResponse = (...chunks: string[]) => {
+      triggerSocketEvent('stream_start', {});
+      chunks.forEach(text => triggerSocketEvent('stream_chunk', { text }));
+      triggerSocketEvent('stream_end', {});
+    };
+
+    const botTextMessage = (text: string) => ({ sender: 'bot', type: 'text', text, timestamp: new Date() });
+
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+
+    it('does not listen to stream events by default', () => {
+      createClient(false);
+
+      expect(eventHandlers['bot_uttered']).toBeDefined();
+      expect(eventHandlers['stream_start']).toBeUndefined();
+      expect(eventHandlers['stream_chunk']).toBeUndefined();
+      expect(eventHandlers['stream_end']).toBeUndefined();
+    });
+
+    it('does not listen to stream events with the HTTP protocol', () => {
+      Object.keys(eventHandlers).forEach(event => delete eventHandlers[event]);
+      new Rasa({ url: 'localhost:3000', protocol: 'http', enableServerStreaming: true });
+
+      expect(eventHandlers['stream_start']).toBeUndefined();
+    });
+
+    it('assembles streamed chunks into one bot message', () => {
+      createClient(true);
+
+      streamResponse('Hello', ' wor', 'ld');
+
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: 'Hello', timestamp: new Date() }],
+        ['streamChunk', { streamId, text: 'Hello wor' }],
+        ['streamChunk', { streamId, text: 'Hello world' }],
+        ['streamEnd', { streamId, message: botTextMessage('Hello world') }],
+      ]);
+      expect(storedMessages()).toEqual([{ sender: 'bot', text: 'Hello world', timestamp: new Date().toISOString() }]);
+    });
+
+    it('stores the streamed message when it starts, so later messages keep their order', () => {
+      const streamingClient = createClient(true);
+
+      triggerSocketEvent('stream_start', {});
+      triggerSocketEvent('stream_chunk', { text: 'Hello' });
+      streamingClient.sendMessage({ text: 'Hi', timestamp: new Date() });
+      triggerSocketEvent('stream_chunk', { text: ' there' });
+      triggerSocketEvent('stream_end', {});
+
+      expect(storedMessages()).toEqual([
+        { sender: 'bot', text: 'Hello there', timestamp: new Date().toISOString() },
+        { sender: 'user', text: 'Hi', timestamp: new Date().toISOString() },
+      ]);
+    });
+
+    it('does not announce a stream before it has visible text', () => {
+      createClient(true);
+
+      streamResponse(' ', '\n');
+      expect(events).toEqual([]);
+      expect(storedMessages()).toBeUndefined();
+
+      streamResponse('\n', 'Hi');
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: '\nHi', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('\nHi') }],
+      ]);
+    });
+
+    it('ignores malformed chunks', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_start', {});
+      triggerSocketEvent('stream_chunk');
+      triggerSocketEvent('stream_chunk', {});
+      triggerSocketEvent('stream_chunk', { text: 5 });
+      triggerSocketEvent('stream_chunk', 'Hi');
+      triggerSocketEvent('stream_end', {});
+
+      expect(events).toEqual([]);
+      expect(storedMessages()).toBeUndefined();
+    });
+
+    it('starts a stream when a chunk arrives without stream_start', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_chunk', { text: 'Hi' });
+      triggerSocketEvent('stream_end', {});
+
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: 'Hi', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('Hi') }],
+      ]);
+    });
+
+    it('ignores stream_end without an open stream', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_end', {});
+
+      expect(events).toEqual([]);
+    });
+
+    it('completes an open stream before the next bot message', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_start', {});
+      triggerSocketEvent('stream_chunk', { text: 'Partial' });
+      triggerSocketEvent('bot_uttered', { text: 'Next' });
+
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: 'Partial', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('Partial') }],
+        ['message', botTextMessage('Next')],
+      ]);
+    });
+
+    it('completes an open stream when the next stream starts', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_start', {});
+      triggerSocketEvent('stream_chunk', { text: 'First' });
+      streamResponse('Second');
+
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: 'First', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('First') }],
+        ['streamStart', { streamId, text: 'Second', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('Second') }],
+      ]);
+    });
+
+    it('completes an open stream on disconnect', () => {
+      createClient(true);
+
+      triggerSocketEvent('stream_start', {});
+      triggerSocketEvent('stream_chunk', { text: 'Partial' });
+      triggerSocketEvent('disconnect');
+
+      expect(events).toEqual([
+        ['streamStart', { streamId, text: 'Partial', timestamp: new Date() }],
+        ['streamEnd', { streamId, message: botTextMessage('Partial') }],
+        ['disconnect', undefined],
+      ]);
+      expect(storedMessages()).toEqual([{ sender: 'bot', text: 'Partial', timestamp: new Date().toISOString() }]);
+    });
+
+    it('keeps buttons sent after a stream as their own message', () => {
+      createClient(true);
+      const quickReplies = [{ content_type: 'text', title: 'Yes', payload: '/affirm' }];
+
+      streamResponse('Continue?');
+      triggerSocketEvent('bot_uttered', { quick_replies: quickReplies });
+
+      expect(events.at(-1)).toEqual([
+        'message',
+        {
+          sender: 'bot',
+          type: 'quickReply',
+          text: undefined,
+          replies: [{ text: 'Yes', reply: '/affirm', isSelected: undefined }],
+          timestamp: new Date(),
+        },
+      ]);
+      expect(storedMessages()).toEqual([
+        { sender: 'bot', text: 'Continue?', timestamp: new Date().toISOString() },
+        { sender: 'bot', quick_replies: quickReplies, timestamp: new Date().toISOString() },
+      ]);
     });
   });
 });
