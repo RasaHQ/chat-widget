@@ -1,0 +1,35 @@
+/*
+ * Brand overrides for the chat widget. Copy this file and edit the values.
+ *
+ * Most brands only need the `accent-color` attribute and a `preset` on the
+ * element. Use the tokens below for anything beyond that. Set them on the
+ * element, not on :root, so they win over the widget's own theme and
+ * appearance settings. Every token is optional; delete what you do not change.
+ */
+rasa-chatbot-widget {
+  /* Surface colors. The neutral scale (bubbles, borders, muted text) derives from these. */
+  /* --color-secondary: #ffffff; */
+  /* --color-secondary-opposite: #000000; */
+
+  /* Font. Defaults to the visitor's system font; the `font-family` attribute works too. */
+  /* --widget-font-family: 'Inter', sans-serif; */
+
+  /* Shape. `corner-radius` sets all of these from one number. */
+  /* --radius-messenger: 20px; */
+  /* --radius-bubble: 18px; */
+  /* --radius-control: 12px; */
+
+  /* Size and placement */
+  --launcher-size: 56px;
+  --messenger-width: 392px;
+  --messenger-height: 700px;
+  --widget-offset-x: 24px;
+  --widget-offset-y: 24px;
+
+  /* Header: a plain color or any CSS background, such as a gradient.
+     Replaces the header background in every brand presence. */
+  /* --header-background-color: linear-gradient(135deg, #2b2470 0%, #4a3fb5 100%); */
+
+  /* Motion */
+  --motion-duration: 220ms;
+}

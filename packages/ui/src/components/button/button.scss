@@ -1,23 +1,40 @@
 .rasa-button {
   min-height: 32px;
   border: 1px solid var(--message-button-border-color);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   padding: 8px 12px;
   background-color: var(--message-button-background-color);
   color: var(--message-button-color);
   font-family: var(--font-family);
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 13.5px;
+  font-weight: 550;
   line-height: 1.4;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   padding-top: 6px;
   padding-bottom: 6px;
   cursor: pointer;
+  transition:
+    background-color var(--motion-duration) ease,
+    color var(--motion-duration) ease,
+    transform var(--motion-duration) var(--motion-easing);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   vertical-align: middle;
+
+  &:hover:not(&--selected) {
+    background-color: var(--message-selected-button-background-color);
+    color: var(--message-selected-button-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
 
   &--selected {
     background-color: var(--message-selected-button-background-color);

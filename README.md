@@ -164,6 +164,23 @@ In the <body> section of your HTML, add the chat widget’s custom element. Make
 
 This is all you need to add the Rasa chatbot widget to your webpage!
 
+## Customizing the look
+
+The widget ships with a token based design system, six built-in themes and layout options such as launcher position, launcher label, welcome message and suggested prompts.
+
+```html
+<rasa-chatbot-widget
+  server-url="https://example.com"
+  theme="midnight"
+  position="bottom-left"
+  launcher-label="Ask us"
+  welcome-message="Ask anything about plans or billing."
+  suggested-prompts="Show me plans, Talk to support"
+></rasa-chatbot-widget>
+```
+
+For a runnable starter with a live customization panel and a mock Rasa server, see [examples/starter](examples/starter/README.md).
+
 ## GIT Convention
 
 ### Commit Message Format

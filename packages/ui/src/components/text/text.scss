@@ -1,10 +1,10 @@
 .text {
   font-family: var(--font-family);
-  font-size: var(--rasa-text-font-size, 13px);
+  font-size: var(--rasa-text-font-size, 14px);
   font-style: normal;
   font-weight: var(--rasa-text-font-weight, 400);
   line-height: var(--rasa-text-line-height, 150%);
-  letter-spacing: var(--rasa-text-letter-spacing, 0.6px);
+  letter-spacing: var(--rasa-text-letter-spacing, 0.2px);
   overflow-wrap: break-word;
   white-space: pre-wrap;
 

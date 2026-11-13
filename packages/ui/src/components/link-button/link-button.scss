@@ -6,7 +6,7 @@
   align-items: center;
   text-align: center;
   vertical-align: middle;
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   border: 1px solid var(--message-button-border-color);
   background-color: var(--message-button-background-color);
   color: var(--message-button-color);
@@ -14,11 +14,23 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   padding-top: 6px;
   padding-bottom: 6px;
   cursor: pointer;
   box-sizing: border-box; // Ensure padding and border are included in height calculation
+  transition:
+    background-color var(--motion-duration) ease,
+    color var(--motion-duration) ease;
+
+  &:hover:not(&--selected) {
+    background-color: var(--message-selected-button-background-color);
+    color: var(--message-selected-button-color);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
 
   &--selected {
     background-color: var(--message-selected-button-background-color);
