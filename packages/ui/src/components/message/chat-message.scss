@@ -25,7 +25,7 @@
     height: var(--avatar-size);
     flex-shrink: 0;
     align-self: flex-end;
-    border-radius: 50%;
+    border-radius: var(--radius-avatar);
     background-color: var(--message-robot-icon-background-color);
     color: var(--message-robot-icon-color);
   }
@@ -33,7 +33,7 @@
   &__robot-image {
     width: var(--avatar-size);
     height: var(--avatar-size);
-    border-radius: 50%;
+    border-radius: var(--radius-avatar);
     object-fit: cover;
   }
 

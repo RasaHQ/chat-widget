@@ -10,10 +10,14 @@
 // by the built-in themes, so a theme can swap the brand colors and have every
 // derived token follow.
 @mixin component-tokens {
+  // Text on the brand color, and the brand color shaded to read as text.
+  // `accent-color` overrides both with values computed for that color.
+  --color-on-primary: var(--color-secondary);
+  --color-accent-text: var(--color-accent-text-light, var(--color-primary));
   --launcher-background-color: var(--color-primary);
-  --launcher-color: var(--color-secondary);
+  --launcher-color: var(--color-on-primary);
   --header-background-color: var(--color-primary);
-  --header-color: var(--color-secondary);
+  --header-color: var(--color-on-primary);
   --messenger-background-color: var(--color-secondary);
   --input-placeholder-color: var(--color-secondary-opposite);
   --input-placeholder-opacity: 0.5;
@@ -21,17 +25,17 @@
   --input-field-background-color: var(--color-secondary-10);
   --input-color: var(--color-secondary-opposite);
   --input-send-color: var(--color-primary);
-  --input-send-icon-color: var(--color-secondary);
+  --input-send-icon-color: var(--color-on-primary);
   --message-robot-icon-background-color: var(--color-primary);
-  --message-robot-icon-color: var(--color-secondary);
+  --message-robot-icon-color: var(--color-on-primary);
   --message-robot-background-color: var(--color-secondary-10);
   --message-robot-color: var(--color-secondary-90);
   --message-user-background-color: var(--color-primary);
-  --message-user-color: var(--color-secondary);
+  --message-user-color: var(--color-on-primary);
   --message-button-color: var(--color-primary);
   --message-button-background-color: var(--color-secondary);
   --message-button-border-color: var(--color-primary);
-  --message-selected-button-color: var(--color-secondary);
+  --message-selected-button-color: var(--color-on-primary);
   --message-selected-button-background-color: var(--color-primary);
   --message-selected-button-border-color: var(--color-primary);
   --accordion-background-color: var(--color-secondary-10);
@@ -45,7 +49,7 @@
 }
 
 :root {
-  --font-family: var(--widget-font-family, 'Lato', sans-serif);
+  --font-family: var(--widget-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
   @include component-tokens;
 
   // Shape
@@ -54,6 +58,8 @@
   --radius-bubble-tail: 4px;
   --radius-control: 12px;
   --radius-launcher: 999px;
+  --radius-field: 999px;
+  --radius-avatar: 50%;
 
   // Size
   --launcher-size: 60px;

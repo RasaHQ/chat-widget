@@ -15,6 +15,21 @@ import { debounce } from '../utils/debounce';
 import { parseSuggestedPrompts } from '../utils/suggested-prompts';
 import { WidgetTheme } from '../utils/widget-theme';
 import {
+  BrandPresence,
+  BubbleStyle,
+  ButtonStyle,
+  Density,
+  Elevation,
+  HeaderLayout,
+  HeadingFont,
+  HeadingWeight,
+  TextSize,
+  WidgetPreset,
+  appearanceAttributes,
+  appearanceStyle,
+  resolveAppearance,
+} from '../utils/appearance';
+import {
   detectCsatButtons,
   isCsatAnsweredFor,
   markCsatAnswered,
@@ -239,9 +254,9 @@ export class RasaChatbotWidget {
   @Prop() sessionStartedText: string = 'Session started on';
 
   /**
-   * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+   * Font family to use for the widget. Defaults to the visitor's system font.
    * */
-  @Prop() fontFamily: string = 'Lato, sans-serif';
+  @Prop() fontFamily: string = '';
 
   /**
    * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting),
@@ -290,6 +305,95 @@ export class RasaChatbotWidget {
    * */
   @Prop() disconnectedText: string = 'Connecting…';
 
+  /**
+   * Starting point for the look: `precise` (quiet, monochrome), `balanced` or `bold`
+   * (brand-color header, heavy type). Any appearance prop set on its own overrides the preset.
+   * */
+  @Prop() preset?: WidgetPreset;
+
+  /**
+   * Brand color used for the launcher, the visitor's messages, buttons and accents.
+   * A hex value also derives readable text colors for use on and around it.
+   * */
+  @Prop() accentColor?: string;
+
+  /**
+   * How much of the window carries the brand color: `subtle` (only the launcher, avatar and
+   * send button), `balanced`, or `expressive` (a brand-color header above the conversation).
+   * */
+  @Prop() brandPresence?: BrandPresence;
+
+  /**
+   * Corner radius of the chat window in px. Bubbles, buttons, the composer and the launcher follow it.
+   * */
+  @Prop() cornerRadius?: number;
+
+  /**
+   * Message bubble shape: `tail`, `soft` (evenly rounded) or `minimal` (no bubble behind bot messages).
+   * */
+  @Prop() bubbleStyle?: BubbleStyle;
+
+  /**
+   * Quick reply and suggestion buttons: `outline`, `soft` (tinted), `solid`, or `auto` to follow the brand presence.
+   * */
+  @Prop() buttonStyle?: ButtonStyle;
+
+  /**
+   * Shadow depth of the chat window and launcher: `flat` (border only), `soft` or `lifted`.
+   * */
+  @Prop() elevation?: Elevation;
+
+  /**
+   * Typeface for the header title and greeting: `sans`, `rounded` or `serif` (system fonts).
+   * */
+  @Prop() headingFont?: HeadingFont;
+
+  /**
+   * Weight of the header title and greeting: `regular`, `semibold` or `heavy`.
+   * */
+  @Prop() headingWeight?: HeadingWeight;
+
+  /**
+   * Size of message text: `small`, `medium` or `large`.
+   * */
+  @Prop() textSize?: TextSize;
+
+  /**
+   * Header layout: `compact`, or `hero` with a large greeting under the title.
+   * */
+  @Prop() headerLayout?: HeaderLayout;
+
+  /**
+   * Greeting shown in the header when `headerLayout` is `hero`.
+   * */
+  @Prop() headerGreeting: string = 'How can we help today?';
+
+  /**
+   * Spacing between messages: `comfortable` or `compact`.
+   * */
+  @Prop() density?: Density;
+
+  private appliedStyleKeys: string[] = [];
+
+  private getAppearance() {
+    const { preset, theme, accentColor, fontFamily, brandPresence, cornerRadius, bubbleStyle, buttonStyle, elevation, headingFont, headingWeight, textSize, headerLayout, density } = this;
+    const input = { preset, theme, accentColor, fontFamily, brandPresence, cornerRadius, bubbleStyle, buttonStyle, elevation, headingFont, headingWeight, textSize, headerLayout, density };
+    return { input, appearance: resolveAppearance(input) };
+  }
+
+  private applyAppearance() {
+    const { input, appearance } = this.getAppearance();
+    Object.entries(appearanceAttributes(appearance)).forEach(([name, value]) => this.el.setAttribute(name, value));
+    const style = appearanceStyle(appearance, input);
+    this.appliedStyleKeys.filter(key => !(key in style)).forEach(key => this.el.style.removeProperty(key));
+    Object.entries(style).forEach(([key, value]) => this.el.style.setProperty(key, value));
+    this.appliedStyleKeys = Object.keys(style);
+  }
+
+  componentWillRender() {
+    this.applyAppearance();
+  }
+
   componentWillLoad() {
     const {
       serverUrl,
@@ -327,10 +431,7 @@ export class RasaChatbotWidget {
       inputMessagePlaceholder,
       restEnabled,
     });
-    
-    // Set the font family CSS custom property
-    this.el.style.setProperty('--widget-font-family', this.fontFamily);
-    
+
     const protocol = this.restEnabled ? 'http' : 'ws';
 
     this.client = new Rasa({ url: this.serverUrl, protocol, initialPayload, authenticationToken, senderId });
@@ -851,6 +952,7 @@ export class RasaChatbotWidget {
       'fullscreen': this.isFullScreen,
     };
     const prompts = this.hasUserMessage ? [] : parseSuggestedPrompts(this.suggestedPrompts);
+    const greeting = this.getAppearance().appearance.headerLayout === 'hero' ? this.headerGreeting : '';
 
     return (
       <global-error-handler>
@@ -865,6 +967,7 @@ export class RasaChatbotWidget {
               isFeedbackDismissing={this.isFeedbackDismissing}
               isConnected={this.isConnected}
               subtitle={this.widgetSubtitle}
+              greeting={greeting}
               connectedText={this.connectedText}
               disconnectedText={this.disconnectedText}
               showCloseButton={!this.hideCloseButton}

@@ -15,23 +15,39 @@
     <!-- 2. Your brand overrides. Copy this file and edit it. -->
     <link rel="stylesheet" href="./brand.css" />
 
+    <!--
+      3. Demo page styles only, using the Rasa Brand 2026 tokens and its Google font
+         substitutes. The widget does not use these; it keeps its own neutral look.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+    />
     <style>
       :root {
-        --page-bg: #f6f7fb;
-        --page-fg: #14181f;
-        --page-muted: #5b6472;
-        --page-card: #ffffff;
-        --page-border: #e3e6ee;
-        --page-accent: #4a3fb5;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --page-bg: #0d0f14;
-          --page-fg: #eef0f5;
-          --page-muted: #9aa3b2;
-          --page-card: #171a22;
-          --page-border: #262b36;
-        }
+        /* Rasa Brand 2026: Taupe neutrals, Rasa Pink as the one accent. */
+        --taupe-50: #fffbf5;
+        --taupe-100: #faf6f0;
+        --taupe-200: #f3eee7;
+        --taupe-250: #ede8e0;
+        --taupe-300: #c8c0b6;
+        --taupe-400: #aba49c;
+        --taupe-700: #524a43;
+        --taupe-800: #3a312c;
+        --taupe-950: #181210;
+        --pink-400: #e85a91;
+        --font-serif: 'STK Bureau Serif', 'Newsreader', Georgia, serif;
+        --font-sans: 'STK Bureau Sans', 'Inter', Arial, sans-serif;
+        --font-mono: 'STK Bureau Sans Mono', 'JetBrains Mono', 'Courier New', monospace;
+
+        --page-bg: var(--taupe-100);
+        --page-fg: var(--taupe-950);
+        --page-muted: var(--taupe-700);
+        --page-card: var(--taupe-50);
+        --page-border: var(--taupe-300);
+        --page-hairline: var(--taupe-250);
       }
       * {
         box-sizing: border-box;
@@ -40,8 +56,9 @@
         margin: 0;
         background: var(--page-bg);
         color: var(--page-fg);
-        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-family: var(--font-sans);
         line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
       }
       .layout {
         display: grid;
@@ -58,8 +75,9 @@
         top: 0;
       }
       aside h1 {
-        font-size: 15px;
         margin: 0 0 4px;
+        font-size: 15px;
+        font-weight: 500;
       }
       aside p {
         margin: 0 0 20px;
@@ -70,37 +88,61 @@
         display: block;
         margin-bottom: 14px;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
         color: var(--page-muted);
+      }
+      label.check {
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 13px;
+      }
+      output {
+        float: right;
+        text-transform: none;
+        letter-spacing: 0;
+        font-family: var(--font-mono);
+        font-weight: 400;
       }
       input[type='text'],
       select,
       textarea {
         display: block;
         width: 100%;
-        margin-top: 4px;
+        margin-top: 6px;
         padding: 8px 10px;
         border: 1px solid var(--page-border);
         border-radius: 8px;
-        background: var(--page-bg);
+        background: var(--taupe-100);
         color: var(--page-fg);
         font: inherit;
         font-size: 13px;
+        letter-spacing: 0;
+        text-transform: none;
       }
       input[type='color'] {
         display: block;
         width: 100%;
         height: 36px;
-        margin-top: 4px;
+        margin-top: 6px;
         padding: 2px;
         border: 1px solid var(--page-border);
         border-radius: 8px;
-        background: var(--page-bg);
+        background: var(--taupe-100);
       }
       input[type='range'] {
         display: block;
         width: 100%;
-        margin-top: 8px;
+        margin-top: 10px;
+        accent-color: var(--taupe-950);
+      }
+      input[type='checkbox'] {
+        accent-color: var(--taupe-950);
+      }
+      :focus-visible {
+        outline: 2px solid var(--taupe-400);
+        outline-offset: 2px;
       }
       .check {
         display: flex;
@@ -109,31 +151,71 @@
       }
       textarea {
         min-height: 150px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-family: var(--font-mono);
         font-size: 11px;
         resize: vertical;
       }
       button.copy {
         margin-top: 8px;
-        padding: 8px 14px;
+        padding: 9px 16px;
         border: 0;
-        border-radius: 8px;
-        background: var(--page-accent);
-        color: #fff;
+        border-radius: 999px;
+        background: var(--taupe-950);
+        color: var(--taupe-100);
         font: inherit;
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
       }
+      button.copy:hover {
+        background: var(--taupe-800);
+      }
       main {
-        padding: 72px 8vw;
-        max-width: 960px;
+        position: relative;
+        overflow: hidden;
+        padding: 48px 8vw 96px;
+      }
+      /* Chladni pattern, bleeding off the bottom-right corner and clear of the text. */
+      main::after {
+        content: '';
+        position: absolute;
+        right: -340px;
+        bottom: -460px;
+        width: 760px;
+        height: 760px;
+        background: url('./assets/rasa/rasa-chladni-01-subtle-light.svg') center / cover no-repeat;
+        pointer-events: none;
+        z-index: 0;
+      }
+      main > * {
+        position: relative;
+        z-index: 1;
+        max-width: 880px;
+      }
+      .logo {
+        display: block;
+        height: 32px;
+        width: auto;
+        margin-bottom: 72px;
+      }
+      .eyebrow {
+        margin: 0 0 16px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--page-muted);
       }
       main h2 {
-        margin: 0 0 12px;
-        font-size: clamp(32px, 4vw, 48px);
-        line-height: 1.1;
-        letter-spacing: -0.02em;
+        margin: 0 0 20px;
+        font-family: var(--font-serif);
+        font-size: clamp(40px, 5vw, 64px);
+        font-weight: 300;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+      }
+      main h2 em {
+        color: var(--pink-400);
       }
       main > p {
         max-width: 560px;
@@ -142,19 +224,21 @@
       }
       .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 16px;
-        margin-top: 40px;
+        margin-top: 48px;
+        max-width: 760px;
       }
       .card {
-        padding: 20px;
+        padding: 22px;
         border: 1px solid var(--page-border);
         border-radius: 16px;
         background: var(--page-card);
       }
       .card h3 {
         margin: 0 0 6px;
-        font-size: 15px;
+        font-size: 16px;
+        font-weight: 500;
       }
       .card p {
         margin: 0;
@@ -163,15 +247,15 @@
       }
       .hint {
         margin-top: 40px;
-        font-size: 13px;
+        font-size: 14px;
         color: var(--page-muted);
       }
       code {
         padding: 1px 6px;
         border-radius: 6px;
-        background: var(--page-card);
-        border: 1px solid var(--page-border);
-        font-size: 12px;
+        background: var(--taupe-200);
+        font-family: var(--font-mono);
+        font-size: 13px;
       }
       @media (max-width: 900px) {
         .layout {
@@ -184,7 +268,16 @@
           border-bottom: 1px solid var(--page-border);
         }
         main {
-          padding: 40px 24px 120px;
+          padding: 32px 24px 200px;
+        }
+        .logo {
+          margin-bottom: 48px;
+        }
+        main::after {
+          width: 480px;
+          height: 480px;
+          right: -200px;
+          bottom: -220px;
         }
       }
     </style>
@@ -216,12 +309,101 @@
           </select>
         </label>
         <label>
-          Brand color (overrides theme)
-          <input type="color" id="brand" value="#4a3fb5" />
+          Preset
+          <select id="preset">
+            <option value="">None</option>
+            <option value="precise">Precise (quiet, monochrome)</option>
+            <option value="balanced">Balanced</option>
+            <option value="bold">Bold (brand-color header)</option>
+          </select>
         </label>
         <label>
-          Bubble roundness
-          <input type="range" id="radius" min="4" max="26" value="18" />
+          Accent color
+          <input type="color" id="accent" value="#4a3fb5" />
+        </label>
+        <label>
+          Brand presence
+          <select id="presence">
+            <option value="">From preset</option>
+            <option value="subtle">Subtle</option>
+            <option value="balanced">Balanced</option>
+            <option value="expressive">Expressive</option>
+          </select>
+        </label>
+        <label>
+          Corner radius <output id="radius-value">From preset</output>
+          <input type="range" id="radius" min="-1" max="28" value="-1" />
+        </label>
+        <label>
+          Bubbles
+          <select id="bubbles">
+            <option value="">From preset</option>
+            <option value="tail">Tail</option>
+            <option value="soft">Soft</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </label>
+        <label>
+          Buttons
+          <select id="buttons">
+            <option value="">From preset</option>
+            <option value="auto">Auto</option>
+            <option value="outline">Outline</option>
+            <option value="soft">Soft</option>
+            <option value="solid">Solid</option>
+          </select>
+        </label>
+        <label>
+          Elevation
+          <select id="elevation">
+            <option value="">From preset</option>
+            <option value="flat">Flat</option>
+            <option value="soft">Soft</option>
+            <option value="lifted">Lifted</option>
+          </select>
+        </label>
+        <label>
+          Heading font
+          <select id="headingFont">
+            <option value="">From preset</option>
+            <option value="sans">Sans</option>
+            <option value="rounded">Rounded</option>
+            <option value="serif">Serif</option>
+          </select>
+        </label>
+        <label>
+          Heading weight
+          <select id="headingWeight">
+            <option value="">From preset</option>
+            <option value="regular">Regular</option>
+            <option value="semibold">Semibold</option>
+            <option value="heavy">Heavy</option>
+          </select>
+        </label>
+        <label>
+          Text size
+          <select id="textSize">
+            <option value="">From preset</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </label>
+        <label>
+          Header
+          <select id="header">
+            <option value="">From preset</option>
+            <option value="compact">Compact</option>
+            <option value="hero">Hero</option>
+          </select>
+        </label>
+        <label>
+          Density
+          <select id="density">
+            <option value="">From preset</option>
+            <option value="comfortable">Comfortable</option>
+            <option value="compact">Compact</option>
+          </select>
         </label>
         <label>
           Title
@@ -254,14 +436,16 @@
       </aside>
 
       <main>
-        <h2>Support that feels like your product.</h2>
+        <img class="logo" src="./assets/rasa/rasa-logo-full-taupe-dark.svg" alt="Rasa" />
+        <p class="eyebrow">Chat widget starter</p>
+        <h2>Support that feels like <em>your product.</em></h2>
         <p>
           This page is a stand-in for your site. The chat launcher sits in the corner. Open it and try
           <code>quick</code>, <code>carousel</code>, <code>accordion</code>, <code>image</code>, <code>file</code>
           or <code>long</code> to preview every message type.
         </p>
         <div class="cards">
-          <div class="card"><h3>Themes</h3><p>Six built-in themes, plus tokens for everything else.</p></div>
+          <div class="card"><h3>Presets</h3><p>Precise, Balanced or Bold, from one accent color. Fine-tune any setting on top.</p></div>
           <div class="card"><h3>Layout</h3><p>Corner, launcher label, sizes and full screen mode.</p></div>
           <div class="card"><h3>Utility</h3><p>Conversation starters, status line, scroll to latest.</p></div>
         </div>
@@ -273,6 +457,7 @@
       id="widget"
       server-url="http://localhost:5005"
       rest-enabled="true"
+      accent-color="#4a3fb5"
       widget-title="Northwind Assistant"
       launcher-label="Ask us"
       welcome-message="Ask anything about plans, billing or your account."
@@ -283,53 +468,57 @@
     <script>
       const widget = document.getElementById('widget');
       const $ = id => document.getElementById(id);
-      const DEFAULT_BRAND = '#4a3fb5';
 
       // Attributes the panel controls, mapped to the widget's kebab-case attributes.
+      // An empty value removes the attribute, so the preset (or the default) applies.
       const fields = {
         theme: 'theme',
         position: 'position',
+        preset: 'preset',
+        presence: 'brand-presence',
+        bubbles: 'bubble-style',
+        buttons: 'button-style',
+        elevation: 'elevation',
+        headingFont: 'heading-font',
+        headingWeight: 'heading-weight',
+        textSize: 'text-size',
+        header: 'header-layout',
+        density: 'density',
         title: 'widget-title',
         subtitle: 'widget-subtitle',
         launcher: 'launcher-label',
         welcome: 'welcome-message',
         prompts: 'suggested-prompts',
       };
+      const DEFAULTS = { theme: 'light', position: 'bottom-right' };
 
       function apply() {
         for (const [id, attr] of Object.entries(fields)) {
           const value = $(id).value;
           value ? widget.setAttribute(attr, value) : widget.removeAttribute(attr);
         }
+        widget.setAttribute('accent-color', $('accent').value);
+        const radius = Number($('radius').value);
+        radius >= 0 ? widget.setAttribute('corner-radius', String(radius)) : widget.removeAttribute('corner-radius');
+        $('radius-value').textContent = radius >= 0 ? `${radius}px` : 'From preset';
         widget.setAttribute('toggle-full-screen', String($('fullscreen').checked));
         widget.setAttribute('display-timestamp', String($('timestamps').checked));
-
-        // Brand color: set on :root for the light theme and on the element for every other theme.
-        const brand = $('brand').value;
-        const customBrand = brand !== DEFAULT_BRAND;
-        for (const target of [document.documentElement, widget]) {
-          customBrand ? target.style.setProperty('--color-primary', brand) : target.style.removeProperty('--color-primary');
-        }
-        document.documentElement.style.setProperty('--radius-bubble', $('radius').value + 'px');
-        renderEmbed(customBrand ? brand : '');
+        renderEmbed();
       }
 
-      function renderEmbed(brand) {
+      function renderEmbed() {
         const attrs = [
           'server-url="https://your-rasa-server.example.com"',
-          ...Object.values(fields)
-            .map(attr => [attr, widget.getAttribute(attr)])
-            .filter(([attr, value]) => value && !(attr === 'theme' && value === 'light') && !(attr === 'position' && value === 'bottom-right'))
-            .map(([attr, value]) => `${attr}="${value}"`),
+          `accent-color="${$('accent').value}"`,
+          ...Object.entries(fields)
+            .map(([id, attr]) => [id, attr, widget.getAttribute(attr)])
+            .filter(([id, , value]) => value && DEFAULTS[id] !== value)
+            .map(([, attr, value]) => `${attr}="${value}"`),
         ];
+        if (widget.hasAttribute('corner-radius')) attrs.push(`corner-radius="${widget.getAttribute('corner-radius')}"`);
         if ($('fullscreen').checked) attrs.push('toggle-full-screen="true"');
         if ($('timestamps').checked) attrs.push('display-timestamp="true"');
-        const css = [];
-        if (brand) css.push(`  --color-primary: ${brand};`);
-        if ($('radius').value !== '18') css.push(`  --radius-bubble: ${$('radius').value}px;`);
-        $('embed').value =
-          `<rasa-chatbot-widget\n  ${attrs.join('\n  ')}\n></rasa-chatbot-widget>` +
-          (css.length ? `\n\n<style>\n:root {\n${css.join('\n')}\n}\n</style>` : '');
+        $('embed').value = `<rasa-chatbot-widget\n  ${attrs.join('\n  ')}\n></rasa-chatbot-widget>`;
       }
 
       document.querySelectorAll('aside input, aside select').forEach(el => {

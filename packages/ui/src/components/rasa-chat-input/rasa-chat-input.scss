@@ -1,12 +1,10 @@
 .rasa-chat-input {
   display: flex;
   align-items: center;
-  gap: 8px;
   box-sizing: border-box;
   width: 100%;
   min-height: var(--composer-height);
-  padding: 14px 16px;
-  border-top: 1px solid var(--border-color);
+  padding: 8px 12px 12px;
   background-color: var(--input-background-color);
 
   &__field {
@@ -14,12 +12,13 @@
     flex: 1;
     align-items: center;
     min-width: 0;
-    height: 48px;
-    padding: 0 6px 0 18px;
+    height: 52px;
+    padding: 0 4px 0 16px;
     box-sizing: border-box;
-    border: 1px solid transparent;
-    border-radius: var(--radius-launcher);
-    background-color: var(--input-field-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-field);
+    background-color: var(--input-background-color);
+    box-shadow: 0 1px 2px rgba(17, 17, 24, 0.04);
     transition:
       border-color var(--motion-duration) ease,
       box-shadow var(--motion-duration) ease;
@@ -40,7 +39,7 @@
     background-color: transparent;
     color: var(--input-color);
     font-family: var(--font-family);
-    font-size: 15px;
+    font-size: var(--input-font-size, 15px);
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
@@ -50,7 +49,7 @@
       color: var(--input-placeholder-color);
       opacity: var(--input-placeholder-opacity);
       font-family: var(--font-family);
-      font-size: 15px;
+      font-size: var(--input-font-size, 15px);
       font-style: normal;
       font-weight: 400;
       line-height: 150%;
@@ -62,6 +61,7 @@
     }
   }
 
+  // A 44px hit area around a 32px disc.
   &__button {
     outline: none;
     border: none;
@@ -69,33 +69,48 @@
     cursor: pointer;
     flex-shrink: 0;
     display: flex;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    background-color: var(--input-send-color);
-    color: var(--input-send-icon-color);
-    transition:
-      opacity var(--motion-duration) ease,
-      transform var(--motion-duration) var(--motion-easing);
-
-    &:hover {
-      transform: scale(1.06);
-    }
+    background: transparent;
 
     &:focus-visible {
       @include focus-ring;
+      border-radius: var(--radius-control);
     }
+  }
 
-    &--disabled {
-      opacity: 0.35;
-      cursor: default;
+  &__button-disc {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: min(var(--radius-control), 999px);
+    background-color: var(--input-send-color);
+    color: var(--input-send-icon-color);
+    transition:
+      background-color var(--motion-duration) ease,
+      color var(--motion-duration) ease,
+      transform var(--motion-duration) var(--motion-easing);
+  }
 
-      &:hover {
-        transform: none;
-      }
-    }
+  &__button:hover &__button-disc {
+    transform: scale(1.06);
+  }
+
+  &__button--disabled {
+    cursor: default;
+  }
+
+  &__button--disabled &__button-disc {
+    background-color: var(--color-secondary-10);
+    color: var(--color-secondary-50);
+  }
+
+  &__button--disabled:hover &__button-disc {
+    transform: none;
   }
 
   &__icon {
@@ -103,7 +118,5 @@
     width: 16px;
     height: 16px;
     color: inherit;
-    // Nudge the plane's optical center to the middle of the circle.
-    transform: translate(-1px, 1px);
   }
 }

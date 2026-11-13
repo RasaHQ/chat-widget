@@ -5,13 +5,14 @@
   background-color: var(--message-robot-background-color);
   height: 100%;
   padding: 14px 16px;
+  padding-inline: var(--typing-indicator-padding-x, 16px);
 
   &__dot {
     display: inline-block;
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: var(--color-primary);
+    background-color: var(--message-robot-color);
     animation: typing-indicator__animation 1.2s infinite ease-in-out;
 
     &:nth-child(2) {

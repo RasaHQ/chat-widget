@@ -7,9 +7,11 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
 import { WidgetTheme } from "./utils/widget-theme";
+import { BrandPresence, BubbleStyle, ButtonStyle, Density, Elevation, HeaderLayout, HeadingFont, HeadingWeight, TextSize, WidgetPreset } from "./utils/appearance";
 import { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
 export { CarouselElement, QuickReply, QuickReplyMessage } from "@rasahq/chat-widget-sdk";
 export { WidgetTheme } from "./utils/widget-theme";
+export { BrandPresence, BubbleStyle, ButtonStyle, Density, Elevation, HeaderLayout, HeadingFont, HeadingWeight, TextSize, WidgetPreset } from "./utils/appearance";
 export { SenderType } from "@rasahq/chat-widget-sdk/dist/types/common.types";
 export namespace Components {
     interface ChatMessage {
@@ -64,6 +66,10 @@ export namespace Components {
     }
     interface RasaChatbotWidget {
         /**
+          * Brand color used for the launcher, the visitor's messages, buttons and accents. A hex value also derives readable text colors for use on and around it.
+         */
+        "accentColor"?: string;
+        /**
           * User authentication token
          */
         "authenticationToken": string;
@@ -76,9 +82,29 @@ export namespace Components {
          */
         "botIcon": string;
         /**
+          * How much of the window carries the brand color: `subtle` (only the launcher, avatar and send button), `balanced`, or `expressive` (a brand-color header above the conversation).
+         */
+        "brandPresence"?: BrandPresence;
+        /**
+          * Message bubble shape: `tail`, `soft` (evenly rounded) or `minimal` (no bubble behind bot messages).
+         */
+        "bubbleStyle"?: BubbleStyle;
+        /**
+          * Quick reply and suggestion buttons: `outline`, `soft` (tinted), `solid`, or `auto` to follow the brand presence.
+         */
+        "buttonStyle"?: ButtonStyle;
+        /**
           * Header status text while the widget is connected and no subtitle is set.
          */
         "connectedText": string;
+        /**
+          * Corner radius of the chat window in px. Bubbles, buttons, the composer and the launcher follow it.
+         */
+        "cornerRadius"?: number;
+        /**
+          * Spacing between messages: `comfortable` or `compact`.
+         */
+        "density"?: Density;
         /**
           * Header status text while the widget is connecting and no subtitle is set.
          */
@@ -87,6 +113,10 @@ export namespace Components {
           * Indicates if a message timestamp should be displayed
          */
         "displayTimestamp": boolean;
+        /**
+          * Shadow depth of the chat window and launcher: `flat` (border only), `soft` or `lifted`.
+         */
+        "elevation"?: Elevation;
         /**
           * If set to True, shows conversation feedback component at the bottom of the chat.
          */
@@ -104,9 +134,25 @@ export namespace Components {
          */
         "feedbackThankYouText": string;
         /**
-          * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+          * Font family to use for the widget. Defaults to the visitor's system font.
          */
         "fontFamily": string;
+        /**
+          * Greeting shown in the header when `headerLayout` is `hero`.
+         */
+        "headerGreeting": string;
+        /**
+          * Header layout: `compact`, or `hero` with a large greeting under the title.
+         */
+        "headerLayout"?: HeaderLayout;
+        /**
+          * Typeface for the header title and greeting: `sans`, `rounded` or `serif` (system fonts).
+         */
+        "headingFont"?: HeadingFont;
+        /**
+          * Weight of the header title and greeting: `regular`, `semibold` or `heavy`.
+         */
+        "headingWeight"?: HeadingWeight;
         /**
           * Hides the close button in the chat header.
          */
@@ -136,6 +182,10 @@ export namespace Components {
          */
         "position": 'bottom-right' | 'bottom-left';
         /**
+          * Starting point for the look: `precise` (quiet, monochrome), `balanced` or `bold` (brand-color header, heavy type). Any appearance prop set on its own overrides the preset.
+         */
+        "preset"?: WidgetPreset;
+        /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
         "restEnabled": boolean;
@@ -159,6 +209,10 @@ export namespace Components {
           * Conversation starters shown as tappable chips until the visitor sends a message. Accepts an array, a JSON array string, or a comma separated string.
          */
         "suggestedPrompts": string[] | string;
+        /**
+          * Size of message text: `small`, `medium` or `large`.
+         */
+        "textSize"?: TextSize;
         /**
           * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting), or a designer preset: `midnight`, `ocean`, `forest`, `sunset`, `mono`.
          */
@@ -1044,6 +1098,10 @@ declare namespace LocalJSX {
     }
     interface RasaChatbotWidget {
         /**
+          * Brand color used for the launcher, the visitor's messages, buttons and accents. A hex value also derives readable text colors for use on and around it.
+         */
+        "accentColor"?: string;
+        /**
           * User authentication token
          */
         "authenticationToken"?: string;
@@ -1056,9 +1114,29 @@ declare namespace LocalJSX {
          */
         "botIcon"?: string;
         /**
+          * How much of the window carries the brand color: `subtle` (only the launcher, avatar and send button), `balanced`, or `expressive` (a brand-color header above the conversation).
+         */
+        "brandPresence"?: BrandPresence;
+        /**
+          * Message bubble shape: `tail`, `soft` (evenly rounded) or `minimal` (no bubble behind bot messages).
+         */
+        "bubbleStyle"?: BubbleStyle;
+        /**
+          * Quick reply and suggestion buttons: `outline`, `soft` (tinted), `solid`, or `auto` to follow the brand presence.
+         */
+        "buttonStyle"?: ButtonStyle;
+        /**
           * Header status text while the widget is connected and no subtitle is set.
          */
         "connectedText"?: string;
+        /**
+          * Corner radius of the chat window in px. Bubbles, buttons, the composer and the launcher follow it.
+         */
+        "cornerRadius"?: number;
+        /**
+          * Spacing between messages: `comfortable` or `compact`.
+         */
+        "density"?: Density;
         /**
           * Header status text while the widget is connecting and no subtitle is set.
          */
@@ -1067,6 +1145,10 @@ declare namespace LocalJSX {
           * Indicates if a message timestamp should be displayed
          */
         "displayTimestamp"?: boolean;
+        /**
+          * Shadow depth of the chat window and launcher: `flat` (border only), `soft` or `lifted`.
+         */
+        "elevation"?: Elevation;
         /**
           * If set to True, shows conversation feedback component at the bottom of the chat.
          */
@@ -1084,9 +1166,25 @@ declare namespace LocalJSX {
          */
         "feedbackThankYouText"?: string;
         /**
-          * Font family to use for the widget. Defaults to 'Lato, sans-serif'
+          * Font family to use for the widget. Defaults to the visitor's system font.
          */
         "fontFamily"?: string;
+        /**
+          * Greeting shown in the header when `headerLayout` is `hero`.
+         */
+        "headerGreeting"?: string;
+        /**
+          * Header layout: `compact`, or `hero` with a large greeting under the title.
+         */
+        "headerLayout"?: HeaderLayout;
+        /**
+          * Typeface for the header title and greeting: `sans`, `rounded` or `serif` (system fonts).
+         */
+        "headingFont"?: HeadingFont;
+        /**
+          * Weight of the header title and greeting: `regular`, `semibold` or `heavy`.
+         */
+        "headingWeight"?: HeadingWeight;
         /**
           * Hides the close button in the chat header.
          */
@@ -1152,6 +1250,10 @@ declare namespace LocalJSX {
          */
         "position"?: 'bottom-right' | 'bottom-left';
         /**
+          * Starting point for the look: `precise` (quiet, monochrome), `balanced` or `bold` (brand-color header, heavy type). Any appearance prop set on its own overrides the preset.
+         */
+        "preset"?: WidgetPreset;
+        /**
           * If set to True, instead of the default WebSocket communication, the widget will use the HTTP protocol.
          */
         "restEnabled"?: boolean;
@@ -1175,6 +1277,10 @@ declare namespace LocalJSX {
           * Conversation starters shown as tappable chips until the visitor sends a message. Accepts an array, a JSON array string, or a comma separated string.
          */
         "suggestedPrompts"?: string[] | string;
+        /**
+          * Size of message text: `small`, `medium` or `large`.
+         */
+        "textSize"?: TextSize;
         /**
           * Color theme. One of `light` (default), `dark`, `auto` (follows the visitor's OS setting), or a designer preset: `midnight`, `ocean`, `forest`, `sunset`, `mono`.
          */

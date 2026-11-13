@@ -64,10 +64,23 @@ $themes: (
   }
 }
 
+// Re-derive the tokens on the host so values set on the element itself
+// (`accent-color`, `font-family`, or your own CSS) reach every derived token.
+:host {
+  --font-family: var(--widget-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
+  --heading-font-family: var(--font-family);
+  --heading-font-weight: 640;
+  @include color-scale;
+  @include component-tokens;
+}
+
 @each $name, $config in $themes {
   :host([theme='#{$name}']) {
     @include apply-theme($config);
     color-scheme: if($name == 'dark' or $name == 'midnight', dark, light);
+    @if $name == 'dark' or $name == 'midnight' {
+      --color-accent-text: var(--color-accent-text-dark, var(--color-primary));
+    }
   }
 }
 
@@ -76,7 +89,156 @@ $themes: (
   :host([theme='auto']) {
     @include apply-theme(map-get($themes, 'dark'));
     color-scheme: dark;
+    --color-accent-text: var(--color-accent-text-dark, var(--color-primary));
   }
+}
+
+// ---------------------------------------------------------------------------
+// Appearance
+//
+// The widget sets these data attributes on itself from the `preset` prop and
+// the individual appearance props (see utils/appearance.ts). Each one only
+// swaps tokens, so they compose with the themes above and with each other.
+// ---------------------------------------------------------------------------
+
+// Brand presence: how much of the window carries the brand color.
+:host([data-presence='subtle']),
+:host([data-presence='balanced']) {
+  --header-background-color: var(--messenger-background-color);
+  --header-color: var(--color-secondary-opposite);
+  --header-border-color: var(--border-color);
+  --header-avatar-background-color: var(--color-primary);
+  --header-avatar-color: var(--color-on-primary);
+  --status-ring-color: var(--messenger-background-color);
+}
+
+:host([data-presence='subtle']) {
+  // A near-black (or near-white on dark themes) tone stands in for the brand color.
+  --brand-tone: color-mix(in srgb, var(--color-secondary-opposite) 88%, var(--color-secondary));
+  --brand-on-tone: var(--color-secondary);
+  --brand-tone-text: var(--color-secondary-opposite);
+  --message-user-background-color: var(--brand-tone);
+  --message-user-color: var(--brand-on-tone);
+}
+
+:host([data-presence='balanced']),
+:host([data-presence='expressive']) {
+  --brand-tone: var(--color-primary);
+  --brand-on-tone: var(--color-on-primary);
+  --brand-tone-text: var(--color-accent-text);
+}
+
+:host([data-presence='balanced']) {
+  --message-robot-background-color: color-mix(in srgb, var(--color-secondary-10) 94%, var(--color-primary));
+}
+
+:host([data-presence='expressive']) {
+  --message-robot-background-color: color-mix(in srgb, var(--color-secondary-10) 88%, var(--color-primary));
+  // The conversation sits on a rounded sheet over the brand-color header.
+  --sheet-radius: var(--radius-messenger);
+}
+
+// Buttons: quick replies and suggested prompts. `auto` follows the presence.
+:host([data-buttons='outline']),
+:host([data-buttons='auto'][data-presence='subtle']),
+:host([data-buttons='auto'][data-presence='balanced']) {
+  --message-button-color: var(--brand-tone-text);
+  --message-button-background-color: transparent;
+  --message-button-border-color: color-mix(in srgb, var(--brand-tone) 40%, transparent);
+  --message-selected-button-color: var(--brand-on-tone);
+  --message-selected-button-background-color: var(--brand-tone);
+  --message-selected-button-border-color: var(--brand-tone);
+}
+
+:host([data-buttons='soft']),
+:host([data-buttons='auto'][data-presence='expressive']) {
+  --message-button-color: var(--brand-tone-text);
+  --message-button-background-color: color-mix(in srgb, var(--brand-tone) 14%, transparent);
+  --message-button-border-color: transparent;
+  --message-selected-button-color: var(--brand-on-tone);
+  --message-selected-button-background-color: var(--brand-tone);
+  --message-selected-button-border-color: var(--brand-tone);
+}
+
+:host([data-buttons='solid']) {
+  --message-button-color: var(--brand-on-tone);
+  --message-button-background-color: var(--brand-tone);
+  --message-button-border-color: var(--brand-tone);
+  --message-selected-button-color: var(--brand-on-tone);
+  --message-selected-button-background-color: color-mix(in srgb, var(--brand-tone) 82%, var(--color-secondary-opposite));
+  --message-selected-button-border-color: transparent;
+}
+
+// Bubbles
+:host([data-bubbles='soft']) {
+  --radius-bubble-tail: var(--radius-bubble);
+}
+
+:host([data-bubbles='minimal']) {
+  --radius-bubble-tail: var(--radius-bubble);
+  --message-robot-background-color: transparent;
+  --bubble-bot-padding: 2px 0;
+  --typing-indicator-padding-x: 0;
+}
+
+// Elevation
+:host([data-elevation='flat']) {
+  --shadow-messenger: 0 0 0 1px var(--border-color);
+  --shadow-launcher: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+:host([data-elevation='soft']) {
+  --shadow-messenger: 0 0 0 1px rgba(17, 17, 24, 0.06), 0 2px 4px rgba(17, 17, 24, 0.04), 0 16px 40px -8px rgba(17, 17, 24, 0.16),
+    0 40px 80px -24px rgba(17, 17, 24, 0.2);
+  --shadow-launcher: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 1px 2px rgba(0, 0, 0, 0.12),
+    0 10px 28px -6px color-mix(in srgb, var(--color-primary) 55%, transparent);
+}
+
+:host([data-elevation='lifted']) {
+  --shadow-messenger: 0 0 0 1px rgba(17, 17, 24, 0.04), 0 4px 8px rgba(17, 17, 24, 0.06), 0 24px 56px -8px rgba(17, 17, 24, 0.24),
+    0 56px 110px -24px rgba(17, 17, 24, 0.3);
+  --shadow-launcher: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 2px 4px rgba(0, 0, 0, 0.12),
+    0 16px 36px -6px color-mix(in srgb, var(--color-primary) 65%, transparent);
+}
+
+// Type
+:host([data-heading-font='rounded']) {
+  --heading-font-family: ui-rounded, 'SF Pro Rounded', var(--font-family);
+}
+
+:host([data-heading-font='serif']) {
+  --heading-font-family: ui-serif, 'New York', 'Iowan Old Style', Georgia, serif;
+}
+
+:host([data-heading-weight='regular']) {
+  --heading-font-weight: 450;
+}
+
+:host([data-heading-weight='heavy']) {
+  --heading-font-weight: 800;
+}
+
+:host([data-text-size='small']) {
+  --rasa-text-font-size: 13.5px;
+  --input-font-size: 14px;
+}
+
+:host([data-text-size='medium']) {
+  --rasa-text-font-size: 14.5px;
+  --input-font-size: 15px;
+}
+
+:host([data-text-size='large']) {
+  --rasa-text-font-size: 16px;
+  --input-font-size: 16px;
+  --bubble-padding: 12px 16px;
+}
+
+// Density
+:host([data-density='compact']) {
+  --message-gap: 6px;
+  --content-padding: 14px;
+  --bubble-padding: 7px 11px;
 }
 
 // ---------------------------------------------------------------------------
@@ -133,8 +295,9 @@ $themes: (
   }
 
   &__launcher-label {
+    font-family: var(--heading-font-family);
     font-size: 15px;
-    font-weight: 700;
+    font-weight: max(600, var(--heading-font-weight));
     line-height: 1;
     white-space: nowrap;
   }
@@ -159,7 +322,8 @@ $themes: (
   right: 0;
   width: min(var(--messenger-width), calc(100vw - var(--widget-offset-x) * 2));
   height: min(var(--messenger-height), calc(100vh - var(--launcher-size) - var(--widget-offset-y) - 40px));
-  background: var(--messenger-background-color);
+  // Shows behind the sheet's rounded top corners in the expressive layout.
+  background: var(--header-background-color);
   color: var(--input-color);
   border-radius: var(--radius-messenger);
   box-shadow: var(--shadow-messenger);
@@ -204,14 +368,56 @@ $themes: (
   // ---- Header ----
   &__header {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 16px;
     flex-shrink: 0;
     color: var(--header-color);
     background: var(--header-background-color);
-    padding: var(--header-padding-y) var(--header-padding-x);
+    border-bottom: 1px solid var(--header-border-color, transparent);
+    padding: var(--header-padding-y) calc(var(--header-padding-x) - 8px) var(--header-padding-y) var(--header-padding-x);
     font-family: var(--font-family);
     letter-spacing: 0.2px;
+
+    :host([data-presence='expressive']) & {
+      padding-bottom: calc(var(--header-padding-y) + 8px);
+    }
+
+    :host([data-header='hero']) & {
+      padding-bottom: calc(var(--header-padding-y) + 12px);
+    }
+  }
+
+  &__header-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__greeting {
+    --rasa-text-font-size: 28px;
+    --rasa-text-line-height: 1.1;
+    --rasa-text-letter-spacing: -0.6px;
+    --rasa-text-font-weight: var(--heading-font-weight);
+    --font-family: var(--heading-font-family);
+    padding-right: 32px;
+
+    :host([data-heading-weight='heavy']) & {
+      --rasa-text-font-size: 30px;
+      --rasa-text-letter-spacing: -1px;
+    }
+  }
+
+  // Everything under the header. In the expressive layout it is a rounded
+  // sheet sitting on the brand-color header.
+  &__sheet {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 0;
+    background: var(--messenger-background-color);
+    border-radius: var(--sheet-radius, 0) var(--sheet-radius, 0) 0 0;
+    overflow: hidden;
   }
 
   &__header-avatar {
@@ -222,15 +428,15 @@ $themes: (
     flex-shrink: 0;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--header-color) 18%, transparent);
-    color: var(--header-color);
+    border-radius: var(--radius-avatar);
+    background: var(--header-avatar-background-color, color-mix(in srgb, var(--header-color) 18%, transparent));
+    color: var(--header-avatar-color, var(--header-color));
   }
 
   &__header-avatar-image {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    border-radius: var(--radius-avatar);
     object-fit: cover;
   }
 
@@ -267,8 +473,9 @@ $themes: (
   }
 
   &__header-title {
+    --font-family: var(--heading-font-family);
     --rasa-text-font-size: 16px;
-    --rasa-text-font-weight: 700;
+    --rasa-text-font-weight: var(--heading-font-weight);
     --rasa-text-line-height: 20px;
     --rasa-text-letter-spacing: 0.2px;
     overflow: hidden;
@@ -294,18 +501,18 @@ $themes: (
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     border: none;
-    border-radius: 50%;
+    border-radius: var(--radius-control);
     background: transparent;
     color: inherit;
     cursor: pointer;
     transition: background-color var(--motion-duration) ease;
 
     &:hover {
-      background: color-mix(in srgb, var(--header-color) 18%, transparent);
+      background: color-mix(in srgb, var(--header-color) 10%, transparent);
     }
 
     &:focus-visible {
@@ -362,11 +569,12 @@ $themes: (
     max-width: 100%;
     padding: 8px 14px;
     border: 1px solid var(--message-button-border-color);
-    border-radius: var(--radius-launcher);
+    border-radius: var(--radius-control);
     background: var(--message-button-background-color);
     color: var(--message-button-color);
     font-family: var(--font-family);
-    font-size: 13px;
+    font-size: 13.5px;
+    font-weight: 550;
     line-height: 1.4;
     text-align: left;
     cursor: pointer;
