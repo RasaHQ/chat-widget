@@ -88,12 +88,16 @@ export class RasaQuickReply {
       'quick-reply__buttons--disabled': this.disableButtons,
     };
     const isStreamEnabled = configStore().streamMessages && !this.isHistory;
-    const canShowText = isStreamEnabled ? this.textStreamComplete : true;
+    // Buttons sent after a server-streamed response come without text, the streamed message above already shows it
+    const isButtonsOnly = configStore().enableServerStreaming && !this.message.text?.trim();
+    const canShowText = isStreamEnabled && !isButtonsOnly ? this.textStreamComplete : true;
     return (
       <Host>
-        <chat-message sender={SENDER.BOT} timestamp={this.message.timestamp}>
-          <rasa-text value={this.message.text} notifyCompleteRendering={isStreamEnabled} enableStream={isStreamEnabled} class="quick-reply__text"></rasa-text>
-        </chat-message>
+        {!isButtonsOnly && (
+          <chat-message sender={SENDER.BOT} timestamp={this.message.timestamp}>
+            <rasa-text value={this.message.text} notifyCompleteRendering={isStreamEnabled} enableStream={isStreamEnabled} class="quick-reply__text"></rasa-text>
+          </chat-message>
+        )}
         {canShowText && this.quickReplyMessage.replies.length && (
           <div class="quick-reply__buttons">
             {this.quickReplyMessage.replies.map((button, key) =>

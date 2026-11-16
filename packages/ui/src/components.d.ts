@@ -82,6 +82,10 @@ export namespace Components {
          */
         "enableFeedback": boolean;
         /**
+          * If set to True, bot responses that the server streams over the WebSocket (`stream_start`, `stream_chunk`, `stream_end`) are rendered while they arrive. Needed for Rasa Mantle and Rasa Pro 3.21+, which send streamed responses only this way. Keep it disabled for Rasa Pro 3.18 - 3.20, which also send each streamed response as a regular message. Has no effect when `restEnabled` is set.
+         */
+        "enableServerStreaming": boolean;
+        /**
           * Message that should be displayed if an error occurs
          */
         "errorMessage": string;
@@ -526,6 +530,10 @@ export namespace Components {
          */
         "enableStream": boolean;
         /**
+          * Renders every change of the value right away (text streamed by the server), without stream rendering
+         */
+        "live": boolean;
+        /**
           * Should component notify messageQueueService at complete rendering
          */
         "notifyCompleteRendering": boolean;
@@ -543,6 +551,10 @@ export namespace Components {
           * Who sent the message
          */
         "sender": SenderType;
+        /**
+          * Id of the server stream the message text comes from. The text updates while the stream is in progress.
+         */
+        "streamId"?: string;
         /**
           * Message value
          */
@@ -1025,6 +1037,10 @@ declare namespace LocalJSX {
           * If set to True, shows conversation feedback component at the bottom of the chat.
          */
         "enableFeedback"?: boolean;
+        /**
+          * If set to True, bot responses that the server streams over the WebSocket (`stream_start`, `stream_chunk`, `stream_end`) are rendered while they arrive. Needed for Rasa Mantle and Rasa Pro 3.21+, which send streamed responses only this way. Keep it disabled for Rasa Pro 3.18 - 3.20, which also send each streamed response as a regular message. Has no effect when `restEnabled` is set.
+         */
+        "enableServerStreaming"?: boolean;
         /**
           * Message that should be displayed if an error occurs
          */
@@ -1525,6 +1541,10 @@ declare namespace LocalJSX {
          */
         "enableStream"?: boolean;
         /**
+          * Renders every change of the value right away (text streamed by the server), without stream rendering
+         */
+        "live"?: boolean;
+        /**
           * Should component notify messageQueueService at complete rendering
          */
         "notifyCompleteRendering"?: boolean;
@@ -1550,6 +1570,10 @@ declare namespace LocalJSX {
           * Who sent the message
          */
         "sender"?: SenderType;
+        /**
+          * Id of the server stream the message text comes from. The text updates while the stream is in progress.
+         */
+        "streamId"?: string;
         /**
           * Message value
          */

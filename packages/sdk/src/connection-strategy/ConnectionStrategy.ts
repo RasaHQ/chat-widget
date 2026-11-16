@@ -9,6 +9,11 @@ export interface ConnectionParams {
   onDisconnect: () => void,
   onBotResponse: (data: unknown) => void,
   onSessionConfirm: () => void,
+  // Server-side response streaming (`stream_start` / `stream_chunk` / `stream_end`).
+  // The events are listened to only when these callbacks are provided.
+  onStreamStart?: () => void,
+  onStreamChunk?: (data: unknown) => void,
+  onStreamEnd?: () => void,
 } 
 
 export interface ConnectionStrategy extends ConnectionParams {

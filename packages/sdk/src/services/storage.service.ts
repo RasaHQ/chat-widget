@@ -1,4 +1,4 @@
-import { SESSION_STORAGE_KEYS } from '../constants';
+import { SENDER, SESSION_STORAGE_KEYS } from '../constants';
 import { CustomErrorClass, ErrorSeverity } from '../errors';
 
 export class StorageService {
@@ -27,7 +27,8 @@ export class StorageService {
     return true;
   }
 
-  public setMessage(message: unknown, sessionId: string): void {
+  // Returns the index of the stored message within the session's messages
+  public setMessage(message: unknown, sessionId: string): number {
     const chatHistory = this.getChatHistory() || {};
     if (chatHistory[sessionId]) {
       if (Array.isArray(chatHistory[sessionId].messages)) {
@@ -38,9 +39,19 @@ export class StorageService {
     } else {
       const startDate = new Date();
       this.setSession(sessionId, startDate);
-      this.setMessage(message, sessionId);
-      return;
+      return this.setMessage(message, sessionId);
     }
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(chatHistory));
+    return chatHistory[sessionId].messages.length - 1;
+  }
+
+  // Replaces a stored bot message, e.g. once a streamed response is complete.
+  // Anything else at that index (the history was overridden meanwhile) is left untouched.
+  public updateBotMessage(message: unknown, messageIndex: number, sessionId: string): void {
+    const chatHistory = this.getChatHistory() || {};
+    const messages = chatHistory[sessionId]?.messages;
+    if (!Array.isArray(messages) || messages[messageIndex]?.sender !== SENDER.BOT) return;
+    messages[messageIndex] = message;
     sessionStorage.setItem(SESSION_STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(chatHistory));
   }
 

@@ -257,5 +257,37 @@ describe('WebSocketConnection', () => {
 
       expect(consoleLogSpy).toHaveBeenCalledWith('Reconnection attempt #1');
     });
+
+    it('should not listen to stream events without stream callbacks', () => {
+      const registeredEvents = socket.on.mock.calls.map(([event]) => event);
+
+      expect(registeredEvents).toContain('bot_uttered');
+      expect(registeredEvents).not.toContain('stream_start');
+      expect(registeredEvents).not.toContain('stream_chunk');
+      expect(registeredEvents).not.toContain('stream_end');
+    });
+
+    it('should forward stream events when stream callbacks are provided', () => {
+      const onStreamStart = jest.fn();
+      const onStreamChunk = jest.fn();
+      const onStreamEnd = jest.fn();
+      const chunk = { text: 'Hello' };
+      socket.on.mockImplementation((event, handler) => {
+        if (event === 'stream_start' || event === 'stream_end') {
+          handler();
+        }
+        if (event === 'stream_chunk') {
+          handler(chunk);
+        }
+      });
+
+      createInstance({ onStreamStart, onStreamChunk, onStreamEnd });
+      socket.on.mockReset();
+
+      expect(onStreamStart).toHaveBeenCalledTimes(1);
+      expect(onStreamChunk).toHaveBeenCalledWith(chunk);
+      expect(onStreamEnd).toHaveBeenCalledTimes(1);
+      expect(onBotResponse).not.toHaveBeenCalled();
+    });
   });
 });

@@ -60,6 +60,39 @@ describe('StorageService', () => {
     expect(storedHistory[sessionId].messages).toEqual([message]);
   });
 
+  it('returns the index of the stored message', () => {
+    const sessionId = 'session1';
+
+    expect(storageService.setMessage({ text: 'First' }, sessionId)).toBe(0);
+    expect(storageService.setMessage({ text: 'Second' }, sessionId)).toBe(1);
+  });
+
+  it('updates a stored bot message', () => {
+    const sessionId = 'session1';
+    storageService.setMessage({ sender: 'user', text: 'Hi' }, sessionId);
+    const index = storageService.setMessage({ sender: 'bot', text: 'Hel' }, sessionId);
+
+    storageService.updateBotMessage({ sender: 'bot', text: 'Hello' }, index, sessionId);
+
+    const storedHistory = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEYS.CHAT_HISTORY) || '{}');
+    expect(storedHistory[sessionId].messages).toEqual([
+      { sender: 'user', text: 'Hi' },
+      { sender: 'bot', text: 'Hello' },
+    ]);
+  });
+
+  it('does not update a message that is not a stored bot message', () => {
+    const sessionId = 'session1';
+    storageService.setMessage({ sender: 'user', text: 'Hi' }, sessionId);
+    const storedBefore = sessionStorage.getItem(SESSION_STORAGE_KEYS.CHAT_HISTORY);
+
+    storageService.updateBotMessage({ sender: 'bot', text: 'Hello' }, 0, sessionId);
+    storageService.updateBotMessage({ sender: 'bot', text: 'Hello' }, 1, sessionId);
+    storageService.updateBotMessage({ sender: 'bot', text: 'Hello' }, 0, 'unknown-session');
+
+    expect(sessionStorage.getItem(SESSION_STORAGE_KEYS.CHAT_HISTORY)).toBe(storedBefore);
+  });
+
   it('get chat history from session storage', () => {
     const sessionId = 'session1';
     const sessionStart = new Date();

@@ -13,6 +13,19 @@ interface Options {
   initialPayload?: string;
   authenticationToken?: string;
   senderId?: string;
+  /**
+   * Render responses the server streams over the socket (`stream_start` / `stream_chunk` / `stream_end`),
+   * as sent by Rasa Mantle and Rasa Pro >= 3.21. Has no effect with the HTTP protocol.
+   */
+  enableServerStreaming?: boolean;
+}
+
+interface ActiveStream {
+  id: string;
+  text: string;
+  // Set once the stream received visible text and was announced with `streamStart`
+  timestamp?: Date;
+  storageIndex?: number;
 }
 
 export class Rasa extends EventEmitter {
@@ -23,8 +36,16 @@ export class Rasa extends EventEmitter {
   private isInitialConnection: boolean;
   private isSessionConfirmed: boolean;
   private senderId?: string;
+  private activeStream: ActiveStream | null = null;
 
-  public constructor({ url, protocol = 'ws', initialPayload, authenticationToken, senderId }: Options) {
+  public constructor({
+    url,
+    protocol = 'ws',
+    initialPayload,
+    authenticationToken,
+    senderId,
+    enableServerStreaming = false,
+  }: Options) {
     super();
     this.senderId = senderId;
     this._sessionId = senderId ? senderId : uuidv4();
@@ -33,7 +54,7 @@ export class Rasa extends EventEmitter {
     this.isInitialConnection = true;
     this.isSessionConfirmed = false;
     const Connection = protocol === 'ws' ? WebSocketConnection : HTTPConnection;
-    const { onConnect, onDisconnect, onBotResponse, onSessionConfirm } = this;
+    const { onConnect, onDisconnect, onBotResponse, onSessionConfirm, onStreamStart, onStreamChunk, onStreamEnd } = this;
     this.connection = new Connection({
       url,
       authenticationToken,
@@ -41,6 +62,7 @@ export class Rasa extends EventEmitter {
       onDisconnect,
       onBotResponse,
       onSessionConfirm,
+      ...(enableServerStreaming ? { onStreamStart, onStreamChunk, onStreamEnd } : {}),
     });
   }
 
@@ -59,6 +81,7 @@ export class Rasa extends EventEmitter {
 
   //#region Connection Event Handlers
   private onBotResponse = (data: unknown): void => {
+    this.finishStream();
     const timestamp = new Date();
     this.storageService.setMessage({ sender: SENDER.BOT, ...(data as object), timestamp }, this.sessionId);
     this.trigger('message', messageParser({ ...(data as object), timestamp }, SENDER.BOT));
@@ -102,10 +125,53 @@ export class Rasa extends EventEmitter {
   };
 
   private onDisconnect = () => {
+    this.finishStream();
     this.isSessionConfirmed = false;
     this.isInitialConnection = true;
     this.trigger('disconnect');
   };
+
+  private onStreamStart = (): void => {
+    // A stream that never received `stream_end` is completed with the text it got so far
+    this.finishStream();
+    this.activeStream = { id: uuidv4(), text: '' };
+  };
+
+  private onStreamChunk = (data: unknown): void => {
+    const chunk = (data as { text?: unknown } | null)?.text;
+    if (typeof chunk !== 'string' || !chunk) return;
+    if (!this.activeStream) {
+      this.onStreamStart();
+    }
+    const stream = this.activeStream as ActiveStream;
+    stream.text += chunk;
+
+    if (stream.timestamp) {
+      this.trigger('streamChunk', { streamId: stream.id, text: stream.text });
+      return;
+    }
+    // A stream is announced on its first visible text, so whitespace-only streams never render an empty bubble
+    if (!stream.text.trim()) return;
+    stream.timestamp = new Date();
+    stream.storageIndex = this.storageService.setMessage(
+      { sender: SENDER.BOT, text: stream.text, timestamp: stream.timestamp },
+      this.sessionId,
+    );
+    this.trigger('streamStart', { streamId: stream.id, text: stream.text, timestamp: stream.timestamp });
+  };
+
+  private onStreamEnd = (): void => {
+    this.finishStream();
+  };
+
+  private finishStream(): void {
+    const stream = this.activeStream;
+    this.activeStream = null;
+    if (!stream?.timestamp) return;
+    const response = { text: stream.text, timestamp: stream.timestamp };
+    this.storageService.updateBotMessage({ sender: SENDER.BOT, ...response }, stream.storageIndex as number, this.sessionId);
+    this.trigger('streamEnd', { streamId: stream.id, message: messageParser(response, SENDER.BOT) });
+  }
   //#endregion
 
   //#region Public Methods

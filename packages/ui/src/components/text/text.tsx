@@ -1,4 +1,4 @@
-import { Component, Prop, State, h, Host, Element, Event, EventEmitter } from '@stencil/core';
+import { Component, Prop, State, h, Host, Element, Event, EventEmitter, Watch } from '@stencil/core';
 import { parseFormattedString } from '../../utils/text-parser';
 import { messageQueueService } from '../../store/message-queue';
 
@@ -29,6 +29,11 @@ export class RasaText {
   @Prop() notifyCompleteRendering = false;
 
   /**
+   * Renders every change of the value right away (text streamed by the server), without stream rendering
+   */
+  @Prop() live = false;
+
+  /**
    * User clicked on link
    */
   @Event() linkClicked: EventEmitter<undefined>;
@@ -49,7 +54,15 @@ export class RasaText {
     }
   }
 
+  @Watch('value')
+  onValueChange() {
+    if (this.live && !this.disableParsing) {
+      this.segments = parseFormattedString(this.value);
+    }
+  }
+
   async componentDidLoad() {
+    if (this.live) return;
     if (this.notifyCompleteRendering && this.disableParsing) {
       messageQueueService.completeRendering();
     } else {
@@ -149,19 +162,21 @@ export class RasaText {
 
     return (
       <Host>
-        {this.segments.map(({ linkSrc, bold, italic, newline }, index) => {
+        {this.segments.map(({ text, linkSrc, bold, italic, newline }, index) => {
           const classList = this.addClassList({ bold, italic });
+          // Otherwise the text is filled in by renderNextSegment
+          const content = this.live ? text : null;
           if (newline) {
             return <br key={index} data-segment-index={index}></br>;
           }
           if (linkSrc) {
             return (
               <a href={linkSrc} target="_blank" key={index} onClick={this.onLinkClick}>
-                <span class={classList} data-segment-index={index}></span>
+                <span class={classList} data-segment-index={index}>{content}</span>
               </a>
             );
           }
-          return <span class={classList} key={index} data-segment-index={index}></span>;
+          return <span class={classList} key={index} data-segment-index={index}>{content}</span>;
         })}
       </Host>
     );
