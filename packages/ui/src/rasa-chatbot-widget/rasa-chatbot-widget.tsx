@@ -20,6 +20,7 @@ import { errorMessageService } from '../store/error-message';
 import { messageQueueService } from '../store/message-queue';
 import { StreamedTextMessage, streamStore } from '../store/stream-store';
 import { widgetState } from '../store/widget-state-store';
+import { markWidgetOpened, wasWidgetOpenedThisSession } from '../utils/auto-open';
 import { isValidURL } from '../utils/validate-url';
 import { broadcastChatHistoryEvent, receiveChatHistoryEvent } from '../utils/eventChannel';
 import { isMobile } from '../utils/isMobile';
@@ -206,6 +207,7 @@ export class RasaChatbotWidget {
 
   /**
    * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+   * Happens once per browser tab session: once the chat has been opened, later page loads keep it closed.
    * */
   @Prop() autoOpen: boolean = false;
 
@@ -341,7 +343,7 @@ export class RasaChatbotWidget {
       if (error) this.stopAwaitingBotResponse();
     });
 
-    if (this.autoOpen) {
+    if (this.autoOpen && !wasWidgetOpenedThisSession()) {
       this.toggleOpenState();
     }
 
@@ -620,6 +622,7 @@ export class RasaChatbotWidget {
   private toggleOpenState = (): void => {
     const nextValue = !this.isOpen;
     this.isOpen = nextValue;
+    if (nextValue) markWidgetOpened();
     this.client.reconnection(nextValue);
     clearTimeout(this.disconnectTimeout);
     this.disconnectTimeout = null;

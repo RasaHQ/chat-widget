@@ -66,7 +66,7 @@ export namespace Components {
          */
         "authenticationToken": string;
         /**
-          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set. Happens once per browser tab session: once the chat has been opened, later page loads keep it closed.
          */
         "autoOpen": boolean;
         /**
@@ -1022,7 +1022,7 @@ declare namespace LocalJSX {
          */
         "authenticationToken"?: string;
         /**
-          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set.
+          * If set to True, it will open the chat, triggering the 'initialPayload' immediately if set. Happens once per browser tab session: once the chat has been opened, later page loads keep it closed.
          */
         "autoOpen"?: boolean;
         /**
